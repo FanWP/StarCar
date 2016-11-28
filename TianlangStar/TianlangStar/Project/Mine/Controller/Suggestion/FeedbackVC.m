@@ -20,27 +20,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = BGcolor;
     
-    YYUITextView *textView = [[YYUITextView alloc] initWithFrame:CGRectMake(20, KScreenHeight * 0.12, KScreenWidth - 40, KScreenHeight * 0.25)];
-    textView.font = Font16;
+    CGFloat textViewW = KScreenWidth - 34;
+    YYUITextView *textView = [[YYUITextView alloc] initWithFrame:CGRectMake(17, 14 + 64, textViewW, 122)];
+    textView.font = Font17;
+    textView.layer.cornerRadius = 5;
+    textView.clipsToBounds = YES;
     [self.view addSubview:textView];
 
     textView.delegate = self;
     self.textView = textView;
-    textView.placeholder = @"请输入。。。。";
-    textView.placeholderColor = [UIColor redColor];
+    textView.placeholder = @"请输入意见反馈...";
+    textView.placeholderColor = lableTextcolor;
 //    textView.backgroundColor = [UIColor grayColor];
 
     UIButton *button = [[UIButton alloc] init];
     button.width = 100;
     button.height = 40;
     button.x = KScreenWidth - button.width - 20;
-    button.y = CGRectGetMaxY(textView.frame) + 40;
+    button.y = CGRectGetMaxY(textView.frame) + 20;
+    button.titleLabel.font = Font15;
+    button.layer.cornerRadius = 5;
+    button.clipsToBounds = YES;
     [button setTitle:@"提交" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(commitBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    button.backgroundColor = [UIColor redColor];
+    button.backgroundColor = Tintcolor;
     
     [self.view addSubview:button];
     

@@ -32,7 +32,7 @@
 //设置子控件
 -(void)setupControls
 {
-    FeedbackView *view = [[FeedbackView alloc] initWithFrame:CGRectMake(0, 80, KScreenWidth, self.feedbackModel.textH + 100) ];
+    FeedbackView *view = [[FeedbackView alloc] initWithFrame:CGRectMake(0, 80, KScreenWidth, self.feedbackModel.textH + 65) ];
     view.backgroundColor = [UIColor whiteColor];
     view.feedbackModel = self.feedbackModel;
     [self.view addSubview:view];
@@ -71,6 +71,10 @@
 //提交按钮的点击事件
 -(void)commitBtnClick
 {
+    
+//    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    
+    
     YYLog(@"提交");
 }
 

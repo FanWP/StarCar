@@ -152,7 +152,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.feedbackArr.count;
+//    return self.feedbackArr.count;
+    return 10;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -177,7 +178,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FeedbackModel *model = self.feedbackArr[indexPath.row];
+//    FeedbackModel *model = self.feedbackArr[indexPath.row];
+    //假数据
+    FeedbackModel *model = [[FeedbackModel alloc] init];
+    model.lasttime = @"1446652800";
+    model.content = @"7ty4931y08t143426326235746253837658675965896967896889659865986598650yh81035ugosdjovjhkdashbkjsFJBVsdjlbjljldbsJL";
+    model.username =@"ut4oqwutowqutuqwo";
+    model.membername = @"王小二";
+    
     
     if (self.revertType == 0)//未回复
     {

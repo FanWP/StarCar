@@ -112,6 +112,7 @@
     phoneText.centerY = phone.centerY;
     phoneText.borderStyle = TFborderStyle;
     phoneText.placeholder = @"请输入手机号";
+    phoneText.backgroundColor = BGcolor;
     self.phoneText = phoneText;
     phoneText.keyboardType = UIKeyboardTypeNumberPad;
     [phoneText addTarget:self action:@selector(phoneTextChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -189,7 +190,7 @@
     recordsBtn.width = balanceLB.width + 20;
     recordsBtn.height = balanceLB.height;
     recordsBtn.y = balanceLB.y;
-    recordsBtn.backgroundColor = [UIColor blueColor];
+    recordsBtn.backgroundColor = Tintcolor;
     recordsBtn.titleLabel.font = Font14;
     recordsBtn.layer.masksToBounds = YES ;
     recordsBtn.layer.cornerRadius = BtncornerRadius;
@@ -242,7 +243,7 @@
     moneyTF.font = Font14;
     [moneyTF addTarget:self action:@selector(moneyTFChanged:) forControlEvents:UIControlEventEditingChanged];
     moneyTF.keyboardType = UIKeyboardTypeNumberPad;
-//    moneyTF.backgroundColor = [UIColor redColor];
+    moneyTF.backgroundColor = BGcolor;
     self.moneyTF = moneyTF;
     [self.view addSubview:moneyTF];
     
@@ -278,7 +279,7 @@
     OKBtn.height = 50;
     OKBtn.y = KScreenHeight - OKBtn.height;
     OKBtn.x = 0;
-    OKBtn.backgroundColor = [UIColor blueColor];
+    OKBtn.backgroundColor = Tintcolor;
     OKBtn.titleLabel.font = Font18;
 //    OKBtn.layer.masksToBounds = YES;
 //    OKBtn.layer.cornerRadius = BtncornerRadius;
@@ -424,7 +425,6 @@
          
          YYLog(@"Arr---%@",self.RecordArr);
          [self.RecordView reloadData];
-         
          
      } failure:^(NSError *error)
      {

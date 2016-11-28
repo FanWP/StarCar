@@ -32,7 +32,7 @@
          
          NSNumber *num = responseObject[@"resultCode"];
          NSInteger result = [num integerValue];
-         YYLog(@"success-http%@",responseObject);
+//         YYLog(@"success-http%@",responseObject);
          
          if (result == 1000) {
              if (success) {

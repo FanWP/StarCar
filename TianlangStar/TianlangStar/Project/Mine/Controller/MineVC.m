@@ -40,6 +40,9 @@
 #import "ProductPublishTableVC.h"
 #import "AddNewActivityTableVC.h"
 #import "AddWheelPicVC.h"
+#import "RechargeRecordTVC.h"
+#import "ScoreExchangeTVC.h"
+#import "AdminFeedbackTVC.h"
 
 @interface MineVC ()<LoginViewDelegate>
 
@@ -61,7 +64,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
 }
 
 
@@ -125,6 +128,8 @@
         [self.tableView reloadData];
 
     }
+    
+    
 }
 
 
@@ -140,7 +145,7 @@
     
     ILSettingArrowItem *orderquery = [ILSettingArrowItem itemWithIcon:nil title:@"订单查询" destVcClass:[UserOrderQueryTVC class]];
     
-    ILSettingArrowItem *pointsFor = [ILSettingArrowItem itemWithIcon:nil title:@"积分兑换" destVcClass:[UserInfoManagementTVC class]];
+    ILSettingArrowItem *pointsFor = [ILSettingArrowItem itemWithIcon:nil title:@"积分兑换" destVcClass:[ScoreExchangeTVC class]];
     
 //    
 //    ILSettingArrowItem *account = [ILSettingArrowItem itemWithIcon:nil title:@"账户管理" destVcClass:[CarDetailInfoTableVC class]];
@@ -149,7 +154,7 @@
 
     
     ILSettingArrowItem *carInfoRegist = [ILSettingArrowItem itemWithIcon:nil title:@"车辆信息登记" destVcClass:[AddCarInfo class]];
-    ILSettingArrowItem *prepaidRecords = [ILSettingArrowItem itemWithIcon:nil title:@"充值记录查询" destVcClass:[UserInfoManagementTVC class]];
+    ILSettingArrowItem *prepaidRecords = [ILSettingArrowItem itemWithIcon:nil title:@"充值记录查询" destVcClass:[RechargeRecordTVC class]];
     
     ILSettingArrowItem *setting = [ILSettingArrowItem itemWithIcon:nil title:@"设置" destVcClass:[AboutSettingTVC class]];
     
@@ -190,10 +195,12 @@
     
     ILSettingArrowItem *TopupQuery= [ILSettingArrowItem itemWithIcon:nil title:@"优惠信息" destVcClass:[MembersTVC class]];
     
+    ILSettingItem *opinion = [ILSettingArrowItem itemWithIcon:nil title:@"用户意见" destVcClass:[AdminFeedbackTVC class]];
+    
     ILSettingArrowItem *setting = [ILSettingArrowItem itemWithIcon:nil title:@"设置" destVcClass:[AboutSettingTVC class]];
 
     ILSettingGroup *group0 = [[ILSettingGroup alloc] init];
-    group0.items = @[order,topup,CFOOrders,Warehouse,SalesStatistics,GoodsReleased,informationRelease,orderquery,carInfochange,InfoRegister,TopupQuery,setting];
+    group0.items = @[order,topup,CFOOrders,Warehouse,SalesStatistics,GoodsReleased,informationRelease,orderquery,carInfochange,InfoRegister,TopupQuery,opinion,setting];
     
     [self.dataList addObject:group0];
 }
@@ -206,6 +213,12 @@
  */
 -(void) getPubicKey
 {
+    
+    LoginView *logView = [[LoginView alloc] initWithFrame:self.view.bounds];
+    logView.delegate = self;
+    self.tableView.scrollEnabled = NO;
+    [self.view addSubview:logView];
+    
     NSString *url = [NSString stringWithFormat:@"%@unlogin/sendpubkeyservlet",URL];
     [[AFHTTPSessionManager manager]POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
@@ -224,10 +237,6 @@
              userIn.publicKey = self.publicKey;
              [userIn synchronizeToSandBox];
          }
-         LoginView *logView = [[LoginView alloc] initWithFrame:self.view.bounds];
-         logView.delegate = self;
-         self.tableView.scrollEnabled = NO;
-         [self.view addSubview:logView];
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
