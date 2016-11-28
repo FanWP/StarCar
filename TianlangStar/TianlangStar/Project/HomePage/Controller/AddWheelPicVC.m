@@ -66,6 +66,8 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
 - (void)rightItem
 {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"上传" style:(UIBarButtonItemStylePlain) target:self action:@selector(finishAction)];
+    
+    YYLog(@"uiersgkylv;/'jO:");
 }
 
 
