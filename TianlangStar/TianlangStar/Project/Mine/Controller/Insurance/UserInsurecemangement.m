@@ -110,6 +110,7 @@ typedef enum : NSUInteger {
     segment.frame = CGRectMake(0, 10, 100, 30);
     [segment addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];
     segment.apportionsSegmentWidthsByContent = YES;
+    segment.tintColor = [UIColor whiteColor];
     
     //设置默认选择较强险
     segment.selectedSegmentIndex = 0;

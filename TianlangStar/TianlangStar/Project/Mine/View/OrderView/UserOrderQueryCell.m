@@ -51,18 +51,19 @@
     {
         
         //商品图片
-        CGFloat margin = 20;
-        UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(margin, 30, 100, 100)];
+        CGFloat margin = 16;
+        UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(margin, 14, 105, 70)];
         self.images = images;
         [self.contentView addSubview:images];
         
         //商品名称
         UILabel *productname = [[UILabel alloc] init];
-        productname.height = 30;
+        productname.height = images.height;
         productname.width = KScreenWidth -images.width - 2 * margin -100;
-        productname.x = CGRectGetMaxX(images.frame) + 10;
+        productname.x = CGRectGetMaxX(images.frame) + 12;
         productname.centerY = images.centerY;
-        productname.font = Font14;
+        productname.font = Font12;
+        productname.numberOfLines = 0;
 //        productname.backgroundColor = [UIColor greenColor];
         self.productname = productname;
         [self.contentView addSubview:productname];
@@ -71,8 +72,11 @@
         UILabel *price = [[UILabel alloc] init];
         price.height = 30;
         price.width = 100;
-        price.x = CGRectGetMaxX(productname.frame);
-        price.y = 30;
+        price.x = KScreenWidth - 34 - price.width;
+        price.y = productname.y;
+        price.font = Font11;
+        price.textAlignment = NSTextAlignmentRight;
+        price.textColor = [UIColor redColor];
 //        price.backgroundColor = [UIColor orangeColor];
         self.price = price;
         [self.contentView addSubview:price];
@@ -82,7 +86,9 @@
         count.height = price.height;
         count.width = 100;
         count.x = price.x;
-        count.y = price.y + 40;
+        count.y = CGRectGetMaxY(price.frame) + 14;
+        count.font = Font11;
+        count.textAlignment = NSTextAlignmentRight;
 //        count.backgroundColor = [UIColor redColor];
         self.count = count;
         [self.contentView addSubview:count];
@@ -90,7 +96,7 @@
         
         //设置分割线
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(images.frame) + 10, KScreenWidth, 1)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(images.frame) + 10, KScreenWidth - 32, 1)];
         view.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
         [self.contentView addSubview:view];
         
@@ -102,7 +108,7 @@
         date.y = CGRectGetMaxY(images.frame) + margin;
 //        date.backgroundColor = [UIColor orangeColor];
         self.date = date;
-        self.date.font = Font14;
+        self.date.font = Font11;
         [self.contentView addSubview:date];
         
         
@@ -111,12 +117,22 @@
         UILabel *confirm = [[UILabel alloc] init];
         confirm.height = price.height;
         confirm.width = 100;
-        confirm.x = KScreenWidth - 110;
+        confirm.x = KScreenWidth - confirm.width - 34;
         confirm.y = date.y;
         confirm.textColor = [UIColor redColor];
-    
+        confirm.font = Font12;
+        confirm.textAlignment = NSTextAlignmentRight;
         self.confirm = confirm;
         [self.contentView addSubview:confirm];
+        
+        
+        //设置箭头
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrows"]];
+        img.x = KScreenWidth - 16 - img.width;
+        img.centerY = images.centerY;
+        [self.contentView addSubview:img];
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }
@@ -127,12 +143,29 @@
 {
     _orderModel = orderModel;
     
-    [self.images sd_setImageWithURL:[NSURL URLWithString:orderModel.picture] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    [self.images sd_setImageWithURL:[NSURL URLWithString:orderModel.picture] placeholderImage:[UIImage imageNamed:@"lunbo2"]];
     self.productname.text = orderModel.productname;
-    self.price.text = [NSString stringWithFormat:@"%@星币",orderModel.price];
     self.count.text = [NSString stringWithFormat:@"* %@",orderModel.count];
     self.date.text = orderModel.lasttime;
-    self.confirm.text = @"交易成功";
+    
+    //订单状态
+    if (orderModel.confirm == 0)
+    {
+        self.confirm.text = @"交易中";
+    }else
+    {
+        self.confirm.text = @"交易成功";
+    }
+    //购买类型
+    if (orderModel.buytype == 1) {//虚拟币
+        self.price.text = [NSString stringWithFormat:@"%@星币",orderModel.price];
+    }else if (orderModel.buytype == 2){//积分
+        self.price.text = [NSString stringWithFormat:@"%@积分",orderModel.price];
+    }
+    
+
+    
+    
 }
 
 
@@ -146,14 +179,14 @@
     }
     return cell;
 }
-//
-//
-//-(void)setFrame:(CGRect)frame
-//{
-//    frame.size.height -= 10;
-//
-//
-//}
+
+
+-(void)setFrame:(CGRect)frame
+{
+    frame.size.height -= 7;
+
+    [super setFrame:frame];
+}
 
 
 

@@ -30,7 +30,7 @@
 @property (nonatomic,copy) NSString *date;
 
 /** 购买类型（1--商品  2-- 服务） */
-@property (nonatomic,copy) NSString *buytype;
+@property (nonatomic,assign) NSInteger buytype;
 
 /* 0---未确认  1---已确认 */
 @property (nonatomic,assign) NSInteger confirm;
