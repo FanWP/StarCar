@@ -17,5 +17,6 @@
 @property (nonatomic,copy) NSString *manhours;
 @property (nonatomic,copy) NSString *price;
 @property (nonatomic,copy) NSString *scoreprice;
+@property (nonatomic,copy) NSString *images;
 
 @end

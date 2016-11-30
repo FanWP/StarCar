@@ -48,6 +48,7 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     
     [self rightItem];
 
+    
 }
 
 
@@ -58,7 +59,6 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     [self.view addSubview:_bottomView];
     [self createData];
     [self.bottomView addSubview:self.collectionView];
-
 }
 
 
@@ -75,6 +75,8 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
 - (void)finishAction
 {
     YYLog(@"上传");
+    
+    [self fetchCreatWeelPicData];
 }
 
 
@@ -84,7 +86,7 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
     parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"type"]  = @"1";
+    parmas[@"type"]  = @"1";// 1.首页 2.公司介绍图 3.公司资质 4.业绩展示 5.公司成长
     
     YYLog(@"上传轮播图parmas--%@",parmas);
     
@@ -92,12 +94,32 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
+        NSArray *imagesArray = [self getAllImages];
+        
+        for (NSArray *array in imagesArray)
+        {
+            for (WUAlbumAsset *imageset in array)
+            {
+                UIImage *image = [imageset imageWithOriginal];
+                
+                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                
+                if (data != nil)
+                {
+                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                }
+            }
+        }
+        
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"上传轮播图返回：%@",responseObject);
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"上传轮播图错误%@",error);
     }];
 }
 
@@ -126,16 +148,17 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
-    CGFloat width = self.view.width / 4;
+    layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    CGFloat width = (self.view.width - 30) / 3;
     layout.itemSize = CGSizeMake(width, width);
-    layout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.frame), 30);
+//    layout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.frame), 30);
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, self.bottomView.height) collectionViewLayout:layout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.bounces = YES;
     _collectionView.alwaysBounceVertical = YES;
-    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.backgroundColor = [UIColor grayColor];
     [_collectionView registerClass:[HouseImageCell class] forCellWithReuseIdentifier:commImageViewCellIdentifier];
     [_collectionView registerClass:[HouseImageHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:commImageViewHeaderIdentifier];
     

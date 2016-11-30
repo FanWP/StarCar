@@ -13,6 +13,9 @@
 
 @property(nonatomic,strong,readonly) PHAsset *asset;
 
+// 单例
++ (WUAlbumAsset *)sharedManager;
+
 -(instancetype)init NS_UNAVAILABLE;
 -(instancetype)new NS_UNAVAILABLE;
 

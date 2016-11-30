@@ -53,7 +53,18 @@
     
     [self fetchPutawayAndSoldoutDataWithType:1];
     
+    [self creatFooterView];
+    
 }
+
+
+
+- (void)creatFooterView
+{
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 44, KScreenWidth, 44)];
+    self.tableView.tableFooterView = footerView;
+}
+
 
 
 - (NSMutableArray *)storageArray
@@ -129,7 +140,7 @@
 
     YYLog(@"仓库管理参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/products/list?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/products/list?",uRL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -145,6 +156,11 @@
             self.pageNum++;
             self.storageArray = [StorageManagementModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            [self.tableView reloadData];
+        });
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
@@ -283,9 +299,22 @@
 
 
 
+
+#pragma mark - 全选的点击事件
 - (void)allSelectedImageAction:(UIButton *)button
 {
+    button.selected = !button.selected;
     
+    for (StorageManagementModel *model in self.storageArray)
+    {
+        model.selectedBtn = button.selected;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [self.tableView reloadData];
+        
+    });
 }
 
 
@@ -317,6 +346,7 @@
      [[UIApplication sharedApplication].keyWindow addSubview:self.putawayAndSoldoutButton];
     
 }
+
 
 
 - (void)putawayAndSoldoutAction
@@ -382,8 +412,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return _storageArray.count;
-    return 10;
+    return _storageArray.count;
+//    return 10;
 }
 
 
@@ -402,16 +432,19 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    cell.nameLabel.text = @"商品名称";
-    cell.countLabel.text = @"商品库存";
-    cell.statusLabel.text = @"商品状态";
+//    cell.nameLabel.text = @"商品名称";
+//    cell.countLabel.text = @"商品库存";
+//    cell.statusLabel.text = @"商品状态";
 
     
-//    StorageManagementModel *storageManagementModel = _storageArray[indexPath.row];
-//    
-//    cell.nameLabel.text = storageManagementModel.productname;
-//    cell.countLabel.text = storageManagementModel.inventory;
-//    cell.statusLabel.text = storageManagementModel.saleState;
+    StorageManagementModel *storageManagementModel = _storageArray[indexPath.row];
+    
+    cell.nameLabel.text = storageManagementModel.productname;
+    cell.countLabel.text = storageManagementModel.inventory;
+    cell.statusLabel.text = storageManagementModel.saleState;
+    
+    cell.selectButton.selected = storageManagementModel.selectedBtn;
+    cell.selectButton.tag = indexPath.row;
 
     return cell;
 }

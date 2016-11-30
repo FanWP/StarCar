@@ -10,6 +10,24 @@
 
 @implementation WUAlbumAsset
 
+// 单例
++ (WUAlbumAsset *)sharedManager
+{
+    static WUAlbumAsset *handle = nil;
+    
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        
+        PHAsset *pHAsset = [[PHAsset alloc] init];
+        handle = [[WUAlbumAsset alloc] initWithAsset:pHAsset];
+        
+    });
+    return handle;
+    
+}
+
+
 -(instancetype)initWithAsset:(PHAsset *)asset {
     self = [super init];
     if(self) {

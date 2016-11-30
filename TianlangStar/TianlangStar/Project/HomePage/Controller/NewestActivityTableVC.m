@@ -9,6 +9,8 @@
 #import "NewestActivityTableVC.h"
 #import "NewestListCell.h"
 #import "NewestActivityDetailTableVC.h"
+#import "NewActivityModel.h"
+#import "ActivityDetailVC.h"
 
 @interface NewestActivityTableVC ()
 
@@ -42,7 +44,7 @@
 // 行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return _activityArray.count;
 }
 
 
@@ -61,6 +63,12 @@
         
     }
     
+    _activityModel = _activityArray[indexPath.row];
+    
+    cell.titleLabel.text = _activityModel.title;
+    cell.timeLabel.text = _activityModel.createTime;
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_activityModel.images]];
+    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
@@ -71,8 +79,14 @@
 #pragma mark - 点击单元格选中
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NewestActivityDetailTableVC *newestActivityDetailTableVC = [[NewestActivityDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
-    [self.navigationController pushViewController:newestActivityDetailTableVC animated:YES];
+//    NewestActivityDetailTableVC *newestActivityDetailTableVC = [[NewestActivityDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+//    [self.navigationController pushViewController:newestActivityDetailTableVC animated:YES];
+
+
+    ActivityDetailVC *activityDetailVC = [[ActivityDetailVC alloc] init];
+    
+    [self.navigationController pushViewController:activityDetailVC animated:YES];
+    
 }
 
 

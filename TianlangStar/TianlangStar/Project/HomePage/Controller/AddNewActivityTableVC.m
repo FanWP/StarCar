@@ -8,7 +8,11 @@
 
 #import "AddNewActivityTableVC.h"
 
+#import "NewActivityModel.h"
+
 #import "LabelTextFieldCell.h"
+
+#import "NewActivityModel.h"
 
 #import "UIView+MyExtension.h"
 #import "Common.h"
@@ -24,11 +28,22 @@
 NSString *const commImagesViewCellIdentifier = @"HouseImageViewCellIdentifier";
 NSString *const commImagesViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier";
 
+/** 最新活动 */
+typedef enum : NSUInteger {
+    title = 0,
+    pubTime,
+    content
+} AddNewActivity;
 
 
-@interface AddNewActivityTableVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,HouseImageCellDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,WUAlbumDelegate,WUImageBrowseViewDelegate,UIViewControllerPreviewingDelegate>
+
+@interface AddNewActivityTableVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,HouseImageCellDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,WUAlbumDelegate,WUImageBrowseViewDelegate,UIViewControllerPreviewingDelegate,UITextFieldDelegate>
 
 @property (nonatomic,strong) NSArray *leftArray;
+
+@property (nonatomic,assign) AddNewActivity addNewActivity;
+
+@property (nonatomic,strong) NewActivityModel *activityModel;
 
 
 //添加附件
@@ -50,16 +65,36 @@ NSString *const commImagesViewHeaderIdentifier = @"HouseImageViewHeaderIdentifie
     
     _leftArray = @[@"活动标题",@"时间",@"活动内容"];
     
+    [self creatHeaderView];
+    
+    [self rightItem];
+    
+}
+
+
+
+- (NewActivityModel *)activityModel
+{
+    if (!_activityModel)
+    {
+        _activityModel = [[NewActivityModel alloc] init];
+    }
+    
+    return _activityModel;
+}
+
+
+
+- (void)creatHeaderView
+{
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(20,0, KScreenWidth, 140)];
     _bottomView.backgroundColor = [UIColor cyanColor];
     [self.view addSubview:_bottomView];
     [self createData];
     [self.bottomView addSubview:self.collectionView];
-
-    self.tableView.tableHeaderView = self.bottomView;
     
+    self.tableView.tableHeaderView = self.bottomView;
 }
-
 
 
 
@@ -70,9 +105,63 @@ NSString *const commImagesViewHeaderIdentifier = @"HouseImageViewHeaderIdentifie
 
 
 
+- (NSString *)getCurrentTime
+{
+    NSDate *currentDate = [NSDate date];//获取当前时间，日期
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+    NSString *dateString = [dateFormatter stringFromDate:currentDate];
+    NSLog(@"dateString:%@",dateString);
+    
+    return dateString;
+}
+
+
+
 - (void)finishAction
 {
+    [self.view endEditing:YES];
     
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    
+    parmas[@"title"]  = self.activityModel.title;
+    parmas[@"pubTime"] = [self getCurrentTime];
+    parmas[@"content"]  = self.activityModel.content;
+    
+    YYLog(@"添加最新活动参数parmas--%@",parmas);
+    
+    NSString *url = [NSString stringWithFormat:@"%@add/activities?",uRL];
+    
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    {
+        NSArray *imagesArray = [self getAllImages];
+        
+        for (NSArray *array in imagesArray)
+        {
+            for (WUAlbumAsset *imageset in array)
+            {
+                UIImage *image = [imageset imageWithOriginal];
+                
+                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                
+                if (data != nil)
+                {
+                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                }
+            }
+        }
+
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"添加最新活动返回%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"添加最新活动错误%@",error);
+    }];
 }
 
 
@@ -90,7 +179,7 @@ NSString *const commImagesViewHeaderIdentifier = @"HouseImageViewHeaderIdentifie
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return _leftArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,8 +212,61 @@ NSString *const commImagesViewHeaderIdentifier = @"HouseImageViewHeaderIdentifie
         cell.rightTF.height = 100;
     }
     
+    cell.rightTF.delegate = self;
+    self.addNewActivity = indexPath.row;
+    cell.rightTF.tag = self.addNewActivity;
+    
+    switch (self.addNewActivity)
+    {
+        case title:
+            cell.rightTF.text = self.activityModel.title;
+            break;
+        case pubTime:
+            cell.rightTF.text = [self getCurrentTime];
+            break;
+        case content:
+            cell.rightTF.text = self.activityModel.content;
+            break;
+            
+        default:
+            break;
+    }
+    
     return cell;
 }
+
+
+//拖动是退出键盘
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    switch (textField.tag)
+    {
+        case title:
+            self.activityModel.title = textField.text;
+            break;
+        case content:
+            self.activityModel.content = textField.text;
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
 
 
 #pragma mark--添加附件
@@ -146,16 +288,17 @@ NSString *const commImagesViewHeaderIdentifier = @"HouseImageViewHeaderIdentifie
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
-    CGFloat width = self.view.width / 4;
+    layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    CGFloat width = (self.view.width - 30) / 3;
     layout.itemSize = CGSizeMake(width, width);
-    layout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.frame), 30);
+    //    layout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.frame), 30);
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, self.bottomView.height) collectionViewLayout:layout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.bounces = YES;
     _collectionView.alwaysBounceVertical = YES;
-    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.backgroundColor = [UIColor grayColor];
     [_collectionView registerClass:[HouseImageCell class] forCellWithReuseIdentifier:commImagesViewCellIdentifier];
     [_collectionView registerClass:[HouseImageHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:commImagesViewHeaderIdentifier];
     

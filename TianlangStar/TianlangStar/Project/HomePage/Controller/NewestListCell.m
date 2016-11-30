@@ -45,9 +45,9 @@
         
         
         
-        self.pictureView.image = [UIImage imageNamed:@"lunbo1"];
-        self.titleLabel.text = @"双12，爱车日";
-        self.timeLabel.text = @"2016-12-12 12:12";
+//        self.pictureView.image = [UIImage imageNamed:@"lunbo1"];
+//        self.titleLabel.text = @"双12，爱车日";
+//        self.timeLabel.text = @"2016-12-12 12:12";
         
         self.timeLabel.font = Font12;
     }

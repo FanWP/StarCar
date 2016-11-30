@@ -27,4 +27,6 @@
 @property (nonatomic,copy) NSString *remark;
 @property (nonatomic,copy) NSString *ID;
 
+@property (nonatomic,assign,getter=isSelected) BOOL selectedBtn;
+
 @end
