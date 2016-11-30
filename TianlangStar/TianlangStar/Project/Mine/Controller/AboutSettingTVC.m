@@ -147,17 +147,26 @@
 //        YYLog(@"退出登录错误：%@",error);
 //    }];
     
+    
+    [UserInfo sharedUserInfo].isLogin = NO;
+    [[UserInfo sharedUserInfo] synchronizeToSandBox];
+    //获取公钥并且弹出登录窗口
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    
+#warning todo
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"退出登录--%@",json);
          NSInteger resultCode = [json[@"resultCode"] integerValue];
          if (resultCode == 1000)
          {
-             [UserInfo sharedUserInfo].isLogin = NO;
-             [[UserInfo sharedUserInfo] synchronizeToSandBox];
-             //获取公钥并且弹出登录窗口
-             
-             [self.navigationController popViewControllerAnimated:YES];
+//             [UserInfo sharedUserInfo].isLogin = NO;
+//             [[UserInfo sharedUserInfo] synchronizeToSandBox];
+//             //获取公钥并且弹出登录窗口
+//             
+//             [self.navigationController popViewControllerAnimated:YES];
          }
          else
          {

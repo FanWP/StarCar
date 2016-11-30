@@ -425,6 +425,10 @@ typedef enum : NSUInteger
 
           [dateFormatter setDateFormat:@"YYYY-MM-dd"];
         NSString *dateString = [dateFormatter stringFromDate:currentDate];
+        
+        
+        self.startText.text = dateString;
+        self.endText.text = dateString;
 
         self.parmas[@"startTime"] = dateString;
         self.parmas[@"endTime"] = dateString;
@@ -605,8 +609,23 @@ typedef enum : NSUInteger
 //导出按钮的点击事件
 -(void)exportBtnClick
 {
-    YYLog(@"导出");
     self.coverView.hidden = YES;
+    
+    YYLog(@"导出");
+    
+    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    
+    [[AFHTTPSessionManager manager]POST:url parameters:self.parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+    
+    
+    
 }
 
 -(void)searchBtnClick:(UIButton *)button

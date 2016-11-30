@@ -13,7 +13,7 @@
 @interface RechargeVC ()<UITableViewDelegate,UITableViewDataSource>
 
 /** 保存服务器返回的充值记录数据 */
-@property (nonatomic,strong) NSArray *RecordArr;
+@property (nonatomic,strong) NSMutableArray *RecordArr;
 
 /** 手机号的输入框 */
 @property (nonatomic,weak) UITextField *phoneText;
@@ -46,6 +46,10 @@
 
 /** 充值记录列表 */
 @property (nonatomic,weak) UITableView *RecordView;
+
+
+/** 当前页 */
+@property (nonatomic,assign) NSInteger currentPage;
 
 @end
 
@@ -369,6 +373,9 @@
 }
 
 
+
+
+
 /**
  * 地址管理：获取用户充值记录ID
  */
@@ -386,24 +393,82 @@
         return;
     }
     
+    
+    self.RecordView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewRecord)];
+    [self.RecordView.mj_header beginRefreshing];
+    [self.RecordView.mj_header isAutomaticallyChangeAlpha];
+    
+    self.RecordView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreRecord)];
+
+}
+
+
+
+-(void)loadNewRecord
+{
+    self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"userid"] = self.virtualcenterModel.userid;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+        parmas[@"currentPage"] = @(self.currentPage);
     YYLog(@"parmas---%@",parmas);
+    
+    [self.RecordView.mj_footer endRefreshing];
     
     NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     [HttpTool post:url parmas:parmas success:^(id json)
      {
+         [self.RecordView.mj_header endRefreshing];
          YYLog(@"json-获取充值记录%@",json);
-        self.RecordArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.RecordArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
-         [self.RecordView reloadData];
+         if (self.RecordArr.count > 0)
+         {
+             [self.RecordView reloadData];
+             self.currentPage++;
+         }
+
+     } failure:^(NSError *error)
+     {
+             [self.RecordView.mj_header endRefreshing];
+         YYLog(@"json-获取充值记录%@",error);
+     }];
+
+}
+
+-(void)loadMoreRecord
+{
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"userid"] = self.virtualcenterModel.userid;
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"currentPage"] = @(self.currentPage);
+    YYLog(@"parmas---%@",parmas);
+    
+    [self.RecordView.mj_header endRefreshing];
+    
+    NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         [self.RecordView.mj_footer endRefreshing];
+         YYLog(@"json-获取充值记录%@",json);
+         NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+         
+         if (arr.count > 0)
+         {
+             [self.RecordArr addObjectsFromArray:arr];
+             self.currentPage++;
+             [self.RecordView reloadData];
+         }
          
      } failure:^(NSError *error)
      {
+         [self.RecordView.mj_footer endRefreshing];
          YYLog(@"json-获取充值记录%@",error);
      }];
+
 }
+
+
 
 
 /**
@@ -422,7 +487,7 @@
      {
          YYLog(@"json-获取账户余额%@",json);
 //         self.virtualcenterModel = [VirtualcenterModel mj_objectWithKeyValues:json[@"obj"]];
-         NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (arr && arr.count > 0)
          {
              self.virtualcenterModel = arr[0];

@@ -14,6 +14,5 @@
 /** 传入的用户模型数据 */
 @property (nonatomic,strong) UserModel *userModel;
 
--(void)setupCarInfoData;
 
 @end

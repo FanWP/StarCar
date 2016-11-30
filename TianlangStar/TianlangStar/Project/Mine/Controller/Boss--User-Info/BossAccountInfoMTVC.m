@@ -47,6 +47,10 @@
 @property (nonatomic,strong) NSArray *carInfoArr;
 
 
+/** 标记是否添加爱车 */
+@property (nonatomic,assign) BOOL flag;
+
+
 @end
 
 @implementation BossAccountInfoMTVC
@@ -71,6 +75,17 @@
     
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (self.flag)
+    {
+        [self setupCarInfoData];
+    }
+}
+
 /** 获取当前用户名下对应的车辆 */
 -(void)setupCarInfoData
 {
@@ -84,7 +99,7 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"json----%@",json);
-         self.carInfoArr = [CarModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.carInfoArr = [CarModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          [self.tableView reloadData];
          
      } failure:^(NSError *error)
@@ -396,11 +411,12 @@
             CarModel *Model = self.carInfoArr[indexPath.row];
             CheckCarInfoTVC *vc = [[CheckCarInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
             vc.carModel = Model;
+            self.flag = YES;
             [self.navigationController pushViewController:vc
                                                  animated:YES];
         }
     }
-
+    
     
     if (!self.inputEnble) return;
     

@@ -63,7 +63,7 @@
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"%@",json);
-        self.productArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+        self.productArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (self.productArr.count > 0)
         {
             self.currentPage++;
@@ -91,7 +91,7 @@
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"%@",json);
-       NSArray *arr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+       NSArray *arr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (arr.count > 0)
         {
             [self.productArr addObjectsFromArray:arr];

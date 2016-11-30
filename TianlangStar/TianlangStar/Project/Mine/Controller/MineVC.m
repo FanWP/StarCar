@@ -64,18 +64,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    
 }
 
-- (void)creatHeaderView
+
+-(UserCommonView *)userCommonView
 {
-    if (!self.userCommonView)
+    if (!_userCommonView)
     {
         UserCommonView *userCommonView = [[UserCommonView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 154)];
-        self.userCommonView = userCommonView;
+        _userCommonView = userCommonView;
     }
-    self.tableView.tableHeaderView = self.userCommonView;
+    self.tableView.tableHeaderView = _userCommonView;
+
+    return _userCommonView;
 }
+
+
 
 
 
@@ -85,10 +92,10 @@
     //1.判断是否登录
     if ([UserInfo sharedUserInfo].isLogin)//已经登录
     {
+//        if (self.dataList) return;
         //2.根据用户的类型选择对应的单元格列表
         UserInfo *userInfo = [UserInfo sharedUserInfo];
         self.dataList = nil;
-        [self creatHeaderView];
         
         //3.填充顶部的用户数据
         [self setupHearderInfo];
@@ -260,10 +267,10 @@
     
     //设置数据
     [self setupHearderInfo];
-
+    
     //清空原有数组
     self.dataList = nil;
-    if (userInfo.userType == 1)//管理员
+    if (userInfo.userType == 1 || userInfo.userType == 0)//管理员
     {
         [self addGroupAdmin];
     }else if (userInfo.userType == 2)//普通用户
@@ -271,6 +278,9 @@
         [self addGroupCustomer];
     }
     [self.tableView reloadData];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+
+
 }
 
 

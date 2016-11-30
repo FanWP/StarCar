@@ -137,7 +137,7 @@ typedef enum : NSUInteger {
     [button setTitle:@"编辑" forState:UIControlStateNormal];
     [button setTitle:@"保存" forState:UIControlStateSelected];
     [button addTarget:self action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 

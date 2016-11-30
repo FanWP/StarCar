@@ -59,7 +59,7 @@
     {
         [self.tableView.mj_header endRefreshing];
         
-        self.orderArr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+        self.orderArr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         
         if (self.orderArr.count > 0)
         {
@@ -88,7 +88,7 @@
      {
          [self.tableView.mj_footer endRefreshing];
          
-         NSArray *arr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         NSArray *arr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
          if (arr.count > 0)
          {

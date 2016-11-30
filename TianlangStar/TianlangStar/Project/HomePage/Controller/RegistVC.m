@@ -401,6 +401,9 @@
         params[@"value"] = password;
         params[@"checkcode"] = self.captchaTF.text;
         
+        
+        YYLog(@"params====%@",params);
+        
         /*
          Int resultCode  1006 表示参数中有null
          Int resultCode  1007表示没有登录
