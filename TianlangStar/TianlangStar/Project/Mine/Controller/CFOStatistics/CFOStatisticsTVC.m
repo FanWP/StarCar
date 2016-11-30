@@ -428,9 +428,6 @@ typedef enum : NSUInteger
         self.parmas[@"startTime"] = dateString;
         self.parmas[@"endTime"] = dateString;
 
-        
-        YYLog(@"[self.startText.text getCurrentTime]--%@",[self.startText.text getCurrentTime]);
-        
     }
     return _parmas;
 }
@@ -753,6 +750,8 @@ typedef enum : NSUInteger
     self.parmas[@"pageNum"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@find/finance/list",uRL];
+    
+    YYLog(@"self.parmas----%@",self.parmas);
     
     [HttpTool get:url parmas:self.parmas success:^(id json) {
         

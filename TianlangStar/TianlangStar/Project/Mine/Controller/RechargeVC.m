@@ -55,10 +55,11 @@
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = BGcolor;
     
-    self.view.backgroundColor = XLXcolor(240, 240, 242);
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     [self setupView];
     
     [self setupRechargeRecordView];
@@ -73,42 +74,33 @@
 
 -(void)setupView
 {
-    CGFloat left = KScreenWidth * 0.14;
-    CGFloat top = KScreenHeight * 0.14;
+    //顶部的输入框
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 15, KScreenWidth, 135)];
+    topView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:topView];
+    
+    CGFloat left = 16;
     CGFloat margin = 10;
-    CGFloat labelH = 30;
+    CGFloat labelH = 17;
     
     //手机号
     UILabel *phone = [[UILabel alloc] init];
     phone.text  = @"手机号";
     phone.x = left;
-    phone.y = top;
+    phone.y = 15 + 5;
     phone.width = 54;
     phone.height = labelH;
-    phone.font = Font16;
+    phone.font = Font17;
 //    phone.backgroundColor = [UIColor redColor];
-    [self.view addSubview:phone];
+    [topView addSubview:phone];
     
     
-//    UIButton *checkBtn = [[UIButton alloc] init];
-//    checkBtn.width = 60;
-//    checkBtn.height = labelH;
-//    checkBtn.centerY = phone.centerY;
-//    checkBtn.backgroundColor = [UIColor blueColor];
-//    checkBtn.layer.masksToBounds = YES ;
-//    checkBtn.layer.cornerRadius = BtncornerRadius;
-//    checkBtn.titleLabel.font = Font14;
-//    checkBtn.x = KScreenWidth - checkBtn.width - margin;
-//    [checkBtn setTitle:@"检查" forState:UIControlStateNormal];
-//    [checkBtn addTarget:self action:@selector(checkBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:checkBtn];
-    
-    //手机号输入框
+
     UITextField *phoneText = [[UITextField alloc] init];
-    phoneText.x = CGRectGetMaxX(phone.frame) + margin;
-    phoneText.width = KScreenWidth - phoneText.x - 5 * margin;
-    phoneText.height = labelH;
-    phoneText.font = Font14;
+    phoneText.x = 100;
+    phoneText.width = KScreenWidth - left - 100;
+    phoneText.height = labelH + 15;
+    phoneText.font = Font15;
     phoneText.centerY = phone.centerY;
     phoneText.borderStyle = TFborderStyle;
     phoneText.placeholder = @"请输入手机号";
@@ -116,103 +108,88 @@
     self.phoneText = phoneText;
     phoneText.keyboardType = UIKeyboardTypeNumberPad;
     [phoneText addTarget:self action:@selector(phoneTextChanged:) forControlEvents:UIControlEventEditingChanged];
-    [self.view addSubview:phoneText];
+    [topView addSubview:phoneText];
     
     //用户名
     UILabel *user = [[UILabel alloc] init];
     user.x = left;
-    user.y = CGRectGetMaxY(phone.frame) + 20;
+    user.y = CGRectGetMaxY(phone.frame) + 25;
     user.width = 55;
     user.height  = labelH;
-    user.font = Font16;
+    user.font = Font17;
     user.text = @"用户名";
-    [self.view addSubview:user];
+    [topView addSubview:user];
     
     
     //查询到的用户名
     //用户名
     UILabel *username = [[UILabel alloc] init];
-    username.x = CGRectGetMaxX(user.frame) + 20;
+    username.x = 126;
     username.width = 156;
     username.height  = labelH;
     username.centerY = user.centerY;
 //    username.text = @"用户名";
+    username.textColor = lableTextcolor;
+    username.font  = Font15;
     self.username = username;
 //    username.backgroundColor = [UIColor orangeColor];
-    [self.view addSubview:username];
+    [topView addSubview:username];
     
     
     //账户余额和历史记录
-    
-//    UIButton *balanceBtn = [[UIButton alloc] init];
-//    balanceBtn.width = 100;
-//    balanceBtn.height = labelH;
-//    balanceBtn.y = CGRectGetMaxY(user.frame) + 30;
-//    balanceBtn.backgroundColor = [UIColor blueColor];
-//    balanceBtn.layer.masksToBounds = YES ;
-//    balanceBtn.layer.cornerRadius = BtncornerRadius;
-//    balanceBtn.titleLabel.font = Font14;
-//    balanceBtn.x = left + 15;
-//    [balanceBtn setTitle:@"账户余额" forState:UIControlStateNormal];
-//    [balanceBtn addTarget:self action:@selector(balanceBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:balanceBtn];
     UILabel *balanceLB = [[UILabel alloc] init];
     balanceLB.width = 70;
     balanceLB.height = labelH;
-    balanceLB.y = CGRectGetMaxY(user.frame) + 30;
+    balanceLB.y = CGRectGetMaxY(user.frame) + 25;
     //    balanceLB.backgroundColor = [UIColor redColor];
-    balanceLB.layer.masksToBounds = YES ;
-    balanceLB.layer.cornerRadius = BtncornerRadius;
     balanceLB.font = Font16;
-    balanceLB.x = left - 10;
+    balanceLB.x = user.x;
     balanceLB.text = @"账户余额";
-    [self.view addSubview:balanceLB];
+    [topView addSubview:balanceLB];
     
     
     //显示账户余额
     UILabel *balanceLable = [[UILabel alloc] init];
     balanceLable.width = 100;
     balanceLable.height = labelH;
-    balanceLable.y = CGRectGetMaxY(user.frame) + 30;
-//    balanceLable.backgroundColor = [UIColor blueColor];
-    balanceLable.layer.masksToBounds = YES ;
-    balanceLable.layer.cornerRadius = BtncornerRadius;
-    balanceLable.font = Font16;
-    balanceLable.x = CGRectGetMaxX(balanceLB.frame) +5;
-//    balanceLable.text = @"账户余额";
+    balanceLable.centerY = balanceLB.centerY;
+    //    balanceLable.backgroundColor = [UIColor blueColor];
+    balanceLable.font = Font15;
+    balanceLable.textColor = lableTextcolor;
+    balanceLable.x = username.x;
+    //    balanceLable.text = @"账户余额";
     self.balanceLable = balanceLable;
-    [self.view addSubview:balanceLable];
+    [topView addSubview:balanceLable];
     
     
     
     
     UIButton *recordsBtn = [[UIButton alloc] init];
-    recordsBtn.width = balanceLB.width + 20;
-    recordsBtn.height = balanceLB.height;
-    recordsBtn.y = balanceLB.y;
+    recordsBtn.width = 72;
+    recordsBtn.height = 25;
+    recordsBtn.centerY = balanceLB.centerY;
     recordsBtn.backgroundColor = Tintcolor;
     recordsBtn.titleLabel.font = Font14;
     recordsBtn.layer.masksToBounds = YES ;
-    recordsBtn.layer.cornerRadius = BtncornerRadius;
-    recordsBtn.x = KScreenWidth - CGRectGetMaxX(balanceLB.frame) - 3 * margin;
-    [recordsBtn setTitle:@"历史记录" forState:UIControlStateNormal];
+    recordsBtn.layer.cornerRadius = 4;
+    recordsBtn.x = KScreenWidth - 16 - recordsBtn.width;
+    [recordsBtn setTitle:@"充值记录" forState:UIControlStateNormal];
     self.recordsBtn = recordsBtn;
     recordsBtn.enabled = NO;
     [recordsBtn addTarget:self action:@selector(recordsBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:recordsBtn];
+    [topView addSubview:recordsBtn];
     
     
     
     //设置分割线
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight * 0.4, KScreenWidth, 1)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,CGRectGetMaxY(topView.frame) + 14, KScreenWidth, 83)];
+    lineView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:lineView];
-    
     
     UILabel *rechargeLB = [[UILabel alloc] init];
     rechargeLB.text  = @"充值金额";
     rechargeLB.x = left;
-    rechargeLB.y = CGRectGetMaxY(balanceLB.frame) + 70;
+    rechargeLB.y = CGRectGetMaxY(topView.frame) + 29;
     rechargeLB.width = 75;
     rechargeLB.height = labelH;
     rechargeLB.font = Font16;
@@ -223,9 +200,9 @@
     //账户余额和充值金额
     UILabel *creditLB = [[UILabel alloc] init];
     creditLB.text  = @"现金";
-    creditLB.x = left + 10;
+    creditLB.x = 80;
     creditLB.y = CGRectGetMaxY(rechargeLB.frame) + 20;
-    creditLB.width = 50;
+    creditLB.width = 35;
     creditLB.height = labelH;
     creditLB.font = Font16;
     //    phone.backgroundColor = [UIColor redColor];
@@ -234,9 +211,9 @@
     
     //冲值金额的输入框
     UITextField *moneyTF = [[UITextField alloc] init];
-    moneyTF.x = CGRectGetMaxX(phone.frame) + margin - 5;
-    moneyTF.width = KScreenWidth * 0.5 - CGRectGetMaxX(creditLB.frame) + 20;
-    moneyTF.height = labelH;
+    moneyTF.x = CGRectGetMaxX(creditLB.frame) + 5;
+    moneyTF.width = 80;
+    moneyTF.height = 35;
     moneyTF.centerY = creditLB.centerY;
     moneyTF.borderStyle = TFborderStyle;
     moneyTF.placeholder = @"请输入金额";
@@ -289,9 +266,6 @@
 
 }
 
-
-
-
 /* 历史记录按钮的点击事件 */
 -(void)recordsBtnClick
 {
@@ -310,7 +284,7 @@
     [UIView animateWithDuration:0.25 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState) animations:^{
         self.coverView.hidden = NO;
         self.title = @"充值记录";
-        self.RecordView.x = KScreenWidth * 0.3;
+        self.RecordView.x = 75;
     } completion:^(BOOL finished) {
     }];
 
@@ -423,7 +397,6 @@
          YYLog(@"json-获取充值记录%@",json);
         self.RecordArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
          
-         YYLog(@"Arr---%@",self.RecordArr);
          [self.RecordView reloadData];
          
      } failure:^(NSError *error)
@@ -469,7 +442,7 @@
 -(void)setupRechargeRecordView
 {
     UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenHeight)];
-    coverView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.5];
+    coverView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
     self.coverView = coverView;
     UIGestureRecognizer *touch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverViewTap)];
     self.coverView.hidden = YES;
@@ -481,6 +454,7 @@
 
     RecordView.delegate = self;
     RecordView.dataSource = self;
+    RecordView.backgroundColor = BGcolor;
     self.RecordView = RecordView;
     [[UIApplication sharedApplication].keyWindow addSubview:RecordView];
 //    [coverView addSubview:RecordView];
@@ -563,7 +537,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 44;
 }
 
 -(void)dealloc

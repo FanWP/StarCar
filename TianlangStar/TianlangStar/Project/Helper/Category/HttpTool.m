@@ -33,12 +33,9 @@
          NSNumber *num = responseObject[@"resultCode"];
          NSInteger result = [num integerValue];
 //         YYLog(@"success-http%@",responseObject);
-         
-         if (result == 1000) {
-             if (success) {
-                 success(responseObject);
-             }
-         }else
+         //传值
+         success(responseObject);
+         if (result != 1000)
          {
              [self checkReultCode:result];
          }
@@ -64,15 +61,16 @@
     [mgr GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //        YYLog(@"success-http%@",responseObject);
+        
         NSNumber *num = responseObject[@"resultCode"];
         NSInteger result = [num integerValue];
+        success(responseObject);
         
-        if (success && result == 1000)
+        if (result != 1000)
         {
-            success(responseObject);
+            [self checkReultCode:result];
         }
-        
-        [self checkReultCode:result];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error)
@@ -80,8 +78,6 @@
             failure(error);
         }
     }];
-
-
 
 }
 

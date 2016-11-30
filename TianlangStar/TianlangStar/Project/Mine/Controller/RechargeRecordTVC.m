@@ -44,15 +44,23 @@
 
 -(void)loadNewRecord
 {
+    /*
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    YYLog(@"parmas---%@",parmas);
+
+    
+    NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
+         */
     
     [self.tableView.mj_footer endRefreshing];
     self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"currentPage"] = @(self.currentPage);
     
     parmas[@"essionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         [self.tableView.mj_header endRefreshing];

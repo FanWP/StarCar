@@ -45,6 +45,8 @@
         right.textAlignment = NSTextAlignmentRight;
         right.font = Font12;
         right.textColor = lableTextcolor;
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:right];
     }
 
@@ -55,12 +57,12 @@
 -(void)setRechargedModel:(VirtualcenterModel *)rechargedModel
 {
     _rechargedModel = rechargedModel;
-    self.leftlable.text = @"2016-22-10 12:09:34";
-    self.rightlable.text = @"充值1000星币";
+    self.leftlable.text = rechargedModel.lastTime;
+    self.rightlable.text = [NSString stringWithFormat:@"充值%@星币",rechargedModel.price];
+
+//    self.leftlable.text = @"2016-22-10 12:09:34";
+//    self.rightlable.text = @"充值1000星币";
     
-    
-//    self.leftlable.text = rechargedModel.lastTime;
-//    self.rightlable.text = [NSString stringWithFormat:@"充值%@星币",rechargedModel.price];
 
 }
 
