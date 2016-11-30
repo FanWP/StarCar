@@ -139,6 +139,7 @@
 		D7470BBD1DEC11050051E851 /* ScoreExchangeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7470BBC1DEC11050051E851 /* ScoreExchangeCell.m */; };
 		D754A5411DD956B000C79616 /* AccountInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D754A5401DD956B000C79616 /* AccountInfoCell.m */; };
 		D754A5441DD9B78300C79616 /* UserHeaderImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D754A5431DD9B78300C79616 /* UserHeaderImageCell.m */; };
+		D754A7591DEE649B00F51130 /* BuyProductDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = D754A7581DEE649B00F51130 /* BuyProductDetails.m */; };
 		D756035B1DE5254900CE4D0C /* AdminFeedbackTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D75603551DE5254900CE4D0C /* AdminFeedbackTVC.m */; };
 		D756035C1DE5254900CE4D0C /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D75603571DE5254900CE4D0C /* FeedbackVC.m */; };
 		D756035E1DE5254900CE4D0C /* ReFeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D756035A1DE5254900CE4D0C /* ReFeedbackVC.m */; };
@@ -441,6 +442,8 @@
 		D754A5401DD956B000C79616 /* AccountInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountInfoCell.m; sourceTree = "<group>"; };
 		D754A5421DD9B78300C79616 /* UserHeaderImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeaderImageCell.h; sourceTree = "<group>"; };
 		D754A5431DD9B78300C79616 /* UserHeaderImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeaderImageCell.m; sourceTree = "<group>"; };
+		D754A7571DEE649B00F51130 /* BuyProductDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyProductDetails.h; sourceTree = "<group>"; };
+		D754A7581DEE649B00F51130 /* BuyProductDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyProductDetails.m; sourceTree = "<group>"; };
 		D75603541DE5254900CE4D0C /* AdminFeedbackTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdminFeedbackTVC.h; sourceTree = "<group>"; };
 		D75603551DE5254900CE4D0C /* AdminFeedbackTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdminFeedbackTVC.m; sourceTree = "<group>"; };
 		D75603561DE5254900CE4D0C /* FeedbackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackVC.h; sourceTree = "<group>"; };
@@ -1228,6 +1231,8 @@
 			children = (
 				D7AC9F101DD01FA900EFD59B /* AddProductVC.h */,
 				D7AC9F111DD01FA900EFD59B /* AddProductVC.m */,
+				D754A7571DEE649B00F51130 /* BuyProductDetails.h */,
+				D754A7581DEE649B00F51130 /* BuyProductDetails.m */,
 			);
 			path = Product;
 			sourceTree = "<group>";
@@ -1521,6 +1526,7 @@
 				D705CF281DC09C6400F65BE0 /* UIView+XMGExtension.m in Sources */,
 				D705CF261DC09C6400F65BE0 /* UITableViewCell+AdjustHeight.m in Sources */,
 				D705CF2F1DC09C6400F65BE0 /* README.md in Sources */,
+				D754A7591DEE649B00F51130 /* BuyProductDetails.m in Sources */,
 				71AB1F0B1DEAE20500C0739F /* AddWheelPicVC.m in Sources */,
 				D77134381DCDBD2300B3B9C6 /* AddCarInfo.m in Sources */,
 				D705CF311DC09C6400F65BE0 /* ShoppingCartVC.m in Sources */,

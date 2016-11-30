@@ -16,8 +16,6 @@
 /** 传入的车辆模型 */
 @property (nonatomic,strong) CarModel *carModel;
 
-/** 会员管理控制器 */
-@property (nonatomic,strong) BossAccountInfoMTVC *accountMTVC;
 
 
 @end

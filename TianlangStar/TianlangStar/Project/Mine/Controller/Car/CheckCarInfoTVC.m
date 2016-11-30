@@ -160,9 +160,7 @@ typedef enum : NSUInteger {
         [HttpTool post:url parmas:parmas success:^(id json) {
             YYLog(@"%@",json);
             [SVProgressHUD showSuccessWithStatus:@"删除成功"];
-            
-            //刷新数据
-            [self.accountMTVC setupCarInfoData];
+
             [self.navigationController popViewControllerAnimated:YES];
         } failure:^(NSError *error) {
             YYLog(@"%@",error);

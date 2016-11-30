@@ -417,6 +417,7 @@ typedef enum : NSUInteger
         _parmas = [NSMutableDictionary dictionary];
         _parmas[@"pageNum"] = @"1";
         _parmas[@"pageSize"] = @"10";
+        _parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
         self.parmas[@"type"] = @"1";
         
         NSDate *currentDate = [NSDate date];//获取当前时间，日期
@@ -438,6 +439,7 @@ typedef enum : NSUInteger
     [self.view endEditing:YES];
     
     self.parmas = nil;
+    self.parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     self.parmas[@"pageNum"] = @"1";
     self.parmas[@"pageSize"] = @"10";
     self.parmas[@"type"] = @(self.searchType + 1);

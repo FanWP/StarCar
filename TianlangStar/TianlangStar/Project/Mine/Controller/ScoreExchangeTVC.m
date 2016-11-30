@@ -9,6 +9,7 @@
 #import "ScoreExchangeTVC.h"
 #import "ScoreExchangeCell.h"
 #import "ProductModel.h"
+#import "BuyProductDetails.h"
 
 
 @interface ScoreExchangeTVC ()
@@ -129,5 +130,18 @@
 {
 
     return 136;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    ProductModel *model = self.productArr[indexPath.row];
+    BuyProductDetails *vc = [[BuyProductDetails alloc] init];
+    vc.model = model;
+    [self.navigationController pushViewController:vc animated:YES];
+
+
+
 }
 @end
