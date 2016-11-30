@@ -21,9 +21,7 @@
              @"ID" : @"id"
              
              };
-
 }
-
 
 -(NSString *)lasttime
 {

@@ -13,6 +13,8 @@
 #define userTYpe @"USerTYPE"
 #define EmployeeName @"EmployeeName"
 #define Headerpic @"Headerpic"
+#define Viplevel @"Viplevel"
+
 //#import <MJExtension.h>
 
 @implementation UserInfo
@@ -32,6 +34,7 @@ singleton_implementation(UserInfo);
     [defaults setObject:self.headerpic forKey:Headerpic];
     [defaults setBool:self.isLogin forKey:@"isLogin"];
     [defaults setBool:self.isQuit forKey:@"isQuit"];
+    [defaults setInteger:self.viplevel forKey:Viplevel];
     [defaults synchronize];
 }
 
@@ -50,6 +53,7 @@ singleton_implementation(UserInfo);
     self.membername = [defaults objectForKey:EmployeeName];
     self.isLogin = [defaults boolForKey:@"isLogin"];
     self.isQuit = [defaults boolForKey:@"isQuit"];
+    self.viplevel = [defaults integerForKey:Viplevel];
 }
 
 

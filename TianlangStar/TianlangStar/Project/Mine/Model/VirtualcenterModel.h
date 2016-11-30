@@ -37,7 +37,7 @@
 /** 用户昵称 */
 @property (nonatomic,copy) NSString *membername;
 
-/** 用户ID */
+/** 充值金额 */
 @property (nonatomic,copy) NSString *price;
 
 

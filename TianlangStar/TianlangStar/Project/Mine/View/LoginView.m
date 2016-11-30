@@ -451,6 +451,7 @@
              userInfo.userType = self.userM.type;
              userInfo.headerpic = self.userM.headimage;
              userInfo.membername = self.userM.membername;
+             userInfo.viplevel = self.userM.viplevel;
              userInfo.isLogin = YES;
              
              [userInfo synchronizeToSandBox];

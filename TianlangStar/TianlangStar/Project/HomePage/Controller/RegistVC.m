@@ -415,7 +415,9 @@
         // 显示指示器
         [SVProgressHUD setMinimumDismissTimeInterval:3];
         [SVProgressHUD showWithStatus:@"正在注册"];
+        
         NSString *url = [NSString stringWithFormat:@"%@unlogin/registeruserservlet",URL];
+        
         [[AFHTTPSessionManager manager]POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress)
          {
          } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)

@@ -68,9 +68,14 @@
     
     
     ILSettingGroup *group0 = [[ILSettingGroup alloc] init];
-    group0.header = @"设置";
+//    group0.header = @"设置";
     group0.footer = @"设置foot";
-    group0.items = @[version,cache,contact,opinion];
+    
+    if (userInfo.userType == 2) {
+            group0.items = @[version,cache,contact,opinion];
+    }else{
+    group0.items = @[version,cache,contact];
+    }
     
     [self.dataList addObject:group0];
 }

@@ -108,6 +108,8 @@ typedef enum : NSUInteger {
     [segment addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];
     segment.apportionsSegmentWidthsByContent = YES;
     
+    segment.tintColor = [UIColor whiteColor];
+    
     //设置默认选择较强险
     segment.selectedSegmentIndex = 0;
     self.navigationItem.titleView = segment;

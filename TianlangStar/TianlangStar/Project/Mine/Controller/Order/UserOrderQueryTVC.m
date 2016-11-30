@@ -15,6 +15,9 @@
 /** 保存服务器接收到的数据 */
 @property (nonatomic,strong) NSMutableArray *orderArr;
 
+/** 查询数据的当前页码 */
+@property (nonatomic,assign) NSInteger currentPage;
+
 @end
 
 @implementation UserOrderQueryTVC
@@ -42,32 +45,62 @@
 
 -(void)loadNewOrderInfo
 {
+    [self.tableView.mj_footer endRefreshing];
+    self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"currentPage"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
-    [self.tableView.mj_footer endRefreshing];
     
+    YYLog(@"url---%@",url);
     
-    [HttpTool post:url parmas:parmas success:^(id json) {
-        
+    [HttpTool post:url parmas:parmas success:^(id json)
+    {
         [self.tableView.mj_header endRefreshing];
         
         self.orderArr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
-        [self.tableView reloadData];
+        
+        if (self.orderArr.count > 0)
+        {
+            self.currentPage++;
+            [self.tableView reloadData];
+        }
         YYLog(@"json----%@",json);
     } failure:^(NSError *error) {
         [self.tableView.mj_header endRefreshing];
         YYLog(@"error----%@",error);
     }];
-
 }
 
 
 -(void)loadMoreOrderInfo
 {
-    
     [self.tableView.mj_header endRefreshing];
+    
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"currentPage"] = @(self.currentPage);
+    
+    NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
+    
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         [self.tableView.mj_footer endRefreshing];
+         
+         NSArray *arr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         
+         if (arr.count > 0)
+         {
+             [self.orderArr addObjectsFromArray:arr];
+             self.currentPage++;
+             [self.tableView reloadData];
+         }
+         YYLog(@"json----%@",json);
+     } failure:^(NSError *error) {
+         [self.tableView.mj_footer endRefreshing];
+         YYLog(@"error----%@",error);
+     }];
 }
 
 
@@ -91,7 +124,6 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     UserOrderQueryCell *cell = [UserOrderQueryCell cellWithTableView:tableView];
     
     OrderModel *model = self.orderArr[indexPath.row];
@@ -103,7 +135,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 180;
+    return 135;
 }
 
 

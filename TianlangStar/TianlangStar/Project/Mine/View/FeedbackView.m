@@ -39,9 +39,9 @@
         //用户名
         UILabel *user = [[UILabel alloc] init];
         user.x = 18;
-        user.y = 10;
+        user.y = 16;
         user.width = 150;
-        user.height = 30;
+        user.height = 14;
 //        user.backgroundColor = [UIColor redColor];
         user.textColor = lableTextcolor;
         self.user = user;
@@ -53,7 +53,7 @@
         username.x = KScreenWidth * 0.5 + 10;
         username.y = user.y;
         username.width = 150;
-        username.height = 30;
+        username.height = 14;
 //        username.backgroundColor = [UIColor redColor];
         username.textColor = lableTextcolor;
         username.font = Font14;
@@ -63,9 +63,9 @@
         
         //内容
         UILabel *content = [[UILabel alloc] init];
-        content.x = user.x;
-        content.y = CGRectGetMaxY(user.frame) + 15;
-        content.width = self.width;
+        content.x = 17;
+        content.y = CGRectGetMaxY(user.frame);
+        content.width = self.width - 34;
         content.height = 30;
         content.numberOfLines = 0;
         content.font = Font12;
@@ -78,12 +78,13 @@
         
         //时间
         UILabel *time = [[UILabel alloc] init];
-        time.x = user.x;
         time.y = CGRectGetMaxY(user.frame) + 15;
         time.width = 180;
-        time.height = 30;
+        time.height = 11;
         time.font = Font11;
         self.time = time;
+        time.x = self.width - time.width - user.x;
+        time.textAlignment = NSTextAlignmentRight;
         time.textColor = lableTextcolor;
         
         //        time.backgroundColor = [UIColor orangeColor];
@@ -109,17 +110,8 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-
-
-    self.content.width = self.width - 36;
-
     self.time.y = CGRectGetMaxY(self.content.frame) + 5;
-    
-    self.time.x = self.width - self.time.width;
-    
-    self.width = KScreenWidth;
-    
-
+    self.height = CGRectGetMaxY(self.time.frame) + 12;
 }
 
 @end

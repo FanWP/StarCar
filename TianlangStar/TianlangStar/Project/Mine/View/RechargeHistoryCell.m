@@ -21,23 +21,27 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        
         //年月日
-        UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 95, 30)];
+        UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(16, 5, 100, 30)];
         self.time = time;
+        time.font = Font12;
+        time.textColor = lableTextcolor;
 //        time.backgroundColor = [UIColor orangeColor];
         [self.contentView addSubview:time];
         
         //时分秒
-        UILabel *lastTime = [[UILabel alloc] initWithFrame:CGRectMake(time.x, CGRectGetMaxY(time.frame) + 10, 90, 30)];
-//        lastTime.backgroundColor = [UIColor redColor];
+        UILabel *lastTime = [[UILabel alloc] initWithFrame:CGRectMake(100, 5 , 100, 30)];
+        //        lastTime.backgroundColor = [UIColor redColor];
+        lastTime.font = Font12;
+        lastTime.textColor = lableTextcolor;
         self.lasettime = lastTime;
         [self.contentView addSubview:lastTime];
         
         //金额
-        UILabel *rechargLB = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(time.frame) + 20, 0, 145, 30)];
-//        rechargLB.backgroundColor = [UIColor grayColor];
+        UILabel *rechargLB = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 60 - 110 - 15, 5, 110, 30)];
+        rechargLB.font = Font12;
+        rechargLB.textColor = lableTextcolor;
+        //        rechargLB.backgroundColor = [UIColor grayColor];
         self.rechargLB = rechargLB;
         [self.contentView addSubview:rechargLB];
         
@@ -74,6 +78,14 @@
         cell = [[RechargeHistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
     return cell;
+}
+
+
+-(void)setFrame:(CGRect)frame
+{
+    frame.size.height -= 4;
+    [super setFrame:frame];
+
 }
 
 

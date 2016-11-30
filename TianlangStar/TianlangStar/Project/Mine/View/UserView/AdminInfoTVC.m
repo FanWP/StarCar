@@ -50,7 +50,8 @@
     
     self.inputEnble = NO;
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = BGcolor;
+    self.title = @"个人资料";
 
     [self loadUserInfo];
     
@@ -166,7 +167,7 @@
     [button setTitle:@"编辑" forState:UIControlStateNormal];
     [button setTitle:@"保存" forState:UIControlStateSelected];
     [button addTarget:self action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
 }
@@ -331,13 +332,14 @@
         cell.leftLable.text = @"头像";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
+        YYLog(@"headerImg---%@",self.headerImg);
         //设置头像
         if (self.headerImg)
         {
             cell.headerPic.image = self.headerImg;
         }else
         {
-            [cell.headerPic sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@,%@",picURL,self.userModel.headimage]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+            [cell.headerPic sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,self.userModel.headimage]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
         }
         
         return cell;

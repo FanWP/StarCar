@@ -47,6 +47,7 @@
 #define Font10 [UIFont systemFontOfSize:10]// 10号字
 #define Font11 [UIFont systemFontOfSize:11]// 11号字
 #define Font12 [UIFont systemFontOfSize:12]// 12号字
+#define Font13 [UIFont systemFontOfSize:13]// 12号字
 #define Font14 [UIFont systemFontOfSize:14]// 14号字
 #define Font15 [UIFont systemFontOfSize:15]// 14号字
 #define Font16 [UIFont systemFontOfSize:16]// 16号字

@@ -8,6 +8,9 @@
 @interface UserInfo : NSObject
 singleton_interface(UserInfo);
 
+/** 当前用的等级 */
+@property(nonatomic,assign)NSInteger viplevel;
+
 /** 登录用户名 */
 @property(nonatomic,copy)NSString *username;
 /** 员工姓名 */
@@ -25,7 +28,9 @@ singleton_interface(UserInfo);
 /** 当前登录用户的ID */
 @property(nonatomic,copy)NSString *userID;
 
-/** 当前用户的类型 */
+
+
+/** 当前用户的类型  0-老板 1-店长 2- 用户*/
 @property (nonatomic,assign) NSInteger userType;
 
 // 是否为登录状态

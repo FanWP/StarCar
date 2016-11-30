@@ -23,6 +23,12 @@
 -(NSString *)lastTime
 {
     NSString * timeStampString = _lastTime;
+    
+    if (timeStampString.length == 13)
+    {
+        timeStampString = [timeStampString substringToIndex:10];
+    }
+    
     NSTimeInterval _interval=[timeStampString doubleValue];
     //        NSTimeInterval _interval=[timeStampString doubleValue] / 1000.0;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
