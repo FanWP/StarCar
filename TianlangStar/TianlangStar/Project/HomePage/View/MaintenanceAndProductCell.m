@@ -44,7 +44,7 @@
         
         
         CGFloat priceLabelY = detailLabelY + detailLabelHeight + 10;
-        CGFloat priceLabelWidth = 0.5 * titleLabelWidth;
+        CGFloat priceLabelWidth = 0.6 * titleLabelWidth;
         self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, priceLabelY, priceLabelWidth, Klength30)];
         [self.contentView addSubview:self.priceLabel];
         
@@ -53,7 +53,7 @@
         CGFloat buyButtonX = titleLabelX + priceLabelWidth;
         CGFloat buyButtonY = detailLabelY + detailLabelHeight + 10;
         self.buyButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        self.buyButton.frame = CGRectMake(buyButtonX, buyButtonY, 0.5 * titleLabelWidth, Klength30);
+        self.buyButton.frame = CGRectMake(buyButtonX, buyButtonY, 0.4 * titleLabelWidth, Klength30);
         self.buyButton.backgroundColor = [UIColor blueColor];
         self.buyButton.layer.cornerRadius = BtncornerRadius;
         [self.buyButton.titleLabel setFont:Font14];
