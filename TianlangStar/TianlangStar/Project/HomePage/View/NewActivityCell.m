@@ -19,7 +19,7 @@
     if (self)
     {
         self.pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 32)];
-        self.pictureView.image = [UIImage imageNamed:@"activity"];
+        self.pictureView.image = [UIImage imageNamed:@"activityHomePage"];
         [self.contentView addSubview:self.pictureView];
         
         

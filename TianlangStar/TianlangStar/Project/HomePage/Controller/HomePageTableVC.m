@@ -188,7 +188,7 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@getcommodityinfoservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",URL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -203,7 +203,6 @@
         YYLog(@"获取所有商品列表错误：%@",error);
         
     }];
-    
 }
 
 
@@ -568,6 +567,8 @@
 {
     button.selected = !button.selected;
     
+    [self fetchProductInfoWithType:1];
+    
     self.homePageSelectCell.productButton.selected = NO;
     self.homePageSelectCell.carInfoButton.selected = NO;
     
@@ -581,6 +582,8 @@
 {
     button.selected = !button.selected;
     
+    [self fetchProductInfoWithType:2];
+    
     self.homePageSelectCell.maintenanceButton.selected = NO;
     self.homePageSelectCell.carInfoButton.selected = NO;
     
@@ -593,6 +596,8 @@
 - (void)carInfoAction:(TopPicBottomLabelButton *)button
 {
     button.selected = !button.selected;
+    
+    [self fetchProductInfoWithType:3];
     
     self.homePageSelectCell.maintenanceButton.selected = NO;
     self.homePageSelectCell.productButton.selected = NO;
