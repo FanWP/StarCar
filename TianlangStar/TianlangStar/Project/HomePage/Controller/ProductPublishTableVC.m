@@ -94,6 +94,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,strong) HouseImageCell *cell;
 
+@property (nonatomic,strong) NSMutableArray *headerImagesArray;
 
 @end
 
@@ -109,12 +110,16 @@ typedef enum : NSUInteger {
     
     _leftSecondcarLabelArray = @[@"品牌",@"报价",@"型号",@"车型",@"行驶里程",@"购买年份",@"车牌号",@"原车主",@"车架号",@"发动机号",@"使用性质",@"车辆简介"];
     
-    [self rightItem];// 入库按钮
+    _headerImagesArray = [NSMutableArray array];
+    
+    
+//    [self rightItem];// 入库按钮
     
     [self creatAddImagesView];// 添加图片的headerView
     
     [self creatTitleView];// 导航栏的选择title
 }
+
 
 
 
@@ -125,8 +130,10 @@ typedef enum : NSUInteger {
     [self.segment addTarget:self action:@selector(segmentChange:) forControlEvents:(UIControlEventValueChanged)];
     self.segment.apportionsSegmentWidthsByContent = YES;
     
-    self.segment.selectedSegmentIndex = 1;
+    self.segment.selectedSegmentIndex = 0;
     self.navigationItem.titleView = self.segment;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"入库" style:(UIBarButtonItemStylePlain) target:self action:@selector(productPutinStorage)];
 }
 
 
@@ -154,42 +161,45 @@ typedef enum : NSUInteger {
     switch (segment.selectedSegmentIndex)
     {
         case 0:
+        {
             YYLog(@"商品");
-            break;
-        case 1:
-            YYLog(@"服务");
-            break;
-        case 2:
-            YYLog(@"二手车");
-            break;
-            
-        default:
-            break;
-    }
-}
-
-
-
-- (void)rightItem
-{
-    [self.view endEditing:YES];
-    
-    switch (self.segment.selectedSegmentIndex)
-    {
-        case 0:
+            [_bottomView removeFromSuperview];
+            [self creatAddImagesView];// 添加图片的headerView
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"入库" style:(UIBarButtonItemStylePlain) target:self action:@selector(productPutinStorage)];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+            });
+        }
             break;
         case 1:
+        {
+            YYLog(@"服务");
+            [_bottomView removeFromSuperview];
+            [self creatAddImagesView];// 添加图片的headerView
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"入库" style:(UIBarButtonItemStylePlain) target:self action:@selector(servicePutinStorage)];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+            });
+        }
             break;
         case 2:
+        {
+            YYLog(@"二手车");
+            [_bottomView removeFromSuperview];
+            [self creatAddImagesView];// 添加图片的headerView
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"入库" style:(UIBarButtonItemStylePlain) target:self action:@selector(secondCarPutinStorage)];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+            });
+        }
             break;
             
         default:
             break;
     }
-    
 }
 
 
@@ -221,41 +231,27 @@ typedef enum : NSUInteger {
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
-        _imagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+        _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
         
-        if (_imagesArray.count == 0)
+        for (NSArray *array in _headerImagesArray)
         {
-            YYLog(@"没有添加入库图片");
-        }
-        
-        YYLog(@"图片个数：%ld",_imagesArray.count);
-        
-        if (_imagesArray.count == 1)
-        {
-            NSData *data = UIImageJPEGRepresentation(self.cell.imageView.image, 0.5);
+            YYLog(@"遍历得到的图片数组%@",array);
             
-            YYLog(@"选择的图片：%@",self.cell.imageView.image);
-            
-            if (data != nil)
+            for (WUAlbumAsset *image in array)
             {
-                [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-            }
-        }
-        
-        if (_imagesArray.count > 1)
-        {
-            // 上传 多张图片
-            for(NSInteger i = 0; i < self.imagesArray.count; i++)
-            {
-                NSData *imageData = [self.imagesArray objectAtIndex: i];
-                // 上传的参数名
-                NSString *Name = [NSString stringWithFormat:@"%@%zi", self.image, i+1];
-                // 上传filename
-                NSString *fileName = [NSString stringWithFormat:@"%@.jpg", Name];
+                YYLog(@"遍历得到的图片%@",image);
                 
-                [formData appendPartWithFileData:imageData name:Name fileName:fileName mimeType:@"image/jpeg"];
+                UIImage *getimage = [image imageWithOriginal];
+                
+                NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                
+                if (data != nil)
+                {
+                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                }
             }
         }
+        
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -301,42 +297,27 @@ typedef enum : NSUInteger {
 
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
-        _imagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+        _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
         
-        if (_imagesArray.count == 0)
+        for (NSArray *array in _headerImagesArray)
         {
-            YYLog(@"没有添加入库图片");
-        }
-        
-        YYLog(@"图片个数：%ld",_imagesArray.count);
-        
-        if (_imagesArray.count == 1)
-        {
-            NSData *data = UIImageJPEGRepresentation(self.cell.imageView.image, 0.5);
+            YYLog(@"遍历得到的图片数组%@",array);
             
-            YYLog(@"选择的图片：%@",self.cell.imageView.image);
-            
-            if (data != nil)
+            for (WUAlbumAsset *image in array)
             {
-                [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-            }
-        }
-        
-        if (_imagesArray.count > 1)
-        {
-            // 上传 多张图片
-            for(NSInteger i = 0; i < self.imagesArray.count; i++)
-            {
-                NSData *imageData = [self.imagesArray objectAtIndex: i];
-                // 上传的参数名
-                NSString *Name = [NSString stringWithFormat:@"%@%zi", self.image, i+1];
-                // 上传filename
-                NSString *fileName = [NSString stringWithFormat:@"%@.jpg", Name];
+                YYLog(@"遍历得到的图片%@",image);
                 
-                [formData appendPartWithFileData:imageData name:Name fileName:fileName mimeType:@"image/jpeg"];
+                UIImage *getimage = [image imageWithOriginal];
+                
+                NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                
+                if (data != nil)
+                {
+                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                }
             }
         }
-        
+
     } progress:^(NSProgress * _Nonnull uploadProgress)
     {
         
@@ -388,42 +369,27 @@ typedef enum : NSUInteger {
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
-        _imagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+        _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
         
-        if (_imagesArray.count == 0)
+        for (NSArray *array in _headerImagesArray)
         {
-            YYLog(@"没有添加入库图片");
-        }
-        
-        YYLog(@"图片个数：%ld",_imagesArray.count);
-        
-        if (_imagesArray.count == 1)
-        {
-            NSData *data = UIImageJPEGRepresentation(self.cell.imageView.image, 0.5);
+            YYLog(@"遍历得到的图片数组%@",array);
             
-            YYLog(@"选择的图片：%@",self.cell.imageView.image);
-            
-            if (data != nil)
+            for (WUAlbumAsset *image in array)
             {
-                [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-            }
-        }
-        
-        if (_imagesArray.count > 1)
-        {
-            // 上传 多张图片
-            for(NSInteger i = 0; i < self.imagesArray.count; i++)
-            {
-                NSData *imageData = [self.imagesArray objectAtIndex: i];
-                // 上传的参数名
-                NSString *Name = [NSString stringWithFormat:@"%@%zi", self.image, i+1];
-                // 上传filename
-                NSString *fileName = [NSString stringWithFormat:@"%@.jpg", Name];
+                YYLog(@"遍历得到的图片%@",image);
                 
-                [formData appendPartWithFileData:imageData name:Name fileName:fileName mimeType:@"image/jpeg"];
+                UIImage *getimage = [image imageWithOriginal];
+                
+                NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                
+                if (data != nil)
+                {
+                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                }
             }
         }
-        
+
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)

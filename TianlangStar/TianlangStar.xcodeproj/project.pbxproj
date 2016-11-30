@@ -43,6 +43,14 @@
 		711EFA571DDEA03D006AEF9E /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA561DDEA03D006AEF9E /* NSString+Hash.m */; };
 		711EFA5A1DDEA3F4006AEF9E /* WebExcelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA591DDEA3F4006AEF9E /* WebExcelVC.m */; };
 		711EFA5D1DDEAC4E006AEF9E /* ExcelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA5C1DDEAC4E006AEF9E /* ExcelModel.m */; };
+		712F5C131DEC1F7B005B750A /* NewActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F5C121DEC1F7B005B750A /* NewActivityModel.m */; };
+		712F5C161DEC44E8005B750A /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F5C151DEC44E8005B750A /* HomePageVC.m */; };
+		714089FB1DED281A00868A60 /* NewActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 714089FA1DED281A00868A60 /* NewActivityCell.m */; };
+		714089FE1DED55FB00868A60 /* ActivityDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 714089FD1DED55FB00868A60 /* ActivityDetailVC.m */; };
+		71408A011DED591000868A60 /* HomePageSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A001DED591000868A60 /* HomePageSegmentCell.m */; };
+		71408A041DED5C0B00868A60 /* TopPicBottomLabelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A031DED5C0B00868A60 /* TopPicBottomLabelButton.m */; };
+		71408A071DED6EA700868A60 /* MaintenanceAndProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A061DED6EA700868A60 /* MaintenanceAndProductCell.m */; };
+		71408A0A1DED6EC900868A60 /* SenondCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A091DED6EC900868A60 /* SenondCarCell.m */; };
 		714BFDE61DCC80D1002F2042 /* CollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 714BFDE51DCC80D1002F2042 /* CollectionModel.m */; };
 		714E15091DDEE9A7006598D3 /* ProductPublishTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 714E15081DDEE9A6006598D3 /* ProductPublishTableVC.m */; };
 		714E150C1DDEEED3006598D3 /* LabelTFLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 714E150B1DDEEED3006598D3 /* LabelTFLabelCell.m */; };
@@ -247,6 +255,22 @@
 		711EFA591DDEA3F4006AEF9E /* WebExcelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebExcelVC.m; sourceTree = "<group>"; };
 		711EFA5B1DDEAC4E006AEF9E /* ExcelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExcelModel.h; sourceTree = "<group>"; };
 		711EFA5C1DDEAC4E006AEF9E /* ExcelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExcelModel.m; sourceTree = "<group>"; };
+		712F5C111DEC1F7B005B750A /* NewActivityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewActivityModel.h; sourceTree = "<group>"; };
+		712F5C121DEC1F7B005B750A /* NewActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewActivityModel.m; sourceTree = "<group>"; };
+		712F5C141DEC44E8005B750A /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
+		712F5C151DEC44E8005B750A /* HomePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVC.m; sourceTree = "<group>"; };
+		714089F91DED281A00868A60 /* NewActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewActivityCell.h; sourceTree = "<group>"; };
+		714089FA1DED281A00868A60 /* NewActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewActivityCell.m; sourceTree = "<group>"; };
+		714089FC1DED55FB00868A60 /* ActivityDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailVC.h; sourceTree = "<group>"; };
+		714089FD1DED55FB00868A60 /* ActivityDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailVC.m; sourceTree = "<group>"; };
+		714089FF1DED591000868A60 /* HomePageSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageSegmentCell.h; sourceTree = "<group>"; };
+		71408A001DED591000868A60 /* HomePageSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageSegmentCell.m; sourceTree = "<group>"; };
+		71408A021DED5C0B00868A60 /* TopPicBottomLabelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopPicBottomLabelButton.h; sourceTree = "<group>"; };
+		71408A031DED5C0B00868A60 /* TopPicBottomLabelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPicBottomLabelButton.m; sourceTree = "<group>"; };
+		71408A051DED6EA700868A60 /* MaintenanceAndProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaintenanceAndProductCell.h; sourceTree = "<group>"; };
+		71408A061DED6EA700868A60 /* MaintenanceAndProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaintenanceAndProductCell.m; sourceTree = "<group>"; };
+		71408A081DED6EC900868A60 /* SenondCarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenondCarCell.h; sourceTree = "<group>"; };
+		71408A091DED6EC900868A60 /* SenondCarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenondCarCell.m; sourceTree = "<group>"; };
 		714BFDE41DCC80D1002F2042 /* CollectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionModel.h; sourceTree = "<group>"; };
 		714BFDE51DCC80D1002F2042 /* CollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionModel.m; sourceTree = "<group>"; };
 		714E15071DDEE9A6006598D3 /* ProductPublishTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPublishTableVC.h; sourceTree = "<group>"; };
@@ -791,6 +815,8 @@
 			children = (
 				711EFA2D1DD9637D006AEF9E /* HomePageTableVC.h */,
 				711EFA2E1DD9637D006AEF9E /* HomePageTableVC.m */,
+				712F5C141DEC44E8005B750A /* HomePageVC.h */,
+				712F5C151DEC44E8005B750A /* HomePageVC.m */,
 				714E15071DDEE9A6006598D3 /* ProductPublishTableVC.h */,
 				714E15081DDEE9A6006598D3 /* ProductPublishTableVC.m */,
 				71AB1F001DEADDA700C0739F /* EditProductAndPublishTableVC.h */,
@@ -809,6 +835,8 @@
 				715AA3331DE2A67900CD5C5D /* AddImagesCollectionVC.m */,
 				711EFA301DD96718006AEF9E /* NewestActivityTableVC.h */,
 				711EFA311DD96718006AEF9E /* NewestActivityTableVC.m */,
+				714089FC1DED55FB00868A60 /* ActivityDetailVC.h */,
+				714089FD1DED55FB00868A60 /* ActivityDetailVC.m */,
 				711EFA391DD9995A006AEF9E /* NewestActivityDetailTableVC.h */,
 				711EFA3A1DD9995A006AEF9E /* NewestActivityDetailTableVC.m */,
 				711EFA3F1DDAD80F006AEF9E /* AddCarTableVC.h */,
@@ -838,6 +866,8 @@
 				711EC3441DE41BF900C51E40 /* ServiceModel.m */,
 				71AB1EFD1DEABE6200C0739F /* StorageManagementModel.h */,
 				71AB1EFE1DEABE6200C0739F /* StorageManagementModel.m */,
+				712F5C111DEC1F7B005B750A /* NewActivityModel.h */,
+				712F5C121DEC1F7B005B750A /* NewActivityModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -847,6 +877,14 @@
 			children = (
 				711EFA331DD96912006AEF9E /* HomePageSelectCell.h */,
 				711EFA341DD96912006AEF9E /* HomePageSelectCell.m */,
+				71408A051DED6EA700868A60 /* MaintenanceAndProductCell.h */,
+				71408A061DED6EA700868A60 /* MaintenanceAndProductCell.m */,
+				71408A081DED6EC900868A60 /* SenondCarCell.h */,
+				71408A091DED6EC900868A60 /* SenondCarCell.m */,
+				714089FF1DED591000868A60 /* HomePageSegmentCell.h */,
+				71408A001DED591000868A60 /* HomePageSegmentCell.m */,
+				71408A021DED5C0B00868A60 /* TopPicBottomLabelButton.h */,
+				71408A031DED5C0B00868A60 /* TopPicBottomLabelButton.m */,
 				711EFA421DDAE116006AEF9E /* LabelTextFieldCell.h */,
 				711EFA431DDAE116006AEF9E /* LabelTextFieldCell.m */,
 				714E150A1DDEEED3006598D3 /* LabelTFLabelCell.h */,
@@ -863,6 +901,8 @@
 				715AA3361DE2A6D500CD5C5D /* AddImagesCollectionCell.m */,
 				71AB1EFA1DEABA1E00C0739F /* StorageManagementCell.h */,
 				71AB1EFB1DEABA1E00C0739F /* StorageManagementCell.m */,
+				714089F91DED281A00868A60 /* NewActivityCell.h */,
+				714089FA1DED281A00868A60 /* NewActivityCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1429,8 +1469,10 @@
 				711EC33C1DE3EA0700C51E40 /* WUAlbumNavigationController.m in Sources */,
 				711EC3311DE3EA0700C51E40 /* Common.m in Sources */,
 				71AB1F051DEAE1AA00C0739F /* AddNewActivityTableVC.m in Sources */,
+				71408A041DED5C0B00868A60 /* TopPicBottomLabelButton.m in Sources */,
 				D71F66B41DCC289E000A6861 /* CarInputCell.m in Sources */,
 				71AB1EFF1DEABE6200C0739F /* StorageManagementModel.m in Sources */,
+				714089FE1DED55FB00868A60 /* ActivityDetailVC.m in Sources */,
 				D756035C1DE5254900CE4D0C /* FeedbackVC.m in Sources */,
 				D71F66C01DCC5E0D000A6861 /* CarModel.m in Sources */,
 				711EFA321DD96718006AEF9E /* NewestActivityTableVC.m in Sources */,
@@ -1464,9 +1506,11 @@
 				D705CF301DC09C6400F65BE0 /* RootVC.m in Sources */,
 				D705CF251DC09C6400F65BE0 /* UILabel+LabelHeightAndWidth.m in Sources */,
 				711EFA571DDEA03D006AEF9E /* NSString+Hash.m in Sources */,
+				71408A011DED591000868A60 /* HomePageSegmentCell.m in Sources */,
 				71A40D8A1DD5AC2500335660 /* MyCollectionTableVC.m in Sources */,
 				711EC3341DE3EA0700C51E40 /* SectionModel.m in Sources */,
 				711EC33D1DE3EA0700C51E40 /* WUAlbumViewController.m in Sources */,
+				712F5C161DEC44E8005B750A /* HomePageVC.m in Sources */,
 				D71475601DD1B22400F48FC4 /* AdressModel.m in Sources */,
 				D79BCF431DE85C5600473AE0 /* CFOTotalModel.m in Sources */,
 				D7091C081DE59133002B1119 /* WaitHandleOrderCell.m in Sources */,
@@ -1510,6 +1554,7 @@
 				714BFDE61DCC80D1002F2042 /* CollectionModel.m in Sources */,
 				711EC3361DE3EA0700C51E40 /* UIImage+FixOrientation.m in Sources */,
 				D705CF321DC09C6400F65BE0 /* TLStarVC.m in Sources */,
+				714089FB1DED281A00868A60 /* NewActivityCell.m in Sources */,
 				D7CFB89B1DC6D1DD0063A1B5 /* LoginView.m in Sources */,
 				711EC3331DE3EA0700C51E40 /* HouseImageHeaderView.m in Sources */,
 				D705CF241DC09C6400F65BE0 /* UIImage+Tool.m in Sources */,
@@ -1520,6 +1565,7 @@
 				711EC3351DE3EA0700C51E40 /* UIImage+Aspect.m in Sources */,
 				711EC3401DE3EA0700C51E40 /* WUPreviewViewController.m in Sources */,
 				715AA33D1DE2EC1600CD5C5D /* SecondCarPublishTableVC.m in Sources */,
+				712F5C131DEC1F7B005B750A /* NewActivityModel.m in Sources */,
 				D7203F6B1DDC43BE00B6526F /* InsuranceModel.m in Sources */,
 				D77134341DCDBA5300B3B9C6 /* CarInfoChangeVC.m in Sources */,
 				D74454741DC0B4EC008B5E27 /* AlertView.m in Sources */,
@@ -1534,6 +1580,7 @@
 				D75603681DE532ED00CE4D0C /* WaitHandleOrderTVC.m in Sources */,
 				D75603641DE5263D00CE4D0C /* FeedbackView.m in Sources */,
 				D71394221DD5C72100FFFE84 /* YYUITextView.m in Sources */,
+				71408A071DED6EA700868A60 /* MaintenanceAndProductCell.m in Sources */,
 				714E150C1DDEEED3006598D3 /* LabelTFLabelCell.m in Sources */,
 				717D0D831DC0B5620036D5F4 /* RegistVC.m in Sources */,
 				D7408FB31DE288A200F532CA /* ResetPasword.m in Sources */,
@@ -1545,6 +1592,7 @@
 				D77134351DCDBA5300B3B9C6 /* CarInfoListVC.m in Sources */,
 				711EFA5A1DDEA3F4006AEF9E /* WebExcelVC.m in Sources */,
 				711EC33B1DE3EA0700C51E40 /* WUAlbumGroupViewController.m in Sources */,
+				71408A0A1DED6EC900868A60 /* SenondCarCell.m in Sources */,
 				71AB1EFC1DEABA1E00C0739F /* StorageManagementCell.m in Sources */,
 				D735EAFE1DD075790051D8E7 /* HttpTool.m in Sources */,
 				D754A5411DD956B000C79616 /* AccountInfoCell.m in Sources */,

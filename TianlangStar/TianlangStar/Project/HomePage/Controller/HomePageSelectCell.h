@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class TopPicBottomLabelButton;
 @interface HomePageSelectCell : UITableViewCell
 
 // 保养维护
-@property (nonatomic,strong) UIButton *maintenanceButton;
+@property (nonatomic,strong) TopPicBottomLabelButton *maintenanceButton;
 // 商品
-@property (nonatomic,strong) UIButton *productButton;
+@property (nonatomic,strong) TopPicBottomLabelButton *productButton;
 // 车辆信息
-@property (nonatomic,strong) UIButton *carInfoButton;
+@property (nonatomic,strong) TopPicBottomLabelButton *carInfoButton;
 
 @end

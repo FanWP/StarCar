@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class NewActivityModel;
+
 @interface NewestActivityTableVC : UITableViewController
+
+@property (nonatomic,strong) NewActivityModel *activityModel;
+
+@property (nonatomic,strong) NSArray *activityArray;
 
 @end

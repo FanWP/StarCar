@@ -10,9 +10,14 @@
 #import "NewestActivityTableVC.h" // 最新活动头文件
 #import "HomePageSelectCell.h" // 保养维护、商品、车辆信息的自定义cell
 #import "ProductModel.h" // 商品模型
+#import "ServiceModel.h"
 #import "ProductCell.h"
 #import "ProductPublishTableVC.h"
-
+#import "NewActivityCell.h"
+#import "HomePageSegmentCell.h"
+#import "NewActivityModel.h"
+#import "TopPicBottomLabelButton.h"
+#import "MaintenanceAndProductCell.h"
 
 @interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
 
@@ -22,8 +27,23 @@
 @property (nonatomic,strong) SDCycleScrollView *scrollView;
 // 轮播图
 @property (nonatomic,strong) UIView *headerView;
+
+@property (nonatomic,strong) NSMutableArray *serviceArray;
 // 商品数组
 @property (nonatomic,strong) NSMutableArray *productsArray;
+
+// 接收最新活动的数组
+@property (nonatomic,strong) NSMutableArray *activityArray;
+
+// 最新活动的模型
+@property (nonatomic,strong) NewActivityModel *activityModel;
+
+/** 图片数组的URL */
+@property (nonatomic,strong) NSMutableArray *ImgList;
+
+@property (nonatomic,assign) NSInteger pageNum;
+
+@property (nonatomic,strong) HomePageSelectCell *homePageSelectCell;
 
 @end
 
@@ -36,22 +56,42 @@
     
     [self shareItem];// 分享app
     
-    [self creatHeaderView];// 轮播图
+//    [self setupPlayerPic];
     
-    [self fetchProductInfoWithType:3];
+    [self fetchHomePageData];// 获取首页数据
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"商品发布" style:(UIBarButtonItemStylePlain) target:self action:@selector(productPublishAction)];
+//    [self creatHeaderView];// 轮播图
+    
+    [self fetchNewActivityData];
+    
+//    [self fetchProductInfoWithType:2];
+    
+    
 }
 
 
 
-- (void)productPublishAction
+- (NSMutableArray *)ImgList
 {
-    ProductPublishTableVC *productPublishTableVC = [[ProductPublishTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+    if (!_ImgList)
+    {
+        _ImgList = [NSMutableArray array];
+    }
     
-    [self.navigationController pushViewController:productPublishTableVC animated:YES];
+    return _ImgList;
 }
 
+
+
+- (NSMutableArray *)serviceArray
+{
+    if (!_serviceArray)
+    {
+        _serviceArray = [NSMutableArray array];
+    }
+    
+    return _serviceArray;
+}
 
 
 - (NSMutableArray *)productsArray
@@ -66,36 +106,104 @@
 
 
 
+- (NewActivityModel *)activityModel
+{
+    if (!_activityModel)
+    {
+        _activityModel = [[NewActivityModel alloc] init];
+    }
+    
+    return _activityModel;
+}
+
+
+
+
+#pragma mark - 获取首页数据
+- (void)fetchHomePageData
+{
+//    find/indexInfo
+    
+    NSString *url = [NSString stringWithFormat:@"%@find/indexInfo",uRL];
+
+    [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"首页返回：%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            NSDictionary *dic = responseObject[@"body"];
+            
+            NSArray *imageArray = dic[@"firstImages"];
+            
+            for (NSDictionary *dic in imageArray)
+            {
+                NSString *picture = [dic objectForKey:@"images"];
+                
+                NSArray *imagesArray = [picture componentsSeparatedByString:@","];
+                
+                for (NSInteger i = 0; i < imagesArray.count; i++)
+                {
+                    NSString *pic = imagesArray[i];
+                    NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+                    [self.ImgList addObject:image];
+                }
+                
+                [self creatHeaderView];
+            }
+            
+            
+            NSArray *servicesListArray = dic[@"servicesList"];
+            
+            _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:servicesListArray];
+        }
+        
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"首页返回错误: %@",error);
+    }];
+}
+
+
+
+
 - (void)fetchProductInfoWithType:(NSInteger)type
 {
-    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-    
-    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"currentPage"]  = @"1";
-    NSString *productType = [NSString stringWithFormat:@"%ld",type];
-    parmas[@"type"]  = productType;
-    
-    YYLog(@"获取所有商品列表parmas--%@",parmas);
-    
-    NSString *url = [NSString stringWithFormat:@"%@getcommodityinfoservlet",URL];
-    
-    [HttpTool post:url parmas:parmas success:^(id json)
-     {
-         YYLog(@"获取所有商品列表-%@",json);
-         
-         self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
-         
-         ProductModel *model = self.productsArray[0];
-         
-         YYLog(@"model---%ld",(long)model.scoreprice);
-         
-         [self.tableView reloadData];
-         
-     } failure:^(NSError *error) {
-         
-         YYLog(@"获取所有商品列表错误%@",error);
-         
-     }];
+//    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+//    
+//    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
+//    parmas[@"currentPage"]  = @"1";
+//    NSString *productType = [NSString stringWithFormat:@"%ld",type];
+//    parmas[@"type"]  = productType;
+//    
+//    YYLog(@"获取所有商品列表parmas--%@",parmas);
+//    
+//    NSString *url = [NSString stringWithFormat:@"%@getcommodityinfoservlet",URL];
+//    
+//    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//    {
+//        YYLog(@"获取所有商品列表-%@",responseObject);
+//        
+//        self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"obj"]];
+//        
+//        ProductModel *model = self.productsArray[0];
+//        
+//        YYLog(@"model---%ld",(long)model.scoreprice);
+//        
+//        [self.tableView reloadData];
+//
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//    {
+//        YYLog(@"获取所有商品列表错误%@",error);
+//    }];
 }
 
 
@@ -139,16 +247,62 @@
 #pragma mark - 轮播图
 - (void)creatHeaderView
 {
-    UIImage *image1 = [UIImage imageNamed:@"lunbo1"];
-    UIImage *image2 = [UIImage imageNamed:@"lunbo2"];
-    UIImage *image3 = [UIImage imageNamed:@"lunbo3"];
-    NSArray *imagesArray = @[image1,image2,image3];
     _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
-    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:imagesArray];
+    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:self.ImgList];
     _scrollView.delegate = self;
     _scrollView.placeholderImage = [UIImage imageNamed:@"lunbo2"];
+    _scrollView.autoScrollTimeInterval = 2.0;
     [_headerView addSubview:_scrollView];
     self.tableView.tableHeaderView = _headerView;
+}
+
+
+
+/**
+ *  获取顶部轮播图的链接地址
+ */
+-(void)setupPlayerPic
+{
+//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    
+//    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+//    parameters[@"type"] = @"1";
+//    
+//    NSString *url = [NSString stringWithFormat:@"%@getallpicservlet",URL];
+//    
+//    [[AFHTTPSessionManager manager]POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//     {
+//         YYLog(@"轮播图返回---%@",responseObject);
+//         NSNumber *num = responseObject[@"resultCode"];
+//         NSInteger result = [num integerValue];
+//         
+//         if (result == 1000)
+//         {
+//             NSArray *arr = responseObject[@"obj"];
+//             
+//             for (NSDictionary *dic in arr)
+//             {
+//                 NSString *picture = [dic objectForKey:@"images"];
+//                 NSArray *imagesArray = [picture componentsSeparatedByString:@","];
+//                 
+//                 for (NSInteger i = 0; i < imagesArray.count; i++)
+//                 {
+//                     NSString *pic = imagesArray[i];
+//                     NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+//                     [self.ImgList addObject:image];
+//                 }
+//             }
+//             
+//             [self creatHeaderView];
+//
+//         }
+//         
+//     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//     {
+//         YYLog(@"轮播图--%@",error);
+//     }];
 }
 
 
@@ -175,7 +329,7 @@
     else
     {
         YYLog(@"车辆信息个数%ld",self.productsArray.count);
-        return self.productsArray.count;
+        return self.serviceArray.count;
     }
 }
 
@@ -189,12 +343,52 @@
     }
     else if (indexPath.section == 1)
     {
-        return 44;
+        return 90;
     }
     else
     {
-        return 40;
+        return 111;
     }
+}
+
+
+
+- (void)fetchNewActivityData
+{
+//    find/activities/list
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    self.pageNum = 1;
+    
+    parameters[@"pageNum"] = @(self.pageNum);
+    parameters[@"pageSize"] = @"4";
+//    http://192.168.1.23:8080/car_api/find/activities/list?pageNum=1&pageSize=10
+    NSString *url = [NSString stringWithFormat:@"%@find/activities/list?",uRL];
+    
+    [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"获取最新活动返回%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            self.activityArray = [NewActivityModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            
+            self.activityModel = _activityArray.firstObject;
+            
+            [self.tableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"获取最新活动错误%@",error);
+        
+    }];
+    
 }
 
 
@@ -204,16 +398,16 @@
 {
     static NSString *identifier = @"cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    NewActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell == nil)
     {
         
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
+        cell = [[NewActivityCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
         
     }
     
-    cell.textLabel.text = @"最新活动";
+    cell.textLabel.text = self.activityModel.title;
     cell.textLabel.textAlignment = 1;
     
     return cell;
@@ -226,27 +420,25 @@
 {
     static NSString *identifier1 = @"cell1";
     
-    HomePageSelectCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
+    self.homePageSelectCell = [tableView dequeueReusableCellWithIdentifier:identifier1];
     
-    if (cell == nil)
+    if (self.homePageSelectCell == nil)
     {
         
-        cell = [[HomePageSelectCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier1];
+        self.homePageSelectCell = [[HomePageSelectCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier1];
         
     }
     
-    [cell.maintenanceButton setTitle:@"保养维护" forState:(UIControlStateNormal)];
-    [cell.maintenanceButton addTarget:self action:@selector(maintenanceAction) forControlEvents:(UIControlEventTouchUpInside)];
+    self.homePageSelectCell.maintenanceButton.selected = YES;
     
-    [cell.productButton setTitle:@"商品" forState:(UIControlStateNormal)];
-    [cell.productButton addTarget:self action:@selector(productAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.homePageSelectCell.maintenanceButton addTarget:self action:@selector(maintenanceAction:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    
-    [cell.carInfoButton setTitle:@"车辆信息" forState:(UIControlStateNormal)];
-    [cell.carInfoButton addTarget:self action:@selector(carInfoAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.homePageSelectCell.productButton addTarget:self action:@selector(productAction:) forControlEvents:(UIControlEventTouchUpInside)];
     
     
-    return cell;
+    [self.homePageSelectCell.carInfoButton addTarget:self action:@selector(carInfoAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    
+    return self.homePageSelectCell;
 
 }
 
@@ -257,28 +449,28 @@
 {
     static NSString *identifier2 = @"cell2";
     
-    ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier2];
+    MaintenanceAndProductCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier2];
     
     if (cell == nil)
     {
         
-        cell = [[ProductCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier2];
+        cell = [[MaintenanceAndProductCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier2];
         
     }
 
+//    cell.pictureView.image = [UIImage imageNamed:@"lunbo1"];
+//    cell.titleLabel.text = @"小型车基础保养套餐";
+//    cell.detailLabel.text = @"qwertyuiopoiuytrewqwertyuiopoiuytrewqwertyuioiuytrewqwertyu";
+//    cell.priceLabel.text = @"300星币";
     
-//    static NSString *identifier2 = @"cell2";
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier2];
-//    
-//    if (cell == nil)
-//    {
-//        
-//        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier2];
-//        
-//    }
-//    
-//    cell.textLabel.text = @"保养维护的cell";
+    ServiceModel *serviceModel = _serviceArray[indexPatch.row];
+    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
+    NSURL *url = [NSURL URLWithString:pic];
+    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
+    cell.titleLabel.text = serviceModel.services;
+    cell.detailLabel.text = serviceModel.content;
+    cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
+    cell.priceLabel.font = Font14;
     
     return cell;
 }
@@ -341,24 +533,39 @@
 
 
 #pragma mark - 保养维护的点击事件
-- (void)maintenanceAction
+- (void)maintenanceAction:(TopPicBottomLabelButton *)button
 {
+    button.selected = !button.selected;
+    
+    self.homePageSelectCell.productButton.selected = NO;
+    self.homePageSelectCell.carInfoButton.selected = NO;
+    
     YYLog(@"保养维护的点击事件");
 }
 
 
 
 #pragma mark - 商品的点击事件
-- (void)productAction
+- (void)productAction:(TopPicBottomLabelButton *)button
 {
+    button.selected = !button.selected;
+    
+    self.homePageSelectCell.maintenanceButton.selected = NO;
+    self.homePageSelectCell.carInfoButton.selected = NO;
+    
     YYLog(@"商品的点击事件");
 }
 
 
 
 #pragma mark - 车辆信息的点击事件
-- (void)carInfoAction
+- (void)carInfoAction:(TopPicBottomLabelButton *)button
 {
+    button.selected = !button.selected;
+    
+    self.homePageSelectCell.maintenanceButton.selected = NO;
+    self.homePageSelectCell.productButton.selected = NO;
+    
     YYLog(@"车辆信息的点击事件");
 }
 
@@ -368,6 +575,13 @@
     if (indexPath.row == 0)
     {
         NewestActivityTableVC *newestActivityTableVC = [[NewestActivityTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+        
+//        self.activityModel = _activityArray[indexPath.row];
+//        
+//        newestActivityTableVC.activityModel = self.activityModel;
+        
+        newestActivityTableVC.activityArray = _activityArray;
+        
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
     }
 }
