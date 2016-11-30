@@ -172,9 +172,45 @@
 
 
 
-
+#pragma mark - 保养维护、商品、二手车数据
 - (void)fetchProductInfoWithType:(NSInteger)type
 {
+    ///find/saleinfo?pageNum=1&pageSize=10&type=1
+
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    
+    self.pageNum = 1;
+    
+    parmas[@"pageNum"] = @(self.pageNum);
+    parmas[@"pageSize"]  = @"10";
+    NSString *productType = [NSString stringWithFormat:@"%ld",type];
+    parmas[@"type"]  = productType;
+    
+    YYLog(@"获取所有商品列表参数--%@",parmas);
+    
+    NSString *url = [NSString stringWithFormat:@"%@getcommodityinfoservlet",URL];
+    
+    [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"获取所有商品列表返回：%@",responseObject);
+        
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"获取所有商品列表错误：%@",error);
+        
+    }];
+    
+}
+
+
+
+
+//- (void)fetchProductInfoWithType:(NSInteger)type
+//{
 //    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
 //    
 //    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
@@ -204,7 +240,7 @@
 //    {
 //        YYLog(@"获取所有商品列表错误%@",error);
 //    }];
-}
+//}
 
 
 
@@ -388,7 +424,6 @@
         YYLog(@"获取最新活动错误%@",error);
         
     }];
-    
 }
 
 
@@ -458,10 +493,6 @@
         
     }
 
-//    cell.pictureView.image = [UIImage imageNamed:@"lunbo1"];
-//    cell.titleLabel.text = @"小型车基础保养套餐";
-//    cell.detailLabel.text = @"qwertyuiopoiuytrewqwertyuiopoiuytrewqwertyuioiuytrewqwertyu";
-//    cell.priceLabel.text = @"300星币";
     
     ServiceModel *serviceModel = _serviceArray[indexPatch.row];
     NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
