@@ -131,7 +131,7 @@ typedef enum : NSUInteger {
     
     YYLog(@"添加最新活动参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@add/activities?",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@add/activities?",URL];
     
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)

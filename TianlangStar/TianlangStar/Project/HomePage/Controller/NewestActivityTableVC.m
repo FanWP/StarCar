@@ -55,7 +55,7 @@
     parameters[@"pageNum"] = @(self.pageNum);
     parameters[@"pageSize"] = @"4";
 
-    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",URL];
 
     [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
 
