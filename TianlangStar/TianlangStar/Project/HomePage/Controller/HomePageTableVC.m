@@ -21,7 +21,7 @@
 #import "MaintenanceAndProductCell.h"
 #import "SecondCarCell.h"
 
-
+#import "BuyProductDetails.h"
 
 @interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
 
@@ -85,8 +85,6 @@
     [self fetchProductInfoWithType:1];
     
 }
-
-
 
 
 #pragma mark - 获取首页数据
@@ -475,24 +473,6 @@
     
     return cell;
 }
-#pragma mark - 返回商品的cell
-//- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
-//{
-//    static NSString *identifier3 = @"cell3";
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
-//    
-//    if (cell == nil)
-//    {
-//        
-//        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
-//        
-//    }
-//    
-//    cell.textLabel.text = @"商品的cell";
-//    
-//    return cell;
-//}
 
 
 
@@ -517,7 +497,6 @@
     [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     cell.carNameLabel.text = _carModel.brand;
-//    cell.carNameLabel.text = @"马自达阿特兹2017新款豪华版";
     cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
     cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
@@ -625,6 +604,12 @@
         NewestActivityTableVC *newestActivityTableVC = [[NewestActivityTableVC alloc] initWithStyle:(UITableViewStylePlain)];
         
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
+    }
+    else if (indexPath.section == 2)
+    {
+        BuyProductDetails *buyProductDetails = [[BuyProductDetails alloc] initWithStyle:(UITableViewStylePlain)];
+        
+        [self.navigationController pushViewController:buyProductDetails animated:YES];
     }
 }
 
