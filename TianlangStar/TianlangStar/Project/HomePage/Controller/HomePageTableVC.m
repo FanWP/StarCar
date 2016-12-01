@@ -488,7 +488,7 @@
         ServiceModel *serviceModel = _serviceArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
         NSURL *url = [NSURL URLWithString:pic];
-        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         cell.titleLabel.text = serviceModel.services;
         cell.detailLabel.text = serviceModel.content;
         cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];

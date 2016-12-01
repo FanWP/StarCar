@@ -68,7 +68,7 @@
     cell.titleLabel.text = _activityModel.title;
     cell.timeLabel.text = _activityModel.createTime;
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_activityModel.images]];
-    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
+    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
