@@ -285,7 +285,7 @@
     _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
     _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:self.ImgList];
     _scrollView.delegate = self;
-    _scrollView.placeholderImage = [UIImage imageNamed:@"lunbo2"];
+    _scrollView.placeholderImage = [UIImage imageNamed:@"touxiang"];
     _scrollView.autoScrollTimeInterval = 2.0;
     [_headerView addSubview:_scrollView];
     self.tableView.tableHeaderView = _headerView;

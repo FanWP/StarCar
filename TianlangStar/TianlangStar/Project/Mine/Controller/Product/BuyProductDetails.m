@@ -69,7 +69,7 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 210)];
     SDCycleScrollView *view = [SDCycleScrollView cycleScrollViewWithFrame:headerView.bounds imageURLStringsGroup:arr];//_ImgList为图片url数组
     view.delegate = self;
-    view.placeholderImage = [UIImage imageNamed:@"lunbo2"];
+    view.placeholderImage = [UIImage imageNamed:@"touxiang"];
     view.autoScroll = YES;
     view.autoScrollTimeInterval = 2;
     [headerView addSubview:view];
