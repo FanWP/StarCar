@@ -19,6 +19,9 @@
 #import "NewActivityModel.h"
 #import "TopPicBottomLabelButton.h"
 #import "MaintenanceAndProductCell.h"
+#import "SecondCarCell.h"
+
+
 
 @interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
 
@@ -87,9 +90,7 @@
 #pragma mark - 获取首页数据
 - (void)fetchHomePageData
 {
-//    find/indexInfo
-    
-    NSString *url = [NSString stringWithFormat:@"%@find/indexInfo",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/indexInfo",uRL];
 
     [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -151,7 +152,7 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",uRL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -208,7 +209,7 @@
 //    {
 //        YYLog(@"获取所有商品列表-%@",responseObject);
 //        
-//        self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"obj"]];
+//        self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
 //        
 //        ProductModel *model = self.productsArray[0];
 //        
@@ -296,7 +297,7 @@
 //         
 //         if (result == 1000)
 //         {
-//             NSArray *arr = responseObject[@"obj"];
+//             NSArray *arr = responseObject[@"body"];
 //             
 //             for (NSDictionary *dic in arr)
 //             {
@@ -386,11 +387,10 @@
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
     self.pageNum = 1;
-    
     parameters[@"pageNum"] = @(self.pageNum);
     parameters[@"pageSize"] = @"4";
 
-    NSString *url = [NSString stringWithFormat:@"%@find/activities/list?",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",uRL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -488,7 +488,7 @@
         ServiceModel *serviceModel = _serviceArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
         NSURL *url = [NSURL URLWithString:pic];
-        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
         cell.titleLabel.text = serviceModel.services;
         cell.detailLabel.text = serviceModel.content;
         cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
@@ -500,49 +500,76 @@
         ProductModel *productModel = _productsArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,productModel.images];
         NSURL *url = [NSURL URLWithString:pic];
-        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lubbo1"]];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         cell.titleLabel.text = productModel.productname;
-//        cell
+        cell.detailLabel.text = productModel.introduction;
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.price];
+        
     }
     
     return cell;
 }
 #pragma mark - 返回商品的cell
-- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
-{
-    static NSString *identifier3 = @"cell3";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
-    
-    if (cell == nil)
-    {
-        
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
-        
-    }
-    
-    cell.textLabel.text = @"商品的cell";
-    
-    return cell;
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
+//{
+//    static NSString *identifier3 = @"cell3";
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
+//    
+//    if (cell == nil)
+//    {
+//        
+//        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
+//        
+//    }
+//    
+//    cell.textLabel.text = @"商品的cell";
+//    
+//    return cell;
+//}
+
+
+
 #pragma mark - 返回车辆信息的cell
 - (UITableViewCell *)tableView:(UITableView *)tableView carInfoCellWithIndexPatch:(NSIndexPath *)indexPatch
 {
     static NSString *identifier4 = @"cell4";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier4];
+    SecondCarCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier4];
     
     if (cell == nil)
     {
         
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier4];
+        cell = [[SecondCarCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier4];
         
     }
+    
+    _carModel = _secondCarArray[indexPatch.row];
+    
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_carModel.picture]];
+    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    cell.carNameLabel.text = _carModel.brand;
+    cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
+    cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
+    cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
+    cell.priceLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
+    
+    [cell.chatButton addTarget:self action:@selector(chatAction:) forControlEvents:(UIControlEventTouchUpInside)];
     
     cell.textLabel.text = @"车辆信息的cell";
     
     return cell;
 }
+
+
+
+- (void)chatAction:(UIButton *)button
+{
+    
+}
+
 
 
 
