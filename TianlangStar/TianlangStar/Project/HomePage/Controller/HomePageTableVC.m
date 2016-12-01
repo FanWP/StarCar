@@ -11,6 +11,7 @@
 #import "HomePageSelectCell.h" // 保养维护、商品、车辆信息的自定义cell
 #import "ProductModel.h" // 商品模型
 #import "ServiceModel.h"
+#import "CarModel.h"
 #import "ProductCell.h"
 #import "ProductPublishTableVC.h"
 #import "NewActivityCell.h"
@@ -28,9 +29,18 @@
 // 轮播图
 @property (nonatomic,strong) UIView *headerView;
 
+// 保养维护数组
 @property (nonatomic,strong) NSMutableArray *serviceArray;
 // 商品数组
 @property (nonatomic,strong) NSMutableArray *productsArray;
+// 二手车数组
+@property (nonatomic,strong) NSMutableArray *secondCarArray;
+
+// 模型
+@property (nonatomic,strong) ProductModel *productModel;
+@property (nonatomic,strong) ServiceModel *serviceModel;
+@property (nonatomic,strong) CarModel *carModel;
+
 
 // 接收最新活动的数组
 @property (nonatomic,strong) NSMutableArray *activityArray;
@@ -67,53 +77,8 @@
 //    [self fetchProductInfoWithType:2];
     
     
-}
-
-
-
-- (NSMutableArray *)ImgList
-{
-    if (!_ImgList)
-    {
-        _ImgList = [NSMutableArray array];
-    }
     
-    return _ImgList;
-}
-
-
-
-- (NSMutableArray *)serviceArray
-{
-    if (!_serviceArray)
-    {
-        _serviceArray = [NSMutableArray array];
-    }
     
-    return _serviceArray;
-}
-
-
-- (NSMutableArray *)productsArray
-{
-    if (!_productsArray)
-    {
-        _productsArray = [NSMutableArray array];
-    }
-    
-    return _productsArray;
-}
-
-
-
-- (NewActivityModel *)activityModel
-{
-    if (!_activityModel)
-    {
-        _activityModel = [[NewActivityModel alloc] init];
-    }
-    
-    return _activityModel;
 }
 
 
@@ -175,8 +140,6 @@
 #pragma mark - 保养维护、商品、二手车数据
 - (void)fetchProductInfoWithType:(NSInteger)type
 {
-    ///find/saleinfo?pageNum=1&pageSize=10&type=1
-
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
     self.pageNum = 1;
@@ -188,13 +151,31 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",uRL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
         YYLog(@"获取所有商品列表返回：%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            if ([productType isEqualToString:@"1"])
+            {
+                _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            }
+            else if ([productType isEqualToString:@"2"])
+            {
+                _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            }
+            else
+            {
+                _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            }
+        }
         
         [self.tableView reloadData];
         
@@ -363,8 +344,18 @@
     }
     else
     {
-        YYLog(@"车辆信息个数%ld",self.productsArray.count);
-        return self.serviceArray.count;
+        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+        {
+            return self.serviceArray.count;
+        }
+        else if (self.homePageSelectCell.productButton.selected == YES)
+        {
+            return self.productsArray.count;
+        }
+        else
+        {
+            return self.secondCarArray.count;
+        }
     }
 }
 
@@ -463,7 +454,7 @@
         
     }
     
-    self.homePageSelectCell.maintenanceButton.selected = YES;
+    
     
     [self.homePageSelectCell.maintenanceButton addTarget:self action:@selector(maintenanceAction:) forControlEvents:(UIControlEventTouchUpInside)];
     
@@ -491,16 +482,29 @@
         cell = [[MaintenanceAndProductCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier2];
         
     }
-
     
-    ServiceModel *serviceModel = _serviceArray[indexPatch.row];
-    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
-    NSURL *url = [NSURL URLWithString:pic];
-    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
-    cell.titleLabel.text = serviceModel.services;
-    cell.detailLabel.text = serviceModel.content;
-    cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
-    cell.priceLabel.font = Font14;
+    if (self.homePageSelectCell.maintenanceButton.selected == YES)
+    {
+        ServiceModel *serviceModel = _serviceArray[indexPatch.row];
+        NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
+        NSURL *url = [NSURL URLWithString:pic];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
+        cell.titleLabel.text = serviceModel.services;
+        cell.detailLabel.text = serviceModel.content;
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
+        cell.priceLabel.font = Font14;
+
+    }
+    else if (self.homePageSelectCell.productButton.selected == YES)
+    {
+        ProductModel *productModel = _productsArray[indexPatch.row];
+        NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,productModel.images];
+        NSURL *url = [NSURL URLWithString:pic];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lubbo1"]];
+        cell.titleLabel.text = productModel.productname;
+//        cell
+    }
+
     
     return cell;
 }
@@ -621,6 +625,109 @@
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
     }
 }
+
+
+
+
+
+
+
+
+- (NSMutableArray *)ImgList
+{
+    if (!_ImgList)
+    {
+        _ImgList = [NSMutableArray array];
+    }
+    
+    return _ImgList;
+}
+
+
+
+- (NSMutableArray *)serviceArray
+{
+    if (!_serviceArray)
+    {
+        _serviceArray = [NSMutableArray array];
+    }
+    
+    return _serviceArray;
+}
+
+
+- (NSMutableArray *)productsArray
+{
+    if (!_productsArray)
+    {
+        _productsArray = [NSMutableArray array];
+    }
+    
+    return _productsArray;
+}
+
+
+
+- (NSMutableArray *)secondCarArray
+{
+    if (!_secondCarArray)
+    {
+        _secondCarArray = [NSMutableArray array];
+    }
+    
+    return _secondCarArray;
+}
+
+
+
+- (ProductModel *)productModel
+{
+    if (!_productModel)
+    {
+        _productModel = [[ProductModel alloc] init];
+    }
+    
+    return _productModel;
+}
+
+
+
+- (ServiceModel *)serviceModel
+{
+    if (!_serviceModel)
+    {
+        _serviceModel = [[ServiceModel alloc] init];
+    }
+    
+    return _serviceModel;
+}
+
+
+
+- (CarModel *)carModel
+{
+    if (!_carModel)
+    {
+        _carModel = [[CarModel alloc] init];
+    }
+    
+    return _carModel;
+}
+
+
+
+- (NewActivityModel *)activityModel
+{
+    if (!_activityModel)
+    {
+        _activityModel = [[NewActivityModel alloc] init];
+    }
+    
+    return _activityModel;
+}
+
+
+
 
 
 

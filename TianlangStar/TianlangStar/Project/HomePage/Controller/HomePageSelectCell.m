@@ -29,6 +29,7 @@
         self.maintenanceButton = [[TopPicBottomLabelButton alloc] initWithFrame:CGRectMake(Kle, top, buttonWidth, buttonHeight)];
         [self.maintenanceButton setImage:[UIImage imageNamed:@"maintain"] forState:(UIControlStateNormal)];
         [self.maintenanceButton setImage:[UIImage imageNamed:@"maintain2"] forState:(UIControlStateSelected)];
+        self.maintenanceButton.selected = YES;
         [self.maintenanceButton setTitle:@"保养维护" forState:(UIControlStateNormal)];
         [self.maintenanceButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [self.contentView addSubview:self.maintenanceButton];

@@ -8,17 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-/** 车辆信息录入和添加 */
-typedef enum : NSUInteger {
-    cartype = 0,
-    brand,
-    model,
-    carid,
-    buytime,
-    frameid,
-    engineid
-} CarInfoType;
-
 
 @protocol AddCarTableVCDlelegate <NSObject>
 

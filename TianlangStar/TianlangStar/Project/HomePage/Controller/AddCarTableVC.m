@@ -11,6 +11,20 @@
 #import "CarModel.h"
 #import "PictureCell.h"
 
+
+
+/** 车辆信息录入和添加 */
+typedef enum : NSUInteger {
+    cartype = 0,
+    brand,
+    model,
+    carid,
+    buytime,
+    frameid,
+    engineid
+} CarInfoType;
+
+
 @interface AddCarTableVC ()<UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic,strong) LabelTextFieldCell *cell;
