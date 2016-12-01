@@ -389,7 +389,7 @@
     
     parameters[@"pageNum"] = @(self.pageNum);
     parameters[@"pageSize"] = @"4";
-//    http://192.168.1.23:8080/car_api/find/activities/list?pageNum=1&pageSize=10
+
     NSString *url = [NSString stringWithFormat:@"%@find/activities/list?",uRL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -504,7 +504,6 @@
         cell.titleLabel.text = productModel.productname;
 //        cell
     }
-
     
     return cell;
 }
