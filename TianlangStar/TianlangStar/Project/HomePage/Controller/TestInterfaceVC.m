@@ -469,7 +469,7 @@
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
-        self.allPeopleArray = responseObject[@"obj"];
+        self.allPeopleArray = responseObject[@"body"];
         
         UserModel *userModel = [[UserModel alloc] init];
         
@@ -545,7 +545,7 @@
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
-        self.allPeopleArray = responseObject[@"obj"];
+        self.allPeopleArray = responseObject[@"body"];
         
         UserModel *userModel = [[UserModel alloc] init];
         
@@ -721,7 +721,7 @@
             NSNumber *num = responseObject[@"resultCode"];
             NSInteger result = [num integerValue];
             
-            NSArray *array = responseObject[@"obj"];
+            NSArray *array = responseObject[@"body"];
             
             CollectionModel *collectionModel = [[CollectionModel alloc] init];
             
@@ -899,7 +899,7 @@
         NSNumber *num = responseObject[@"resultCode"];
         NSInteger result = [num integerValue];
         
-        NSArray *array = responseObject[@"obj"];
+        NSArray *array = responseObject[@"body"];
         
         CollectionModel *collectionModel = [[CollectionModel alloc] init];
         

@@ -85,7 +85,7 @@
         if (result == 1000)
         {
             
-            self.collectionArray = [CollectionModel mj_objectArrayWithKeyValuesArray:responseObject[@"obj"]];
+            self.collectionArray = [CollectionModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
 
         }
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -75,7 +75,7 @@
         {
             YYLog(@"导出excel");
             
-            NSString *obj = responseObject[@"obj"];
+            NSString *obj = responseObject[@"body"];
             
             YYLog(@"http://192.168.1.116:8080/%@",obj);
             

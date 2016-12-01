@@ -14,6 +14,11 @@
 
 @interface NewestActivityTableVC ()
 
+@property (nonatomic,assign) NSInteger pageNum;
+
+@property (nonatomic,strong) NewActivityModel *activityModel;
+@property (nonatomic,strong) NSMutableArray *activityArray;
+
 @end
 
 @implementation NewestActivityTableVC
@@ -24,6 +29,54 @@
     self.title = @"最新活动";
     
     self.tableView.rowHeight = 0.8 * (0.3 * KScreenWidth) + 2 * Klength5;
+    
+    [self fetchNewActivityData];
+}
+
+
+- (NSMutableArray *)activityArray
+{
+    if (!_activityArray)
+    {
+        _activityArray = [NSMutableArray array];
+    }
+    
+    return _activityArray;
+}
+
+
+- (void)fetchNewActivityData
+{
+    //    find/activities/list
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+
+    self.pageNum = 1;
+    parameters[@"pageNum"] = @(self.pageNum);
+    parameters[@"pageSize"] = @"4";
+
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",uRL];
+
+    [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"获取最新活动返回%@",responseObject);
+
+        NSInteger resultCode = [responseObject[@"resCode"] integerValue];
+
+        if (resultCode == 1000)
+        {
+            self.activityArray = [NewActivityModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+
+            [self.tableView reloadData];
+        }
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"获取最新活动错误%@",error);
+        
+    }];
 }
 
 
@@ -44,7 +97,7 @@
 // 行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _activityArray.count;
+    return self.activityArray.count;
 }
 
 

@@ -19,6 +19,9 @@
 #import "NewActivityModel.h"
 #import "TopPicBottomLabelButton.h"
 #import "MaintenanceAndProductCell.h"
+#import "SecondCarCell.h"
+
+
 
 @interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
 
@@ -28,6 +31,9 @@
 @property (nonatomic,strong) SDCycleScrollView *scrollView;
 // 轮播图
 @property (nonatomic,strong) UIView *headerView;
+
+// 最新活动的标题
+@property (nonatomic,copy) NSString *activityTitle;
 
 // 保养维护数组
 @property (nonatomic,strong) NSMutableArray *serviceArray;
@@ -55,6 +61,10 @@
 
 @property (nonatomic,strong) HomePageSelectCell *homePageSelectCell;
 
+@property (nonatomic,copy) NSString *telNumber;
+
+@property (nonatomic,strong) UIWebView *webView;
+
 @end
 
 @implementation HomePageTableVC
@@ -72,12 +82,7 @@
     
 //    [self creatHeaderView];// 轮播图
     
-    [self fetchNewActivityData];
-    
-//    [self fetchProductInfoWithType:2];
-    
-    
-    
+    [self fetchProductInfoWithType:1];
     
 }
 
@@ -87,9 +92,9 @@
 #pragma mark - 获取首页数据
 - (void)fetchHomePageData
 {
-//    find/indexInfo
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/indexInfo",uRL];
     
-    NSString *url = [NSString stringWithFormat:@"%@find/indexInfo",uRL];
+    
 
     [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -103,6 +108,7 @@
         {
             NSDictionary *dic = responseObject[@"body"];
             
+            // 轮播图数据
             NSArray *imageArray = dic[@"firstImages"];
             
             for (NSDictionary *dic in imageArray)
@@ -122,9 +128,17 @@
             }
             
             
+            // 最新活动数据
+            
+            NSDictionary *dicc = [dic objectForKey:@"lastActivity"];
+            self.activityTitle = dicc[@"title"];
+            
+            
+            // 保养维护、商品、二手车数据
             NSArray *servicesListArray = dic[@"servicesList"];
             
             _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:servicesListArray];
+            
         }
         
         [self.tableView reloadData];
@@ -151,7 +165,7 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",uRL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -165,7 +179,7 @@
         {
             if ([productType isEqualToString:@"1"])
             {
-                _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                _productsArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
             }
             else if ([productType isEqualToString:@"2"])
             {
@@ -173,7 +187,7 @@
             }
             else
             {
-                _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                _productsArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
             }
         }
         
@@ -208,7 +222,7 @@
 //    {
 //        YYLog(@"获取所有商品列表-%@",responseObject);
 //        
-//        self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"obj"]];
+//        self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
 //        
 //        ProductModel *model = self.productsArray[0];
 //        
@@ -296,7 +310,7 @@
 //         
 //         if (result == 1000)
 //         {
-//             NSArray *arr = responseObject[@"obj"];
+//             NSArray *arr = responseObject[@"body"];
 //             
 //             for (NSDictionary *dic in arr)
 //             {
@@ -344,18 +358,7 @@
     }
     else
     {
-        if (self.homePageSelectCell.maintenanceButton.selected == YES)
-        {
-            return self.serviceArray.count;
-        }
-        else if (self.homePageSelectCell.productButton.selected == YES)
-        {
-            return self.productsArray.count;
-        }
-        else
-        {
-            return self.secondCarArray.count;
-        }
+        return self.productsArray.count;
     }
 }
 
@@ -373,47 +376,8 @@
     }
     else
     {
-        return 111;
+        return 120;
     }
-}
-
-
-
-- (void)fetchNewActivityData
-{
-//    find/activities/list
-    
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    
-    self.pageNum = 1;
-    
-    parameters[@"pageNum"] = @(self.pageNum);
-    parameters[@"pageSize"] = @"4";
-
-    NSString *url = [NSString stringWithFormat:@"%@find/activities/list?",uRL];
-    
-    [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-    {
-        YYLog(@"获取最新活动返回%@",responseObject);
-        
-        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-        
-        if (resultCode == 1000)
-        {
-            self.activityArray = [NewActivityModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-            
-            self.activityModel = _activityArray.firstObject;
-            
-            [self.tableView reloadData];
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        YYLog(@"获取最新活动错误%@",error);
-        
-    }];
 }
 
 
@@ -432,7 +396,7 @@
         
     }
     
-    cell.textLabel.text = self.activityModel.title;
+    cell.textLabel.text = self.activityTitle;
     cell.textLabel.textAlignment = 1;
     
     return cell;
@@ -483,65 +447,103 @@
         
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     if (self.homePageSelectCell.maintenanceButton.selected == YES)
     {
         ServiceModel *serviceModel = _serviceArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
         NSURL *url = [NSURL URLWithString:pic];
-        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
         cell.titleLabel.text = serviceModel.services;
         cell.detailLabel.text = serviceModel.content;
         cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
         cell.priceLabel.font = Font14;
 
     }
-    else if (self.homePageSelectCell.productButton.selected == YES)
+    else
     {
         ProductModel *productModel = _productsArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,productModel.images];
         NSURL *url = [NSURL URLWithString:pic];
-        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lubbo1"]];
+        [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         cell.titleLabel.text = productModel.productname;
-//        cell
+        cell.detailLabel.text = productModel.introduction;
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.price];
+        
     }
     
     return cell;
 }
 #pragma mark - 返回商品的cell
-- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
-{
-    static NSString *identifier3 = @"cell3";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
-    
-    if (cell == nil)
-    {
-        
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
-        
-    }
-    
-    cell.textLabel.text = @"商品的cell";
-    
-    return cell;
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
+//{
+//    static NSString *identifier3 = @"cell3";
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
+//    
+//    if (cell == nil)
+//    {
+//        
+//        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
+//        
+//    }
+//    
+//    cell.textLabel.text = @"商品的cell";
+//    
+//    return cell;
+//}
+
+
+
 #pragma mark - 返回车辆信息的cell
 - (UITableViewCell *)tableView:(UITableView *)tableView carInfoCellWithIndexPatch:(NSIndexPath *)indexPatch
 {
     static NSString *identifier4 = @"cell4";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier4];
+    SecondCarCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier4];
     
     if (cell == nil)
     {
         
-        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier4];
+        cell = [[SecondCarCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier4];
         
     }
     
-    cell.textLabel.text = @"车辆信息的cell";
+    _carModel = _productsArray[indexPatch.row];
+    
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_carModel.picture]];
+    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    cell.carNameLabel.text = _carModel.brand;
+//    cell.carNameLabel.text = @"马自达阿特兹2017新款豪华版";
+    cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
+    cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
+    cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
+    cell.priceLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
+    
+    self.telNumber = _carModel.number;
+    
+    [cell.chatButton addTarget:self action:@selector(chatAction) forControlEvents:(UIControlEventTouchUpInside)];
     
     return cell;
+}
+
+
+
+- (void)chatAction
+{
+    NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.telNumber]];
+    
+    if (!_webView)
+    {
+        
+        self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    }
+    
+    [self.webView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
+
 }
 
 
@@ -559,7 +561,14 @@
     }
     else
     {
-        return [self tableView:tableView maintenanceCellWithIndexPatch:indexPath];
+        if (self.homePageSelectCell.carInfoButton.selected == YES)
+        {
+            return [self tableView:tableView carInfoCellWithIndexPatch:indexPath];
+        }
+        else
+        {
+            return [self tableView:tableView maintenanceCellWithIndexPatch:indexPath];
+        }
     }
 }
 
@@ -611,15 +620,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0)
+    if (indexPath.section == 0)
     {
         NewestActivityTableVC *newestActivityTableVC = [[NewestActivityTableVC alloc] initWithStyle:(UITableViewStylePlain)];
-        
-//        self.activityModel = _activityArray[indexPath.row];
-//        
-//        newestActivityTableVC.activityModel = self.activityModel;
-        
-        newestActivityTableVC.activityArray = _activityArray;
         
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
     }

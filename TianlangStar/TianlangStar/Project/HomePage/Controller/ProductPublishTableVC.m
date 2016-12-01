@@ -73,9 +73,11 @@ typedef enum : NSUInteger {
 
 /** 时间选择器 */
 @property (nonatomic,strong) UIDatePicker *buytimePicker;
+@property (nonatomic,strong) UIDatePicker *warrantyPicker;
 
 /** 接收购买时间的字符串 */
 @property (nonatomic,copy) NSString *buytime;
+@property (nonatomic,copy) NSString *warranty;
 
 /** 商品数组 */
 @property (nonatomic,strong) NSArray *leftBaseLabelArray;
@@ -114,6 +116,8 @@ typedef enum : NSUInteger {
     
     
 //    [self rightItem];// 入库按钮
+    
+    [self addDatePIcker];
     
     [self creatAddImagesView];// 添加图片的headerView
     
@@ -158,6 +162,8 @@ typedef enum : NSUInteger {
 
 - (void)segmentChange:(UISegmentedControl *)segment
 {
+    [self addDatePIcker];
+    
     switch (segment.selectedSegmentIndex)
     {
         case 0:
@@ -416,34 +422,37 @@ typedef enum : NSUInteger {
 /**
  *  添加时间选择器
  */
--(void)addDatePIcker
+- (void)addDatePIcker
 {
     //日期选择器
     //iphone6/6s
-    UIDatePicker *startDatePicker=[[UIDatePicker alloc]initWithFrame:CGRectMake(0,KScreenHeight ,KScreenWidth, 162)];
+    UIDatePicker *startDatePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0,KScreenHeight ,KScreenWidth, 162)];
     
     startDatePicker.datePickerMode = UIDatePickerModeDate;
-    startDatePicker.date=[NSDate date];
+    startDatePicker.date = [NSDate date];
     self.buytimePicker.hidden = NO;
     self.buytimePicker = startDatePicker;
     
+    self.warrantyPicker.hidden = NO;
+    self.warrantyPicker = startDatePicker;
     
-    [self.buytimePicker addTarget:self action:@selector(selecStarttDate) forControlEvents:UIControlEventValueChanged];
+    [self.buytimePicker addTarget:self action:@selector(selecStartDate) forControlEvents:UIControlEventValueChanged];
+    [self.warrantyPicker addTarget:self action:@selector(selecStartDate) forControlEvents:(UIControlEventValueChanged)];
 }
 
 
 
 /** 时间选择器的点击事件--较强险提醒日期 */
--(void)selecStarttDate
+- (void)selecStartDate
 {
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    switch (self.productPublish)
+    switch (self.secondCarPublish)
     {
         case buytime://购买日期
         {
-            self.buytime=[outputFormatter stringFromDate:self.buytimePicker.date];
+            self.buytime = [outputFormatter stringFromDate:self.buytimePicker.date];
             self.carModel.buytime = [NSString stringWithFormat:@"%ld", (long)[self.buytimePicker.date timeIntervalSince1970]];
             break;
         }
@@ -451,7 +460,19 @@ typedef enum : NSUInteger {
         default:
             break;
     }
-    
+    switch (self.servicePublish)
+    {
+        case warranty://购买日期
+        {
+            self.warranty = [outputFormatter stringFromDate:self.warrantyPicker.date];
+            self.serviceModel.warranty = [NSString stringWithFormat:@"%ld", (long)[self.warrantyPicker.date timeIntervalSince1970]];
+            break;
+        }
+            
+        default:
+            break;
+    }
+
     //回到主线程刷新数据
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -607,7 +628,12 @@ typedef enum : NSUInteger {
                     cell.rightTF.text = self.serviceModel.content;
                     break;
                 case warranty:
-                    cell.rightTF.text = self.serviceModel.warranty;
+                {
+                    if (self.warranty)
+                    {
+                        cell.rightTF.text = self.warranty;
+                    }
+                }
                     break;
                 case manhours:
                     cell.rightTF.text = self.serviceModel.manhours;
@@ -772,9 +798,6 @@ typedef enum : NSUInteger {
                 case content:
                     self.serviceModel.content = textField.text;
                     break;
-                case warranty:
-                    self.serviceModel.warranty = textField.text;
-                    break;
                 case manhours:
                     self.serviceModel.manhours = textField.text;
                     break;
@@ -845,23 +868,56 @@ typedef enum : NSUInteger {
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-//    if (textField.tag == buytime)
-//    {
-//        if (![textField.text isEqualToString:@"请选择日期"])
-//        {
-//            textField.inputView = self.buytimeData;
-//            self.carInfoType = textField.tag;
-//            textField.text = @"请选择日期";
-//        }
-//        else
-//        {
-//            textField.text = self.buytime;
-//        }
-//    }
-//    else
-//    {
-//        [self.buytimeData removeFromSuperview];
-//    }
+    
+    switch (self.segment.selectedSegmentIndex)
+    {
+        case 1:
+        {
+            if (textField.tag == warranty)
+            {
+                if (![textField.text isEqualToString:@"请选择日期"])
+                {
+                    textField.inputView = self.warrantyPicker;
+                    self.servicePublish = textField.tag;
+                    textField.text = @"请选择日期";
+                }
+                else
+                {
+                    textField.text = self.warranty;
+                }
+            }
+            else
+            {
+                [self.warrantyPicker removeFromSuperview];
+            }
+        }
+            break;
+        case 2:
+        {
+            if (textField.tag == buytime)
+            {
+                if (![textField.text isEqualToString:@"请选择日期"])
+                {
+                    textField.inputView = self.buytimePicker;
+                    self.secondCarPublish = textField.tag;
+                    textField.text = @"请选择日期";
+                }
+                else
+                {
+                    textField.text = self.buytime;
+                }
+            }
+            else
+            {
+                [self.buytimePicker removeFromSuperview];
+            }
+
+        }
+            break;
+            
+        default:
+            break;
+    }
     
     return YES;
 }
@@ -871,7 +927,7 @@ typedef enum : NSUInteger {
 #pragma mark--添加附件
 - (void)createData {
     
-    _plusImage = [UIImage imageNamed:@"plus"];
+    _plusImage = [UIImage imageNamed:@"add"];
     
     self.s0 = [SectionModel sectionModelWith:@"" cells:nil];
     self.s0.mutableCells = [NSMutableArray array];
@@ -1278,6 +1334,7 @@ typedef enum : NSUInteger {
     
     return _imagesArray;
 }
+
 
 
 

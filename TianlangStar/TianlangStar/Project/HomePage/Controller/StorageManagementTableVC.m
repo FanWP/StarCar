@@ -134,6 +134,8 @@
     
     self.pageNum = 1;
     
+    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
+
     parmas[@"pageNum"]  = @(self.pageNum);
     parmas[@"pageSize"] = @"10";
     parmas[@"type"]  = @"1";
@@ -196,7 +198,8 @@
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
         
         self.pageNum = 1;
-        
+
+        parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"pageNum"]  = @(self.pageNum);
         parmas[@"pageSize"] = @"10";
         parmas[@"type"]  = @"1";
@@ -372,6 +375,7 @@
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
+    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"productIds"]  = @"1";
     NSString *shelves = [NSString stringWithFormat:@"%ld",type];
     parmas[@"shelves"] = shelves;

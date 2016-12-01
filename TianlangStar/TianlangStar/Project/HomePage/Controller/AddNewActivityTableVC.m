@@ -124,6 +124,7 @@ typedef enum : NSUInteger {
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
+    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"title"]  = self.activityModel.title;
     parmas[@"pubTime"] = [self getCurrentTime];
     parmas[@"content"]  = self.activityModel.content;

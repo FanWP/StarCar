@@ -45,12 +45,12 @@
 		711EFA5D1DDEAC4E006AEF9E /* ExcelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA5C1DDEAC4E006AEF9E /* ExcelModel.m */; };
 		712F5C131DEC1F7B005B750A /* NewActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F5C121DEC1F7B005B750A /* NewActivityModel.m */; };
 		712F5C161DEC44E8005B750A /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F5C151DEC44E8005B750A /* HomePageVC.m */; };
+		7136B07D1DEFC061007598DB /* SecondCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7136B07C1DEFC061007598DB /* SecondCarCell.m */; };
 		714089FB1DED281A00868A60 /* NewActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 714089FA1DED281A00868A60 /* NewActivityCell.m */; };
 		714089FE1DED55FB00868A60 /* ActivityDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 714089FD1DED55FB00868A60 /* ActivityDetailVC.m */; };
 		71408A011DED591000868A60 /* HomePageSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A001DED591000868A60 /* HomePageSegmentCell.m */; };
 		71408A041DED5C0B00868A60 /* TopPicBottomLabelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A031DED5C0B00868A60 /* TopPicBottomLabelButton.m */; };
 		71408A071DED6EA700868A60 /* MaintenanceAndProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A061DED6EA700868A60 /* MaintenanceAndProductCell.m */; };
-		71408A0A1DED6EC900868A60 /* SenondCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71408A091DED6EC900868A60 /* SenondCarCell.m */; };
 		714BFDE61DCC80D1002F2042 /* CollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 714BFDE51DCC80D1002F2042 /* CollectionModel.m */; };
 		714E15091DDEE9A7006598D3 /* ProductPublishTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 714E15081DDEE9A6006598D3 /* ProductPublishTableVC.m */; };
 		714E150C1DDEEED3006598D3 /* LabelTFLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 714E150B1DDEEED3006598D3 /* LabelTFLabelCell.m */; };
@@ -271,6 +271,8 @@
 		712F5C121DEC1F7B005B750A /* NewActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewActivityModel.m; sourceTree = "<group>"; };
 		712F5C141DEC44E8005B750A /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
 		712F5C151DEC44E8005B750A /* HomePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVC.m; sourceTree = "<group>"; };
+		7136B07B1DEFC061007598DB /* SecondCarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarCell.h; sourceTree = "<group>"; };
+		7136B07C1DEFC061007598DB /* SecondCarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarCell.m; sourceTree = "<group>"; };
 		714089F91DED281A00868A60 /* NewActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewActivityCell.h; sourceTree = "<group>"; };
 		714089FA1DED281A00868A60 /* NewActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewActivityCell.m; sourceTree = "<group>"; };
 		714089FC1DED55FB00868A60 /* ActivityDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailVC.h; sourceTree = "<group>"; };
@@ -281,8 +283,6 @@
 		71408A031DED5C0B00868A60 /* TopPicBottomLabelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPicBottomLabelButton.m; sourceTree = "<group>"; };
 		71408A051DED6EA700868A60 /* MaintenanceAndProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaintenanceAndProductCell.h; sourceTree = "<group>"; };
 		71408A061DED6EA700868A60 /* MaintenanceAndProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaintenanceAndProductCell.m; sourceTree = "<group>"; };
-		71408A081DED6EC900868A60 /* SenondCarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenondCarCell.h; sourceTree = "<group>"; };
-		71408A091DED6EC900868A60 /* SenondCarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenondCarCell.m; sourceTree = "<group>"; };
 		714BFDE41DCC80D1002F2042 /* CollectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionModel.h; sourceTree = "<group>"; };
 		714BFDE51DCC80D1002F2042 /* CollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionModel.m; sourceTree = "<group>"; };
 		714E15071DDEE9A6006598D3 /* ProductPublishTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPublishTableVC.h; sourceTree = "<group>"; };
@@ -918,8 +918,8 @@
 				711EFA341DD96912006AEF9E /* HomePageSelectCell.m */,
 				71408A051DED6EA700868A60 /* MaintenanceAndProductCell.h */,
 				71408A061DED6EA700868A60 /* MaintenanceAndProductCell.m */,
-				71408A081DED6EC900868A60 /* SenondCarCell.h */,
-				71408A091DED6EC900868A60 /* SenondCarCell.m */,
+				7136B07B1DEFC061007598DB /* SecondCarCell.h */,
+				7136B07C1DEFC061007598DB /* SecondCarCell.m */,
 				714089FF1DED591000868A60 /* HomePageSegmentCell.h */,
 				71408A001DED591000868A60 /* HomePageSegmentCell.m */,
 				71408A021DED5C0B00868A60 /* TopPicBottomLabelButton.h */,
@@ -1403,7 +1403,7 @@
 				TargetAttributes = {
 					D705CEA31DC09BBF00F65BE0 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = QNUK69R48D;
+						DevelopmentTeam = QL2W84V672;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1535,6 +1535,7 @@
 				D77DA89A1DE6B7BA00BD90CF /* CFOModel.m in Sources */,
 				711EC3381DE3EA0700C51E40 /* UIViewController+Default.m in Sources */,
 				711EFA3E1DD9BAD7006AEF9E /* ProductCell.m in Sources */,
+				7136B07D1DEFC061007598DB /* SecondCarCell.m in Sources */,
 				71A40D8F1DD5AC6B00335660 /* CollectionCell.m in Sources */,
 				D705CF211DC09C6400F65BE0 /* RSA.m in Sources */,
 				D72867101DCB144800D77B38 /* ILSettingSwitchItem.m in Sources */,
@@ -1680,7 +1681,6 @@
 				D77134351DCDBA5300B3B9C6 /* CarInfoListVC.m in Sources */,
 				711EFA5A1DDEA3F4006AEF9E /* WebExcelVC.m in Sources */,
 				711EC33B1DE3EA0700C51E40 /* WUAlbumGroupViewController.m in Sources */,
-				71408A0A1DED6EC900868A60 /* SenondCarCell.m in Sources */,
 				71AB1EFC1DEABA1E00C0739F /* StorageManagementCell.m in Sources */,
 				D735EAFE1DD075790051D8E7 /* HttpTool.m in Sources */,
 				D7470BBD1DEC11050051E851 /* ScoreExchangeCell.m in Sources */,
@@ -1840,8 +1840,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TianlangStar/TianlangStar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 979246278@qq.com (K7678Y26UR)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 979246278@qq.com (K7678Y26UR)";
-				DEVELOPMENT_TEAM = QNUK69R48D;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = QL2W84V672;
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1858,8 +1858,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TianlangStar/TianlangStar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 979246278@qq.com (K7678Y26UR)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 979246278@qq.com (K7678Y26UR)";
-				DEVELOPMENT_TEAM = QNUK69R48D;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = QL2W84V672;
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
