@@ -9,6 +9,8 @@
 #import "UserCommonView.h"
 #import "AdminInfoTVC.h"
 #import "GeneralUserInfoTVC.h"
+#import "BossStarRecordTVC.h"
+#import "UserScoreExchangeTVC.h"
 
 @interface UserCommonView()
 
@@ -24,7 +26,13 @@
 // 线
 @property (nonatomic,strong) UIView *lineView;
 
+
+
+
 @end
+
+
+
 
 
 @implementation UserCommonView
@@ -158,6 +166,7 @@
         self.userNameLabel.text = @"用户名";
         self.gradeLabel.text = @"老板";
         self.gradeLabel.font = Font14;
+        
 
     }
     
@@ -168,7 +177,30 @@
 
 - (void)moneyButtonAction
 {
-    YYLog(@"星币");
+    switch (USERType) {
+        case 0:
+        {
+            BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
+            [self.nav pushViewController:vc animated:YES];
+            break;
+        }
+        case 1:
+        {
+            BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
+            [self.nav pushViewController:vc animated:YES];
+            break;
+        }
+        case 2:
+        {
+            UserScoreExchangeTVC *vc = [[UserScoreExchangeTVC alloc] init];
+            [self.nav pushViewController:vc animated:YES];
+            break;
+        }
+            
+            
+        default:
+            break;
+    }
 }
 
 
@@ -182,14 +214,13 @@
 
 -(void)editInfoAction
 {
-    
-    UserInfo *userInfo = [UserInfo sharedUserInfo];
-    if (userInfo.userType == 1 || userInfo.userType == 0)//老板
+
+    if (USERType == 1 || USERType == 0)//老板
     {
         AdminInfoTVC *vc = [[AdminInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
         [self.nav pushViewController:vc animated:YES];
         
-    }else if (userInfo.userType == 2)//普通用户
+    }else if (USERType == 2)//普通用户
     {
         GeneralUserInfoTVC *vc = [[GeneralUserInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
         [self.nav pushViewController:vc animated:YES];

@@ -11,6 +11,7 @@
 #import "OrderModel.h"
 #import "BossOkdetailOrderVC.h"
 #import "WaitOrderModel.h"
+#import "TBFooterDateView.h"
 
 @interface WaitHandleOrderTVC ()
 
@@ -154,10 +155,20 @@
     return cell;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
+    TBFooterDateView *view = [TBFooterDateView footer];
     WaitOrderModel *model = self.orderArr[section];
-    return model.date;
+    view.date.text = model.date;
+    return view;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 25;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

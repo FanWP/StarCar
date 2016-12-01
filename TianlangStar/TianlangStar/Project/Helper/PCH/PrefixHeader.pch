@@ -17,7 +17,7 @@
 
 
 
-
+#define USERType [UserInfo sharedUserInfo].userType
 
 
 
@@ -40,6 +40,8 @@
 #define Tintcolor XLXcolor(26, 129, 251)
 
 #define lableTextcolor XLXcolor(97, 97, 97)
+
+#define lableRedTextcolor XLXcolor(245, 37, 64)
 
 
 

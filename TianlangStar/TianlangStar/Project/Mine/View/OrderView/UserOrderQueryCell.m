@@ -53,6 +53,7 @@
         //商品图片
         CGFloat margin = 16;
         UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(margin, 14, 105, 70)];
+        images.contentMode = UIViewContentModeScaleAspectFit;
         self.images = images;
         [self.contentView addSubview:images];
         

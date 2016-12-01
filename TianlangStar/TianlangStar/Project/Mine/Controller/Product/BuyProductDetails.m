@@ -37,28 +37,29 @@
     
     
     
-    ProductModel *model = [[ProductModel alloc] init];
-    /*
-     self.productname.text = model.productname;
-     self.price.text = model.price;
-     self.productmodel.text = model.productmodel;
-     self.specifications.text = model.specifications;
-     self.applycar.text = model.applycar;
-     self.vendors.text = model.vendors;
-     self.introduction.text = model.introduction;
-     */
-    
-    model.productname = @"商品名称";
-    model.price = @"9000";
-    model.productmodel = @"美孚";
-    model.specifications = @"品牌三滤 ";
-    model.applycar = @"大众";
-    model.vendors = @"中国制造";
-    model.introduction = @"uyqo34gojad;kd;AKG;ef简介  简介  就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介";
-    model.cartype = @"ti4q03wt034";
-    
-    
-    self.model = model;
+//    ProductModel *model = [[ProductModel alloc] init];
+//    /*
+//     self.productname.text = model.productname;
+//     self.price.text = model.price;
+//     self.productmodel.text = model.productmodel;
+//     self.specifications.text = model.specifications;
+//     self.applycar.text = model.applycar;
+//     self.vendors.text = model.vendors;
+//     self.introduction.text = model.introduction;
+//     */
+//    
+//    model.productname = @"商品名称";
+//    model.price = @"9000";
+//    model.productmodel = @"美孚";
+//    model.specifications = @"品牌三滤 ";
+//    model.applycar = @"大众";
+//    model.vendors = @"中国制造";
+//    model.introduction = @"uyqo34gojad;kd;AKG;ef简介  简介  就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介";
+//    model.cartype = @"ti4q03wt034";
+//    model.remark = @"无";
+//    
+//    
+//    self.model = model;
 }
 
 
@@ -98,66 +99,41 @@
     {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0,KScreenHeight - 49, KScreenWidth, 49)];
         
-        CGFloat width = KScreenWidth / 3;
+        //底部的按钮
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 49)];
+        btn.titleLabel.font = Font17;
+        [btn setTitle:@"兑换" forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(buyNowBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        btn.backgroundColor = Tintcolor;
         
-        
-        for (NSInteger i = 0; i < 3; i++)
-        {
-            //创建三个按钮
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, width, 49)];
-            btn.titleLabel.font = Font17;
-            btn.x = width * i;
-            
-            [footerView addSubview:btn];
-            
-            
-            switch (i) {
-                case 0://收藏
-                {
-                    [btn setTitle:@"收藏" forState:UIControlStateNormal];
-                    btn.backgroundColor = [UIColor redColor];
-                    [btn addTarget:self action:@selector(collectBtnClick) forControlEvents:UIControlEventTouchUpInside];
-                    break;
-                }
-                case 1://加入购物车
-                {
-                    [btn setTitle:@"加入购物车" forState:UIControlStateNormal];
-                    btn.backgroundColor = [UIColor orangeColor];
-                    [btn addTarget:self action:@selector(addshoppingCarBtnClick) forControlEvents:UIControlEventTouchUpInside];
-                    break;
-                }
-                case 2://立即购买
-                {
-                    [btn setTitle:@"立即购买" forState:UIControlStateNormal];
-                    btn.backgroundColor = Tintcolor;
-                    [btn addTarget:self action:@selector(buyNowBtnClick) forControlEvents:UIControlEventTouchUpInside];
-                    break;
-                }
-                    
-                default:
-                    break;
-            }
-        }
+        [footerView addSubview:btn];
         
         _FooterView = footerView;
     }
     return _FooterView;
 }
 
-//收藏
--(void)collectBtnClick
-{
-    YYLog(@"collectBtnClick");
-}
-//加入购物车
--(void)addshoppingCarBtnClick
-{
-    YYLog(@"addshoppingCarBtnClick");
-}
+
 //立即购买
 -(void)buyNowBtnClick
 {
     YYLog(@"buyNowBtnClick");
+    NSString *message = [NSString stringWithFormat:@"支付%@积分？",self.model.scoreprice];
+    
+    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        YYLog(@"确定积分兑换");
+        
+        
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
 }
 
 
@@ -208,7 +184,6 @@
 /** 图片滚动回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didScrollToIndex:(NSInteger)index{
         YYLog(@"SDCycleScrollView====%ld",(long)index);
-
 
 
 }

@@ -491,7 +491,6 @@
 {
     RegistVC *vc = [[RegistVC alloc] init];
     [self.nav pushViewController:vc animated:YES];
-
 }
 
 /**

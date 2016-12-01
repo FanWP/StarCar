@@ -59,12 +59,15 @@
 
 -(void)loadVIPInfo
 {
+    
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     NSString *url = [NSString stringWithFormat:@"%@find/vip/level/info",uRL];
     
     YYLog(@"url--%@",url);
     [SVProgressHUD showWithStatus:@"数据加载中,请稍后!"];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom];
-    [HttpTool get:url parmas:nil success:^(id json) {
+    [HttpTool get:url parmas:parmas success:^(id json) {
         [SVProgressHUD dismiss];
         YYLog(@"json--%@",json);
         self.VIPLevel = [VIPLevelModel mj_objectWithKeyValues:json[@"body"]];

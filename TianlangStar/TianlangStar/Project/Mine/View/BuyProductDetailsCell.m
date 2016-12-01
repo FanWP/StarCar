@@ -33,6 +33,8 @@
 /** 简介 */
 @property (nonatomic,weak) UILabel *introduction;
 
+/** 备注 */
+@property (nonatomic,weak) UILabel *remark;
 
 
 
@@ -67,7 +69,7 @@
         [self.contentView addSubview:productname];
         
         //星币或者积分
-        UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, 45, productname.width, 17)];
+        UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(productname.frame) + 13, productname.width, 17)];
         price.textColor = [UIColor redColor];
         price.font = Font17;
         self.price = price;
@@ -81,33 +83,42 @@
         [self.contentView addSubview:productmodel];
         
         //规格
-        UILabel *specifications = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(productmodel.frame) + 10, productname.width, 17)];
+        UILabel *specifications = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(productmodel.frame) + 10, productname.width, 14)];
         specifications.textColor = lableTextcolor;
         specifications.font = Font14;
         self.specifications = specifications;
         [self.contentView addSubview:specifications];
         
         //适用车型
-        UILabel *applycar = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(specifications.frame) + 14, productname.width, 14)];
+        UILabel *applycar = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(specifications.frame) + 10, productname.width, 14)];
         applycar.textColor = lableTextcolor;
         applycar.font = Font14;
         self.applycar = applycar;
         [self.contentView addSubview:applycar];
         
         //供应商
-        UILabel *vendors = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(applycar.frame) + 10, productname.width, 17)];
+        UILabel *vendors = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(applycar.frame) + 10, productname.width, 14)];
         vendors.textColor = lableTextcolor;
         vendors.font = Font14;
         self.vendors = specifications;
         [self.contentView addSubview:vendors];
         
         //简介
-        UILabel *introduction = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(applycar.frame) + 10, productname.width - 32, 17)];
+        UILabel *introduction = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(applycar.frame) + 10, productname.width - 32, 14)];
         introduction.textColor = lableTextcolor;
         introduction.numberOfLines = 0;
         introduction.font = Font14;
         self.introduction = introduction;
         [self.contentView addSubview:introduction];
+        
+        //备注
+        UILabel *remark = [[UILabel alloc] initWithFrame:CGRectMake(Kleft, CGRectGetMaxY(applycar.frame) + 10, productname.width, 14)];
+        remark.textColor = lableTextcolor;
+        remark.font = Font14;
+        self.remark = remark;
+        [self.contentView addSubview:remark];
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
     return self;
@@ -134,12 +145,15 @@
     
     self.productname.text = model.productname;
     self.price.text = [NSString stringWithFormat:@"%@星币",model.price];
-    self.productmodel.text = model.productmodel;
-    self.specifications.text = model.specifications;
-    self.applycar.text = model.applycar;
-    self.vendors.text = model.vendors;
-    self.introduction.text = model.introduction;
-    self.introduction.height = model.introductionH - 158;
+    self.productmodel.text = [NSString stringWithFormat:@"类型/型号：%@",model.productmodel];
+    self.specifications.text = [NSString stringWithFormat:@"规格：%@",model.specifications];
+    self.applycar.text = [NSString stringWithFormat:@"适用车型：%@",model.applycar];
+    self.vendors.text = [NSString stringWithFormat:@"供应商：%@",model.vendors];
+    self.remark.text = [NSString stringWithFormat:@"备注：%@",model.remark];
+    self.introduction.text = [NSString stringWithFormat:@"简介：%@",model.introduction];
+    
+    self.introduction.height = model.introductionH - 182;
+    self.remark.y = model.introductionH - 24;
 }
 
 
