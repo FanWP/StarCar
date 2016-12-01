@@ -62,7 +62,7 @@
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    NSString *url = [NSString stringWithFormat:@"%@find/vip/level/info",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@find/vip/level/info",URL];
     
     YYLog(@"url--%@",url);
     [SVProgressHUD showWithStatus:@"数据加载中,请稍后!"];
@@ -145,7 +145,7 @@
 
     YYLog(@"parmas---%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@update/vip/level/info",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@update/vip/level/info",URL];
     [HttpTool get:url parmas:parmas success:^(id json) {
         YYLog(@"更新优惠信息json%@",json);
     } failure:^(NSError *error) {

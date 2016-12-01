@@ -142,7 +142,7 @@
 
     YYLog(@"仓库管理参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/products/list?",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@find/products/list?",URL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         

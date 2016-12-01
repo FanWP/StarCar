@@ -37,4 +37,3 @@ NSString const *URL = @"http://192.168.1.4:8080/car_api/";
 
 NSString const *picURL = @"http://192.168.1.18:8080/";
 
-NSString const *uRL = @"http://192.168.1.4:8080/car_api/";

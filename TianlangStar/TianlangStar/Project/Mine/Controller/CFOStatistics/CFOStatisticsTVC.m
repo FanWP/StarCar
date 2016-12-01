@@ -770,7 +770,7 @@ typedef enum : NSUInteger
     
     self.parmas[@"pageNum"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/finance/list",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@find/finance/list",URL];
     
     YYLog(@"self.parmas----%@",self.parmas);
     
@@ -806,7 +806,7 @@ typedef enum : NSUInteger
     [self.tableView.mj_header endRefreshing];
     self.parmas[@"pageNum"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/finance/list",uRL];
+    NSString *url = [NSString stringWithFormat:@"%@find/finance/list",URL];
     
     [HttpTool get:url parmas:self.parmas success:^(id json) {
         [self.tableView.mj_footer endRefreshing];
