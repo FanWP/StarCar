@@ -48,6 +48,9 @@
 /** 用户模型数据 */
 @property (nonatomic,strong) UserModel *userModel;
 
+/** 标记 */
+@property (nonatomic,assign) BOOL flag;
+
 
 @end
 
@@ -71,8 +74,22 @@
     
     /** 获取当前用户名下对应的车辆 */
     [self setupCarInfoData];
+
+}
+
+
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    
+    if (self.flag)
+    {
+        [self setupCarInfoData];
+    }
+
+
 }
 
 
@@ -433,7 +450,7 @@
             CarModel *Model = self.carInfoArr[indexPath.row];
             CheckCarInfoTVC *vc = [[CheckCarInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
             vc.carModel = Model;
-            vc.accountMTVC = self;
+            self.flag = YES;
             [self.navigationController pushViewController:vc
                                                  animated:YES];
         }
@@ -616,7 +633,10 @@
 #pragma mark-=========添加车辆信息成功后调用代理====
 -(void)addCarInfoSuccess
 {
+    //添加爱车成功后刷新数据
     [self loadUserInfo];
+    
+    [self setupCarInfoData];
 }
 
 

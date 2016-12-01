@@ -205,7 +205,7 @@ typedef enum : NSUInteger {
     [button setTitle:@"保存" forState:UIControlStateSelected];
     self.rightBarBtn = button;
     [button addTarget:self action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
@@ -240,7 +240,7 @@ typedef enum : NSUInteger {
     YYLog(@"parmas-----%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
-         self.insuranceArr = [InsuranceModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.insuranceArr = [InsuranceModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
          
          if (self.insuranceType == 1)

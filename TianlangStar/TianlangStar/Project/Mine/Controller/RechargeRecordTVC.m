@@ -58,13 +58,12 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"currentPage"] = @(self.currentPage);
-    
-    parmas[@"essionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+
     NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         [self.tableView.mj_header endRefreshing];
-        self.recoredArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+        self.recoredArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (self.recoredArr.count > 0)
         {
             self.currentPage++;
@@ -83,14 +82,14 @@
     [self.tableView.mj_header endRefreshing];
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"currentPage"] = @(self.currentPage);
     
-    parmas[@"essionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         [self.tableView.mj_footer endRefreshing];
-        NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+        NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (arr.count > 0)
         {
             [self.recoredArr addObjectsFromArray:arr];
@@ -102,7 +101,6 @@
         [self.tableView.mj_footer endRefreshing];
         YYLog(@"%@",error);
     }];
-
 }
 
 

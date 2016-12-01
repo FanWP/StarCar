@@ -208,7 +208,7 @@
          [self.tableView.mj_header endRefreshing];
          NSLog(@"json----%@",json);
          self.currentPage++;
-         self.allPeopleArray = [UserModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.allPeopleArray = [UserModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
          [self.tableView reloadData];
          
@@ -237,7 +237,7 @@
          
          [self.tableView.mj_footer endRefreshing];
          NSLog(@"json----%@",json);
-         NSArray *arr = [UserModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         NSArray *arr = [UserModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (arr.count > 0)
          {
              self.currentPage++;

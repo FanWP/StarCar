@@ -476,6 +476,7 @@
 
      } failure:^(NSError *error)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"登录error----%@",error);
          
      }];

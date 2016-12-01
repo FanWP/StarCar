@@ -67,9 +67,10 @@
 {
     [self.tableView.mj_footer endRefreshing];
     
+    self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"currentPage"] = @(1);
+    parmas[@"currentPage"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
     
@@ -77,7 +78,7 @@
     [HttpTool post:url parmas:parmas success:^(id json)
     {
         [self.tableView.mj_header endRefreshing];
-        self.orderArr = [WaitOrderModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+        self.orderArr = [WaitOrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (self.orderArr.count > 0) {
             self.currentPage++;
             [self.tableView reloadData];
@@ -106,7 +107,7 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.tableView.mj_footer endRefreshing];
-         NSArray *newArr = [WaitOrderModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         NSArray *newArr = [WaitOrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
          if (newArr.count > 0) {
              [self.orderArr addObjectsFromArray:newArr];

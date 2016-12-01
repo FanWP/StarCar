@@ -417,6 +417,7 @@ typedef enum : NSUInteger
         _parmas = [NSMutableDictionary dictionary];
         _parmas[@"pageNum"] = @"1";
         _parmas[@"pageSize"] = @"10";
+        _parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
         self.parmas[@"type"] = @"1";
         
         NSDate *currentDate = [NSDate date];//获取当前时间，日期
@@ -424,6 +425,10 @@ typedef enum : NSUInteger
 
           [dateFormatter setDateFormat:@"YYYY-MM-dd"];
         NSString *dateString = [dateFormatter stringFromDate:currentDate];
+        
+        
+        self.startText.text = dateString;
+        self.endText.text = dateString;
 
         self.parmas[@"startTime"] = dateString;
         self.parmas[@"endTime"] = dateString;
@@ -438,6 +443,7 @@ typedef enum : NSUInteger
     [self.view endEditing:YES];
     
     self.parmas = nil;
+    self.parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     self.parmas[@"pageNum"] = @"1";
     self.parmas[@"pageSize"] = @"10";
     self.parmas[@"type"] = @(self.searchType + 1);
@@ -603,8 +609,23 @@ typedef enum : NSUInteger
 //导出按钮的点击事件
 -(void)exportBtnClick
 {
-    YYLog(@"导出");
     self.coverView.hidden = YES;
+    
+    YYLog(@"导出");
+    
+    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    
+    [[AFHTTPSessionManager manager]POST:url parameters:self.parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+    
+    
+    
 }
 
 -(void)searchBtnClick:(UIButton *)button

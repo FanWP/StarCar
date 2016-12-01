@@ -37,12 +37,6 @@
 /** 商品的进价 */
 @property (nonatomic,copy) NSString *purchaseprice;
 
-/** 商品的星币 */
-//@property (nonatomic,copy) NSString *price;
-
-/** 商品的积分 */
-//@property (nonatomic,copy) NSString *scoreprice;
-
 /** 商品的简介 */
 @property (nonatomic,copy) NSString *introduction;
 
@@ -76,6 +70,10 @@
 
 /** 保险id */
 @property (nonatomic,assign) NSInteger insuranceid;
+
+
+/** 商品介绍的高度 */
+@property (nonatomic,assign) CGFloat introductionH;
 
 
 @end

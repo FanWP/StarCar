@@ -111,7 +111,7 @@
 -(void)setModel:(ProductModel *)model
 {
     _model = model;
-    [self.productImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,model.images]] placeholderImage:[UIImage imageNamed:@"lunbo2"]];
+    [self.productImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,model.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     self.productname.text = model.productname;
     self.introduction.text = model.introduction;

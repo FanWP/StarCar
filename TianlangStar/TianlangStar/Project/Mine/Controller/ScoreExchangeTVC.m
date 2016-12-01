@@ -9,6 +9,7 @@
 #import "ScoreExchangeTVC.h"
 #import "ScoreExchangeCell.h"
 #import "ProductModel.h"
+#import "BuyProductDetails.h"
 
 
 @interface ScoreExchangeTVC ()
@@ -62,7 +63,7 @@
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"%@",json);
-        self.productArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+        self.productArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (self.productArr.count > 0)
         {
             self.currentPage++;
@@ -90,7 +91,7 @@
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"%@",json);
-       NSArray *arr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+       NSArray *arr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
         if (arr.count > 0)
         {
             [self.productArr addObjectsFromArray:arr];
@@ -129,5 +130,18 @@
 {
 
     return 136;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    ProductModel *model = self.productArr[indexPath.row];
+    BuyProductDetails *vc = [[BuyProductDetails alloc] init];
+    vc.model = model;
+    [self.navigationController pushViewController:vc animated:YES];
+
+
+
 }
 @end
