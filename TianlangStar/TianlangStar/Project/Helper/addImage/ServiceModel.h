@@ -18,5 +18,7 @@
 @property (nonatomic,copy) NSString *price;
 @property (nonatomic,copy) NSString *scoreprice;
 @property (nonatomic,copy) NSString *images;
+@property (nonatomic,copy) NSString *ID;
+
 
 @end
