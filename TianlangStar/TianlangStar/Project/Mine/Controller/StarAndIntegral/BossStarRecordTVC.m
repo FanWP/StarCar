@@ -30,14 +30,18 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
     
     self.title = @"积分交易";
+    if (self.tradeType == 2)
+    {
+        self.title = @"星币";
+    }
     
     self.view.backgroundColor = BGcolor;
     
     [self setupRefresh];
-    
 }
 
 
@@ -64,7 +68,7 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@findcompleteorderforboss",URL];
     
     YYLog(@"parmas---%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
@@ -93,7 +97,7 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@findcompleteorderforboss",URL];
     
     YYLog(@"待处理订单下来刷新parmas---%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
@@ -131,7 +135,7 @@
 //    
 //    return model.valueList.count;
     
-    return 10;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -171,7 +175,7 @@
 {
     WaitOrderModel *model = self.orderArr[indexPath.section];
     OrderModel *orderM = model.valueList[indexPath.row];
-    BossTransactionDetailsTVC *vc = [[BossTransactionDetailsTVC alloc] init];
+    BossTransactionDetailsTVC *vc = [[BossTransactionDetailsTVC alloc] initWithStyle:UITableViewStyleGrouped];
     vc.OrderModel = orderM;
     [self.navigationController pushViewController:vc animated:YES];
 }

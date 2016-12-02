@@ -273,7 +273,7 @@ typedef enum : NSUInteger {
 #pragma mark--添加附件
 -(void)createData {
     
-    _plusImage = [UIImage imageNamed:@"plus"];
+    _plusImage = [UIImage imageNamed:@"add"];
     
     self.s0 = [SectionModel sectionModelWith:@"" cells:nil];
     self.s0.mutableCells = [NSMutableArray array];

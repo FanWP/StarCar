@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserScoreExchangeTVC : UITableViewController
+@interface UserScoreExchangeListTVC : UITableViewController
 
 @end

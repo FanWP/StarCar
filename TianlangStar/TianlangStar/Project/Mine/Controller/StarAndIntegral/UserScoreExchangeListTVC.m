@@ -6,11 +6,11 @@
 //  Copyright © 2016年 yysj. All rights reserved.
 //
 
-#import "UserScoreExchangeTVC.h"
+#import "UserScoreExchangeListTVC.h"
 #import "UserScoreExchangeCell.h"
 #import "ProductModel.h"
 
-@interface UserScoreExchangeTVC ()
+@interface UserScoreExchangeListTVC ()
 /** 当前页 */
 @property (nonatomic,assign) NSInteger currentPage;
 
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation UserScoreExchangeTVC
+@implementation UserScoreExchangeListTVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

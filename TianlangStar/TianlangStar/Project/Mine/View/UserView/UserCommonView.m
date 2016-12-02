@@ -10,7 +10,8 @@
 #import "AdminInfoTVC.h"
 #import "GeneralUserInfoTVC.h"
 #import "BossStarRecordTVC.h"
-#import "UserScoreExchangeTVC.h"
+#import "UserScoreExchangVC.h"
+#import "UserStarExchangVC.h"
 
 @interface UserCommonView()
 
@@ -116,8 +117,8 @@
         
         //星币
         self.moneyButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-        [self.moneyButton setTitle:@"1222" forState:(UIControlStateNormal)];
-        [self.moneyButton addTarget:self action:@selector(moneyButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.moneyButton setTitle:@"0" forState:(UIControlStateNormal)];
+        [self.moneyButton addTarget:self action:@selector(starButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.moneyButton.titleLabel.font = Font13;
         self.moneyButton.frame = CGRectMake(108, CGRectGetMaxY(self.lineView.frame) + 1, 60, 25);
         
@@ -126,7 +127,7 @@
         
         self.moneyCountButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
         [self.moneyCountButton setTitle:@"星币" forState:UIControlStateNormal];
-        [self.moneyCountButton addTarget:self action:@selector(moneyButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.moneyCountButton addTarget:self action:@selector(starButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.moneyCountButton.titleLabel.font = Font13;
         self.moneyCountButton.frame = CGRectMake(108, CGRectGetMaxY(self.moneyButton.frame) + 1, 60, 25);
         [headView addSubview:self.moneyCountButton];
@@ -152,47 +153,37 @@
         [headView addSubview:self.scoreCountButton];
         
         
-        
-        
-        
         [self.moneyButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [self.moneyCountButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [self.scoreButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [self.scoreCountButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         
-        
-        
         self.headerPic.image = [UIImage imageNamed:@"touxiang"];
         self.userNameLabel.text = @"用户名";
         self.gradeLabel.text = @"老板";
         self.gradeLabel.font = Font14;
-        
-
     }
     
     return self;
 }
 
 
-
-- (void)moneyButtonAction
+//星币的点击事件
+- (void)starButtonAction
 {
     switch (USERType) {
         case 0:
-        {
-            BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
-            [self.nav pushViewController:vc animated:YES];
-            break;
-        }
         case 1:
         {
             BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
+            vc.tradeType = 1;
             [self.nav pushViewController:vc animated:YES];
             break;
         }
         case 2:
         {
-            UserScoreExchangeTVC *vc = [[UserScoreExchangeTVC alloc] init];
+            UserStarExchangVC *vc = [[UserStarExchangVC alloc] init];
+            vc.starBlance = self.moneyButton.titleLabel.text;
             [self.nav pushViewController:vc animated:YES];
             break;
         }
@@ -204,10 +195,29 @@
 }
 
 
-
+//积分的点击事件
 - (void)scoreButtonAction
 {
-    YYLog(@"积分");
+    switch (USERType) {
+        case 0:
+        case 1:
+        {
+            BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
+            vc.tradeType = 2;
+            [self.nav pushViewController:vc animated:YES];
+            break;
+        }
+        case 2:
+        {
+            UserScoreExchangVC *vc = [[UserScoreExchangVC alloc] init];
+            [self.nav pushViewController:vc animated:YES];
+            break;
+        }
+            
+            
+        default:
+            break;
+    }
 }
 
 

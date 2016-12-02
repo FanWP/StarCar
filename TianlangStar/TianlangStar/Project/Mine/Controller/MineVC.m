@@ -43,6 +43,7 @@
 #import "RechargeRecordTVC.h"
 #import "ScoreExchangeTVC.h"
 #import "AdminFeedbackTVC.h"
+#import "VirtualcenterModel.h"
 
 @interface MineVC ()<LoginViewDelegate>
 
@@ -54,6 +55,9 @@
 
 /** 顶部的信息 */
 @property (nonatomic,strong) UserCommonView *userCommonView;
+
+/** 账户余额 */
+@property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
 
 
@@ -109,6 +113,8 @@
             [self addGroupCustomer];
         }
         [self.tableView reloadData];
+        
+        [self getAccountBalance];
     }else//未登录
     {
           [self getPubicKey];
@@ -239,7 +245,7 @@
     [self.userCommonView.headerPic sd_setImageWithURL:[NSURL URLWithString:strHeader] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     //级别或者是老板  或者是店长
     NSString *username = nil;
-    switch (userInfo.userType) {
+    switch (USERType) {
         case 0://老板
             username = @"老板";
             break;
@@ -263,17 +269,16 @@
 -(void)loginSuccess
 {
     self.tableView.scrollEnabled = YES;
-    UserInfo *userInfo = [UserInfo sharedUserInfo];
     
     //设置数据
     [self setupHearderInfo];
     
     //清空原有数组
     self.dataList = nil;
-    if (userInfo.userType == 1 || userInfo.userType == 0)//管理员
+    if (USERType == 1 || USERType == 0)//管理员
     {
         [self addGroupAdmin];
-    }else if (userInfo.userType == 2)//普通用户
+    }else if (USERType == 2)//普通用户
     {
         [self addGroupCustomer];
     }
@@ -307,6 +312,42 @@
     {
         [cell setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
     }
+}
+
+
+
+/**
+ *  地址管理：获取用户账户余额---星币
+ */
+-(void)getAccountBalance
+{
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    YYLog(@"parmas---%@",parmas);
+    
+    NSString *url = [NSString stringWithFormat:@"%@gtsrcurrncysrvlt",URL];
+    
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         YYLog(@"json-获取账户余额%@",json);
+         //         self.virtualcenterModel = [VirtualcenterModel mj_objectWithKeyValues:json[@"obj"]];
+         NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+         if (arr && arr.count > 0)
+         {
+             self.virtualcenterModel = arr[0];
+         }
+         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
+         
+         NSString *starStr = [NSString stringWithFormat:@"%.0f",self.virtualcenterModel.balance];
+
+         [self.userCommonView.moneyButton setTitle:starStr forState:UIControlStateNormal];
+         
+         
+     } failure:^(NSError *error)
+     {
+         YYLog(@"json-获取账户余额%@",error);
+     }];
 }
 
 

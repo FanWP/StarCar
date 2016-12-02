@@ -84,6 +84,7 @@
     
     [self fetchProductInfoWithType:1];
     
+
 }
 
 

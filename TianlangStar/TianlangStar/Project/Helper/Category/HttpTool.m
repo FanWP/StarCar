@@ -12,8 +12,6 @@
 
 @interface HttpTool ()
 
-
-
 @end
 
 @implementation HttpTool
