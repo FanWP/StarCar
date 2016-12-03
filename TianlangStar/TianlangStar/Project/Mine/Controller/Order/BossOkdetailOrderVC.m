@@ -91,8 +91,16 @@
                 rightlable.text = self.orderModel.saleid;
                 break;
             case 5:
-                rightlable.text = self.orderModel.price;
+            {
+                if (self.orderModel.purchasetype == 1) {//星币
+                    rightlable.text = self.orderModel.price;
+                }else//积分
+                {
+                    rightlable.text = self.orderModel.scoreprice;
+                }
+                
                 break;
+            }
                 
             default:
                 break;

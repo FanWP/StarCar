@@ -9,6 +9,7 @@
 #import "BossTransactionDetailsTVC.h"
 #import "LeftAndRightModel.h"
 #import "OrderModel.h"
+#import "TBHeadersSucceedView.h"
 
 @interface BossTransactionDetailsTVC ()
 
@@ -63,14 +64,7 @@
 
 - (void)addHeader
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 51)];
-    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(0, 7, KScreenWidth, 44)];
-    lable.textAlignment = NSTextAlignmentCenter;
-    lable.textColor = [UIColor redColor];
-    lable.font = Font18;
-    lable.text = @"付款成功!";
-    lable.backgroundColor = [UIColor whiteColor];
-    [view addSubview:lable];
+    TBHeadersSucceedView *view = [TBHeadersSucceedView SuccessfulTrade];
     
     self.tableView.tableHeaderView = view;
     

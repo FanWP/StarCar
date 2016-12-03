@@ -98,12 +98,12 @@
     self.username.text = orderModel.membername;
     self.saletype.text = @"交易中";
     if (orderModel.purchasetype == 2) {
-        self.star.text = [NSString stringWithFormat:@"+%@积分",orderModel.price];
+        self.star.text = [NSString stringWithFormat:@"+%@积分",orderModel.scoreprice];
     }else
     {
         self.star.text = [NSString stringWithFormat:@"+%@星币",orderModel.price];
     }
-    
+                                          
 }
 
 

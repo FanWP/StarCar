@@ -114,7 +114,7 @@
 }
 
 
-//立即购买
+//积分兑换
 -(void)buyNowBtnClick
 {
     YYLog(@"buyNowBtnClick");
@@ -126,13 +126,40 @@
         
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        
-        YYLog(@"确定积分兑换");
-        
-        
+
+        //积分兑换
+        [self exchanggeProduct];
+
     }]];
     
     [self presentViewController:alert animated:YES completion:nil];
+
+}
+
+
+
+-(void)exchanggeProduct
+{
+    
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"id"] = self.model.ID;
+    parmas[@"purchasetype"] = @"2";
+    parmas[@"scoreprice"] = self.model.scoreprice;
+    parmas[@"count"] = @"1";
+    
+    NSString *url = [NSString stringWithFormat:@"%@paymenyservlet",URL];
+    
+    YYLog(@"parmas:%@url:%@",parmas,url);
+    
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         YYLog(@"json:%@",json);
+     } failure:^(NSError *error) {
+         YYLog(@"error:%@",error);
+         
+     }];
+    
 
 }
 

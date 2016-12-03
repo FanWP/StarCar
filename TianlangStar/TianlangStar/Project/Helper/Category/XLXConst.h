@@ -35,17 +35,12 @@ UIKIT_EXTERN CGFloat const Klength44;
 UIKIT_EXTERN CGFloat const BtncornerRadius;
 
 /** 网址前段 */
-UIKIT_EXTERN NSString const *URL;
+UIKIT_EXTERN NSString *const URL;
 
 /** 图片网址前段 */
-UIKIT_EXTERN NSString const *picURL;
+UIKIT_EXTERN NSString *const picURL;
 
 
-
-
-
-/** 网址前段 - 新 */
-UIKIT_EXTERN NSString const *uRL;
 
 
 

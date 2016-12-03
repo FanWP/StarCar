@@ -20,7 +20,8 @@
 #import "TopPicBottomLabelButton.h"
 #import "MaintenanceAndProductCell.h"
 #import "SecondCarCell.h"
-#import "ProductDetailTableVC.h"
+
+
 
 @interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
 
@@ -40,8 +41,6 @@
 @property (nonatomic,strong) NSMutableArray *productsArray;
 // 二手车数组
 @property (nonatomic,strong) NSMutableArray *secondCarArray;
-
-@property (nonatomic,strong) NSMutableArray *moreProductsArray;
 
 // 模型
 @property (nonatomic,strong) ProductModel *productModel;
@@ -85,10 +84,10 @@
     
     [self fetchProductInfoWithType:1];
     
-    [self dropdownRefresh];
-    
-    [self pullOnLoadingWithType:1];
+
 }
+
+
 
 
 #pragma mark - 获取首页数据
@@ -96,6 +95,8 @@
 {
     NSString *url = [NSString stringWithFormat:@"%@unlogin/find/indexInfo",URL];
     
+    
+
     [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
@@ -126,6 +127,7 @@
                 
                 [self creatHeaderView];
             }
+            
             
             // 最新活动数据
             
@@ -176,8 +178,6 @@
         
         if (resultCode == 1000)
         {
-            self.pageNum++;
-            
             if ([productType isEqualToString:@"1"])
             {
                 _productsArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
@@ -197,104 +197,6 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"获取所有商品列表错误：%@",error);
-        
-    }];
-}
-
-
-
-
-// 下拉刷新
-- (void)dropdownRefresh
-{
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        [self.productsArray removeAllObjects];
-        
-        [self.serviceArray removeAllObjects];
-        
-        if (self.homePageSelectCell.maintenanceButton.selected == YES)
-        {
-            [self fetchProductInfoWithType:1];
-        }
-        else if (self.homePageSelectCell.productButton.selected == YES)
-        {
-            [self fetchProductInfoWithType:2];
-        }
-        else
-        {
-            [self fetchProductInfoWithType:3];
-        }
-        
-        
-        [self.tableView reloadData];
-        
-        [self.tableView.mj_header endRefreshing];
-    }];
-    
-}
-
-
-
-// 上拉加载
-- (void)pullOnLoadingWithType:(NSInteger)type
-{
-    self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
-        
-        NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-        
-        parmas[@"pageNum"] = @(self.pageNum);
-        parmas[@"pageSize"]  = @"10";
-        NSString *productType = [NSString stringWithFormat:@"%ld",type];
-        parmas[@"type"]  = productType;
-        
-        YYLog(@"获取所有商品列表参数--%@",parmas);
-        
-        NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",URL];
-        
-        [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-         {
-             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-             
-             if (resultCode == 1000)
-             {
-                 self.pageNum++;
-                 
-                 YYLog(@"获取所有商品列表返回：%@",responseObject);
-                 
-                 NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-                 
-                 if (resultCode == 1000)
-                 {
-                     if ([productType isEqualToString:@"1"])
-                     {
-                         self.moreProductsArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-                         [self.productsArray addObjectsFromArray:self.moreProductsArray];
-
-                     }
-                     else if ([productType isEqualToString:@"2"])
-                     {
-                         self.moreProductsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-                         [self.productsArray addObjectsFromArray:self.moreProductsArray];
-                     }
-                     else
-                     {
-                         self.moreProductsArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-                         [self.productsArray addObjectsFromArray:self.moreProductsArray];
-                     }
-                 }
-                 
-                 [self.tableView reloadData];
-                 
-                 [self.tableView.mj_footer endRefreshing];
-             }
-             
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-         {
-             YYLog(@"获取所有商品列表错误%@",error);
-         }];
         
     }];
 }
@@ -550,7 +452,7 @@
     
     if (self.homePageSelectCell.maintenanceButton.selected == YES)
     {
-        ServiceModel *serviceModel = _productsArray[indexPatch.row];
+        ServiceModel *serviceModel = _serviceArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
@@ -574,6 +476,24 @@
     
     return cell;
 }
+#pragma mark - 返回商品的cell
+//- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
+//{
+//    static NSString *identifier3 = @"cell3";
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
+//    
+//    if (cell == nil)
+//    {
+//        
+//        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
+//        
+//    }
+//    
+//    cell.textLabel.text = @"商品的cell";
+//    
+//    return cell;
+//}
 
 
 
@@ -598,6 +518,7 @@
     [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     cell.carNameLabel.text = _carModel.brand;
+//    cell.carNameLabel.text = @"马自达阿特兹2017新款豪华版";
     cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
     cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
@@ -706,34 +627,6 @@
         
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
     }
-    else if (indexPath.section == 2)
-    {
-        ProductDetailTableVC *productDetailTableVC = [[ProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
-        
-        if (self.homePageSelectCell.productButton.selected == YES)
-        {
-            productDetailTableVC.title = @"商品详情";
-            
-            productDetailTableVC.productModel = self.productsArray[indexPath.row];
-
-        }
-        else if (self.homePageSelectCell.maintenanceButton.selected == YES)
-        {
-            productDetailTableVC.title = @"保养维护详情";
-            
-            productDetailTableVC.serviceModel = self.productsArray[indexPath.row];
-
-        }
-        else
-        {
-            productDetailTableVC.title = @"二手车详情";
-            
-            productDetailTableVC.carModel = self.productsArray[indexPath.row];
-        }
-        
-        [self.navigationController pushViewController:productDetailTableVC animated:YES];
-        
-    }
 }
 
 
@@ -787,19 +680,6 @@
     
     return _secondCarArray;
 }
-
-
-
-- (NSMutableArray *)moreProductsArray
-{
-    if (!_moreProductsArray)
-    {
-        _moreProductsArray = [NSMutableArray array];
-    }
-    
-    return _moreProductsArray;
-}
-
 
 
 

@@ -55,6 +55,9 @@
 @property (nonatomic,copy) NSString *picture;
 
 
+/** 商品图片 */
+@property (nonatomic,copy) NSString *scoreprice;
+
 
 
 

@@ -10,4 +10,7 @@
 
 @interface BossStarRecordTVC : UITableViewController
 
+/** 查询的类型 积分--- 星币 */
+@property (nonatomic,assign) NSInteger tradeType;
+
 @end

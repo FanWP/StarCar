@@ -278,7 +278,7 @@
     
     [HttpTool post:url parmas:parmas success:^(id json)
     {
-       self.userModel = [UserModel mj_objectWithKeyValues:json[@"obj"]];
+       self.userModel = [UserModel mj_objectWithKeyValues:json[@"body"]];
         
         YYLog(@"%@",json);
 
@@ -302,10 +302,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
 
@@ -406,6 +402,13 @@
         return 40;
     }
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.2;
+}
+
+
 
 
 
