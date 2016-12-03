@@ -134,9 +134,9 @@
             
             
             // 保养维护、商品、二手车数据
-            NSArray *servicesListArray = dic[@"servicesList"];
-            
-            _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:servicesListArray];
+//            NSArray *servicesListArray = dic[@"servicesList"];
+//            
+//            _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:servicesListArray];
             
         }
         

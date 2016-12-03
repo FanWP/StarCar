@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2EA5BADAA63B9509A3B0A5A3 /* libPods-TianlangStar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B90E1B38CD70A4ED6F4D1C9 /* libPods-TianlangStar.a */; };
+		710985201DF263A800726AC7 /* AddProductCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7109851F1DF263A800726AC7 /* AddProductCountView.m */; };
 		711EC3301DE3EA0700C51E40 /* CellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC30F1DE3EA0700C51E40 /* CellModel.m */; };
 		711EC3311DE3EA0700C51E40 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC3111DE3EA0700C51E40 /* Common.m */; };
 		711EC3321DE3EA0700C51E40 /* HouseImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC3131DE3EA0700C51E40 /* HouseImageCell.m */; };
@@ -199,6 +200,8 @@
 
 /* Begin PBXFileReference section */
 		2B90E1B38CD70A4ED6F4D1C9 /* libPods-TianlangStar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TianlangStar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7109851E1DF263A800726AC7 /* AddProductCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductCountView.h; sourceTree = "<group>"; };
+		7109851F1DF263A800726AC7 /* AddProductCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductCountView.m; sourceTree = "<group>"; };
 		711EC30E1DE3EA0700C51E40 /* CellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellModel.h; sourceTree = "<group>"; };
 		711EC30F1DE3EA0700C51E40 /* CellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellModel.m; sourceTree = "<group>"; };
 		711EC3101DE3EA0700C51E40 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
@@ -859,6 +862,8 @@
 				711EFA2E1DD9637D006AEF9E /* HomePageTableVC.m */,
 				71CFBB181DF117BD00D6ED9D /* ProductDetailTableVC.h */,
 				71CFBB191DF117BD00D6ED9D /* ProductDetailTableVC.m */,
+				7109851E1DF263A800726AC7 /* AddProductCountView.h */,
+				7109851F1DF263A800726AC7 /* AddProductCountView.m */,
 				712F5C141DEC44E8005B750A /* HomePageVC.h */,
 				712F5C151DEC44E8005B750A /* HomePageVC.m */,
 				714E15071DDEE9A6006598D3 /* ProductPublishTableVC.h */,
@@ -1670,6 +1675,7 @@
 				D705CF2E1DC09C6400F65BE0 /* Reachability.m in Sources */,
 				D744546E1DC0A4E3008B5E27 /* LoginVC.m in Sources */,
 				D713941F1DD5B64500FFFE84 /* InputCell.m in Sources */,
+				710985201DF263A800726AC7 /* AddProductCountView.m in Sources */,
 				D7AC9F121DD01FA900EFD59B /* AddProductVC.m in Sources */,
 				D75603681DE532ED00CE4D0C /* WaitHandleOrderTVC.m in Sources */,
 				D75603641DE5263D00CE4D0C /* FeedbackView.m in Sources */,
