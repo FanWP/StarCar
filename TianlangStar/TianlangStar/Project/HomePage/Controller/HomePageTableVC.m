@@ -74,7 +74,6 @@
     
     [self addSearchController];// 添加搜索框
     
-    [self shareItem];// 分享app
     
 //    [self setupPlayerPic];
     
@@ -238,12 +237,6 @@
 //}
 
 
-
-#pragma mark - 分享app的按钮
-- (void)shareItem
-{
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareTLStarAction)];
-}
 
 
 

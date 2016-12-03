@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2EA5BADAA63B9509A3B0A5A3 /* libPods-TianlangStar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B90E1B38CD70A4ED6F4D1C9 /* libPods-TianlangStar.a */; };
 		710985201DF263A800726AC7 /* AddProductCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7109851F1DF263A800726AC7 /* AddProductCountView.m */; };
+		710985231DF2D3A000726AC7 /* UserScoreExchangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 710985221DF2D3A000726AC7 /* UserScoreExchangVC.m */; };
+		710985281DF2D3B800726AC7 /* UserScoreExchangeListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 710985251DF2D3B800726AC7 /* UserScoreExchangeListTVC.m */; };
+		710985291DF2D3B800726AC7 /* UserStarExchangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 710985271DF2D3B800726AC7 /* UserStarExchangVC.m */; };
+		7109852C1DF2D3E500726AC7 /* TBHeadersSucceedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7109852B1DF2D3E500726AC7 /* TBHeadersSucceedView.m */; };
 		711EC3301DE3EA0700C51E40 /* CellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC30F1DE3EA0700C51E40 /* CellModel.m */; };
 		711EC3311DE3EA0700C51E40 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC3111DE3EA0700C51E40 /* Common.m */; };
 		711EC3321DE3EA0700C51E40 /* HouseImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC3131DE3EA0700C51E40 /* HouseImageCell.m */; };
@@ -163,7 +167,6 @@
 		D764B6961DF00F1300A996CF /* BossTransactionDetailsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D764B6951DF00F1300A996CF /* BossTransactionDetailsTVC.m */; };
 		D764B6991DF010BD00A996CF /* LeftAndRightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D764B6981DF010BD00A996CF /* LeftAndRightModel.m */; };
 		D764B69C1DF01B1700A996CF /* BossStarRecordTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D764B69B1DF01B1700A996CF /* BossStarRecordTVC.m */; };
-		D764B69F1DF0214300A996CF /* UserScoreExchangeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D764B69E1DF0214300A996CF /* UserScoreExchangeTVC.m */; };
 		D764B6A21DF021D700A996CF /* UserScoreExchangeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D764B6A11DF021D700A996CF /* UserScoreExchangeCell.m */; };
 		D77134341DCDBA5300B3B9C6 /* CarInfoChangeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D77134311DCDBA5300B3B9C6 /* CarInfoChangeVC.m */; };
 		D77134351DCDBA5300B3B9C6 /* CarInfoListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D77134331DCDBA5300B3B9C6 /* CarInfoListVC.m */; };
@@ -202,6 +205,14 @@
 		2B90E1B38CD70A4ED6F4D1C9 /* libPods-TianlangStar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TianlangStar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7109851E1DF263A800726AC7 /* AddProductCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductCountView.h; sourceTree = "<group>"; };
 		7109851F1DF263A800726AC7 /* AddProductCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductCountView.m; sourceTree = "<group>"; };
+		710985211DF2D3A000726AC7 /* UserScoreExchangVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserScoreExchangVC.h; sourceTree = "<group>"; };
+		710985221DF2D3A000726AC7 /* UserScoreExchangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserScoreExchangVC.m; sourceTree = "<group>"; };
+		710985241DF2D3B800726AC7 /* UserScoreExchangeListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserScoreExchangeListTVC.h; sourceTree = "<group>"; };
+		710985251DF2D3B800726AC7 /* UserScoreExchangeListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserScoreExchangeListTVC.m; sourceTree = "<group>"; };
+		710985261DF2D3B800726AC7 /* UserStarExchangVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStarExchangVC.h; sourceTree = "<group>"; };
+		710985271DF2D3B800726AC7 /* UserStarExchangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStarExchangVC.m; sourceTree = "<group>"; };
+		7109852A1DF2D3E500726AC7 /* TBHeadersSucceedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBHeadersSucceedView.h; sourceTree = "<group>"; };
+		7109852B1DF2D3E500726AC7 /* TBHeadersSucceedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBHeadersSucceedView.m; sourceTree = "<group>"; };
 		711EC30E1DE3EA0700C51E40 /* CellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellModel.h; sourceTree = "<group>"; };
 		711EC30F1DE3EA0700C51E40 /* CellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellModel.m; sourceTree = "<group>"; };
 		711EC3101DE3EA0700C51E40 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
@@ -508,8 +519,6 @@
 		D764B6981DF010BD00A996CF /* LeftAndRightModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftAndRightModel.m; sourceTree = "<group>"; };
 		D764B69A1DF01B1700A996CF /* BossStarRecordTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BossStarRecordTVC.h; sourceTree = "<group>"; };
 		D764B69B1DF01B1700A996CF /* BossStarRecordTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BossStarRecordTVC.m; sourceTree = "<group>"; };
-		D764B69D1DF0214300A996CF /* UserScoreExchangeTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserScoreExchangeTVC.h; sourceTree = "<group>"; };
-		D764B69E1DF0214300A996CF /* UserScoreExchangeTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserScoreExchangeTVC.m; sourceTree = "<group>"; };
 		D764B6A01DF021D700A996CF /* UserScoreExchangeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserScoreExchangeCell.h; sourceTree = "<group>"; };
 		D764B6A11DF021D700A996CF /* UserScoreExchangeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserScoreExchangeCell.m; sourceTree = "<group>"; };
 		D77134301DCDBA5300B3B9C6 /* CarInfoChangeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarInfoChangeVC.h; sourceTree = "<group>"; };
@@ -1067,6 +1076,8 @@
 				D754A75B1DEE71E500F51130 /* BuyProductDetailsCell.m */,
 				D764B6861DEFFCDC00A996CF /* TBFooterDateView.h */,
 				D764B6871DEFFCDC00A996CF /* TBFooterDateView.m */,
+				7109852A1DF2D3E500726AC7 /* TBHeadersSucceedView.h */,
+				7109852B1DF2D3E500726AC7 /* TBHeadersSucceedView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1289,8 +1300,12 @@
 				D764B6951DF00F1300A996CF /* BossTransactionDetailsTVC.m */,
 				D764B69A1DF01B1700A996CF /* BossStarRecordTVC.h */,
 				D764B69B1DF01B1700A996CF /* BossStarRecordTVC.m */,
-				D764B69D1DF0214300A996CF /* UserScoreExchangeTVC.h */,
-				D764B69E1DF0214300A996CF /* UserScoreExchangeTVC.m */,
+				710985211DF2D3A000726AC7 /* UserScoreExchangVC.h */,
+				710985221DF2D3A000726AC7 /* UserScoreExchangVC.m */,
+				710985241DF2D3B800726AC7 /* UserScoreExchangeListTVC.h */,
+				710985251DF2D3B800726AC7 /* UserScoreExchangeListTVC.m */,
+				710985261DF2D3B800726AC7 /* UserStarExchangVC.h */,
+				710985271DF2D3B800726AC7 /* UserStarExchangVC.m */,
 			);
 			path = StarAndIntegral;
 			sourceTree = "<group>";
@@ -1536,6 +1551,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7109852C1DF2D3E500726AC7 /* TBHeadersSucceedView.m in Sources */,
 				D71475631DD1BCB400F48FC4 /* VirtualcenterModel.m in Sources */,
 				D773EC4D1DE565DF001F5FA9 /* CFOStatisticsTVC.m in Sources */,
 				D705CF231DC09C6400F65BE0 /* UIImage+Cut.m in Sources */,
@@ -1564,6 +1580,7 @@
 				714089FE1DED55FB00868A60 /* ActivityDetailVC.m in Sources */,
 				D756035C1DE5254900CE4D0C /* FeedbackVC.m in Sources */,
 				D71F66C01DCC5E0D000A6861 /* CarModel.m in Sources */,
+				710985281DF2D3B800726AC7 /* UserScoreExchangeListTVC.m in Sources */,
 				D764B6991DF010BD00A996CF /* LeftAndRightModel.m in Sources */,
 				711EFA321DD96718006AEF9E /* NewestActivityTableVC.m in Sources */,
 				715AA33A1DE2EBD300CD5C5D /* ServicePublishTableVC.m in Sources */,
@@ -1599,6 +1616,7 @@
 				D705CF301DC09C6400F65BE0 /* RootVC.m in Sources */,
 				D705CF251DC09C6400F65BE0 /* UILabel+LabelHeightAndWidth.m in Sources */,
 				D764B6881DEFFCDC00A996CF /* TBFooterDateView.m in Sources */,
+				710985231DF2D3A000726AC7 /* UserScoreExchangVC.m in Sources */,
 				711EFA571DDEA03D006AEF9E /* NSString+Hash.m in Sources */,
 				71408A011DED591000868A60 /* HomePageSegmentCell.m in Sources */,
 				71A40D8A1DD5AC2500335660 /* MyCollectionTableVC.m in Sources */,
@@ -1629,10 +1647,10 @@
 				711EFA351DD96912006AEF9E /* HomePageSelectCell.m in Sources */,
 				715AA3341DE2A67900CD5C5D /* AddImagesCollectionVC.m in Sources */,
 				D72D0BED1DDB19C400AA8B06 /* GeneralUserInfoTVC.m in Sources */,
-				D764B69F1DF0214300A996CF /* UserScoreExchangeTVC.m in Sources */,
 				711EC3301DE3EA0700C51E40 /* CellModel.m in Sources */,
 				D728670C1DCB144800D77B38 /* ILSettingGroup.m in Sources */,
 				711EFA381DD98D63006AEF9E /* NewestListCell.m in Sources */,
+				710985291DF2D3B800726AC7 /* UserStarExchangVC.m in Sources */,
 				711EC3321DE3EA0700C51E40 /* HouseImageCell.m in Sources */,
 				D728670B1DCB144800D77B38 /* ILSettingArrowItem.m in Sources */,
 				D71112C71DDADDF000EF8B5C /* AdminInfoTVC.m in Sources */,
