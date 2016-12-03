@@ -116,12 +116,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
-            timestampString = "502278585.240062"
+            timestampString = "502340026.245376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "-fetchProductInfoWithType:"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-dropdownRefresh"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -132,12 +132,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
-            timestampString = "502278585.240062"
+            timestampString = "502340026.245376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "-fetchProductInfoWithType:"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "-dropdownRefresh"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -148,12 +148,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
-            timestampString = "502278585.240062"
+            timestampString = "502340026.245376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "-fetchProductInfoWithType:"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "-dropdownRefresh"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -164,12 +164,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
-            timestampString = "502279447.225789"
+            timestampString = "502340026.245376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "-fetchHomePageData"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "-dropdownRefresh"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
+            timestampString = "502340026.245376"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "-dropdownRefresh"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
+            timestampString = "502340026.245376"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "-dropdownRefresh"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
+            timestampString = "502340026.245376"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "-dropdownRefresh"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
+            timestampString = "502340026.245376"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "-dropdownRefresh"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
