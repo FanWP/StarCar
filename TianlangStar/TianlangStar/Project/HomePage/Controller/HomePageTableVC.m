@@ -93,7 +93,7 @@
 #pragma mark - 获取首页数据
 - (void)fetchHomePageData
 {
-    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/indexInfo",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/indexInfo",URL];
     
     
 
@@ -166,7 +166,7 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",URL];
     
     [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
         

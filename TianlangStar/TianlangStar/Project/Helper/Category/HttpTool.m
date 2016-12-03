@@ -84,7 +84,7 @@
 +(void)checkReultCode:(NSInteger )result
 {
     [SVProgressHUD dismiss];
-    YYLog(@"num------%ld",(long)result);
+    YYLog(@"num-----:%ld",(long)result);
     switch (result) {
             
         case 1001:
@@ -222,7 +222,7 @@
         }
         case 1023:
         {
-            //                [SVProgressHUD showErrorWithStatus:@"操作没有成功"];
+            [SVProgressHUD showErrorWithStatus:@"用户名不存在"];
             YYLog(@"reultCode=1022,用户名不存在");
             break;
         }

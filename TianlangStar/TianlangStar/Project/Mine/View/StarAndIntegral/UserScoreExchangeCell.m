@@ -97,8 +97,7 @@
         [self.contentView addSubview:time];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-    
+
     }
 
     return self;
@@ -108,10 +107,13 @@
 -(void)setModel:(ProductModel *)model
 {
     _model = model;
-    self.price.text = @"79080积分";
-    self.productname.text = @"guwrqguoqwjojwovljajdlvajslgqy9werghkHKHkdahvfaHKhakhk";
-    self.time.text = @"2016-12-01 16:22:33";
-    [self.images sd_setImageWithURL:[NSURL URLWithString:model.images] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    self.price.text = [NSString stringWithFormat:@"%@积分",model.scoreprice];
+    self.productname.text = model.productname;
+    self.time.text = [model.lasttime getDetailCurrentTime];
+    [self.images sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,model.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    YYLog(@"model.images--%@",[NSString stringWithFormat:@"%@%@",picURL,model.images]);
     
 }
 
@@ -130,6 +132,7 @@
 -(void)setFrame:(CGRect)frame
 {
     frame.size.height -= 7;
+    frame.origin.y += 7;
     [super setFrame:frame];
 
 }

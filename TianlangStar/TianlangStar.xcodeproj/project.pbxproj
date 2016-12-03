@@ -131,6 +131,7 @@
 		D728671B1DCB33BE00D77B38 /* CarsNav.m in Sources */ = {isa = PBXBuildFile; fileRef = D728671A1DCB33BE00D77B38 /* CarsNav.m */; };
 		D72B9D2A1DDD519100C446D3 /* CheckCarInfoTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D72B9D291DDD519100C446D3 /* CheckCarInfoTVC.m */; };
 		D72D0BED1DDB19C400AA8B06 /* GeneralUserInfoTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D72D0BEC1DDB19C400AA8B06 /* GeneralUserInfoTVC.m */; };
+		D72D26011DF26CDC007ECC49 /* ShoppingCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D72D26001DF26CDC007ECC49 /* ShoppingCarCell.m */; };
 		D735EAFE1DD075790051D8E7 /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = D735EAFD1DD075790051D8E7 /* HttpTool.m */; };
 		D735EB041DD087500051D8E7 /* ProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D735EB031DD087500051D8E7 /* ProductModel.m */; };
 		D7408FB11DE288A200F532CA /* BossAccountInfoListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D7408FAA1DE288A200F532CA /* BossAccountInfoListTVC.m */; };
@@ -444,6 +445,8 @@
 		D72B9D291DDD519100C446D3 /* CheckCarInfoTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCarInfoTVC.m; sourceTree = "<group>"; };
 		D72D0BEB1DDB19C400AA8B06 /* GeneralUserInfoTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralUserInfoTVC.h; path = TianlangStar/Project/Mine/View/UserView/GeneralUserInfoTVC.h; sourceTree = SOURCE_ROOT; };
 		D72D0BEC1DDB19C400AA8B06 /* GeneralUserInfoTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeneralUserInfoTVC.m; path = TianlangStar/Project/Mine/View/UserView/GeneralUserInfoTVC.m; sourceTree = SOURCE_ROOT; };
+		D72D25FF1DF26CDC007ECC49 /* ShoppingCarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCarCell.h; sourceTree = "<group>"; };
+		D72D26001DF26CDC007ECC49 /* ShoppingCarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCarCell.m; sourceTree = "<group>"; };
 		D735EAFB1DD063E60051D8E7 /* TianlangStar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TianlangStar.entitlements; sourceTree = "<group>"; };
 		D735EAFC1DD075790051D8E7 /* HttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpTool.h; sourceTree = "<group>"; };
 		D735EAFD1DD075790051D8E7 /* HttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpTool.m; sourceTree = "<group>"; };
@@ -1123,6 +1126,8 @@
 		D705CF161DC09C6400F65BE0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D72D25FF1DF26CDC007ECC49 /* ShoppingCarCell.h */,
+				D72D26001DF26CDC007ECC49 /* ShoppingCarCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1587,6 +1592,7 @@
 				711EFA441DDAE116006AEF9E /* LabelTextFieldCell.m in Sources */,
 				D728670E1DCB144800D77B38 /* ILSettingCell.m in Sources */,
 				D71394281DD5D13600FFFE84 /* FeedbackModel.m in Sources */,
+				D72D26011DF26CDC007ECC49 /* ShoppingCarCell.m in Sources */,
 				D74454711DC0A93A008B5E27 /* UserModel.m in Sources */,
 				D735EB041DD087500051D8E7 /* ProductModel.m in Sources */,
 				D705CF291DC09C6400F65BE0 /* XLXConst.m in Sources */,

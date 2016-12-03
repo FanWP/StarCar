@@ -39,6 +39,11 @@
 /** 判断字符串是否为URL */
 - (BOOL)isURL;
 
+/**
+ *  事件戳转换事件 到时分秒
+ */
+-(NSString *)getDetailCurrentTime;
+
 
 /**
  * 通过VIP数字直接返回等级字符串

@@ -50,6 +50,7 @@
             lable.width = width;
             lable.x = margin + i * width;
             lable.y = 7;
+            lable.textColor = lableTextcolor;
             lable.font = Font14;
             //            lable.backgroundColor = [UIColor orangeColor];
             
