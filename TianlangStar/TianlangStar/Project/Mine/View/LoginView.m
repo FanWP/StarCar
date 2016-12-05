@@ -94,7 +94,7 @@
         //用户名的输入框
         UIView *userView = [[UIView alloc] init];
         userView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.4];
-        userView.y = KScreenHeight * 0.38;
+        userView.y = KScreenHeight * 0.28;
         userView.x = KScreenWidth * 0.06;
         userView.width = KScreenWidth - 2 * userView.x;
         userView.height = KScreenHeight * 0.07;
@@ -113,14 +113,14 @@
         
         // 输入用户名
         UITextField *userNameTF = [[UITextField alloc] init];
-        userNameTF.width = userView.width - userNamePic.width - 2 * marginX;
+        userNameTF.width = userView.width - userNamePic.width - 3 * marginX;
         userNameTF.height = userView.height * 0.8;
         userNameTF.x = CGRectGetMaxX(userNamePic.frame) + marginX;
         userNameTF.centerY = userView.height * 0.6;
         userNameTF.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         
         self.userNameTF = userNameTF;
-        self.userNameTF.borderStyle = TFborderStyle;
+        self.userNameTF.borderStyle = UITextBorderStyleNone;
         self.userNameTF.keyboardType = UIKeyboardTypeNumberPad;
         self.userNameTF.placeholder = @"请输入手机号";
         self.userNameTF.textColor = [UIColor whiteColor];
@@ -158,7 +158,7 @@
         pwdTF.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         
         self.pwdTF = pwdTF;
-        self.pwdTF.borderStyle = TFborderStyle;
+        self.pwdTF.borderStyle = UITextBorderStyleNone;
         self.pwdTF.placeholder = @"请输入密码";
         self.pwdTF.font = Font18;
         self.pwdTF.secureTextEntry= YES;
@@ -215,11 +215,11 @@
         captchaTF.width = userNameTF.width - captchaButton.width;
         captchaTF.height = userNameTF.height;
         captchaTF.x = CGRectGetMaxX(pwdPic.frame) + marginX -2;
-        captchaTF.y = captchaButton.y;
+        captchaTF.centerY = checkView.height * 0.6;
         captchaTF.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         
         self.captchaTF = captchaTF;
-        self.captchaTF.borderStyle = TFborderStyle;
+        self.captchaTF.borderStyle = UITextBorderStyleNone;
         self.captchaTF.placeholder = @"请输入验证码";
         self.captchaTF.font = Font18;
         self.captchaTF.secureTextEntry= YES;
@@ -269,7 +269,7 @@
         [self.okButton addTarget:self action:@selector(okAction) forControlEvents:(UIControlEventTouchUpInside)];
         okButton.titleLabel.font = Font22;
         self.okButton.backgroundColor = XLXcolor(37, 215, 252);
-        self.okButton.layer.cornerRadius = 25;
+        self.okButton.layer.cornerRadius = 10;
         //        [self.okButton setTintColor:buttonTitleC];
         
         [self.bgImageView addSubview:self.okButton];

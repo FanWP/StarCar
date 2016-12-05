@@ -278,8 +278,11 @@
         [self addGroupCustomer];
     }
     [self.tableView reloadData];
-    self.automaticallyAdjustsScrollViewInsets = YES;
-
+    
+    //获取积分余额----顶部个人头像
+    [self getAccountBalance];
+    
+    [self getAccountBalanceScore];
 
 }
 

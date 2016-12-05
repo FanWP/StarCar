@@ -95,8 +95,8 @@
     _orderModel = orderModel;
     self.username.text = orderModel.membername;
     self.saletype.text = @"交易成功";
-    if (orderModel.purchasetype == 2) {
-        self.star.text = [NSString stringWithFormat:@"+%@积分",orderModel.price];
+    if (orderModel.purchasetype == 2) {//积分交易
+        self.star.text = [NSString stringWithFormat:@"+%@积分",orderModel.scoreprice];
     }else
     {
         self.star.text = [NSString stringWithFormat:@"+%@星币",orderModel.price];
