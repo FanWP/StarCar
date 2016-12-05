@@ -53,12 +53,12 @@
     
     ProductModel *model2 = [[ProductModel alloc] init];
     model2.price = @"100";
-    model2.count = 1;
+    model2.count = 2;
     model2.productname = @"guwqrt";
     
     ProductModel *model3 = [[ProductModel alloc] init];
     model3.price = @"100";
-    model3.count = 1;
+    model3.count = 3;
     model3.productname = @"guwqrt";
     
     self.orderArr = @[model1,model2,model3];
@@ -266,6 +266,21 @@
 
 -(NSString *)checkTotalPrice
 {
+    //判断是否是全选
+    for (ProductModel *model in self.orderArr)
+    {
+        if (!model.btnSelected)
+        {
+            self.allSelectedBtn.selected = NO;
+            break;
+        }else
+        {
+            self.allSelectedBtn.selected = YES;
+        }
+    }
+    
+    
+    
     CGFloat totalStar = 0;
     for (ProductModel *model in self.orderArr)
     {
@@ -273,9 +288,6 @@
         if (model.btnSelected)
         {
             totalStar = totalStar + model.count * price;
-        }else
-        {
-            self.allSelectedBtn.selected = NO;
         }
     }
     return [NSString stringWithFormat:@"%.0f星币",totalStar];

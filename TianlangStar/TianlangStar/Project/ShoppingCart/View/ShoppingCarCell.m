@@ -20,6 +20,9 @@
 /** 星币 */
 @property (nonatomic,weak) UILabel *star;
 
+/** 商品的个数 */
+@property (nonatomic,weak) UILabel *count;
+
 
 @end
 
@@ -85,6 +88,15 @@
 //        productname.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:productname];
         
+        
+        //商品的数量
+        UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(star.x, CGRectGetMaxY(images.frame) - 26 + 7, star.width, 11)];
+        count.font = Font11;
+        count.textColor = lableTextcolor;
+        count.textAlignment = NSTextAlignmentRight;
+        self.count = count;
+        [self.contentView addSubview:count];
+        
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
@@ -105,6 +117,8 @@
     
     //设置是否选中
     self.selectBtn.selected = productModel.btnSelected;
+    
+    self.count.text = [NSString stringWithFormat:@"×%ld",(long)productModel.count];
 }
 
 
