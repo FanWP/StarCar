@@ -43,6 +43,22 @@
 /** 保存已收藏所有商品id */
 @property (nonatomic,strong) NSMutableArray *collectionIdArray;
 
+
+@property (nonatomic,strong) UIView *coverView;
+@property (nonatomic,strong) UIView *countView;
+@property (nonatomic,strong) UIView *coverPicView;
+@property (nonatomic,strong) UIImageView *picView;
+@property (nonatomic,strong) UILabel *selectCountLabel;
+@property (nonatomic,strong) UIButton *minusButton;
+@property (nonatomic,strong) UIButton *plusButton;
+@property (nonatomic,strong) UILabel *countLabel;
+@property (nonatomic,strong) UILabel *priceLabel;
+
+@property (nonatomic,strong) UIButton *okAddCartButton;
+
+@property (nonatomic,copy) NSString *countNum;
+@property (nonatomic,assign) NSInteger countNumber;
+
 @end
 
 @implementation ProductDetailTableVC
@@ -50,23 +66,71 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _userInfo = [UserInfo sharedUserInfo];
+    
+    self.tableView.separatorStyle = 0;
+    
+    self.countNumber = 1;
+    
     [self creatHeaderView];
     
-    [self creatFootView];
+//    [self creatFootView];
     
     [self rightItem];
     
     if ([self.title isEqualToString:@"商品详情"])
     {
         self.productId = _productModel.ID;
+        
+        NSString *images = _productModel.images;
+        
+        NSArray *array = [images componentsSeparatedByString:@","];
+        
+        for (NSInteger i = 0; i < array.count; i++)
+        {
+            NSString *pic = array[i];
+            
+            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+            
+            [_imagesArray addObject:image];
+        }
+
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
         self.productId = _serviceModel.ID;
+        
+        NSString *images = _serviceModel.images;
+        
+        NSArray *array = [images componentsSeparatedByString:@","];
+        
+        for (NSInteger i = 0; i < array.count; i++)
+        {
+            NSString *pic = array[i];
+            
+            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+            
+            [_imagesArray addObject:image];
+        }
+
     }
     else
     {
         self.productId = _carModel.carid;
+        
+        NSString *images = _carModel.picture;
+        
+        NSArray *array = [images componentsSeparatedByString:@","];
+        
+        for (NSInteger i = 0; i < array.count; i++)
+        {
+            NSString *pic = array[i];
+            
+            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+            
+            [_imagesArray addObject:image];
+        }
+
     }
 }
 
@@ -86,12 +150,24 @@
 
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    [self creatFootView];
+}
+
+
+
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
     
     [self.bottomView removeFromSuperview];
+    
+    [self.okAddCartButton removeFromSuperview];
 }
 
 
@@ -99,19 +175,6 @@
 #pragma mark - 轮播图
 - (void)creatHeaderView
 {
-    NSString *images = _productModel.images;
-    
-    NSArray *array = [images componentsSeparatedByString:@","];
-    
-    for (NSInteger i = 0; i < array.count; i++)
-    {
-        NSString *pic = array[i];
-        
-        NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-        
-        [_imagesArray addObject:image];
-    }
-    
     _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
     _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:self.imagesArray];
     _scrollView.delegate = self;
@@ -127,10 +190,10 @@
 - (void)creatFootView
 {
     CGFloat bottomViewY = KScreenHeight - Klength44;
-    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
     
-    
+        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
+        [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
+        
     CGFloat buttonWidth = KScreenWidth / 3;
     
     
@@ -142,12 +205,14 @@
     
     self.addCartButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.addCartButton.frame = CGRectMake(buttonWidth, 0, buttonWidth, Klength44);
+    self.addCartButton.tag = 111;
     [self.addCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
     
     
     
     self.buyButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.buyButton.frame = CGRectMake(2 * buttonWidth, 0, buttonWidth, Klength44);
+    self.buyButton.tag = 112;
     [self.buyButton setTitle:@"立即购买" forState:(UIControlStateNormal)];
 
     
@@ -180,8 +245,8 @@
     
     
     [self.collectionButton addTarget:self action:@selector(collectionAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.addCartButton addTarget:self action:@selector(addCartAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.buyButton addTarget:self action:@selector(buyAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.addCartButton addTarget:self action:@selector(addCountAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.buyButton addTarget:self action:@selector(addCountAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.chatButton addTarget:self action:@selector(chatAction) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
@@ -190,9 +255,7 @@
 - (void)collectionAction
 {
     YYLog(@"收藏");
-    
-//    add/favorite?
-    
+
     if (self.userInfo.isLogin)
     {
         NSString *url = [NSString stringWithFormat:@"%@getallcollectionservlet",URL];
@@ -206,6 +269,8 @@
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
+            YYLog(@"收藏列表返回：%@",responseObject);
+            
             NSNumber *num = responseObject[@"resultCode"];
             NSInteger result = [num integerValue];
             
@@ -215,7 +280,6 @@
             
             if (result == 1000)
             {
-                
                 for (NSDictionary *dic in array)
                 {
                     [collectionModel setValuesForKeysWithDictionary:dic];
@@ -429,14 +493,228 @@
 
 
 
-
-- (void)addCartAction
+- (void)tapAction
 {
-    YYLog(@"加入购物车");
+    [self.coverView removeFromSuperview];
     
-//    add/shopping/car?
-//    type  userid  productid  count
+    [self.okAddCartButton removeFromSuperview];
+}
+
+
+
+- (void)addCountAction:(UIButton *)button
+{
+    CGFloat coverViewHeight = KScreenHeight - Klength44;
+    self.coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, coverViewHeight)];
+    self.coverView.backgroundColor = [UIColor colorWithRed:204.0 / 255.0 green:204.0 / 255.0 blue:204.0 / 255.0 alpha:0.8];
+    self.coverView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+    [self.coverView addGestureRecognizer:tap];
+    [self.view addSubview:self.coverView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.coverView];
     
+    
+    
+    CGFloat countViewheight = 150;
+    CGFloat countViewY = coverViewHeight - countViewheight;
+    self.countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, KScreenWidth, countViewheight)];
+    self.countView.backgroundColor = [UIColor whiteColor];
+    self.countView.userInteractionEnabled = YES;
+    [self.coverView addSubview:self.countView];
+    
+    
+    
+    
+    CGFloat coverPicViewX = 16;
+    CGFloat coverPicViewY = coverViewHeight - countViewheight - 57;
+    CGFloat coverPicViewWidth = 225;
+    CGFloat coverPicViewHeight = 107 + 12 + 12;
+    self.coverPicView = [[UIView alloc] initWithFrame:CGRectMake(coverPicViewX, coverPicViewY, coverPicViewWidth, coverPicViewHeight)];
+    self.coverPicView.layer.cornerRadius = BtncornerRadius;
+    self.coverPicView.backgroundColor = [UIColor whiteColor];
+    [self.coverView addSubview:self.coverPicView];
+    
+    
+    
+    
+    CGFloat picViewX = 16;
+    CGFloat picViewY = 12;
+    CGFloat picViewWidth = coverPicViewWidth - 2 * picViewX;
+    CGFloat picViewHight = 107;
+    self.picView = [[UIImageView alloc] initWithFrame:CGRectMake(picViewX, picViewY, picViewWidth, picViewHight)];
+    [self.coverPicView addSubview:self.picView];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_imagesArray.firstObject]];
+    [self.picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    
+    
+    CGFloat selectCountLabelX = 50;
+    CGFloat selectCountLabelY = countViewheight - 37 - Klength30;
+    CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
+    self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
+    self.selectCountLabel.text = @"选择数量";
+    [self.countView addSubview:self.selectCountLabel];
+    
+    
+    
+    CGFloat priceLabelX = coverPicViewX + coverPicViewWidth + 30;
+    CGFloat priceLabelY = 30;
+    CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
+    self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+    self.priceLabel.font = Font18;
+    [self.countView addSubview:self.priceLabel];
+    
+    
+    
+    CGFloat minusButtonX = coverPicViewX + coverPicViewWidth + 5;
+    CGFloat minusButtonY = selectCountLabelY;
+    CGFloat minusButtonWidth = 30;
+    self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    self.minusButton.frame = CGRectMake(minusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
+    [self.minusButton setImage:[UIImage imageNamed:@"minus"] forState:(UIControlStateNormal)];
+    [self.minusButton addTarget:self action:@selector(minusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.countView addSubview:self.minusButton];
+    
+    
+    
+    CGFloat countLabelX = minusButtonX + minusButtonWidth;
+    CGFloat countLabelWidth = 44;
+    self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake(countLabelX, minusButtonY, countLabelWidth, Klength30)];
+    
+    self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+    
+    [self addObserver:self forKeyPath:@"countNum" options:(NSKeyValueObservingOptionNew) context:nil];
+
+    self.countLabel.text = self.countNum;
+    self.countLabel.textAlignment = 1;
+    [self.countView addSubview:self.countLabel];
+    
+    
+    
+    CGFloat plusButtonX = countLabelX + countLabelWidth;
+    self.plusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    self.plusButton.frame = CGRectMake(plusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
+    [self.plusButton setImage:[UIImage imageNamed:@"plus"] forState:(UIControlStateNormal)];
+    [self.plusButton addTarget:self action:@selector(plusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.countView addSubview:self.plusButton];
+    
+    
+    
+    self.okAddCartButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    self.okAddCartButton.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
+    self.okAddCartButton.backgroundColor = [UIColor redColor];
+    
+    
+    if (button.tag == 111)
+    {
+        [self.okAddCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
+        [self.okAddCartButton addTarget:self action:@selector(okAddCartAction) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    else if (button.tag == 112)
+    {
+        [self.okAddCartButton setTitle:@"结算" forState:(UIControlStateNormal)];
+        [self.okAddCartButton addTarget:self action:@selector(settlementAction) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    
+    [self.okAddCartButton setTintColor:[UIColor whiteColor]];
+    
+    [[UIApplication sharedApplication].keyWindow addSubview:self.okAddCartButton];
+    
+}
+
+
+- (void)settlementAction
+{
+    YYLog(@"结算");
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{    
+    NSString *newNum = [change objectForKey:@"new"];
+    
+    self.countLabel.text = newNum;
+    
+}
+
+
+
+- (void)minusCountAction
+{
+    if (self.countNumber > 0)
+    {
+        self.countNumber--;
+    }
+    else
+    {
+        self.countNumber = 0;
+    }
+    
+    self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+}
+
+- (void)plusCountAction
+{
+    self.countNumber++;
+    self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+}
+
+
+
+
+- (void)okAddCartAction
+{
+    YYLog(@"确定加入购物车");
+    if ([self.title isEqualToString:@"商品详情"])
+    {
+        [self addCartWithType:1];
+    }
+    else
+    {
+        [self addCartWithType:2];
+    }
+}
+
+
+
+
+- (void)addCartWithType:(NSInteger)type
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
+    parameters[@"sessionId"] = sessionid;
+    parameters[@"productid"] = self.productId;
+    parameters[@"type"] = @(type);// 1:商品 2:服务
+    parameters[@"count"] = self.countNum;
+
+    YYLog(@"加入购物车参数：%@",parameters);
+    
+    NSString *url = [NSString stringWithFormat:@"%@add/shopping/car?",URL];
+    
+    [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"加入购物车返回：%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            
+        }
+        
+        [self.coverView removeFromSuperview];
+
+        [self.okAddCartButton removeFromSuperview];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+       
+        YYLog(@"加入购物车错误：%@",error);
+    }];
+
 }
 
 
@@ -599,8 +877,19 @@
         }
     }
     
-
     return cell;
+}
+
+
+
+
+
+
+
+
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"countNum" context:nil];
 }
 
 
@@ -694,6 +983,9 @@
     
     return _collectionIdArray;
 }
+
+
+
 
 
 

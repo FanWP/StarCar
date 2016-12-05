@@ -74,7 +74,6 @@
     
     [self addSearchController];// 添加搜索框
     
-    [self shareItem];// 分享app
     
 //    [self setupPlayerPic];
     
@@ -96,8 +95,7 @@
     NSString *url = [NSString stringWithFormat:@"%@find/indexInfo",URL];
     
     
-
-    [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    [[AFHTTPSessionManager manager] POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
@@ -136,18 +134,30 @@
             
             
             // 保养维护、商品、二手车数据
-            NSArray *servicesListArray = dic[@"servicesList"];
-            
-            _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:servicesListArray];
+            //            NSArray *servicesListArray = dic[@"servicesList"];
+            //
+            //            _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:servicesListArray];
             
         }
         
         [self.tableView reloadData];
+
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"首页返回错误: %@",error);
     }];
+    
+
+//    [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//    {
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//    {
+//        
+//    }];
 }
 
 
@@ -168,7 +178,8 @@
     
     NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",URL];
     
-    [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
@@ -193,12 +204,24 @@
         }
         
         [self.tableView reloadData];
-        
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"获取所有商品列表错误：%@",error);
         
     }];
+    
+    
+//    [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//    {
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//    {
+//        
+//        
+//    }];
 }
 
 
@@ -238,12 +261,6 @@
 //}
 
 
-
-#pragma mark - 分享app的按钮
-- (void)shareItem
-{
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareTLStarAction)];
-}
 
 
 
