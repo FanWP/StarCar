@@ -19,6 +19,9 @@
 /** 获取服务器返回的数据 */
 @property (nonatomic,strong) NSMutableArray *orderArr;
 
+/** 获取用户购物车选中的数组 */
+@property (nonatomic,strong) NSMutableArray *selectedOrderArr;
+
 /** 结算时的总价格 */
 @property (nonatomic,weak) UILabel *totalStar;
 
@@ -27,6 +30,9 @@
 
 /** 全选按钮 */
 @property (nonatomic,weak) UIButton *allSelectedBtn;
+
+/** 结算按钮 */
+@property (nonatomic,weak) UIButton *checkBtn;
 
 
 
@@ -83,6 +89,13 @@
 
 -(void)addFoorView
 {
+    if (self.footerView)
+    {
+        [[UIApplication sharedApplication].keyWindow addSubview:self.footerView];
+        return;
+        
+    }else{
+    
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88, KScreenWidth, 44)];
     footerView.backgroundColor = [UIColor whiteColor];
     self.footerView  = footerView;
@@ -108,6 +121,9 @@
     [checkBtn setTitle:@"结算" forState:UIControlStateNormal];
     checkBtn.titleLabel.font = Font18;
     [checkBtn addTarget:self action:@selector(checkBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [checkBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    checkBtn.enabled = NO;
+    self.checkBtn = checkBtn;
     [footerView addSubview:checkBtn];
     
     //显示总计多少星币
@@ -135,6 +151,7 @@
     UIView *foot = [[UIView alloc] initWithFrame:footerView.bounds];
     foot.backgroundColor = BGcolor;
     self.tableView.tableFooterView = foot;
+    }
     
 }
 
@@ -280,16 +297,21 @@
     }
     
     
+    NSMutableArray *seletedArr = [NSMutableArray array];
     
     CGFloat totalStar = 0;
     for (ProductModel *model in self.orderArr)
     {
-        NSInteger price = [model.price integerValue];
         if (model.btnSelected)
         {
+            NSInteger price = [model.price integerValue];
             totalStar = totalStar + model.count * price;
+            [seletedArr addObject:model];
         }
+        //判断结算按钮是否可用
+        self.checkBtn.enabled = totalStar != 0;
     }
+    self.selectedOrderArr = seletedArr;
     return [NSString stringWithFormat:@"%.0f星币",totalStar];
 }
 
@@ -297,7 +319,32 @@
 //结算按钮的点击事件
 -(void)checkBtnClick
 {
-    YYLog(@"结算");
+    NSArray *arr = [ProductModel mj_keyValuesArrayWithObjectArray:self.selectedOrderArr];
+    
+    YYLog(@"%@",arr);
+    
+    NSError *error;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:arr options:0 error:&error];
+    
+    NSString *dataStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"sessonId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"total"] = self.totalStar.text;
+    parmas[@"list"] = dataStr;
+    
+    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    
+    [HttpTool post:url parmas:parmas success:^(id json) {
+        YYLog(@"%@",json);
+    } failure:^(NSError *error) {
+        YYLog(@"%@",error);
+    }];
+    
+    
+    YYLog(@"结算%@",dataStr);
 }
 
 

@@ -170,7 +170,8 @@
          }
          else
          {
-             [[AlertView sharedAlertView] addAfterAlertMessage:@"退出登录失败" title:@"提示"];
+//             [[AlertView sharedAlertView] addAfterAlertMessage:@"退出登录失败" title:@"提示"];
+//             [SVProgressHUD showWithStatus:@"退出失败"];
          }
 
      } failure:^(NSError *error)

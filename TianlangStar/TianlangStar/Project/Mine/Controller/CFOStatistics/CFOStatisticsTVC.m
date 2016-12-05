@@ -774,7 +774,7 @@ typedef enum : NSUInteger
     
     YYLog(@"self.parmas----%@",self.parmas);
     
-    [HttpTool get:url parmas:self.parmas success:^(id json) {
+    [HttpTool post:url parmas:self.parmas success:^(id json) {
         
         [self.tableView.mj_header endRefreshing];
         
@@ -808,7 +808,7 @@ typedef enum : NSUInteger
     
     NSString *url = [NSString stringWithFormat:@"%@find/finance/list",URL];
     
-    [HttpTool get:url parmas:self.parmas success:^(id json) {
+    [HttpTool post:url parmas:self.parmas success:^(id json) {
         [self.tableView.mj_footer endRefreshing];
         
         NSArray *arr = [CFOModel mj_objectArrayWithKeyValuesArray:json[@"body"][@"finaceList"]];

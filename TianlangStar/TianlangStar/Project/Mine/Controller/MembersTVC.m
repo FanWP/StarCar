@@ -67,7 +67,7 @@
     YYLog(@"url--%@",url);
     [SVProgressHUD showWithStatus:@"数据加载中,请稍后!"];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom];
-    [HttpTool get:url parmas:parmas success:^(id json) {
+    [HttpTool post:url parmas:parmas success:^(id json) {
         [SVProgressHUD dismiss];
         YYLog(@"json--%@",json);
         self.VIPLevel = [VIPLevelModel mj_objectWithKeyValues:json[@"body"]];
@@ -146,7 +146,7 @@
     YYLog(@"parmas---%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@update/vip/level/info",URL];
-    [HttpTool get:url parmas:parmas success:^(id json) {
+    [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"更新优惠信息json%@",json);
     } failure:^(NSError *error) {
         YYLog(@"更新优惠信息error%@",error);

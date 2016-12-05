@@ -34,9 +34,9 @@
     [super viewDidLoad];
     
     self.title = @"积分交易";
-    if (self.tradeType == 2)
+    if (self.tradeType == 1)
     {
-        self.title = @"星币";
+        self.title = @"星币交易";
     }
     
     self.view.backgroundColor = BGcolor;
