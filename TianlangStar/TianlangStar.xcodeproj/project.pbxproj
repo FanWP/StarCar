@@ -64,8 +64,6 @@
 		715AA3311DE2900100CD5C5D /* AddImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 715AA3301DE2900100CD5C5D /* AddImages.m */; };
 		715AA3341DE2A67900CD5C5D /* AddImagesCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 715AA3331DE2A67900CD5C5D /* AddImagesCollectionVC.m */; };
 		715AA3371DE2A6D500CD5C5D /* AddImagesCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 715AA3361DE2A6D500CD5C5D /* AddImagesCollectionCell.m */; };
-		715AA33A1DE2EBD300CD5C5D /* ServicePublishTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 715AA3391DE2EBD300CD5C5D /* ServicePublishTableVC.m */; };
-		715AA33D1DE2EC1600CD5C5D /* SecondCarPublishTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 715AA33C1DE2EC1600CD5C5D /* SecondCarPublishTableVC.m */; };
 		717D0D831DC0B5620036D5F4 /* RegistVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 717D0D821DC0B5620036D5F4 /* RegistVC.m */; };
 		71A40D811DD47EFA00335660 /* TestInterfaceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A40D801DD47EFA00335660 /* TestInterfaceVC.m */; };
 		71A40D8A1DD5AC2500335660 /* MyCollectionTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A40D891DD5AC2500335660 /* MyCollectionTableVC.m */; };
@@ -314,10 +312,6 @@
 		715AA3331DE2A67900CD5C5D /* AddImagesCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddImagesCollectionVC.m; sourceTree = "<group>"; };
 		715AA3351DE2A6D500CD5C5D /* AddImagesCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddImagesCollectionCell.h; path = TianlangStar/Project/HomePage/Controller/AddImagesCollectionCell.h; sourceTree = SOURCE_ROOT; };
 		715AA3361DE2A6D500CD5C5D /* AddImagesCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddImagesCollectionCell.m; path = TianlangStar/Project/HomePage/Controller/AddImagesCollectionCell.m; sourceTree = SOURCE_ROOT; };
-		715AA3381DE2EBD300CD5C5D /* ServicePublishTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePublishTableVC.h; sourceTree = "<group>"; };
-		715AA3391DE2EBD300CD5C5D /* ServicePublishTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePublishTableVC.m; sourceTree = "<group>"; };
-		715AA33B1DE2EC1600CD5C5D /* SecondCarPublishTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondCarPublishTableVC.h; sourceTree = "<group>"; };
-		715AA33C1DE2EC1600CD5C5D /* SecondCarPublishTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCarPublishTableVC.m; sourceTree = "<group>"; };
 		717D0D811DC0B5620036D5F4 /* RegistVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistVC.h; sourceTree = "<group>"; };
 		717D0D821DC0B5620036D5F4 /* RegistVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistVC.m; sourceTree = "<group>"; };
 		71A40D7F1DD47EFA00335660 /* TestInterfaceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestInterfaceVC.h; sourceTree = "<group>"; };
@@ -885,10 +879,6 @@
 				71AB1F041DEAE1AA00C0739F /* AddNewActivityTableVC.m */,
 				71AB1F091DEAE20500C0739F /* AddWheelPicVC.h */,
 				71AB1F0A1DEAE20500C0739F /* AddWheelPicVC.m */,
-				715AA3381DE2EBD300CD5C5D /* ServicePublishTableVC.h */,
-				715AA3391DE2EBD300CD5C5D /* ServicePublishTableVC.m */,
-				715AA33B1DE2EC1600CD5C5D /* SecondCarPublishTableVC.h */,
-				715AA33C1DE2EC1600CD5C5D /* SecondCarPublishTableVC.m */,
 				715AA3321DE2A67900CD5C5D /* AddImagesCollectionVC.h */,
 				715AA3331DE2A67900CD5C5D /* AddImagesCollectionVC.m */,
 				711EFA301DD96718006AEF9E /* NewestActivityTableVC.h */,
@@ -1583,7 +1573,6 @@
 				710985281DF2D3B800726AC7 /* UserScoreExchangeListTVC.m in Sources */,
 				D764B6991DF010BD00A996CF /* LeftAndRightModel.m in Sources */,
 				711EFA321DD96718006AEF9E /* NewestActivityTableVC.m in Sources */,
-				715AA33A1DE2EBD300CD5C5D /* ServicePublishTableVC.m in Sources */,
 				D71D845D1DD30C3600E75A8B /* AboutSettingTVC.m in Sources */,
 				D70252CD1DE960ED00F179E5 /* VIPLevelModel.m in Sources */,
 				D7470BB41DEBFC400051E851 /* RechargeRecordTVC.m in Sources */,
@@ -1680,7 +1669,6 @@
 				D780C8FD1DE571F400C3A34C /* UserOrderQueryTVC.m in Sources */,
 				711EC3351DE3EA0700C51E40 /* UIImage+Aspect.m in Sources */,
 				711EC3401DE3EA0700C51E40 /* WUPreviewViewController.m in Sources */,
-				715AA33D1DE2EC1600CD5C5D /* SecondCarPublishTableVC.m in Sources */,
 				712F5C131DEC1F7B005B750A /* NewActivityModel.m in Sources */,
 				D7203F6B1DDC43BE00B6526F /* InsuranceModel.m in Sources */,
 				D77134341DCDBA5300B3B9C6 /* CarInfoChangeVC.m in Sources */,

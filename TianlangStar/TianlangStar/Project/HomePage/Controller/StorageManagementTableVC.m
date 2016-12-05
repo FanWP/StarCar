@@ -144,11 +144,10 @@
     
     NSString *url = [NSString stringWithFormat:@"%@find/products/list?",URL];
     
-    [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
-        
         YYLog(@"仓库管理返回%@",responseObject);
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -160,14 +159,16 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-           
+            
             [self.tableView reloadData];
         });
+
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"仓库管理错误%@",error);
     }];
+    
 
 }
 
@@ -208,33 +209,31 @@
         
         NSString *url = [NSString stringWithFormat:@"%@find/products/list?",URL];
         
-        [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
+        [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-         {
-             
-             YYLog(@"仓库管理返回%@",responseObject);
-             
-             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-             
-             if (resultCode == 1000)
-             {
-                 self.pageNum++;
-                 self.moreStorageArray = [StorageManagementModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-                 [self.storageArray addObjectsFromArray:self.moreStorageArray];
-                 
-                 [self.tableView reloadData];
-                 
-                 [self.tableView.mj_footer endRefreshing];
-             }
-             
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-         {
-             YYLog(@"仓库管理错误%@",error);
-         }];
-
+        {
+            YYLog(@"仓库管理返回%@",responseObject);
+            
+            NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+            
+            if (resultCode == 1000)
+            {
+                self.pageNum++;
+                self.moreStorageArray = [StorageManagementModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                [self.storageArray addObjectsFromArray:self.moreStorageArray];
+                
+                [self.tableView reloadData];
+                
+                [self.tableView.mj_footer endRefreshing];
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+        {
+            YYLog(@"仓库管理错误%@",error);
+            
+        }];
     }];
-    
 }
 
 
@@ -384,7 +383,7 @@
     
     NSString *url = [NSString stringWithFormat:@"%@update/products/shelves?",URL];
     
-    [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
@@ -393,8 +392,9 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"上架下架错误%@",error);
+        
     }];
-
+    
 }
 
 

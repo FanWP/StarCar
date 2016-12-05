@@ -56,6 +56,14 @@
     parameters[@"pageSize"] = @"4";
 
     NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",URL];
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 
     [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
 
@@ -75,7 +83,6 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"获取最新活动错误%@",error);
-        
     }];
 }
 
