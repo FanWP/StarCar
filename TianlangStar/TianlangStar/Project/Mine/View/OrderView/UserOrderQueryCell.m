@@ -185,6 +185,7 @@
 -(void)setFrame:(CGRect)frame
 {
     frame.size.height -= 7;
+    frame.origin.y += 7;
 
     [super setFrame:frame];
 }

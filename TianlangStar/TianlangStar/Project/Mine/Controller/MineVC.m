@@ -114,7 +114,9 @@
         }
         [self.tableView reloadData];
         
+        //获取积分余额----顶部个人头像
         [self getAccountBalance];
+        [self getAccountBalanceScore];
     }else//未登录
     {
           [self getPubicKey];
@@ -135,19 +137,13 @@
     ILSettingArrowItem *orderquery = [ILSettingArrowItem itemWithIcon:@"indent" title:@"订单查询" destVcClass:[UserOrderQueryTVC class]];
     
     ILSettingArrowItem *pointsFor = [ILSettingArrowItem itemWithIcon:@"integral" title:@"积分兑换" destVcClass:[ScoreExchangeTVC class]];
-    
-//    
-//    ILSettingArrowItem *account = [ILSettingArrowItem itemWithIcon:nil title:@"账户管理" destVcClass:[CarDetailInfoTableVC class]];
-    
-//    ILSettingArrowItem *Insurance = [ILSettingArrowItem itemWithIcon:nil title:@"保单" destVcClass:[UserInsurecemangement class]];
 
-    
     ILSettingArrowItem *carInfoRegist = [ILSettingArrowItem itemWithIcon:@"register" title:@"车辆信息登记" destVcClass:[AddCarInfo class]];
+    
     ILSettingArrowItem *prepaidRecords = [ILSettingArrowItem itemWithIcon:@"record" title:@"充值记录查询" destVcClass:[RechargeRecordTVC class]];
     
     ILSettingArrowItem *setting = [ILSettingArrowItem itemWithIcon:@"set" title:@"设置" destVcClass:[AboutSettingTVC class]];
     
-
     ILSettingGroup *group0 = [[ILSettingGroup alloc] init];
     group0.items = @[collection,orderquery,pointsFor,prepaidRecords,carInfoRegist,setting];
     
@@ -202,7 +198,6 @@
  */
 -(void) getPubicKey
 {
-    
     LoginView *logView = [[LoginView alloc] initWithFrame:self.view.bounds];
     logView.delegate = self;
     self.tableView.scrollEnabled = NO;
@@ -324,13 +319,15 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    YYLog(@"parmas---%@",parmas);
+    parmas[@"type"] = @"1";
+
     
     NSString *url = [NSString stringWithFormat:@"%@gtsrcurrncysrvlt",URL];
+        YYLog(@"parmas---%@,url-%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json)
      {
-         YYLog(@"json-获取账户余额%@",json);
+         YYLog(@"json-获取账户星币余额%@",json);
          //         self.virtualcenterModel = [VirtualcenterModel mj_objectWithKeyValues:json[@"obj"]];
          NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (arr && arr.count > 0)
@@ -346,7 +343,38 @@
          
      } failure:^(NSError *error)
      {
-         YYLog(@"json-获取账户余额%@",error);
+         YYLog(@"json-获取账户星币余额%@",error);
+     }];
+}
+
+
+/**
+ *  地址管理：获取用户账户余额---积分
+ */
+-(void)getAccountBalanceScore
+{
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"type"] = @"2";
+    
+    
+    NSString *url = [NSString stringWithFormat:@"%@gtsrcurrncysrvlt",URL];
+    YYLog(@"parmas---%@,url-%@",parmas,url);
+    
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         YYLog(@"json-获取账户积分余额%@",json);
+
+         NSNumber *num = json[@"body"];
+
+         NSString *starStr = [NSString stringWithFormat:@"%@",num];
+         
+         [self.userCommonView.scoreButton setTitle:starStr forState:UIControlStateNormal];
+
+     } failure:^(NSError *error)
+     {
+         YYLog(@"json-获取账户积分余额%@",error);
      }];
 }
 

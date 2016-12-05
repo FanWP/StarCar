@@ -51,9 +51,9 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@integralpurchaserecord",URL];
     
-    YYLog(@"parmas---%@",parmas);
+    YYLog(@"parmas---%@--url:%@",parmas,url);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.tableView.mj_header endRefreshing];
@@ -80,7 +80,7 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@integralpurchaserecord",URL];
     
     YYLog(@"待处理订单下来刷新parmas---%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
@@ -111,13 +111,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 10;
+    return self.orderArr.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UserScoreExchangeCell *cell = [UserScoreExchangeCell cellWithTableView:tableView];
     
-    ProductModel *model = [[ProductModel alloc] init];
+    ProductModel *model = self.orderArr[indexPath.row];
     cell.model = model;
 
     return cell;

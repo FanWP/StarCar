@@ -425,9 +425,8 @@
          {
          } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
          {
-             
              //取消提示
-             YYLog(@"请求成功----%@",responseObject);
+             YYLog(@"注册请求成功----%@",responseObject);
              //1.获取返回值
              NSNumber *resultCode = responseObject[@"resultCode"];
              //转换

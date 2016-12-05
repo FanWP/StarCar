@@ -28,7 +28,7 @@
         
         //设置lable
         UILabel *left = [[UILabel alloc] initWithFrame:CGRectMake(36, 0, KScreenWidth, 54)];
-        left.centerY = self.centerY;
+        left.centerY = self.centerY - 7;
         left.font = Font12;
         left.textColor = lableTextcolor;
         self.leftlable = left;
@@ -39,7 +39,7 @@
         self.rightlable = right;
         right.width = KScreenWidth * 0.5;
         right.height = 54;
-        right.centerY = self.centerY;
+        right.centerY = left.centerY;
         right.x = KScreenWidth - 60 - right.width;
         self.rightlable = right;
         right.textAlignment = NSTextAlignmentRight;
@@ -83,6 +83,7 @@
 
 -(void)setFrame:(CGRect)frame
 {
+    frame.origin.y += 7;
     frame.size.height -= 7;
     
     [super setFrame:frame];

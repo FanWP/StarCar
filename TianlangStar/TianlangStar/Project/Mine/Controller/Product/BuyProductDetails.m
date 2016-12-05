@@ -140,7 +140,6 @@
 
 -(void)exchanggeProduct
 {
-    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"id"] = self.model.ID;
@@ -155,6 +154,12 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"json:%@",json);
+         NSNumber *num = json[@"resultCode"];
+         if ([num integerValue] == 1000)
+         {
+             [SVProgressHUD showSuccessWithStatus:@"积分兑换成功！"];
+         }
+        
      } failure:^(NSError *error) {
          YYLog(@"error:%@",error);
          

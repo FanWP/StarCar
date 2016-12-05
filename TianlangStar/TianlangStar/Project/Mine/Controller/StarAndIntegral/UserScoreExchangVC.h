@@ -10,4 +10,7 @@
 
 @interface UserScoreExchangVC : UIViewController
 
+/** 当前用户的星币余额 */
+@property (nonatomic,copy) NSString *scoreBlance;
+
 @end

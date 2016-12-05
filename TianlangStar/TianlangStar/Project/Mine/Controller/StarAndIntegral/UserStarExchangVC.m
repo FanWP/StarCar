@@ -208,7 +208,7 @@
 
 
 /**
- *  地址管理：获取用户账户余额---星币
+ *  地址管理：获取被转增用户的---星币
  */
 -(void)getAccountBalance
 {
@@ -216,6 +216,9 @@
     parmas[@"username"] = self.usernameTF.text;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     YYLog(@"parmas---%@",parmas);
+    
+    //数据清空
+    self.virtualcenterModel.membername = nil;
     
     NSString *url = [NSString stringWithFormat:@"%@gtsrcrrncybynmsrvlt",URL];
     
@@ -229,8 +232,6 @@
              self.virtualcenterModel = arr[0];
          }
          self.receiveLB.text = self.virtualcenterModel.membername;
-         
-
          
      } failure:^(NSError *error)
      {
@@ -252,7 +253,11 @@
             phoneTF.text = nil;
             self.transferBtn.enabled = NO;
             [[AlertView sharedAlertView] addAlertMessage:@"手机号输入有误，请核对" title:@"提示"];
-        }else
+        }else if ([phoneTF.text isEqualToString:[UserInfo sharedUserInfo].username]){
+            [[AlertView sharedAlertView] addAfterAlertMessage:@"积分、星币不能转增给自己！" title:@"提示"];
+            return;
+        }
+        else
         {
             //查询余额
             [self getAccountBalance];

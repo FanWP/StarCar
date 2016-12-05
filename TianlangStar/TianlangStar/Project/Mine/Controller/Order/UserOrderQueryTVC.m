@@ -26,6 +26,8 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = BGcolor;
+    
+    self.automaticallyAdjustsScrollViewInsets = YES;
 
     [self seupRefresh];
 }
@@ -50,6 +52,7 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
+
     
     NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
     

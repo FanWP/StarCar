@@ -134,10 +134,10 @@
         
         
         self.scoreButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-        [self.scoreButton setTitle:@"2122" forState:(UIControlStateNormal)];
+        [self.scoreButton setTitle:@"0" forState:(UIControlStateNormal)];
         [self.scoreButton addTarget:self action:@selector(scoreButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.scoreButton.titleLabel.font = Font13;
-        self.scoreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        self.scoreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         self.scoreButton.frame =  CGRectMake(KScreenWidth - 108 - self.moneyButton.width, self.moneyButton.y, self.moneyButton.width, self.moneyButton.height);
         [headView addSubview:self.scoreButton];
         
@@ -148,7 +148,7 @@
         [self.scoreCountButton setTitle:@"积分" forState:(UIControlStateNormal)];
         [self.scoreCountButton addTarget:self action:@selector(scoreButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.scoreCountButton.titleLabel.font = Font13;
-        self.scoreCountButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        self.scoreCountButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         self.scoreCountButton.frame = CGRectMake(self.scoreButton.x, self.moneyCountButton.y, self.moneyButton.width, self.moneyButton.height);
         [headView addSubview:self.scoreCountButton];
         
@@ -173,7 +173,7 @@
 {
     switch (USERType) {
         case 0:
-        case 1:
+        case 1://星币
         {
             BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
             vc.tradeType = 1;
@@ -200,7 +200,7 @@
 {
     switch (USERType) {
         case 0:
-        case 1:
+        case 1://积分
         {
             BossStarRecordTVC *vc = [[BossStarRecordTVC alloc] init];
             vc.tradeType = 2;
@@ -210,6 +210,7 @@
         case 2:
         {
             UserScoreExchangVC *vc = [[UserScoreExchangVC alloc] init];
+            vc.scoreBlance = self.scoreButton.titleLabel.text;
             [self.nav pushViewController:vc animated:YES];
             break;
         }

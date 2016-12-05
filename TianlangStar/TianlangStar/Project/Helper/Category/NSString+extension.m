@@ -179,6 +179,20 @@
 }
 
 /**
+ *  事件戳转换事件 到时分秒
+ */
+-(NSString *)getDetailCurrentTime
+{
+    NSString * timeStampString = self;
+    //    NSTimeInterval _interval=[timeStampString doubleValue] / 1000.0;
+    NSTimeInterval _interval=[timeStampString doubleValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    return [objDateformat stringFromDate: date];
+}
+
+/**
  *  判断字符串是否为浮点数
  */
 - (BOOL)isPureFloat{

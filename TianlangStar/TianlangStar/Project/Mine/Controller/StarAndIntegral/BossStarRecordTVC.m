@@ -67,10 +67,11 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
+    parmas[@"type"] = @(self.tradeType);
     
     NSString *url = [NSString stringWithFormat:@"%@findcompleteorderforboss",URL];
     
-    YYLog(@"parmas---%@",parmas);
+    YYLog(@"parmas---%@url:%@",parmas,url);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.tableView.mj_header endRefreshing];
@@ -123,19 +124,17 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     
-//    return self.orderArr.count;
-    return 1;
-    
+    return self.orderArr.count;
+  
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-//    WaitOrderModel *model = self.orderArr[section];
-//    
-//    return model.valueList.count;
+    WaitOrderModel *model = self.orderArr[section];
     
-    return 1;
+    return model.valueList.count;
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -144,9 +143,7 @@
     
     WaitOrderModel *model = self.orderArr[indexPath.section];
     OrderModel *orderM = model.valueList[indexPath.row];
-    orderM.membername = @"生亦何欢";
-    orderM.purchasetype = 1;
-    
+
     cell.orderModel = orderM;
     return cell;
 }
@@ -159,7 +156,6 @@
     TBFooterDateView *view = [TBFooterDateView footer];
     WaitOrderModel *model = self.orderArr[section];
     view.date.text = model.date;
-    view.date.text = @"2016-12-01";
     return view;
 }
 

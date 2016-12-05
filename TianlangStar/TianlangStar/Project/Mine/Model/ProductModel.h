@@ -71,9 +71,18 @@
 /** 保险id */
 @property (nonatomic,assign) NSInteger insuranceid;
 
+/** 购买日期 */
+@property (nonatomic,copy) NSString *lasttime;
+
 
 /** 商品介绍的高度 */
 @property (nonatomic,assign) CGFloat introductionH;
+
+/** 商品的个数 */
+@property (nonatomic,assign) NSInteger count;
+
+/** 商品的个数 */
+@property (nonatomic,assign) BOOL btnSelected;
 
 
 @end

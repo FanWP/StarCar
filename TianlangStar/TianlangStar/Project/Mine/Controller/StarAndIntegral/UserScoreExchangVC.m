@@ -8,6 +8,7 @@
 
 #import "UserScoreExchangVC.h"
 #import "VirtualcenterModel.h"
+#import "UserScoreExchangeListTVC.h"
 
 @interface UserScoreExchangVC ()
 
@@ -67,14 +68,14 @@
         label.text = arr[i];
         
         switch (i) {
-            case 0://星币
+            case 0://积分
             {
                 label.y -= 7;
                 //设置右侧数据
                 UILabel *right = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 20 - 200, 0, 200, 44)];
                 self.star = right;
                 right.textAlignment = NSTextAlignmentRight;
-//                right.text = @"57329147591";
+                right.text = self.scoreBlance;
                 right.font = Font17;
                 [view addSubview:right];
                 
@@ -167,7 +168,7 @@
                 right.centerY = label.centerY;
                 self.receiveLB = right;
                 right.textAlignment = NSTextAlignmentRight;
-                right.text = @"57329147591";
+//                right.text = @"57329147591";
                 right.font = Font17;
                 [view addSubview:right];
                 break;
@@ -207,8 +208,9 @@
 
 -(void)scorerecordQuerry
 {
-    
     YYLog(@"积分记录查询");
+    UserScoreExchangeListTVC *vc = [[UserScoreExchangeListTVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -223,7 +225,7 @@
     parmas[@"userid"] = self.virtualcenterModel.userid;
     parmas[@"value"] = self.transferStarTF.text;
     //1---星币  2---积分
-    parmas[@"type"] = @"1";
+    parmas[@"type"] = @"2";
     
     YYLog(@"parmas---%@",parmas);
     
@@ -233,10 +235,16 @@
         NSNumber *num = json[@"resultCode"];
         if ([num integerValue] == 1000)
         {
-            [SVProgressHUD showSuccessWithStatus:@"积分兑换成功！"];
-            self.transferStarTF = nil;
+            self.transferStarTF.text = nil;
             self.receiveLB.text = nil;
             self.usernameTF.text = nil;
+            self.transferBtn.enabled = NO;
+            
+            //设置剩余积分
+            NSNumber *stra = json[@"body"];
+            self.star.text = [NSString stringWithFormat:@"%@",stra];
+            
+            [SVProgressHUD showSuccessWithStatus:@"积分兑换成功！"];
         }
         
         YYLog(@"json----%@",json);
@@ -249,7 +257,7 @@
 
 
 /**
- *  地址管理：获取用户账户余额---积分
+ *  地址管理：查询账户---积分
  */
 -(void)getAccountBalance
 {
@@ -263,16 +271,13 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"json-获取账户余额%@",json);
-         //         self.virtualcenterModel = [VirtualcenterModel mj_objectWithKeyValues:json[@"obj"]];
          NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (arr && arr.count > 0)
          {
              self.virtualcenterModel = arr[0];
          }
          self.receiveLB.text = self.virtualcenterModel.membername;
-         
-         
-         
+
      } failure:^(NSError *error)
      {
          YYLog(@"json-获取账户余额%@",error);
@@ -293,7 +298,11 @@
             phoneTF.text = nil;
             self.transferBtn.enabled = NO;
             [[AlertView sharedAlertView] addAlertMessage:@"手机号输入有误，请核对" title:@"提示"];
-        }else
+        }else if ([phoneTF.text isEqualToString:[UserInfo sharedUserInfo].username]){//判断是否是本人的手机号
+            [[AlertView sharedAlertView] addAfterAlertMessage:@"积分、星币不能转增给自己！" title:@"提示"];
+            return;
+        }
+        else
         {
             //查询余额
             [self getAccountBalance];
