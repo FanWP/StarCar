@@ -713,6 +713,8 @@
         
         NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
         parameters[@"sessionId"] = sessionid;
+        parameters[@"currentPage"] = @(1);
+        parameters[@"type"] = @(1);
         
         [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -886,6 +888,8 @@
     
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
+    parameters[@"currentPage"] = @(1);
+    parameters[@"type"] = @(1);
     
     YYLog(@"sessionid===%@",sessionid);
     YYLog(@"获取指定用户的全部收藏物的parameters===%@",parameters);
