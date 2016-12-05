@@ -116,7 +116,7 @@
     }
     else
     {
-        self.productId = _carModel.carid;
+        self.productId = _carModel.ID;
         
         NSString *images = _carModel.picture;
         
@@ -155,6 +155,15 @@
     [super viewWillAppear:YES];
     
     [self creatFootView];
+    
+    if ([UserInfo sharedUserInfo].isLogin) {
+        
+        [self allCollectionAction];
+    }
+    else
+    {
+        [self.collectionButton setTitle:@"收藏" forState:(UIControlStateNormal)];
+    }
 }
 
 
@@ -264,6 +273,8 @@
         
         NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
         parameters[@"sessionId"] = sessionid;
+        parameters[@"currentPage"] = @(1);
+        parameters[@"type"] = @(1);
         
         [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -290,7 +301,7 @@
                 YYLog(@"self.collectionModel.productid:%@",collectionModel.productid);
                 
                 // 收藏过的数据里包含这个id则取消收藏  collectionModel.productid
-                if ([self.collectionIdArray containsObject:collectionModel.productid])
+                if ([self.collectionIdArray containsObject:self.productId])
                 {
                     // 取消收藏
                     [self cancleCollectionActionWithType:1];
@@ -438,6 +449,8 @@
     
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
+    parameters[@"currentPage"] = @(1);
+    parameters[@"type"] = @(1);
     
     YYLog(@"sessionid===%@",sessionid);
     YYLog(@"获取指定用户的全部收藏物的parameters===%@",parameters);
@@ -462,12 +475,13 @@
                 [collectionModel setValuesForKeysWithDictionary:dic];
                 [self.collectionIdArray addObject:collectionModel.productid];
             }
+                        
             
             // 收藏过的数据里包含这个id则显示取消收藏 self.collectionModel.ID
-            if ([self.collectionIdArray containsObject:collectionModel.productid])
+            if ([self.collectionIdArray containsObject:self.productId])
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                
                     // 取消收藏
                     [self.collectionButton setTitle:@"取消收藏" forState:(UIControlStateNormal)];
                 });
@@ -889,8 +903,16 @@
 
 - (void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"countNum" context:nil];
+    if (self.okAddCartButton)
+    {
+        [self removeObserver:self forKeyPath:@"countNum" context:nil];
+    }
+    
 }
+
+
+
+
 
 
 

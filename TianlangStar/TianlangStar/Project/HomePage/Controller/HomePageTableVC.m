@@ -21,7 +21,7 @@
 #import "MaintenanceAndProductCell.h"
 #import "SecondCarCell.h"
 
-
+#import "ProductDetailTableVC.h"
 
 @interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
 
@@ -92,7 +92,7 @@
 #pragma mark - 获取首页数据
 - (void)fetchHomePageData
 {
-    NSString *url = [NSString stringWithFormat:@"%@find/indexInfo",URL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/indexInfo",URL];
     
     
     [[AFHTTPSessionManager manager] POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -176,7 +176,7 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/saleinfo?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",URL];
     
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -469,7 +469,7 @@
     
     if (self.homePageSelectCell.maintenanceButton.selected == YES)
     {
-        ServiceModel *serviceModel = _serviceArray[indexPatch.row];
+        ServiceModel *serviceModel = _productsArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
@@ -643,6 +643,31 @@
         NewestActivityTableVC *newestActivityTableVC = [[NewestActivityTableVC alloc] initWithStyle:(UITableViewStylePlain)];
         
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
+    }
+    else
+    {
+        ProductDetailTableVC *productDetailTableVC = [[ProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+        
+        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+        {
+            productDetailTableVC.title = @"保养维护详情";
+            
+            productDetailTableVC.serviceModel = _productsArray[indexPath.row];
+        }
+        else if (self.homePageSelectCell.productButton.selected == YES)
+        {
+            productDetailTableVC.title = @"商品详情";
+            
+            productDetailTableVC.productModel = _productsArray[indexPath.row];
+        }
+        else
+        {
+            productDetailTableVC.title = @"二手车详情";
+            
+            productDetailTableVC.carModel = _productsArray[indexPath.row];
+        }
+        
+        [self.navigationController pushViewController:productDetailTableVC animated:YES];
     }
 }
 
