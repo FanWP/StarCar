@@ -24,7 +24,7 @@
         CGFloat selectButtonX = Klength15;
         CGFloat selectButtonWidth = 30;
         CGFloat selectButtonY = (2 * Klength5 + productPicWidth) / 2 - (selectButtonWidth / 2);
-        self.selectButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+        self.selectButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         self.selectButton.frame = CGRectMake(Klength10, selectButtonY, selectButtonWidth, selectButtonWidth);
         
         
@@ -48,14 +48,14 @@
         
         
         
-        [self.selectButton setImage:[UIImage imageNamed:@"select"] forState:(UIControlStateNormal)];
-        [self.selectButton setImage:[UIImage imageNamed:@"selected"] forState:(UIControlStateSelected)];
+        [self.selectButton setImage:[[UIImage imageNamed:@"unselected"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] forState:(UIControlStateNormal)];
+        [self.selectButton setImage:[[UIImage imageNamed:@"selected"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] forState:(UIControlStateSelected)];
         
         
         
-        self.productPic.image = [UIImage imageNamed:@"touxiang"];
-        self.productNameLabel.text = @"达耐尔机油";
-        self.productPriceLabel.text = @"68星币";
+//        self.productPic.image = [UIImage imageNamed:@"touxiang"];
+//        self.productNameLabel.text = @"达耐尔机油";
+//        self.productPriceLabel.text = @"68星币";
         
         
         self.productNameLabel.textAlignment = NSTextAlignmentCenter;

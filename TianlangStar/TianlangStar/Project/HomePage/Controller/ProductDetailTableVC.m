@@ -464,18 +464,17 @@
         NSNumber *num = responseObject[@"resultCode"];
         NSInteger result = [num integerValue];
         
-        NSArray *array = responseObject[@"body"];
-        
-        CollectionModel *collectionModel = [[CollectionModel alloc] init];
-        
         if (result == 1000)
-        {
-            for (NSDictionary *dic in array) {
-                
-                [collectionModel setValuesForKeysWithDictionary:dic];
+        {        
+            NSArray *array = responseObject[@"body"];
+            
+            NSMutableArray *mArray = [CollectionModel mj_objectArrayWithKeyValuesArray:array];
+            
+            for (CollectionModel *collectionModel in mArray)
+            {
                 [self.collectionIdArray addObject:collectionModel.productid];
             }
-                        
+
             
             // 收藏过的数据里包含这个id则显示取消收藏 self.collectionModel.ID
             if ([self.collectionIdArray containsObject:self.productId])
@@ -706,8 +705,8 @@
     YYLog(@"加入购物车参数：%@",parameters);
     
     NSString *url = [NSString stringWithFormat:@"%@add/shopping/car?",URL];
-    
-    [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+ 
+    [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
@@ -721,14 +720,13 @@
         }
         
         [self.coverView removeFromSuperview];
-
-        [self.okAddCartButton removeFromSuperview];
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       
+        [self.okAddCartButton removeFromSuperview];
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
         YYLog(@"加入购物车错误：%@",error);
     }];
-
 }
 
 

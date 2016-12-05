@@ -130,7 +130,7 @@ typedef enum : NSUInteger {
 - (void)creatTitleView
 {
     self.segment = [[UISegmentedControl alloc] initWithItems:@[@"商品",@"服务",@"二手车"]];
-    self.segment.frame = CGRectMake(0, 10, 120, 30);
+    self.segment.frame = CGRectMake(0, 0, 120, 30);
     [self.segment addTarget:self action:@selector(segmentChange:) forControlEvents:(UIControlEventValueChanged)];
     self.segment.apportionsSegmentWidthsByContent = YES;
     
