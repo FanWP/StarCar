@@ -24,6 +24,8 @@
 @property (nonatomic,strong) UIButton *addCartButton;// 加入购物车按钮
 @property (nonatomic,strong) UIButton *cancleCollectionButton;// 取消收藏按钮
 
+@property (nonatomic,strong) UIButton *cancleCollectionSecondCar;
+
 @end
 
 @implementation MyCollectionTableVC
@@ -157,7 +159,14 @@
     
     [self fetchAllCollectionDataWithType:1];
     
-    [self creatCartAndCancleCollection];
+    if (self.segment.selectedSegmentIndex == 0 || self.segment.selectedSegmentIndex == 1)
+    {
+        [self creatCartAndCancleCollection];
+    }
+    else
+    {
+        [self creatCancleCollectionSecondCarButton];
+    }
 }
 
 
@@ -167,7 +176,15 @@
 {
     [super viewWillDisappear:animated];
     
-    [self.bottomView removeFromSuperview];
+    
+    if (self.segment.selectedSegmentIndex == 0 || self.segment.selectedSegmentIndex == 1)
+    {
+        [self.bottomView removeFromSuperview];
+    }
+    else
+    {
+        
+    }
 }
 
 
@@ -205,7 +222,23 @@
 
 
 
+- (void)creatCancleCollectionSecondCarButton
+{
+    self.cancleCollectionSecondCar = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    self.cancleCollectionSecondCar.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
+    self.cancleCollectionSecondCar.backgroundColor = [UIColor redColor];
+    [self.cancleCollectionSecondCar setTitle:@"取消收藏" forState:(UIControlStateNormal)];
+    [self.cancleCollectionSecondCar addTarget:self action:@selector(cancleCollectionSecondCarAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.cancleCollectionSecondCar];
+    
+}
 
+
+
+- (void)cancleCollectionSecondCarAction
+{
+    [self cancleCollectionWithType:3];
+}
 
 
 
@@ -277,14 +310,21 @@
 #pragma mark - 取消收藏的点击事件
 - (void)cancleCollectionAction
 {
-    [self cancleCollectionData];// 调取取消收藏的接口
-    
     YYLog(@"取消收藏");
+    
+    if (self.segment.selectedSegmentIndex == 0)
+    {
+        [self cancleCollectionWithType:1];
+    }
+    else
+    {
+        [self cancleCollectionWithType:2];
+    }
 }
 
 
 
-- (void)cancleCollectionData
+- (void)cancleCollectionWithType:(NSInteger)type
 {
     NSString *url = [NSString stringWithFormat:@"%@canclecollectionservlet",URL];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
