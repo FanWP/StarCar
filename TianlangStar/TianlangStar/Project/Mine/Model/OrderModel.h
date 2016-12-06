@@ -58,6 +58,23 @@
 /** 积分价格 */
 @property (nonatomic,copy) NSString *scoreprice;
 
+/** 原价 */
+@property (nonatomic,assign) CGFloat original_price;
+
+/** 现价---积分 */
+@property (nonatomic,assign) CGFloat real_score;
+
+/** 折扣 */
+@property (nonatomic,assign) CGFloat discount;
+
+/** 现价---积分 */
+@property (nonatomic,assign) CGFloat real_price;
+
+
+
+
+
+
 
 
 

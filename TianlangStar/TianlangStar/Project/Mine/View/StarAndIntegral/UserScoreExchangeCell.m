@@ -60,6 +60,7 @@
         CGFloat productnameW = KScreenWidth - productnameX - priceW - 34;
         
         UILabel *productname = [[UILabel alloc] initWithFrame:CGRectMake(productnameX, 20, productnameW, 300)];
+        productname.centerY = images.centerY;
         productname.numberOfLines = 0;
         productname.font = Font12;
         productname.textColor = lableTextcolor;

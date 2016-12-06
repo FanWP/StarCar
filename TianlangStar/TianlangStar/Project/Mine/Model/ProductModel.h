@@ -74,6 +74,9 @@
 /** 购买日期 */
 @property (nonatomic,copy) NSString *lasttime;
 
+/** 商品ID */
+@property (nonatomic,copy) NSString *productid;
+
 
 /** 商品介绍的高度 */
 @property (nonatomic,assign) CGFloat introductionH;
@@ -82,7 +85,15 @@
 @property (nonatomic,assign) NSInteger count;
 
 /** 商品的个数 */
+@property (nonatomic,assign) NSInteger buytype;
+
+
+/** 商品的个数 */
 @property (nonatomic,assign) BOOL btnSelected;
+
+
+/** 实际价格 */
+@property (nonatomic,assign) NSInteger realPrice;
 
 
 @end

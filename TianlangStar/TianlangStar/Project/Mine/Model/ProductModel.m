@@ -66,5 +66,21 @@
 
 }
 
+-(NSInteger)realPrice
+{
+    NSInteger price =  [self.price integerValue];
+    
+    CGFloat  discount = [UserInfo sharedUserInfo].discount / 100;
+    
+    CGFloat total = (price * discount + 0.5);
+    
+    NSString *price1 = [NSString stringWithFormat:@"%.f",total];
+
+    NSInteger total1 = [price1 integerValue] * self.count;
+
+    return total1;
+    
+}
+
 
 @end

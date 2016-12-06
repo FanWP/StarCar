@@ -290,9 +290,11 @@
          {
              [UserInfo sharedUserInfo].isLogin = YES;
              //获取sessionId,并更新至本地
-             NSNumber * mun = responseObject[@"body"][@"sessionId"];
+             NSNumber * mun = responseObject[@"obj"][@"sessionId"];
              userInfo.sessionId = [NSString stringWithFormat:@"%@",mun];
              userInfo.RSAsessionId = [RSA encryptString:userInfo.sessionId publicKey:userInfo.publicKey];
+             NSNumber *discount = responseObject[@"obj"][@"user"][@"discount"];
+             userInfo.discount = [discount doubleValue];
              [userInfo synchronizeToSandBox];
          }else
          {

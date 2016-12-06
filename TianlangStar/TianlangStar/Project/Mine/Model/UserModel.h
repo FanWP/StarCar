@@ -36,6 +36,9 @@
 /** 推荐人 */
 @property (nonatomic,copy) NSString *referee;
 
+/** 当前用户的折扣 */
+@property (nonatomic,assign) CGFloat discount;
+
 
 /** 上次修改时间 */
 @property (nonatomic,copy) NSString *lasttime;
