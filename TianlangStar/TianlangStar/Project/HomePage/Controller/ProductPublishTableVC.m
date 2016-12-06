@@ -134,6 +134,13 @@ typedef enum : NSUInteger {
     [self.segment addTarget:self action:@selector(segmentChange:) forControlEvents:(UIControlEventValueChanged)];
     self.segment.apportionsSegmentWidthsByContent = YES;
     
+    self.segment.tintColor = [UIColor whiteColor];
+    
+    NSDictionary *normalDic = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+    NSDictionary *selectedDic = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+    [self.segment setTitleTextAttributes:normalDic forState:(UIControlStateNormal)];
+    [self.segment setTitleTextAttributes:selectedDic forState:(UIControlStateSelected)];
+    
     self.segment.selectedSegmentIndex = 0;
     self.navigationItem.titleView = self.segment;
     

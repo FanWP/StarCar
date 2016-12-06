@@ -21,6 +21,8 @@
 /** 用户id */
 @property (nonatomic,assign) NSInteger userid;
 
+@property (nonatomic,assign,getter=isSelected) BOOL selectedBtn;
+
 /**
  *  客户提交意见内容
  */

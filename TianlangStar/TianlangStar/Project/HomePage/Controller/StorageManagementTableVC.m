@@ -34,6 +34,8 @@
 
 @property (nonatomic,strong) NSMutableArray *moreStorageArray;
 
+@property (nonatomic,assign) NSInteger selectCount;
+
 @end
 
 @implementation StorageManagementTableVC
@@ -47,11 +49,24 @@
     
     [self creatHeaderView];
     
-    [self pullOnLoading];
+    switch (self.segment.selectedSegmentIndex)
+    {
+        case 0:
+            [self fetchPutawayAndSoldoutDataWithType:1];
+            break;
+        case 1:
+            [self fetchPutawayAndSoldoutDataWithType:2];
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self pullOnLoadingwWithType:1];
     
     [self dropdownRefresh];
     
-    [self fetchPutawayAndSoldoutDataWithType:1];
+    
     
     [self creatFooterView];
     
@@ -101,6 +116,14 @@
 {
     self.segment = [[UISegmentedControl alloc] initWithItems:@[@"上架",@"下架"]];
     self.segment.frame = CGRectMake(0, 10, 120, 30);
+    
+    self.segment.tintColor = [UIColor whiteColor];
+    
+    NSDictionary *normalDic = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+    NSDictionary *selectedDic = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+    [self.segment setTitleTextAttributes:normalDic forState:(UIControlStateNormal)];
+    [self.segment setTitleTextAttributes:selectedDic forState:(UIControlStateSelected)];
+    
     [self.segment addTarget:self action:@selector(segmentChange:) forControlEvents:(UIControlEventValueChanged)];
     self.segment.apportionsSegmentWidthsByContent = YES;
     
@@ -115,16 +138,35 @@
     switch (segment.selectedSegmentIndex)
     {
         case 0:
+        {
             YYLog(@"上架");
+            [self.putawayAndSoldoutButton setTitle:@"下架" forState:(UIControlStateNormal)];
+            [self fetchPutawayAndSoldoutDataWithType:1];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               
+                [self.tableView reloadData];
+            });
+        }
             break;
         case 1:
+        {
             YYLog(@"下架");
+            [self.putawayAndSoldoutButton setTitle:@"上架" forState:(UIControlStateNormal)];
+            [self fetchPutawayAndSoldoutDataWithType:2];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+            });
+        }
             break;
             
         default:
             break;
     }
 }
+
 
 
 
@@ -138,7 +180,7 @@
 
     parmas[@"pageNum"]  = @(self.pageNum);
     parmas[@"pageSize"] = @"10";
-    parmas[@"type"]  = @"1";
+    parmas[@"type"]  = @(type);
 
     YYLog(@"仓库管理参数parmas--%@",parmas);
     
@@ -156,13 +198,13 @@
         {
             self.pageNum++;
             self.storageArray = [StorageManagementModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+            });
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self.tableView reloadData];
-        });
-
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
@@ -180,10 +222,33 @@
         
         [self.storageArray removeAllObjects];
         
-        [self fetchPutawayAndSoldoutDataWithType:1];
+        switch (self.segment.selectedSegmentIndex)
+        {
+            case 0:
+            {
+                [self fetchPutawayAndSoldoutDataWithType:1];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.tableView reloadData];
+                });
+            }
+                break;
+            case 1:
+            {
+                [self fetchPutawayAndSoldoutDataWithType:2];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.tableView reloadData];
+                });
+            }
+                break;
+                
+            default:
+                break;
+        }
 
-        [self.tableView reloadData];
-        
         [self.tableView.mj_header endRefreshing];
     }];
     
@@ -192,7 +257,7 @@
 
 
 // 上拉加载
-- (void)pullOnLoading
+- (void)pullOnLoadingwWithType:(NSInteger)type
 {
     self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
         
@@ -203,7 +268,7 @@
         parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"pageNum"]  = @(self.pageNum);
         parmas[@"pageSize"] = @"10";
-        parmas[@"type"]  = @"1";
+        parmas[@"type"]  = @(type);
         
         YYLog(@"仓库管理参数parmas--%@",parmas);
         
@@ -267,7 +332,7 @@
     [self.headerView addSubview:self.allSelectedLabel];
     
     
-    CGFloat nameLabelX = allSelectedLabelX + allSelectedLabelWidth + 50;
+    CGFloat nameLabelX = allSelectedLabelX + allSelectedLabelWidth + 40;
     
     CGFloat width = (KScreenWidth - nameLabelX - allSelectedImageButtonX);
     
@@ -290,11 +355,8 @@
     CGFloat statusLabelWidth = 0.3 * width;
     self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(statusLabelX, top, statusLabelWidth, Klength30)];
     self.statusLabel.text = @"状态";
+    self.statusLabel.textAlignment = 1;
     [self.headerView addSubview:self.statusLabel];
-    
-//    self.nameLabel.backgroundColor = [UIColor redColor];
-//    self.countLabel.backgroundColor = [UIColor cyanColor];
-//    self.statusLabel.backgroundColor = [UIColor orangeColor];
     
     self.tableView.tableHeaderView = self.headerView;
 }
@@ -335,10 +397,10 @@
     switch (self.segment.selectedSegmentIndex)
     {
         case 0:
-            [self.putawayAndSoldoutButton setTitle:@"上架" forState:(UIControlStateNormal)];
+            [self.putawayAndSoldoutButton setTitle:@"下架" forState:(UIControlStateNormal)];
             break;
         case 1:
-            [self.putawayAndSoldoutButton setTitle:@"下架" forState:(UIControlStateNormal)];
+            [self.putawayAndSoldoutButton setTitle:@"上架" forState:(UIControlStateNormal)];
             break;
             
         default:
@@ -356,10 +418,10 @@
     switch (self.segment.selectedSegmentIndex)
     {
         case 0:
-            [self fetchPutawayAndSoldoutWithType:1];
+            [self fetchPutawayAndSoldoutWithType:2];
             break;
         case 1:
-            [self fetchPutawayAndSoldoutWithType:2];
+            [self fetchPutawayAndSoldoutWithType:1];
             break;
             
         default:
@@ -372,10 +434,29 @@
 - (void)fetchPutawayAndSoldoutWithType:(NSInteger)type
 {
     
+    NSString *string;
+    NSString *productids;
+    
+    NSMutableArray *marray = [NSMutableArray array];
+    
+    for (StorageManagementModel *model in _storageArray)
+    {
+        if (model.selectedBtn == YES)
+        {
+            string = model.ID;
+            
+            productids = [NSMutableString string];
+            
+            [marray addObject:string];
+        }
+    }
+    
+    productids = [marray componentsJoinedByString:@","];
+    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
     parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"productIds"]  = @"1";
+    parmas[@"productIds"]  = productids;
     NSString *shelves = [NSString stringWithFormat:@"%ld",type];
     parmas[@"shelves"] = shelves;
     
@@ -388,6 +469,48 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
         YYLog(@"上架下架返回%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            switch (self.segment.selectedSegmentIndex)
+            {
+                case 0:
+                {
+                    [[AlertView sharedAlertView] addAfterAlertMessage:@"下架成功" title:@"提示"];
+                }
+                    break;
+                case 1:
+                {
+                    [[AlertView sharedAlertView] addAfterAlertMessage:@"上架成功" title:@"提示"];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            switch (self.segment.selectedSegmentIndex)
+            {
+                case 0:
+                    [self fetchPutawayAndSoldoutDataWithType:1];
+                    break;
+                case 1:
+                    [self fetchPutawayAndSoldoutDataWithType:2];
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+            });
+        }
+        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
@@ -425,7 +548,7 @@
 {
     static NSString *identifier = @"cell";
     
-    StorageManagementCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    StorageManagementCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell == nil)
     {
@@ -436,22 +559,58 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-//    cell.nameLabel.text = @"商品名称";
-//    cell.countLabel.text = @"商品库存";
-//    cell.statusLabel.text = @"商品状态";
-
-    
     StorageManagementModel *storageManagementModel = _storageArray[indexPath.row];
     
     cell.nameLabel.text = storageManagementModel.productname;
     cell.countLabel.text = storageManagementModel.inventory;
     cell.statusLabel.text = storageManagementModel.saleState;
     
+    [cell.selectButton addTarget:self action:@selector(selectRowAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    
     cell.selectButton.selected = storageManagementModel.selectedBtn;
     cell.selectButton.tag = indexPath.row;
 
     return cell;
 }
+
+
+
+
+- (void)selectRowAction:(UIButton *)button
+{
+    button.selected = !button.selected;
+    
+    StorageManagementModel *storageManagementModel = _storageArray[button.tag];
+    storageManagementModel.selectedBtn = button.selected;
+    
+    self.selectCount = 0;
+    
+    for (storageManagementModel in _storageArray)
+    {
+        if (storageManagementModel.selectedBtn && self.selectCount < self.storageArray.count)
+        {
+            self.selectCount++;
+        }
+        
+        if (self.selectCount == _storageArray.count)
+        {
+            self.allSelectedImageButton.selected = YES;
+        }
+        else
+        {
+            self.allSelectedImageButton.selected = NO;
+        }
+    }
+ 
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.tableView reloadData];
+        
+    });
+
+}
+
+
 
 
 

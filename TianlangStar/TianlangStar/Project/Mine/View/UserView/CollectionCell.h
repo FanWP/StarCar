@@ -10,9 +10,11 @@
 
 @interface CollectionCell : UITableViewCell
 
-@property (nonatomic,strong) UIButton *selectButton;// 复选框
+//@property (nonatomic,strong) UIButton *selectButton;// 复选框
 @property (nonatomic,strong) UIImageView *productPic;// 收藏物图片
 @property (nonatomic,strong) UILabel *productNameLabel;// 收藏物名称
 @property (nonatomic,strong) UILabel *productPriceLabel;// 收藏物价格
+
+
 
 @end
