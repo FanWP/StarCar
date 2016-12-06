@@ -56,8 +56,14 @@
 
 @property (nonatomic,strong) UIButton *okAddCartButton;
 
+//购买数量
 @property (nonatomic,copy) NSString *countNum;
 @property (nonatomic,assign) NSInteger countNumber;
+
+//判断是商品还是服务
+
+/** 显示是商品详情的1---商品  2----是服务 */
+@property (nonatomic,assign) NSInteger productType;
 
 @end
 
@@ -78,9 +84,11 @@
     
     [self rightItem];
     
-    if ([self.title isEqualToString:@"商品详情"])
+    if ([self.title isEqualToString:@"商品详情"])//商品
     {
         self.productId = _productModel.ID;
+        
+        self.productType = 1;
         
         NSString *images = _productModel.images;
         
@@ -99,6 +107,8 @@
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
         self.productId = _serviceModel.ID;
+        
+        self.productType = 2;
         
         NSString *images = _serviceModel.images;
         
@@ -132,6 +142,13 @@
         }
 
     }
+}
+
+-(void)setProductType:(NSInteger)productType
+{
+    _productType = productType;
+    [self changeModelCount];
+
 }
 
 
@@ -514,7 +531,7 @@
 }
 
 
-
+//立即购买点击时间
 - (void)addCountAction:(UIButton *)button
 {
     CGFloat coverViewHeight = KScreenHeight - Klength44;
@@ -640,8 +657,78 @@
 
 - (void)settlementAction
 {
-    YYLog(@"结算");
+    
+    //显示确认支付的金额
+    NSString *totalStar = @"0";
+    
+    if (self.productType == 1) {//商品
+        totalStar = [NSString stringWithFormat:@"%ld",(long)self.productModel.realPrice];
+    }else//服务
+    {
+        totalStar = [NSString stringWithFormat:@"%ld",(long)_serviceModel.realPrice];
+    }
+    NSString *message = [NSString stringWithFormat:@"支付%@星币？",totalStar];
+
+    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        //清空购物车
+        [self buyProductInShoppingCar];
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+
 }
+
+
+
+-(void)buyProductInShoppingCar
+{
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    NSMutableDictionary *productDic = [NSMutableDictionary dictionary];
+    //模型转字典
+    if (self.productType == 1)//商品
+    {
+        productDic = [self.productModel mj_keyValues];
+        parmas[@"totalprice"] = @(self.productModel.realPrice);
+    }else if (self.productType == 2)//服务
+    {
+        productDic = [self.serviceModel mj_keyValues];
+        parmas[@"totalprice"] = @(self.serviceModel.realPrice);
+    }
+    
+    //拼接josn数据
+    YYLog(@"productDic---%@",productDic);
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:productDic options:0 error:&error];
+    NSString *dataStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"productlist"] = [NSString stringWithFormat:@"[%@]",dataStr];;
+    parmas[@"type"] = @"1";//1是直接购买  2是购物车购买
+    
+    YYLog(@"parmas--:%@",parmas);
+    
+    NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
+    
+    [HttpTool post:url parmas:parmas success:^(id json) {
+        YYLog(@"%@",json);
+    } failure:^(NSError *error) {
+        YYLog(@"%@",error);
+    }];
+    
+}
+
+
+
+
+
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
@@ -665,13 +752,41 @@
         self.countNumber = 0;
     }
     
+//    if (self.productType == 1) {//商品
+//        self.productModel.count = self.countNumber;
+//    }else//服务
+    //    {
+    //
+    //        self.serviceModel.count = self.countNumber;
+    //    }
+    
+    //计算count
+    self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
+    
+    
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+    //计算count
+    [self changeModelCount];
+    
 }
 
 - (void)plusCountAction
 {
     self.countNumber++;
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+    //计算count
+    [self changeModelCount];
+}
+
+
+    //计算count
+-(void)changeModelCount
+{
+    //计算count
+    self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
+    self.productModel.productid = self.productModel.ID;
+    self.serviceModel.productid = self.serviceModel.ID;
+    self.serviceModel.buytype = 2;//服务
 }
 
 

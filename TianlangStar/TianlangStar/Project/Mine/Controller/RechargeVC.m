@@ -492,7 +492,7 @@
          {
              self.virtualcenterModel = arr[0];
          }
-         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
+//         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
          self.balanceLable.text = [NSString stringWithFormat:@"%.0f星币",self.virtualcenterModel.balance];
          self.username.text = self.virtualcenterModel.membername;
 

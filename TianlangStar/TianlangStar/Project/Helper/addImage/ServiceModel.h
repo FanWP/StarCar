@@ -20,5 +20,20 @@
 @property (nonatomic,copy) NSString *images;
 @property (nonatomic,copy) NSString *ID;
 
+/**服务的个数 */
+@property (nonatomic,assign) NSInteger count;
+
+
+/**服务的总价格 */
+@property (nonatomic,assign) NSInteger realPrice;
+
+
+@property (nonatomic,copy) NSString *productid;
+
+/** 购买类型1---商品   2--- 服务 */
+@property (nonatomic,assign) NSInteger buytype;
+
+
+
 
 @end

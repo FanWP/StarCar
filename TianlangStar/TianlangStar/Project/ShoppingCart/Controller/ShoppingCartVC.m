@@ -9,6 +9,8 @@
 #import "ShoppingCartVC.h"
 #import "ShoppingCarCell.h"
 #import "ProductModel.h"
+#import "BuyingSuccessList.h"
+#import "BuyingSuccessListModel.h"
 
 
 @interface ShoppingCartVC ()
@@ -34,7 +36,8 @@
 /** 结算按钮 */
 @property (nonatomic,weak) UIButton *checkBtn;
 
-
+/** 购物车商品的总价 */
+@property (nonatomic,copy) NSString *totalPriceStr;
 
 
 @end
@@ -187,7 +190,7 @@
      {
          YYLog(@"json购物车:%@",json);
          [self.tableView.mj_header endRefreshing];
-         self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (self.orderArr.count > 0) {
              self.currentPage++;
              [self.tableView reloadData];
@@ -321,6 +324,7 @@
         self.checkBtn.enabled = totalStar != 0;
     }
     self.selectedOrderArr = seletedArr;
+    self.totalPriceStr = [NSString stringWithFormat:@"%ld",(long)totalStar];
     if (totalStar > 0)
     {
         return [NSString stringWithFormat:@"%.0ld星币",(long)totalStar];
@@ -335,7 +339,7 @@
 -(void)checkBtnClick
 {
     
-    NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar.text];
+    NSString *message = [NSString stringWithFormat:@"支付%@？",self.totalStar.text];
     
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     
@@ -349,7 +353,10 @@
         
     }]];
     
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:^{
+        //刷新数据
+        [self loadNewOrderInfo];
+    }];
 
 }
 
@@ -366,21 +373,30 @@
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"totalprice"] = self.totalStar.text;
+    parmas[@"totalprice"] = self.totalPriceStr;
     parmas[@"productlist"] = dataStr;
     parmas[@"type"] = @"2";
     
-    YYLog(@"parmas--:%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
+    YYLog(@"parmas--:%@url---:%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json) {
+        
+        NSNumber *num = json[@"resultCode"];
+        if ([num integerValue] == 1000)//返回成功
+        {
+            //跳转
+            BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
+            BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
+            vc.detalList = model;
+            [self.navigationController pushViewController:vc                              animated:YES];
+        }
+        
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
         YYLog(@"%@",error);
     }];
-
-
 
 }
 

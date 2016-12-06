@@ -337,7 +337,7 @@
          {
              self.virtualcenterModel = arr[0];
          }
-         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
+//         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
          
          NSString *starStr = [NSString stringWithFormat:@"%.0f",self.virtualcenterModel.balance];
 

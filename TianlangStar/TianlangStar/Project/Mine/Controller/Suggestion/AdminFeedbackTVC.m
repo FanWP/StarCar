@@ -83,7 +83,7 @@
 {
     
     [self.tableView.mj_footer endRefreshing];
-    NSString *url = [NSString stringWithFormat:@"%@findsuggestionlistservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/suggestion/list",URL];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
     self.currentPage = 1;
@@ -91,6 +91,8 @@
     parameters[@"sessionId"] = sessionid;
     parameters[@"currentPage"] = @(self.currentPage);
     parameters[@"flag"] = @(self.revertType);
+    
+    YYLog(@"params--:%@url---:%@",parameters,url);
     
     [HttpTool post:url parmas:parameters success:^(id json)
      {
@@ -111,7 +113,7 @@
 //下拉加载最新数据
 - (void)loadMoreFeedbackAction
 {
-    NSString *url = [NSString stringWithFormat:@"%@findsuggestionlistservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/suggestion/list",URL];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
