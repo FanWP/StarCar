@@ -142,7 +142,7 @@
 {
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"id"] = self.model.ID;
+    parmas[@"productid"] = self.model.ID;
     parmas[@"purchasetype"] = @"2";
     parmas[@"scoreprice"] = self.model.scoreprice;
     parmas[@"count"] = @"1";
@@ -157,12 +157,11 @@
          NSNumber *num = json[@"resultCode"];
          if ([num integerValue] == 1000)
          {
-             [SVProgressHUD showSuccessWithStatus:@"积分兑换成功！"];
+             [SVProgressHUD showSuccessWithStatus:@"提交兑换成功！"];
          }
         
      } failure:^(NSError *error) {
          YYLog(@"error:%@",error);
-         
      }];
     
 
@@ -195,9 +194,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     return self.model.introductionH;
-
 }
 
 
@@ -216,8 +213,6 @@
 /** 图片滚动回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didScrollToIndex:(NSInteger)index{
         YYLog(@"SDCycleScrollView====%ld",(long)index);
-
-
 }
 
 

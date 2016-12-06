@@ -46,15 +46,18 @@
     self.view.backgroundColor = BGcolor;
     self.title = @"购物车";
     
-    [self addOrderArr];
+
+    
+//    [self addOrderArr];
 }
 
 
 - (void)addOrderArr
 {
     ProductModel *model1 = [[ProductModel alloc] init];
-    model1.price = @"100";
+    model1.price = @"89.4";
     model1.count = 1;
+
     model1.productname = @"guwqrt";
     
     ProductModel *model2 = [[ProductModel alloc] init];
@@ -77,6 +80,7 @@
 {
 
     [super viewWillAppear:animated];
+    [self setupRefresh];
     [self addFoorView];
 }
 
@@ -175,20 +179,21 @@
     self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"currentPage"] = @(self.currentPage);
+//    parmas[@"currentPage"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    NSString *url = [NSString stringWithFormat:@"%@findshopcarlist",URL];
     YYLog(@"parmas---%@--url:%@",parmas,url);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
+         YYLog(@"json购物车:%@",json);
          [self.tableView.mj_header endRefreshing];
-         self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+         self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
          if (self.orderArr.count > 0) {
              self.currentPage++;
              [self.tableView reloadData];
          }
          
-         YYLog(@"json---%@",json);
+         YYLog(@"购物车查询返回：json---%@",json);
          
      } failure:^(NSError *error) {
          [self.tableView.mj_header endRefreshing];
@@ -203,7 +208,7 @@
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"currentPage"] = @(self.currentPage);
+//    parmas[@"currentPage"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@",URL];
     
@@ -276,7 +281,7 @@
         model.btnSelected = button.selected;
     }
     self.totalStar.text = [self checkTotalPrice];
-
+    
     [self.tableView reloadData];
 }
 
@@ -299,52 +304,84 @@
     
     NSMutableArray *seletedArr = [NSMutableArray array];
     
-    CGFloat totalStar = 0;
+    NSInteger totalStar = 0;
+    //当前用户所享受的折扣价格
+    
     for (ProductModel *model in self.orderArr)
     {
         if (model.btnSelected)
         {
-            NSInteger price = [model.price integerValue];
-            totalStar = totalStar + model.count * price;
+            totalStar = totalStar + model.realPrice;
+            
+//            totalStar = [];
+            //记录选中数据的商品及个数数组
             [seletedArr addObject:model];
         }
         //判断结算按钮是否可用
         self.checkBtn.enabled = totalStar != 0;
     }
     self.selectedOrderArr = seletedArr;
-    return [NSString stringWithFormat:@"%.0f星币",totalStar];
+    if (totalStar > 0)
+    {
+        return [NSString stringWithFormat:@"%.0ld星币",(long)totalStar];
+    }else
+    {
+     return @"0";
+    }
 }
 
 
 //结算按钮的点击事件
 -(void)checkBtnClick
 {
+    
+    NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar.text];
+    
+    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        //清空购物车
+        [self buyProductInShoppingCar];
+        
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
+}
+
+-(void)buyProductInShoppingCar
+{
+
     NSArray *arr = [ProductModel mj_keyValuesArrayWithObjectArray:self.selectedOrderArr];
-    
-    YYLog(@"%@",arr);
-    
+
     NSError *error;
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:arr options:0 error:&error];
     
     NSString *dataStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-    parmas[@"sessonId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"total"] = self.totalStar.text;
-    parmas[@"list"] = dataStr;
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"totalprice"] = self.totalStar.text;
+    parmas[@"productlist"] = dataStr;
+    parmas[@"type"] = @"2";
     
-    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    YYLog(@"parmas--:%@",parmas);
+    
+    NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
         YYLog(@"%@",error);
     }];
-    
-    
-    YYLog(@"结算%@",dataStr);
+
+
+
 }
 
 

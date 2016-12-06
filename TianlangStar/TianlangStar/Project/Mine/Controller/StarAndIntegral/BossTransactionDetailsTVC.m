@@ -48,10 +48,9 @@
     
     
     //星币交易
-    LeftAndRightModel *orginPrice = [LeftAndRightModel modelWithLeft:@"商品原价" Right:self.OrderModel.productname];
-    LeftAndRightModel *discount = [LeftAndRightModel modelWithLeft:@"折扣信息" Right:self.OrderModel.productname];
-    LeftAndRightModel *price = [LeftAndRightModel modelWithLeft:@"实付金额" Right:self.OrderModel.productname];
-    
+    LeftAndRightModel *orginPrice = [LeftAndRightModel modelWithLeft:@"商品原价" Right:[NSString stringWithFormat:@"%.0f星币",self.OrderModel.original_price]];
+    LeftAndRightModel *discount = [LeftAndRightModel modelWithLeft:@"折扣信息" Right:[NSString stringWithFormat:@"%.0f折",self.OrderModel.discount]];
+    LeftAndRightModel *price =  [LeftAndRightModel modelWithLeft:@"实付金额" Right:[NSString stringWithFormat:@"%.0f星币",self.OrderModel.real_price]];
     NSArray *group2 = [NSArray array];
     if (self.OrderModel.purchasetype == 2 ) {//积分交易
         LeftAndRightModel *scoreprice = [LeftAndRightModel modelWithLeft:@"实付金额" Right:[NSString stringWithFormat:@"%@积分",self.OrderModel.scoreprice]];

@@ -29,6 +29,9 @@ singleton_interface(UserInfo);
 @property(nonatomic,copy)NSString *userID;
 
 
+/** 当前登录用户的折扣 */
+@property(nonatomic,assign)CGFloat discount;
+
 
 /** 当前用户的类型  0-老板 1-店长 2- 用户*/
 @property (nonatomic,assign) NSInteger userType;

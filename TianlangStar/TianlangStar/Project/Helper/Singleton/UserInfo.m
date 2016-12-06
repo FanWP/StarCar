@@ -14,6 +14,7 @@
 #define EmployeeName @"EmployeeName"
 #define Headerpic @"Headerpic"
 #define Viplevel @"Viplevel"
+#define Discount @"discount"
 
 //#import <MJExtension.h>
 
@@ -35,6 +36,7 @@ singleton_implementation(UserInfo);
     [defaults setBool:self.isLogin forKey:@"isLogin"];
     [defaults setBool:self.isQuit forKey:@"isQuit"];
     [defaults setInteger:self.viplevel forKey:Viplevel];
+    [defaults setDouble:self.discount forKey:Discount];
     [defaults synchronize];
 }
 
@@ -54,6 +56,7 @@ singleton_implementation(UserInfo);
     self.isLogin = [defaults boolForKey:@"isLogin"];
     self.isQuit = [defaults boolForKey:@"isQuit"];
     self.viplevel = [defaults integerForKey:Viplevel];
+    self.discount = [defaults doubleForKey:Discount];
 }
 
 
