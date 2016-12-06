@@ -14,17 +14,22 @@
 #import "ServiceModel.h"
 #import "CarModel.h"
 
+#import "ProductDetailTableVC.h"
+
 @interface MyCollectionTableVC ()
 
 
 @property (nonatomic,strong) UISegmentedControl *segment;
 
 @property (nonatomic,strong) NSMutableArray *collectionArray;// 保存所有收藏物的数组
-@property (nonatomic,strong) UIView *bottomView;// 底部view
-@property (nonatomic,strong) UIButton *addCartButton;// 加入购物车按钮
-@property (nonatomic,strong) UIButton *cancleCollectionButton;// 取消收藏按钮
 
-@property (nonatomic,strong) UIButton *cancleCollectionSecondCar;
+//@property (nonatomic,strong) UIView *bottomView;// 底部view
+//@property (nonatomic,strong) UIButton *addCartButton;// 加入购物车按钮
+//@property (nonatomic,strong) UIButton *cancleCollectionButton;// 取消收藏按钮
+//
+//@property (nonatomic,strong) UIButton *cancleCollectionSecondCar;
+
+//@property (nonatomic,assign) NSInteger selectCount;
 
 @end
 
@@ -74,7 +79,7 @@
         {
             YYLog(@"商品");
             
-            [self.cancleCollectionSecondCar removeFromSuperview];
+//            [self.cancleCollectionSecondCar removeFromSuperview];
             
             [self fetchAllCollectionDataWithType:1];
         }
@@ -83,7 +88,7 @@
         {
             YYLog(@"服务");
             
-            [self.cancleCollectionSecondCar removeFromSuperview];
+//            [self.cancleCollectionSecondCar removeFromSuperview];
             
             [self fetchAllCollectionDataWithType:2];
         }
@@ -92,7 +97,7 @@
         {
             YYLog(@"二手车");
             
-            [self creatCancleCollectionSecondCarButton];
+//            [self creatCancleCollectionSecondCarButton];
             
             [self fetchAllCollectionDataWithType:3];
         }
@@ -165,7 +170,7 @@
     
     [self fetchAllCollectionDataWithType:1];
     
-    [self creatCartAndCancleCollection];
+//    [self creatCartAndCancleCollection];
     
 }
 
@@ -176,59 +181,59 @@
 {
     [super viewWillDisappear:animated];
     
-    [self.bottomView removeFromSuperview];
-
-    [self.cancleCollectionSecondCar removeFromSuperview];
+//    [self.bottomView removeFromSuperview];
+//
+//    [self.cancleCollectionSecondCar removeFromSuperview];
     
 }
 
 
 
 #pragma mark - 创建加入购物车和取消收藏按钮
-- (void)creatCartAndCancleCollection
-{
-    CGFloat bottomViewY = KScreenHeight - Klength44;
-    if (!self.bottomView)
-    {
-        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
-        [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
-    }
-    
-    
-    CGFloat buttonWidth = KScreenWidth / 2;
-    self.addCartButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-    self.addCartButton.frame = CGRectMake(0, 0, buttonWidth, Klength44);
-    [self.addCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
-    self.addCartButton.backgroundColor = [UIColor orangeColor];
-    [self.addCartButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    [self.addCartButton addTarget:self action:@selector(addCartAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.bottomView addSubview:self.addCartButton];
-    
-    
-    
-    self.cancleCollectionButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-    self.cancleCollectionButton.frame = CGRectMake(buttonWidth, 0, buttonWidth, Klength44);
-    [self.cancleCollectionButton setTitle:@"取消收藏" forState:(UIControlStateNormal)];
-    [self.cancleCollectionButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    self.cancleCollectionButton.backgroundColor = [UIColor redColor];
-    [self.cancleCollectionButton addTarget:self action:@selector(cancleCollectionAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.bottomView addSubview:self.cancleCollectionButton];
-    
-}
+//- (void)creatCartAndCancleCollection
+//{
+//    CGFloat bottomViewY = KScreenHeight - Klength44;
+//    if (!self.bottomView)
+//    {
+//        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
+//        [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
+//    }
+//    
+//    
+//    CGFloat buttonWidth = KScreenWidth / 2;
+//    self.addCartButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+//    self.addCartButton.frame = CGRectMake(0, 0, buttonWidth, Klength44);
+//    [self.addCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
+//    self.addCartButton.backgroundColor = [UIColor orangeColor];
+//    [self.addCartButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+//    [self.addCartButton addTarget:self action:@selector(addCartAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    [self.bottomView addSubview:self.addCartButton];
+//    
+//    
+//    
+//    self.cancleCollectionButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+//    self.cancleCollectionButton.frame = CGRectMake(buttonWidth, 0, buttonWidth, Klength44);
+//    [self.cancleCollectionButton setTitle:@"取消收藏" forState:(UIControlStateNormal)];
+//    [self.cancleCollectionButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+//    self.cancleCollectionButton.backgroundColor = [UIColor redColor];
+//    [self.cancleCollectionButton addTarget:self action:@selector(cancleCollectionAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    [self.bottomView addSubview:self.cancleCollectionButton];
+//    
+//}
 
 
 
 
-- (void)creatCancleCollectionSecondCarButton
-{
-    self.cancleCollectionSecondCar = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    self.cancleCollectionSecondCar.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
-    self.cancleCollectionSecondCar.backgroundColor = [UIColor redColor];
-    [self.cancleCollectionSecondCar setTitle:@"取消收藏" forState:(UIControlStateNormal)];
-    [self.cancleCollectionSecondCar addTarget:self action:@selector(cancleCollectionSecondCarAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.cancleCollectionSecondCar];
-    
-}
+//- (void)creatCancleCollectionSecondCarButton
+//{
+//    self.cancleCollectionSecondCar = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    self.cancleCollectionSecondCar.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
+//    self.cancleCollectionSecondCar.backgroundColor = [UIColor redColor];
+//    [self.cancleCollectionSecondCar setTitle:@"取消收藏" forState:(UIControlStateNormal)];
+//    [self.cancleCollectionSecondCar addTarget:self action:@selector(cancleCollectionSecondCarAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    [[UIApplication sharedApplication].keyWindow addSubview:self.cancleCollectionSecondCar];
+//    
+//}
 
 
 
@@ -251,24 +256,7 @@
 
 - (void)addToCartDataWithType:(NSInteger)type
 {
-//    NSString *url = [NSString stringWithFormat:@"%@addshoppingcarservlet",URL];
-//    
-//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-//    
-//    NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
-//    parameters[@"sessionId"] = sessionid;
-//    parameters[@"buytype"] = @"1";// 购买类型，1表示商品  2表示服务
-//    parameters[@"count"] = @"2";
-//    parameters[@"productid"] = @"2";// 商品id
-//    
-//    [HttpTool post:url parmas:parameters success:^(id json) {
-//        
-//        YYLog(@"添加进购物车返回：%@",json);
-//        
-//    } failure:^(NSError *error) {
-//        
-//        YYLog(@"添加进购物车返回失败：%@",error);
-//    }];
+    
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
@@ -443,7 +431,7 @@
             break;
     }
     
-    [cell.selectButton addTarget:self action:@selector(selectAction:) forControlEvents:(UIControlEventTouchUpInside)];
+//    [cell.selectButton addTarget:self action:@selector(selectAction:) forControlEvents:(UIControlEventTouchUpInside)];
     
     return cell;
 }
@@ -452,10 +440,39 @@
 
 
 
-- (void)selectAction:(UIButton *)button
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    button.selected = !button.selected;
+    ProductDetailTableVC *productDetailTableVC = [[ProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+    [self.navigationController pushViewController:productDetailTableVC animated:YES];
 }
+
+
+
+
+
+//- (void)selectAction:(UIButton *)button
+//{
+//    button.selected = !button.selected;
+//    
+//    CollectionModel *collectionModel = _collectionArray[button.tag];
+//    collectionModel.selectedBtn = button.selected;
+//    
+////    self.selectCount = 0;
+//    
+//    for (collectionModel in _collectionArray)
+//    {
+//        if (collectionModel.selectedBtn && self.selectCount < _collectionArray.count)
+//        {
+//            self.selectCount++;
+//        }
+//    }
+//    
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        
+//        [self.tableView reloadData];
+//        
+//    });
+//}
 
 
 

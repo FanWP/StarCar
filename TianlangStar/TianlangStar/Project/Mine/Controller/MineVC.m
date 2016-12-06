@@ -230,8 +230,7 @@
 
 -(void)setupHearderInfo
 {
-
-  UserInfo *userInfo = [UserInfo sharedUserInfo];
+    UserInfo *userInfo = [UserInfo sharedUserInfo];
     //用户名
     self.userCommonView.userNameLabel.text = userInfo.username;
     //头像

@@ -46,6 +46,7 @@
         CGFloat countLabelX = nameLabelX + nameLabelWidth;
         CGFloat countLabelWidth = 0.3 * width;
         self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake(countLabelX, top, countLabelWidth, labelHeight)];
+        self.countLabel.textAlignment = 1;
         [self.contentView addSubview:self.countLabel];
         
         
@@ -53,6 +54,7 @@
         CGFloat statusLabelX = countLabelX + countLabelWidth;
         CGFloat statusLabelWidth = 0.3 * width;
         self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(statusLabelX, top, statusLabelWidth, labelHeight)];
+        self.statusLabel.textAlignment = 1;
         [self.contentView addSubview:self.statusLabel];
         
 //        self.nameLabel.backgroundColor = [UIColor redColor];
