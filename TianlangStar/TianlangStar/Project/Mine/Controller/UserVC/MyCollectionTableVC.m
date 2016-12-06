@@ -10,13 +10,21 @@
 #import "CollectionCell.h"
 #import "CollectionModel.h"
 
+#import "ProductModel.h"
+#import "ServiceModel.h"
+#import "CarModel.h"
+
 @interface MyCollectionTableVC ()
 
-@property (nonatomic,strong) UIView *headerView;// 顶部切换商品、服务、车辆的view
+
+@property (nonatomic,strong) UISegmentedControl *segment;
+
 @property (nonatomic,strong) NSMutableArray *collectionArray;// 保存所有收藏物的数组
 @property (nonatomic,strong) UIView *bottomView;// 底部view
 @property (nonatomic,strong) UIButton *addCartButton;// 加入购物车按钮
 @property (nonatomic,strong) UIButton *cancleCollectionButton;// 取消收藏按钮
+
+@property (nonatomic,strong) UIButton *cancleCollectionSecondCar;
 
 @end
 
@@ -27,34 +35,68 @@
     
     self.tableView.rowHeight = 0.2 * KScreenWidth + 2 * Klength5;
     
+    [self creatTitleView];
+
+
 }
 
 
 
-#pragma mark - 顶部的headerView
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (void)creatTitleView
 {
-    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, Klength44)];
+    self.segment = [[UISegmentedControl alloc] initWithItems:@[@"商品",@"服务",@"车辆"]];
+    self.segment.frame = CGRectMake(0, 0, 120, Klength30);
     
-    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:@[@"商品",@"服务",@"车辆"]];
-    segment.frame = CGRectMake(0, 0, KScreenWidth, Klength44);
-    
-    segment.tintColor = [UIColor orangeColor];
+    self.segment.tintColor = [UIColor whiteColor];
     
     NSDictionary *normalDic = @{NSForegroundColorAttributeName:[UIColor blackColor]};
-    NSDictionary *selectedDic = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
-    [segment setTitleTextAttributes:normalDic forState:(UIControlStateNormal)];
-    [segment setTitleTextAttributes:selectedDic forState:(UIControlStateSelected)];
+    NSDictionary *selectedDic = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+    [self.segment setTitleTextAttributes:normalDic forState:(UIControlStateNormal)];
+    [self.segment setTitleTextAttributes:selectedDic forState:(UIControlStateSelected)];
     
     NSDictionary *attributes = [NSDictionary dictionaryWithObject:Font16 forKey:NSFontAttributeName];
-    [segment setTitleTextAttributes:attributes forState:(UIControlStateNormal)];
+    [self.segment setTitleTextAttributes:attributes forState:(UIControlStateNormal)];
     
-    segment.selectedSegmentIndex = 0;
+    self.segment.selectedSegmentIndex = 0;
     
-    [self.headerView addSubview:segment];
+    [self.segment addTarget:self action:@selector(segmentChange:) forControlEvents:(UIControlEventValueChanged)];
     
-    return self.headerView;
+    self.navigationItem.titleView = self.segment;
 }
+
+
+
+- (void)segmentChange:(UISegmentedControl *)segment
+{
+    switch (self.segment.selectedSegmentIndex)
+    {
+        case 0:
+        {
+            YYLog(@"商品");
+            
+            [self fetchAllCollectionDataWithType:1];
+        }
+            break;
+        case 1:
+        {
+            YYLog(@"服务");
+            
+            [self fetchAllCollectionDataWithType:2];
+        }
+            break;
+        case 2:
+        {
+            YYLog(@"二手车");
+            
+            [self fetchAllCollectionDataWithType:3];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 
 
@@ -68,6 +110,7 @@
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     NSString *collectionType = [NSString stringWithFormat:@"%ld",type];
+    parameters[@"currentPage"] = @(1);
     parameters[@"type"] = collectionType;
     
     YYLog(@"sessionid===%@",sessionid);
@@ -84,14 +127,21 @@
         
         if (result == 1000)
         {
-            
-            self.collectionArray = [CollectionModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-
+            if ([collectionType isEqualToString:@"1"])
+            {
+                self.collectionArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            }
+            if ([collectionType isEqualToString:@"2"])
+            {
+                self.collectionArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            }
+            if ([collectionType isEqualToString:@"3"])
+            {
+                self.collectionArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+            }
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-           
-            [self.tableView reloadData];
-        });
+        
+        [self.tableView reloadData];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -109,7 +159,14 @@
     
     [self fetchAllCollectionDataWithType:1];
     
-    [self creatCartAndCancleCollection];
+    if (self.segment.selectedSegmentIndex == 0 || self.segment.selectedSegmentIndex == 1)
+    {
+        [self creatCartAndCancleCollection];
+    }
+    else
+    {
+        [self creatCancleCollectionSecondCarButton];
+    }
 }
 
 
@@ -119,7 +176,15 @@
 {
     [super viewWillDisappear:animated];
     
-    [self.bottomView removeFromSuperview];
+    
+    if (self.segment.selectedSegmentIndex == 0 || self.segment.selectedSegmentIndex == 1)
+    {
+        [self.bottomView removeFromSuperview];
+    }
+    else
+    {
+        
+    }
 }
 
 
@@ -156,35 +221,87 @@
 
 
 
+
+- (void)creatCancleCollectionSecondCarButton
+{
+    self.cancleCollectionSecondCar = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    self.cancleCollectionSecondCar.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
+    self.cancleCollectionSecondCar.backgroundColor = [UIColor redColor];
+    [self.cancleCollectionSecondCar setTitle:@"取消收藏" forState:(UIControlStateNormal)];
+    [self.cancleCollectionSecondCar addTarget:self action:@selector(cancleCollectionSecondCarAction) forControlEvents:(UIControlEventTouchUpInside)];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.cancleCollectionSecondCar];
+    
+}
+
+
+
+- (void)cancleCollectionSecondCarAction
+{
+    [self cancleCollectionWithType:3];
+}
+
+
+
 #pragma mark - 加入购物车的点击事件
 - (void)addCartAction
 {
-    [self addToCartData];// 调取加入购物车的接口
+    [self addToCartDataWithType:1];// 调取加入购物车的接口
     
     YYLog(@"加入购物车");
 }
 
 
 
-- (void)addToCartData
+- (void)addToCartDataWithType:(NSInteger)type
 {
-    NSString *url = [NSString stringWithFormat:@"%@addshoppingcarservlet",URL];
+//    NSString *url = [NSString stringWithFormat:@"%@addshoppingcarservlet",URL];
+//    
+//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    
+//    NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
+//    parameters[@"sessionId"] = sessionid;
+//    parameters[@"buytype"] = @"1";// 购买类型，1表示商品  2表示服务
+//    parameters[@"count"] = @"2";
+//    parameters[@"productid"] = @"2";// 商品id
+//    
+//    [HttpTool post:url parmas:parameters success:^(id json) {
+//        
+//        YYLog(@"添加进购物车返回：%@",json);
+//        
+//    } failure:^(NSError *error) {
+//        
+//        YYLog(@"添加进购物车返回失败：%@",error);
+//    }];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
-    parameters[@"buytype"] = @"1";// 购买类型，1表示商品  2表示服务
-    parameters[@"count"] = @"2";
-    parameters[@"productid"] = @"2";// 商品id
+    parameters[@"productid"] = @(2);
+    parameters[@"type"] = @(1);// 1:商品 2:服务
+    parameters[@"count"] = @(type);
     
-    [HttpTool post:url parmas:parameters success:^(id json) {
+    YYLog(@"加入购物车参数：%@",parameters);
+    
+    NSString *url = [NSString stringWithFormat:@"%@add/shopping/car?",URL];
+    
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
-        YYLog(@"添加进购物车返回：%@",json);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"加入购物车返回：%@",responseObject);
         
-    } failure:^(NSError *error) {
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
-        YYLog(@"添加进购物车返回失败：%@",error);
+        if (resultCode == 1000)
+        {
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"加入购物车错误：%@",error);
+        
     }];
 }
 
@@ -193,14 +310,21 @@
 #pragma mark - 取消收藏的点击事件
 - (void)cancleCollectionAction
 {
-    [self cancleCollectionData];// 调取取消收藏的接口
-    
     YYLog(@"取消收藏");
+    
+    if (self.segment.selectedSegmentIndex == 0)
+    {
+        [self cancleCollectionWithType:1];
+    }
+    else
+    {
+        [self cancleCollectionWithType:2];
+    }
 }
 
 
 
-- (void)cancleCollectionData
+- (void)cancleCollectionWithType:(NSInteger)type
 {
     NSString *url = [NSString stringWithFormat:@"%@canclecollectionservlet",URL];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -243,13 +367,6 @@
 
 
 
-// headerView的高度
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return Klength44;
-}
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -266,7 +383,6 @@
 // 行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    YYLog(@"数组个数%ld",self.collectionArray.count);
     return self.collectionArray.count;
 }
 
@@ -284,9 +400,93 @@
         cell = [[CollectionCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
     }
 
+    switch (self.segment.selectedSegmentIndex)
+    {
+        case 0:
+        {
+            ProductModel *productModel = _collectionArray[indexPath.row];
+            
+            NSArray *imagesArray = [productModel.images componentsSeparatedByString:@","];
+            
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject]];
+            [cell.productPic sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+            cell.productNameLabel.text = productModel.productname;
+            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",productModel.scoreprice];
+
+        }
+            break;
+        case 1:
+        {
+            ServiceModel *serviceModel = _collectionArray[indexPath.row];
+            
+            NSArray *imagesArray = [serviceModel.images componentsSeparatedByString:@","];
+            
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject]];
+            [cell.productPic sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+            cell.productNameLabel.text = serviceModel.services;
+            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",serviceModel.scoreprice];
+
+        }
+            break;
+        case 2:
+        {
+            CarModel *carModel = _collectionArray[indexPath.row];
+            
+            NSArray *imagesArray = [carModel.picture componentsSeparatedByString:@","];
+            
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject]];
+            [cell.productPic sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+            cell.productNameLabel.text = carModel.brand;
+            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",carModel.price];
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [cell.selectButton addTarget:self action:@selector(selectAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    
     return cell;
 }
 
 
 
+
+
+- (void)selectAction:(UIButton *)button
+{
+    button.selected = !button.selected;
+}
+
+
+
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
