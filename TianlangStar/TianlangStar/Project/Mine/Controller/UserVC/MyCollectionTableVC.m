@@ -74,6 +74,8 @@
         {
             YYLog(@"商品");
             
+            [self.cancleCollectionSecondCar removeFromSuperview];
+            
             [self fetchAllCollectionDataWithType:1];
         }
             break;
@@ -81,12 +83,16 @@
         {
             YYLog(@"服务");
             
+            [self.cancleCollectionSecondCar removeFromSuperview];
+            
             [self fetchAllCollectionDataWithType:2];
         }
             break;
         case 2:
         {
             YYLog(@"二手车");
+            
+            [self creatCancleCollectionSecondCarButton];
             
             [self fetchAllCollectionDataWithType:3];
         }
@@ -159,14 +165,8 @@
     
     [self fetchAllCollectionDataWithType:1];
     
-    if (self.segment.selectedSegmentIndex == 0 || self.segment.selectedSegmentIndex == 1)
-    {
-        [self creatCartAndCancleCollection];
-    }
-    else
-    {
-        [self creatCancleCollectionSecondCarButton];
-    }
+    [self creatCartAndCancleCollection];
+    
 }
 
 
@@ -176,15 +176,10 @@
 {
     [super viewWillDisappear:animated];
     
+    [self.bottomView removeFromSuperview];
+
+    [self.cancleCollectionSecondCar removeFromSuperview];
     
-    if (self.segment.selectedSegmentIndex == 0 || self.segment.selectedSegmentIndex == 1)
-    {
-        [self.bottomView removeFromSuperview];
-    }
-    else
-    {
-        
-    }
 }
 
 
@@ -193,9 +188,11 @@
 - (void)creatCartAndCancleCollection
 {
     CGFloat bottomViewY = KScreenHeight - Klength44;
-    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
-    
+    if (!self.bottomView)
+    {
+        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
+        [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
+    }
     
     
     CGFloat buttonWidth = KScreenWidth / 2;
