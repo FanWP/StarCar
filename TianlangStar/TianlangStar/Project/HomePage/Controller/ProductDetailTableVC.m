@@ -673,6 +673,8 @@
     
     self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
     self.paidLabel.text = [NSString stringWithFormat:@"%@星币",self.paidMoney];
+    
+    [self changeModelCount];
     [self.countView addSubview:self.paidLabel];
     
     
