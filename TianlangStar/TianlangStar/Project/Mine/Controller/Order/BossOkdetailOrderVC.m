@@ -76,7 +76,7 @@
         //设置数据
         switch (i) {
             case 0:
-                rightlable.text = self.orderModel.membername;
+                rightlable.text = (self.orderModel.membername == nil || self.orderModel.membername.length == 0) ? self.orderModel.username : self.orderModel.membername;
                 break;
             case 1:
                 rightlable.text = self.orderModel.username;

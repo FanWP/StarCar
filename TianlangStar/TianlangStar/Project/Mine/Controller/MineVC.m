@@ -350,6 +350,8 @@
          }
 //         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
          
+         
+         
          NSString *starStr = [NSString stringWithFormat:@"%.0f",self.virtualcenterModel.balance];
 
          [self.userCommonView.moneyButton setTitle:starStr forState:UIControlStateNormal];
@@ -381,8 +383,9 @@
          YYLog(@"json-获取账户积分余额%@",json);
 
          NSNumber *num = json[@"body"];
+         
 
-         NSString *starStr = [NSString stringWithFormat:@"%@",num];
+         NSString *starStr = num == nil ? @"0":[NSString stringWithFormat:@"%@",num];
          
          [self.userCommonView.scoreButton setTitle:starStr forState:UIControlStateNormal];
 

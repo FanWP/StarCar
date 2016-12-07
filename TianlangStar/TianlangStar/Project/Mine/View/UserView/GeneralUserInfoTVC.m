@@ -526,12 +526,12 @@
     
     
     //判断输入数据是否正确
-    
-    if (![self.userModel.identity isIdentityCardNo])
-    {
-        [[AlertView sharedAlertView] addAlertMessage:@"身份证输入有误，请核对" title:@"提示"];
-        return;
-    }
+//    
+//    if (![self.userModel.identity isIdentityCardNo])
+//    {
+//        [[AlertView sharedAlertView] addAlertMessage:@"身份证输入有误，请核对" title:@"提示"];
+//        return;
+//    }
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;

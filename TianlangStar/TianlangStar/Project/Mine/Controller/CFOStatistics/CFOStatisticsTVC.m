@@ -202,8 +202,11 @@ typedef enum : NSUInteger
 {
     _cfoTotalModel = cfoTotalModel;
     self.itemCount.text = [NSString stringWithFormat:@"%@笔交易",cfoTotalModel.itemCount];
-    self.totalPrice.text = [NSString stringWithFormat:@"%@星币",cfoTotalModel.totalPrice];
-    self.totalScore.text = [NSString stringWithFormat:@"%@积分",cfoTotalModel.totalScore];
+    
+    NSString *price = self.cfoTotalModel.totalPrice == nil ? @"0" : self.cfoTotalModel.totalPrice;
+    NSString *Score = self.cfoTotalModel.totalScore == nil ? @"0" : self.cfoTotalModel.totalScore;
+    self.totalPrice.text = [NSString stringWithFormat:@"%@星币",price];
+    self.totalScore.text = [NSString stringWithFormat:@"%@积分",Score];
 
 }
 
