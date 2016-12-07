@@ -71,6 +71,10 @@
 
 @property (nonatomic,assign) NSInteger appearCount;
 
+
+@property (nonatomic,copy) NSString *telNum;
+@property (nonatomic,strong) UIWebView *webView;
+
 //判断是商品还是服务
 
 /** 显示是商品详情的1---商品  2----是服务 */
@@ -140,6 +144,8 @@
     else
     {
         self.productId = _carModel.ID;
+        
+        self.telNum = _carModel.telphone;
         
         NSString *images = _carModel.picture;
         
@@ -916,16 +922,18 @@
 
 
 
-- (void)buyAction
-{
-    YYLog(@"立即购买");
-}
-
-
-
 - (void)chatAction
 {
-    YYLog(@"咨询");
+    NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.telNum]];
+    
+    if ( !_webView )
+    {
+        
+        self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    }
+    
+    [self.webView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
+
 }
 
 

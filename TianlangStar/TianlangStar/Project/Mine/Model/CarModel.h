@@ -43,6 +43,8 @@
 
 @property (nonatomic,copy) NSString *images;
 
+@property (nonatomic,copy) NSString *telphone;
+
 
 /** 车辆的ID */
 @property (nonatomic,copy) NSString *cid;

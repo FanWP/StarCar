@@ -503,7 +503,7 @@
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
     cell.priceLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
     
-    self.telNumber = _carModel.number;
+    self.telNumber = _carModel.telphone;
     
     [cell.chatButton addTarget:self action:@selector(chatAction) forControlEvents:(UIControlEventTouchUpInside)];
     
