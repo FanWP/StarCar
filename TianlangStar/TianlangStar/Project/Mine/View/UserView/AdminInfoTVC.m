@@ -219,7 +219,7 @@
     
     if (self.headerImg)
     {
-        parmas[@"oldheaderpic"] = self.userModel.headimage;
+        parmas[@"headimage"] = self.userModel.headimage;
         NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
         YYLog(@"parmas----%@",parmas);
         
@@ -235,6 +235,27 @@
          } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
         {
              YYLog(@"responseObject---%@",responseObject);
+            NSNumber *num = responseObject[@"resultCode"];
+            if ([num integerValue] == 1000)
+            {
+                UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
+                UserInfo *userInfo = [UserInfo sharedUserInfo];
+                
+                //保存数据
+                userInfo.headerpic = model.headimage;
+                userInfo.userType = model.type;
+                userInfo.viplevel = model.viplevel;
+                userInfo.username = model.username;
+                userInfo.discount = model.discount;
+                
+                [userInfo synchronizeToSandBox];
+                
+                YYLog(@"%@",model.username);
+                
+                
+            }
+            
+            
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              YYLog(@"error---%@",error);
          }];

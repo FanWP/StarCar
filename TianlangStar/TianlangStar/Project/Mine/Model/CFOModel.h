@@ -32,6 +32,11 @@
 /** 总交星币 */
 @property (nonatomic,copy) NSString *totalPrice;
 
+/** 1---星币   2---积分 */
+@property (nonatomic,assign) NSInteger purchasetype;
+
+
+
 
 
 @end
