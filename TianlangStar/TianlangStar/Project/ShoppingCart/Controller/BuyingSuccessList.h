@@ -12,6 +12,6 @@
 @interface BuyingSuccessList : UITableViewController
 
 /** 服务器返回的数据 */
-@property (nonatomic,strong) BuyingSuccessListModel *detalList;
+@property (nonatomic,strong) BuyingSuccessListModel *model;
 
 @end

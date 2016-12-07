@@ -45,6 +45,10 @@
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
         
+        //添加灰色线条
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 7)];
+        line.backgroundColor = BGcolor;
+        [self.contentView addSubview: line];
         //设置按钮
         UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(16, 170  *0.5 + 7, 11, 11)];
         [selectBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
@@ -53,7 +57,7 @@
         [self.contentView addSubview:selectBtn];
         
         //图像
-        UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(selectBtn.frame) + 16, 15 - 7, 105, 70)];
+        UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(selectBtn.frame) + 16, 15, 105, 70)];
 //        images.backgroundColor = [UIColor orangeColor];
         self.images = images;
         [self.contentView addSubview:images];
@@ -110,7 +114,7 @@
     
     [self.images sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,productModel.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
-    self.productname.text = productModel.productname;
+    self.productname.text = productModel.buytype == 1 ? productModel.productname :productModel.services;
     self.star.text = productModel.price;
 //    self.productname.text = @"我的商品我的商235623品我23462的商品";
 //    self.star.text = @"1000星币";
@@ -136,15 +140,6 @@
     return cell;
 }
 
--(void)setFrame:(CGRect)frame
-{
-    frame.size.height -= 7;
-    frame.origin.y += 7;
-    
-    
-    [super setFrame:frame];
 
-
-}
 
 @end

@@ -99,7 +99,7 @@
          [self.tableView.mj_header endRefreshing];
          YYLog(@"查询客户提交的意见列表返回：%@",json);
          self.currentPage++;
-         self.feedbackArr = [FeedbackModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.feedbackArr = [FeedbackModel mj_objectArrayWithKeyValuesArray:json[@"suggestList"]];
          YYLog(@"self.feedbackArr.count----%lu",(unsigned long)self.feedbackArr.count);
          [self.tableView reloadData];
      } failure:^(NSError *error)
@@ -129,7 +129,7 @@
          [self.tableView.mj_footer endRefreshing];
          YYLog(@"查询客户提交的意见列表返回：%@",json);
          self.currentPage++;
-         NSMutableArray *arr = [FeedbackModel mj_keyValuesArrayWithObjectArray:json[@"obj"]];
+         NSMutableArray *arr = [FeedbackModel mj_keyValuesArrayWithObjectArray:json[@"suggestList"]];
          self.feedbackArr = [NSMutableArray arrayWithArray:arr];
          YYLog(@"%@",arr);
          [self.tableView reloadData];
@@ -154,8 +154,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return self.feedbackArr.count;
-    return 10;
+    return self.feedbackArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -180,13 +179,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    FeedbackModel *model = self.feedbackArr[indexPath.row];
+    FeedbackModel *model = self.feedbackArr[indexPath.row];
     //假数据
-    FeedbackModel *model = [[FeedbackModel alloc] init];
-    model.lasttime = @"1446652800";
-    model.content = @"7ty4931y08t143426326235746253837658675965896967896889659865986598650yh81035ugosdjovjhkdashbkjsFJBVsdjlbjljldbsJL";
-    model.username =@"ut4oqwutowqutuqwo";
-    model.membername = @"王小二";
+//    FeedbackModel *model = [[FeedbackModel alloc] init];
+//    model.lasttime = @"1446652800";
+//    model.content = @"7ty4931y08t143426326235746253837658675965896967896889659865986598650yh81035ugosdjovjhkdashbkjsFJBVsdjlbjljldbsJL";
+//    model.username =@"ut4oqwutowqutuqwo";
+//    model.membername = @"王小二";
     
     
     if (self.revertType == 0)//未回复
@@ -203,21 +202,20 @@
     }
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 30)];
-    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth * 0.5, 14)];
-    lable.centerX = KScreenWidth * 0.5;
-    lable.backgroundColor = [UIColor redColor];
-    [foot addSubview:lable];
-
-    return foot;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 30;
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 30)];
+//    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth * 0.5, 14)];
+//    lable.centerX = KScreenWidth * 0.5;
+//    lable.backgroundColor = [UIColor redColor];
+//    [foot addSubview:lable];
+//    return foot;
+//}
+//
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 10;
+//}
 
 
 

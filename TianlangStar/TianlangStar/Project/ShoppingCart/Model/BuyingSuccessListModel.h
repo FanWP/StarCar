@@ -30,8 +30,39 @@
 
 /** 总价格 */
 @property (nonatomic,copy) NSString *totalPrice;
-
+/** 购买时间 */
+@property (nonatomic,copy) NSString *buytime;
+/** 折扣 */
+@property (nonatomic,copy) NSString *discount;
+/** 收款方 */
+@property (nonatomic,copy) NSString *payee;
+/** 余额 */
+@property (nonatomic,copy) NSString *balance;
 /** 详细信息 */
 @property (nonatomic,strong) NSArray *orderList;
 
 @end
+/*
+ 
+ 2016-12-07 14:52:43.667 TianlangStar[4275:1918112] {
+	buytime = 1481093567581,
+	totalPrice = 231,
+	discount = 0.7,
+	resultCode = 1000,
+	payee = 天狼星汽车服务有限公司,
+	orderList = [
+ {
+	saleId = 148109356759759420,
+	discountPrice = 99,
+	price = 330,
+	count = 1,
+	discount = 0,
+	currenttime = 1481093567581,
+	productname = 机油iloveyou,
+	realPrice = 231
+ }
+ ],
+	balance = 109648
+ }
+
+ */

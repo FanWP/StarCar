@@ -20,7 +20,10 @@
 {
     UINavigationBar *bar = [UINavigationBar appearance];
 //    [bar setBackgroundColor:[UIColor blueColor]];
-    [bar setBarTintColor:XLXcolor(25, 125, 290)];
+    [bar setBarTintColor:Tintcolor];
+
+    [bar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20], NSForegroundColorAttributeName:[UIColor whiteColor]}];
+
 }
 
 - (void)viewDidLoad {
@@ -45,12 +48,9 @@
         [button addTarget:self action:@selector(back) forControlEvents:(UIControlEventTouchUpInside)];
 //                button.backgroundColor = [UIColor grayColor];
         viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-        
-        
         // 隐藏tabbar
         viewController.hidesBottomBarWhenPushed = YES;
     }
-    
 
     [super pushViewController:viewController animated:animated];
 }

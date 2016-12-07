@@ -93,10 +93,10 @@
             case 5:
             {
                 if (self.orderModel.purchasetype == 1) {//星币
-                    rightlable.text = self.orderModel.price;
+                    rightlable.text = [NSString stringWithFormat:@"%@星币",self.orderModel.price];
                 }else//积分
                 {
-                    rightlable.text = self.orderModel.scoreprice;
+                    rightlable.text = [NSString stringWithFormat:@"%@积分",self.orderModel.scoreprice];
                 }
                 
                 break;

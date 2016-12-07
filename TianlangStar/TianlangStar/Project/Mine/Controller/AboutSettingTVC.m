@@ -204,7 +204,7 @@
  */
 -(void)clearCache
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否清除缓存？" preferredStyle:(UIAlertControllerStyleActionSheet)];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"是否清除缓存？" preferredStyle:(UIAlertControllerStyleActionSheet)];
     
     UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"清除缓存" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {

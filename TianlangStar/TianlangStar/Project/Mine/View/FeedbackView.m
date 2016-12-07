@@ -29,9 +29,6 @@
 
 @implementation FeedbackView
 
-
-
-
 -(instancetype)initWithFrame:(CGRect)frame
 {
     if ([super initWithFrame:frame])
@@ -50,13 +47,14 @@
         
         //手机号
         UILabel *username = [[UILabel alloc] init];
-        username.x = KScreenWidth * 0.5 + 10;
         username.y = user.y;
         username.width = 150;
         username.height = 14;
+        username.x = self.width - username.width - 37;
 //        username.backgroundColor = [UIColor redColor];
         username.textColor = lableTextcolor;
         username.font = Font14;
+        username.textAlignment = NSTextAlignmentRight;
         self.username = username;
         [self addSubview:username];
         
@@ -64,7 +62,7 @@
         //内容
         UILabel *content = [[UILabel alloc] init];
         content.x = 17;
-        content.y = CGRectGetMaxY(user.frame);
+        content.y = CGRectGetMaxY(user.frame) + 15;
         content.width = self.width - 34;
         content.height = 30;
         content.numberOfLines = 0;
@@ -83,7 +81,7 @@
         time.height = 11;
         time.font = Font11;
         self.time = time;
-        time.x = self.width - time.width - user.x;
+        time.x = self.width - time.width - 37;
         time.textAlignment = NSTextAlignmentRight;
         time.textColor = lableTextcolor;
         
@@ -110,7 +108,7 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.time.y = CGRectGetMaxY(self.content.frame) + 5;
+    self.time.y = CGRectGetMaxY(self.content.frame) + 15;
     self.height = CGRectGetMaxY(self.time.frame) + 12;
 }
 

@@ -32,7 +32,7 @@
 //设置子控件
 -(void)setupControls
 {
-    FeedbackView *view = [[FeedbackView alloc] initWithFrame:CGRectMake(0, 80, KScreenWidth, self.feedbackModel.textH + 65) ];
+    FeedbackView *view = [[FeedbackView alloc] initWithFrame:CGRectMake(0, 80, KScreenWidth, self.feedbackModel.textH + 90) ];
     view.backgroundColor = [UIColor whiteColor];
     view.feedbackModel = self.feedbackModel;
     [self.view addSubview:view];

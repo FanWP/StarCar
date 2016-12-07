@@ -228,6 +228,9 @@
         [checkView addSubview:self.captchaTF];
         
         
+        checkView.hidden = YES;
+        
+        
 
         
 

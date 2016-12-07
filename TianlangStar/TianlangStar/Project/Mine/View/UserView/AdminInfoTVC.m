@@ -336,6 +336,7 @@
         }else
         {
             [cell.headerPic sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,self.userModel.headimage]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+            YYLog(@"%@",[NSString stringWithFormat:@"%@%@",picURL,self.userModel.headimage]);
         }
         
         return cell;

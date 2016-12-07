@@ -34,7 +34,7 @@
 //初始化
 -(void)setupControls
 {
-    FeedbackView *view = [[FeedbackView alloc] initWithFrame:CGRectMake(0, 80, KScreenWidth, self.feedbackModel.textH + 65) ];
+    FeedbackView *view = [[FeedbackView alloc] initWithFrame:CGRectMake(0, 80, KScreenWidth, self.feedbackModel.textH + 90) ];
     view.backgroundColor = [UIColor whiteColor];
     view.feedbackModel = self.feedbackModel;
     [self.view addSubview:view];
@@ -54,11 +54,16 @@
     content.x = 18;
     content.y = 16;
     content.width = KScreenWidth - 2 * content.x;
-    content.height = self.feedbackModel.textH;
     
     
-    content.text = self.feedbackModel.content;
-    content.backgroundColor = [UIColor redColor];
+    
+    content.text = self.feedbackModel.fbcontent;
+    
+    //计算内容的高度
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[NSFontAttributeName] = Font12;
+    CGFloat contentH = [content.text sizeWithAttributes:dic].height;
+    content.height = contentH;
     
     self.content = content;
     content.textColor = lableTextcolor;
