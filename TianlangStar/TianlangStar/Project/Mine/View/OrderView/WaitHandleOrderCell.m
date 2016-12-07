@@ -43,7 +43,7 @@
         //间距
         CGFloat margin = 25;
 //        UILabel 的宽度
-        CGFloat width = (KScreenWidth - 2 *margin) / 3;
+        CGFloat width = (KScreenWidth - 2 * margin) / 3;
         CGFloat height = 30;
         
         for (NSInteger i = 0; i < 3; i++)
@@ -61,6 +61,7 @@
                 case 0://用户名
                 {
                     self.username = lable;
+                    lable.width  += 10;
                     lable.textAlignment = NSTextAlignmentLeft;
                     break;
                 }
@@ -95,13 +96,13 @@
 -(void)setOrderModel:(OrderModel *)orderModel
 {
     _orderModel = orderModel;
-    self.username.text = orderModel.membername;
+    self.username.text = (orderModel.membername == nil || orderModel.membername.length == 0 )? orderModel.username : orderModel.membername;
     self.saletype.text = @"交易中";
     if (orderModel.purchasetype == 2) {
         self.star.text = [NSString stringWithFormat:@"+%@积分",orderModel.scoreprice];
     }else
     {
-        self.star.text = [NSString stringWithFormat:@"+%@星币",orderModel.price];
+        self.star.text = [NSString stringWithFormat:@"+%.0f星币",orderModel.real_price];
     }
                                           
 }

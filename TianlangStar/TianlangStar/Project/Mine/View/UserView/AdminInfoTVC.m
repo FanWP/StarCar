@@ -201,12 +201,12 @@
         return;
     }
     
-    //身份证
-    if (![self.userModel.identity isIdentityCardNo])
-    {
-        [[AlertView sharedAlertView] addAlertMessage:@"身份证号输入有误，请核对！" title:@"提示"];
-        return;
-    }
+//    //身份证
+//    if (![self.userModel.identity isIdentityCardNo])
+//    {
+//        [[AlertView sharedAlertView] addAlertMessage:@"身份证号输入有误，请核对！" title:@"提示"];
+//        return;
+//    }
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;

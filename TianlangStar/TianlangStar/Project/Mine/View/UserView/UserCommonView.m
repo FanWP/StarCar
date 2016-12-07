@@ -144,9 +144,7 @@
         self.scoreButton.frame =  CGRectMake(KScreenWidth - buttonX - self.moneyButton.width, self.moneyButton.y, self.moneyButton.width, self.moneyButton.height);
         [headView addSubview:self.scoreButton];
         
-        
-        
-        
+
         self.scoreCountButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
         [self.scoreCountButton setTitle:@"积分" forState:(UIControlStateNormal)];
         [self.scoreCountButton addTarget:self action:@selector(scoreButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
