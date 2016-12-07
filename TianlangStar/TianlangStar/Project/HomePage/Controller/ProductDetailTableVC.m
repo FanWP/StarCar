@@ -89,11 +89,11 @@
     
     _userInfo = [UserInfo sharedUserInfo];
     
+     _imagesArray = [NSMutableArray array];
+    
     self.tableView.separatorStyle = 0;
     
     self.appearCount = 0;
-    
-    [self creatHeaderView];
     
     [self rightItem];
     
@@ -111,7 +111,7 @@
         
         NSArray *array = [images componentsSeparatedByString:@","];
         
-        for (NSInteger i = 0; i < array.count; i++)
+        for (NSInteger i = 0; i < array.count - 1; i++)
         {
             NSString *pic = array[i];
             
@@ -133,7 +133,7 @@
         
         NSArray *array = [images componentsSeparatedByString:@","];
         
-        for (NSInteger i = 0; i < array.count; i++)
+        for (NSInteger i = 0; i < array.count - 1; i++)
         {
             NSString *pic = array[i];
             
@@ -149,13 +149,13 @@
         
         self.telNum = _carModel.telphone;
         
-        NSString *images = _carModel.picture;
+        NSString *images = _carModel.images;
         
         self.price = _carModel.price;
         
         NSArray *array = [images componentsSeparatedByString:@","];
         
-        for (NSInteger i = 0; i < array.count; i++)
+        for (NSInteger i = 0; i < array.count - 1; i++)
         {
             NSString *pic = array[i];
             
@@ -165,6 +165,9 @@
         }
 
     }
+    
+    
+    [self creatHeaderView];
 }
 
 
@@ -235,7 +238,7 @@
 - (void)creatHeaderView
 {
     _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
-    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:self.imagesArray];
+    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:_imagesArray];
     _scrollView.delegate = self;
     _scrollView.placeholderImage = [UIImage imageNamed:@"touxiang"];
     _scrollView.autoScrollTimeInterval = 2.0;
@@ -324,7 +327,20 @@
         NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
         parameters[@"sessionId"] = sessionid;
         parameters[@"currentPage"] = @(1);
-        parameters[@"type"] = @(1);
+        NSInteger type;
+        if ([self.title isEqualToString:@"保养维护详情"])
+        {
+            type = 2;
+        }
+        else if ([self.title isEqualToString:@"商品详情"])
+        {
+            type = 1;
+        }
+        else
+        {
+            type = 3;
+        }
+        parameters[@"type"] = @(type);
         
         [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -354,15 +370,35 @@
                 if ([self.collectionIdArray containsObject:self.productId])
                 {
                     // 取消收藏
-                    [self cancleCollectionActionWithType:1];
-                    
+                    if ([self.title isEqualToString:@"保养维护详情"])
+                    {
+                        [self cancleCollectionActionWithType:2];
+                    }
+                    else if ([self.title isEqualToString:@"商品详情"])
+                    {
+                        [self cancleCollectionActionWithType:1];
+                    }
+                    else
+                    {
+                        [self cancleCollectionActionWithType:3];
+                    }
                 }
                 // 否则添加收藏
                 else
                 {
                     // 添加收藏
-                    [self addCollectionActionWithType:1];
-                    
+                    if ([self.title isEqualToString:@"保养维护详情"])
+                    {
+                        [self addCollectionActionWithType:2];
+                    }
+                    else if ([self.title isEqualToString:@"商品详情"])
+                    {
+                        [self addCollectionActionWithType:1];
+                    }
+                    else
+                    {
+                        [self addCollectionActionWithType:3];
+                    }
                 }
                 
             }
@@ -396,6 +432,8 @@
     parameters[@"sessionId"] = sessionid;
     parameters[@"id"] = self.productId;
     parameters[@"type"] = @(type);// 1:物品 2:服务
+    
+    YYLog(@"添加收藏参数：%@",parameters);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -448,6 +486,8 @@
     parameters[@"sessionId"] = sessionid;
     parameters[@"productid"] = self.productId;
     parameters[@"type"] = @(type);// 1:物品 2:服务
+    
+    YYLog(@"取消收藏参数：%@",parameters);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -504,11 +544,11 @@
     NSInteger type;
     if ([self.title isEqualToString:@"保养维护详情"])
     {
-        type = 1;
+        type = 2;
     }
     else if ([self.title isEqualToString:@"商品详情"])
     {
-        type = 2;
+        type = 1;
     }
     else
     {
@@ -516,7 +556,6 @@
     }
     parameters[@"type"] = @(type);
     
-    YYLog(@"sessionid===%@",sessionid);
     YYLog(@"获取指定用户的全部收藏物的parameters===%@",parameters);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -755,7 +794,7 @@
     }
     NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
 
-    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -799,14 +838,14 @@
     parmas[@"productlist"] = [NSString stringWithFormat:@"[%@]",dataStr];;
     parmas[@"type"] = @"1";//1是直接购买  2是购物车购买
     
-    YYLog(@"parmas--:%@",parmas);
+    YYLog(@"购买parmas--:%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
-        YYLog(@"%@",json);
+        YYLog(@"购买返回：%@",json);
     } failure:^(NSError *error) {
-        YYLog(@"%@",error);
+        YYLog(@"购买返回错误%@",error);
     }];
     
 }
@@ -1120,16 +1159,16 @@
 
 
 
-- (NSMutableArray *)imagesArray
-{
-    if (!_imagesArray)
-    {
-        _imagesArray = [NSMutableArray array];
-        
-    }
-    
-    return _imagesArray;
-}
+//- (NSMutableArray *)imagesArray
+//{
+//    if (!_imagesArray)
+//    {
+//        _imagesArray = [NSMutableArray array];
+//        
+//    }
+//    
+//    return _imagesArray;
+//}
 
 
 

@@ -36,7 +36,6 @@
 		711EFA321DD96718006AEF9E /* NewestActivityTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA311DD96718006AEF9E /* NewestActivityTableVC.m */; };
 		711EFA351DD96912006AEF9E /* HomePageSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA341DD96912006AEF9E /* HomePageSelectCell.m */; };
 		711EFA381DD98D63006AEF9E /* NewestListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA371DD98D63006AEF9E /* NewestListCell.m */; };
-		711EFA3B1DD9995A006AEF9E /* NewestActivityDetailTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA3A1DD9995A006AEF9E /* NewestActivityDetailTableVC.m */; };
 		711EFA3E1DD9BAD7006AEF9E /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA3D1DD9BAD7006AEF9E /* ProductCell.m */; };
 		711EFA411DDAD80F006AEF9E /* AddCarTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA401DDAD80F006AEF9E /* AddCarTableVC.m */; };
 		711EFA441DDAE116006AEF9E /* LabelTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA431DDAE116006AEF9E /* LabelTextFieldCell.m */; };
@@ -262,8 +261,6 @@
 		711EFA341DD96912006AEF9E /* HomePageSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePageSelectCell.m; path = TianlangStar/Project/HomePage/Controller/HomePageSelectCell.m; sourceTree = SOURCE_ROOT; };
 		711EFA361DD98D63006AEF9E /* NewestListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewestListCell.h; path = TianlangStar/Project/HomePage/Controller/NewestListCell.h; sourceTree = SOURCE_ROOT; };
 		711EFA371DD98D63006AEF9E /* NewestListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewestListCell.m; path = TianlangStar/Project/HomePage/Controller/NewestListCell.m; sourceTree = SOURCE_ROOT; };
-		711EFA391DD9995A006AEF9E /* NewestActivityDetailTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewestActivityDetailTableVC.h; sourceTree = "<group>"; };
-		711EFA3A1DD9995A006AEF9E /* NewestActivityDetailTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewestActivityDetailTableVC.m; sourceTree = "<group>"; };
 		711EFA3C1DD9BAD7006AEF9E /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductCell.h; path = TianlangStar/Project/HomePage/Controller/ProductCell.h; sourceTree = SOURCE_ROOT; };
 		711EFA3D1DD9BAD7006AEF9E /* ProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductCell.m; path = TianlangStar/Project/HomePage/Controller/ProductCell.m; sourceTree = SOURCE_ROOT; };
 		711EFA3F1DDAD80F006AEF9E /* AddCarTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCarTableVC.h; sourceTree = "<group>"; };
@@ -905,8 +902,6 @@
 				711EFA311DD96718006AEF9E /* NewestActivityTableVC.m */,
 				714089FC1DED55FB00868A60 /* ActivityDetailVC.h */,
 				714089FD1DED55FB00868A60 /* ActivityDetailVC.m */,
-				711EFA391DD9995A006AEF9E /* NewestActivityDetailTableVC.h */,
-				711EFA3A1DD9995A006AEF9E /* NewestActivityDetailTableVC.m */,
 				711EFA3F1DDAD80F006AEF9E /* AddCarTableVC.h */,
 				711EFA401DDAD80F006AEF9E /* AddCarTableVC.m */,
 				711EFA481DDBFE99006AEF9E /* CarDetailInfoTableVC.h */,
@@ -1650,7 +1645,6 @@
 				D705CF2C1DC09C6400F65BE0 /* MineVC.m in Sources */,
 				D7408FBE1DE288FF00F532CA /* AddInsuranceTVC.m in Sources */,
 				71A40D811DD47EFA00335660 /* TestInterfaceVC.m in Sources */,
-				711EFA3B1DD9995A006AEF9E /* NewestActivityDetailTableVC.m in Sources */,
 				D705CF1E1DC09C6400F65BE0 /* Foundation+Log.m in Sources */,
 				D764B6931DF0032200A996CF /* BossStarRecordCell.m in Sources */,
 				715AA3311DE2900100CD5C5D /* AddImages.m in Sources */,
@@ -1902,6 +1896,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1920,6 +1915,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

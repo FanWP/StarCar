@@ -620,13 +620,14 @@
     {
         ProductDetailTableVC *productDetailTableVC = [[ProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
         
-        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+//        self.homePageSelectCell.maintenanceButton.enabled == NO
+        if (self.homePageSelectCell.maintenanceButton.enabled == NO)
         {
             productDetailTableVC.title = @"保养维护详情";
             
             productDetailTableVC.serviceModel = _productsArray[indexPath.row];
         }
-        else if (self.homePageSelectCell.productButton.selected == YES)
+        else if (self.homePageSelectCell.productButton.enabled == NO)
         {
             productDetailTableVC.title = @"商品详情";
             

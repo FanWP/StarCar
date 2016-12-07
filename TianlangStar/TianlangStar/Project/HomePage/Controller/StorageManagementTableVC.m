@@ -114,7 +114,7 @@
 
 - (void)creatTitleView
 {
-    self.segment = [[UISegmentedControl alloc] initWithItems:@[@"上架",@"下架"]];
+    self.segment = [[UISegmentedControl alloc] initWithItems:@[@"已上架",@"已下架"]];
     self.segment.frame = CGRectMake(0, 10, 120, 30);
     
     self.segment.tintColor = [UIColor whiteColor];
@@ -140,6 +140,7 @@
         case 0:
         {
             YYLog(@"上架");
+            self.allSelectedImageButton.selected = NO;
             [self.putawayAndSoldoutButton setTitle:@"下架" forState:(UIControlStateNormal)];
             [self fetchPutawayAndSoldoutDataWithType:2];
             
@@ -152,6 +153,7 @@
         case 1:
         {
             YYLog(@"下架");
+            self.allSelectedImageButton.selected = NO;
             [self.putawayAndSoldoutButton setTitle:@"上架" forState:(UIControlStateNormal)];
             [self fetchPutawayAndSoldoutDataWithType:3];
             
