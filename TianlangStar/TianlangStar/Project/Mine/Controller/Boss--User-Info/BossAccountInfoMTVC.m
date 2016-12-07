@@ -142,13 +142,13 @@
     [self.contentView addSubview: sexLable];
     
     //男——>按钮
-    UIButton *manBtn = [[UIButton alloc] init];
+    UIButton *manBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [manBtn setTitle:@"男" forState:UIControlStateNormal];
     manBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     manBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 120, 0, 0);
     manBtn.tag = 1;
     [manBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [manBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
+    [manBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
     [manBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     manBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [manBtn addTarget:self action:@selector(manClick:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -162,13 +162,13 @@
     
     
     //女——>按钮
-    UIButton *womanBtn = [[UIButton alloc] init];
+    UIButton *womanBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [womanBtn setTitle:@"女" forState:UIControlStateNormal];
     womanBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     womanBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 120, 0, 0);
     womanBtn.tag = 2;
     [womanBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [womanBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
+    [womanBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
     [womanBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     womanBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [womanBtn addTarget:self action:@selector(manClick:) forControlEvents:UIControlEventTouchUpInside];

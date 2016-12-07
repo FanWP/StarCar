@@ -214,11 +214,11 @@
         
         [self.productsArray removeAllObjects];
         
-        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+        if (self.homePageSelectCell.maintenanceButton.enabled == NO)
         {
             [self fetchProductInfoWithType:1];
         }
-        else if (self.homePageSelectCell.productButton.selected == YES)
+        else if (self.homePageSelectCell.productButton.enabled == NO)
         {
             [self fetchProductInfoWithType:2];
         }
@@ -246,11 +246,11 @@
         parmas[@"pageNum"] = @(self.pageNum);
         parmas[@"pageSize"]  = @"10";
         NSString *productType;
-        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+        if (self.homePageSelectCell.maintenanceButton.enabled == NO)
         {
             productType = @"1";
         }
-        else if (self.homePageSelectCell.productButton.selected == YES)
+        else if (self.homePageSelectCell.productButton.enabled == NO)
         {
             productType = @"2";
         }
@@ -447,13 +447,13 @@
         cell = [[MaintenanceAndProductCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier2];
         
     }
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (self.homePageSelectCell.maintenanceButton.enabled == NO)
     {
         ServiceModel *serviceModel = _productsArray[indexPatch.row];
-        NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
+        NSArray *array = [serviceModel.images componentsSeparatedByString:@","];
+        NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
         cell.titleLabel.text = serviceModel.services;
@@ -465,7 +465,9 @@
     else
     {
         ProductModel *productModel = _productsArray[indexPatch.row];
-        NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,productModel.images];
+        NSString *string = productModel.images;
+        NSArray *array = [string componentsSeparatedByString:@","];
+        NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         cell.titleLabel.text = productModel.productname;
@@ -496,7 +498,11 @@
     _carModel = _productsArray[indexPatch.row];
     
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_carModel.picture]];
+    NSString *pic = _carModel.images;
+    
+    NSArray *array = [pic componentsSeparatedByString:@","];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,array.firstObject]];
     [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     cell.carNameLabel.text = _carModel.brand;
