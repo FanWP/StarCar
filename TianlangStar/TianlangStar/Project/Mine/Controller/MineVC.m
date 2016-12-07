@@ -60,6 +60,11 @@
 @property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
 
+/** 标记 */
+@property (nonatomic,assign) BOOL flag;
+
+
+
 
 @end
 
@@ -198,10 +203,15 @@
  */
 -(void) getPubicKey
 {
-    LoginView *logView = [[LoginView alloc] initWithFrame:self.view.bounds];
-    logView.delegate = self;
-    self.tableView.scrollEnabled = NO;
-    [self.view addSubview:logView];
+    if (!self.flag)
+    {
+        LoginView *logView = [[LoginView alloc] initWithFrame:self.view.bounds];
+        logView.delegate = self;
+        self.tableView.scrollEnabled = NO;
+        [self.view addSubview:logView];
+        self.flag = YES;
+    }
+
     
     NSString *url = [NSString stringWithFormat:@"%@unlogin/sendpubkeyservlet",URL];
     [[AFHTTPSessionManager manager]POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -262,6 +272,8 @@
 #pragma mark - 登录成功后调用代理，设置tableView上下滑动可用
 -(void)loginSuccess
 {
+    
+    self.flag = NO;
     self.tableView.scrollEnabled = YES;
     
     //设置数据

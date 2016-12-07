@@ -833,7 +833,6 @@ typedef enum : NSUInteger
         if (arr.count > 0)
         {
             self.currentPage++;
-        
             [self.tableView reloadData];
         }
         YYLog(@"json----%@",json);

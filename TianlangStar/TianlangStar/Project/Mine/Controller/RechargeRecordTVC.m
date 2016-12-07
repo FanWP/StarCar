@@ -67,8 +67,8 @@
         if (self.recoredArr.count > 0)
         {
             self.currentPage++;
-            [self.tableView reloadData];
         }
+        [self.tableView reloadData];
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
         [self.tableView.mj_header endRefreshing];

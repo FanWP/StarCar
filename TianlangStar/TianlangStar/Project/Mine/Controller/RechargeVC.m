@@ -425,8 +425,8 @@
          if (self.RecordArr.count > 0)
          {
              [self.RecordView reloadData];
-             self.currentPage++;
          }
+         self.currentPage++;
 
      } failure:^(NSError *error)
      {

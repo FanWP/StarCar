@@ -164,9 +164,10 @@
          YYLog(@"json购物车:%@",json);
          [self.tableView.mj_header endRefreshing];
          self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
-         if (self.orderArr.count > 0) {
+            [self.tableView reloadData];
+         if (self.orderArr.count > 0)
+         {
              self.currentPage++;
-             [self.tableView reloadData];
          }
          YYLog(@"购物车查询返回：json---%@",json);
          

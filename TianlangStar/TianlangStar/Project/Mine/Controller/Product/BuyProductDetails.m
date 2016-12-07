@@ -66,7 +66,8 @@
 
 -(void)addHeader
 {
-    NSArray *arr = [NSArray array];
+    NSArray *arr = [self.model.images componentsSeparatedByString:@","];
+
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 210)];
     SDCycleScrollView *view = [SDCycleScrollView cycleScrollViewWithFrame:headerView.bounds imageURLStringsGroup:arr];//_ImgList为图片url数组
     view.delegate = self;

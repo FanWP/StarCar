@@ -108,10 +108,15 @@
 
 - (void)rightClick:(UIButton *)button
 {
+    if (USERType == 1)//店长
+    {
+        [SVProgressHUD showErrorWithStatus:@"您没有该权限"];
+        return;
+    }
+    
     button.selected = !button.selected;
     self.textEnable = button.selected;
-    
-//    YYLog(@"textEnable--%d",self.textEnable);
+
     
     for (UITextField *input in self.discountArr)
     {
