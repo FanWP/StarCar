@@ -26,15 +26,13 @@
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
-    
-    
+
     self.title = @"交易详情";
     
     self.view.backgroundColor = BGcolor;
     
     self.detalLiat = [NSMutableArray array];
-    
-    
+
     [self addHeader];
     
     
