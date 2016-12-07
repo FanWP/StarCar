@@ -120,12 +120,10 @@
         userName.textColor = [UIColor colorWithWhite:0.2 alpha:1];
         //        userName.backgroundColor = [UIColor grayColor];
         [self.contentView addSubview:userName];
-        
-        
+
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
-    
+
 
     return self;
 
@@ -136,17 +134,20 @@
     _cfoModel = cfoModel;
     self.produce.text = cfoModel.product;
     self.count.text = cfoModel.count;
-    self.star.text = cfoModel.amount;
+    if (cfoModel.purchasetype == 1) {//星币
+        self.star.text = [NSString stringWithFormat:@"%@星币",cfoModel.amount];
+    }else if (cfoModel.purchasetype == 2)//积分
+    {
+        self.star.text = [NSString stringWithFormat:@"%@积分",cfoModel.amount];
+    }
     self.time.text = cfoModel.time;
     self.userName.text = cfoModel.userName;
-
-    
 }
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
     static NSString *ID = @"cell";
-    BossCFOCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];\
+    BossCFOCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil)
     {
         cell = [[BossCFOCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
@@ -159,7 +160,6 @@
 {
     frame.size.height -= 5;
     [super setFrame:frame];
-
 }
 
 
