@@ -28,8 +28,9 @@
         CGFloat buttonHor = (KScreenWidth - 2 * Kle - 3 * buttonWidth) / 2;
         self.maintenanceButton = [[TopPicBottomLabelButton alloc] initWithFrame:CGRectMake(Kle, top, buttonWidth, buttonHeight)];
         [self.maintenanceButton setImage:[UIImage imageNamed:@"maintain"] forState:(UIControlStateNormal)];
-        [self.maintenanceButton setImage:[UIImage imageNamed:@"maintain2"] forState:(UIControlStateSelected)];
-        self.maintenanceButton.selected = YES;
+//        [self.maintenanceButton setImage:[UIImage imageNamed:@"maintain2"] forState:(UIControlStateSelected)];
+        [self.maintenanceButton setImage:[UIImage imageNamed:@"maintain2"] forState:UIControlStateDisabled];
+        self.maintenanceButton.enabled  = NO;
         [self.maintenanceButton setTitle:@"保养维护" forState:(UIControlStateNormal)];
         [self.maintenanceButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [self.contentView addSubview:self.maintenanceButton];
@@ -41,7 +42,8 @@
         CGFloat imageWidth = buttonWidth - 20;
         self.productButton.imageView.frame = CGRectMake(10, 10, imageWidth, imageWidth);
         [self.productButton setImage:[UIImage imageNamed:@"commodity"] forState:(UIControlStateNormal)];
-        [self.productButton setImage:[UIImage imageNamed:@"commodity2"] forState:(UIControlStateSelected)];
+//        [self.productButton setImage:[UIImage imageNamed:@"commodity2"] forState:(UIControlStateSelected)];
+                [self.productButton setImage:[UIImage imageNamed:@"commodity2"] forState:(UIControlStateDisabled)];
         [self.productButton setTitle:@"商品" forState:(UIControlStateNormal)];
         [self.productButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         
@@ -52,7 +54,8 @@
         CGFloat locationX = businessX + buttonWidth + buttonHor;
         self.carInfoButton = [[TopPicBottomLabelButton alloc] initWithFrame:CGRectMake(locationX, top, buttonWidth, buttonHeight)];
         [self.carInfoButton setImage:[UIImage imageNamed:@"car"] forState:(UIControlStateNormal)];
-        [self.carInfoButton setImage:[UIImage imageNamed:@"car2"] forState:(UIControlStateSelected)];
+//        [self.carInfoButton setImage:[UIImage imageNamed:@"car2"] forState:(UIControlStateSelected)];
+                [self.carInfoButton setImage:[UIImage imageNamed:@"car2"] forState:(UIControlStateDisabled)];
         [self.carInfoButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [self.carInfoButton setTitle:@"二手车" forState:(UIControlStateNormal)];
         
@@ -90,6 +93,8 @@
 //        [self.carInfoButton setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         
     }
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return self;
 }

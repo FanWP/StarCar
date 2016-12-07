@@ -67,11 +67,13 @@
 
 @property (nonatomic,strong) UIWebView *webView;
 
+
 @end
 
 @implementation HomePageTableVC
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     [self fetchHomePageData];// 获取首页数据
@@ -82,6 +84,7 @@
     
     [self pullOnLoading];
 }
+
 
 
 
@@ -447,7 +450,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (self.homePageSelectCell.maintenanceButton.selected == YES)
+    if (self.homePageSelectCell.maintenanceButton.enabled == NO)
     {
         ServiceModel *serviceModel = _productsArray[indexPatch.row];
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,serviceModel.images];
@@ -502,7 +505,7 @@
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
     cell.priceLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
     
-    self.telNumber = _carModel.telphone;
+    self.telNumber = _carModel.number;
     
     [cell.chatButton addTarget:self action:@selector(chatAction) forControlEvents:(UIControlEventTouchUpInside)];
     
@@ -540,7 +543,7 @@
     }
     else
     {
-        if (self.homePageSelectCell.carInfoButton.selected == YES)
+        if (self.homePageSelectCell.carInfoButton.enabled == NO)
         {
             return [self tableView:tableView carInfoCellWithIndexPatch:indexPath];
         }
@@ -556,14 +559,14 @@
 #pragma mark - 保养维护的点击事件
 - (void)maintenanceAction:(TopPicBottomLabelButton *)button
 {
-    button.selected = !button.selected;
-    
-    button.userInteractionEnabled = NO;
+    button.enabled = NO;
     
     [self fetchProductInfoWithType:1];
+
+    self.homePageSelectCell.productButton.enabled = YES;
+    self.homePageSelectCell.carInfoButton.enabled = YES;
     
-    self.homePageSelectCell.productButton.selected = NO;
-    self.homePageSelectCell.carInfoButton.selected = NO;
+    
     
     YYLog(@"保养维护的点击事件");
 }
@@ -573,14 +576,12 @@
 #pragma mark - 商品的点击事件
 - (void)productAction:(TopPicBottomLabelButton *)button
 {
-    button.selected = !button.selected;
-    
-    button.userInteractionEnabled = NO;
-    
+    button.enabled = NO;
+
     [self fetchProductInfoWithType:2];
-    
-    self.homePageSelectCell.maintenanceButton.selected = NO;
-    self.homePageSelectCell.carInfoButton.selected = NO;
+
+    self.homePageSelectCell.maintenanceButton.enabled = YES;
+    self.homePageSelectCell.carInfoButton.enabled = YES;
     
     YYLog(@"商品的点击事件");
 }
@@ -590,12 +591,12 @@
 #pragma mark - 车辆信息的点击事件
 - (void)carInfoAction:(TopPicBottomLabelButton *)button
 {
-    button.selected = !button.selected;
-    
+    button.enabled = NO;
+
     [self fetchProductInfoWithType:3];
-    
-    self.homePageSelectCell.maintenanceButton.selected = NO;
-    self.homePageSelectCell.productButton.selected = NO;
+
+    self.homePageSelectCell.maintenanceButton.enabled = YES;
+    self.homePageSelectCell.productButton.enabled = YES;
     
     YYLog(@"车辆信息的点击事件");
 }
@@ -609,7 +610,7 @@
         
         [self.navigationController pushViewController:newestActivityTableVC animated:YES];
     }
-    else
+    else if (indexPath.section == 2)
     {
         ProductDetailTableVC *productDetailTableVC = [[ProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
         

@@ -25,9 +25,8 @@
 {
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
-        
         //设置lable
-        UILabel *left = [[UILabel alloc] initWithFrame:CGRectMake(36, 0, KScreenWidth, 54)];
+        UILabel *left = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, KScreenWidth, 54)];
         left.centerY = self.centerY - 7;
         left.font = Font12;
         left.textColor = lableTextcolor;
@@ -40,7 +39,7 @@
         right.width = KScreenWidth * 0.5;
         right.height = 54;
         right.centerY = left.centerY;
-        right.x = KScreenWidth - 60 - right.width;
+        right.x = KScreenWidth - 30 - right.width;
         self.rightlable = right;
         right.textAlignment = NSTextAlignmentRight;
         right.font = Font12;
@@ -49,7 +48,6 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:right];
     }
-
     return self;
 }
 
