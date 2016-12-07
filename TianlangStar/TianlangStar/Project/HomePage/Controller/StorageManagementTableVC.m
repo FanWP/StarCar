@@ -140,6 +140,7 @@
         case 0:
         {
             YYLog(@"上架");
+            self.allSelectedImageButton.selected = NO;
             [self.putawayAndSoldoutButton setTitle:@"下架" forState:(UIControlStateNormal)];
             [self fetchPutawayAndSoldoutDataWithType:2];
             
@@ -152,6 +153,7 @@
         case 1:
         {
             YYLog(@"下架");
+            self.allSelectedImageButton.selected = NO;
             [self.putawayAndSoldoutButton setTitle:@"上架" forState:(UIControlStateNormal)];
             [self fetchPutawayAndSoldoutDataWithType:3];
             

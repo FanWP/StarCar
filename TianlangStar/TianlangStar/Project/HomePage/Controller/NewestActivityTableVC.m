@@ -8,7 +8,6 @@
 
 #import "NewestActivityTableVC.h"
 #import "NewestListCell.h"
-#import "NewestActivityDetailTableVC.h"
 #import "NewActivityModel.h"
 #import "ActivityDetailVC.h"
 
@@ -31,6 +30,10 @@
     self.tableView.rowHeight = 0.8 * (0.3 * KScreenWidth) + 2 * Klength5;
     
     [self fetchNewActivityData];
+    
+    [self dropdownRefresh];
+    
+    [self loadMoreNewActivityData];
 }
 
 
@@ -65,6 +68,8 @@
         
         if (resultCode == 1000)
         {
+            self.pageNum++;
+            
             self.activityArray = [NewActivityModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
             
             [self.tableView reloadData];
@@ -74,6 +79,70 @@
     {
         YYLog(@"获取最新活动错误%@",error);
         
+    }];
+}
+
+
+
+
+// 下拉刷新
+- (void)dropdownRefresh
+{
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+       
+        [self.activityArray removeAllObjects];
+        
+        [self fetchNewActivityData];
+        
+        [self.tableView reloadData];
+        
+        [self.tableView.mj_header endRefreshing];
+        
+    }];
+}
+
+
+
+// 上拉加载
+- (void)loadMoreNewActivityData
+{
+    self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+       
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        
+        parameters[@"pageNum"] = @(self.pageNum);
+        parameters[@"pageSize"] = @"10";
+        
+        YYLog(@"获取最新活动参数：：%@",parameters);
+        
+        NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",URL];
+        
+        [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+         {
+             YYLog(@"获取最新活动返回%@",responseObject);
+             
+             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+             
+             if (resultCode == 1000)
+             {
+                 self.pageNum++;
+                 
+                 NSArray *moreActivityArray = [NewActivityModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                 
+                 [self.activityArray addObjectsFromArray:moreActivityArray];
+                 
+                 [self.tableView reloadData];
+                 
+                 [self.tableView.mj_footer endRefreshing];
+             }
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+         {
+             YYLog(@"获取最新活动错误%@",error);
+             
+         }];
     }];
 }
 

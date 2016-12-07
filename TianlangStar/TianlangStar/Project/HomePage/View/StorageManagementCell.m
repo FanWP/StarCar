@@ -22,12 +22,12 @@
         CGFloat height = 80;
         
         CGFloat selectButtonX = 15;
-        CGFloat selectButtonWidth = 20;
+        CGFloat selectButtonWidth = Klength30;
         CGFloat selectButtonY = (height / 2) - (selectButtonWidth / 2);
         self.selectButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         self.selectButton.frame = CGRectMake(selectButtonX, selectButtonY, selectButtonWidth, selectButtonWidth);
-        [self.selectButton setImage:[UIImage imageNamed:@"unselected"] forState:(UIControlStateNormal)];
-        [self.selectButton setImage:[UIImage imageNamed:@"selected"] forState:(UIControlStateSelected)];
+        [self.selectButton setImage:[[UIImage imageNamed:@"unselected"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] forState:(UIControlStateNormal)];
+        [self.selectButton setImage:[[UIImage imageNamed:@"selected"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] forState:(UIControlStateSelected)];
         [self.contentView addSubview:self.selectButton];
         
         
