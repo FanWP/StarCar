@@ -23,7 +23,7 @@
 
 #import "ProductDetailTableVC.h"
 
-@interface HomePageTableVC ()<UISearchResultsUpdating,SDCycleScrollViewDelegate>
+@interface HomePageTableVC ()<SDCycleScrollViewDelegate>
 
 // 搜索框
 @property (nonatomic,strong) UISearchController *search;
@@ -74,13 +74,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self addSearchController];// 添加搜索框
-    
     [self fetchHomePageData];// 获取首页数据
     
     [self fetchProductInfoWithType:1];
     
-
     [self dropdownRefresh];
     
     [self pullOnLoading];
@@ -323,26 +320,6 @@
 
 
 
-#pragma mark - 搜索框
-- (void)addSearchController
-{
-    self.search = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.search.searchResultsUpdater = self;
-    self.search.dimsBackgroundDuringPresentation = false;
-    [self.search.searchBar sizeToFit];
-    self.search.searchBar.placeholder = @"搜索商品";
-    self.navigationItem.titleView = self.search.searchBar;
-    
-}
-
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@",self.search.searchBar.text];
-}
-
-
-
 #pragma mark - 轮播图
 - (void)creatHeaderView
 {
@@ -479,7 +456,7 @@
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
         cell.titleLabel.text = serviceModel.services;
         cell.detailLabel.text = serviceModel.content;
-        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.scoreprice];
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
         cell.priceLabel.font = Font14;
 
     }
@@ -491,7 +468,7 @@
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         cell.titleLabel.text = productModel.productname;
         cell.detailLabel.text = productModel.introduction;
-        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.scoreprice];
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.price];
         
     }
     

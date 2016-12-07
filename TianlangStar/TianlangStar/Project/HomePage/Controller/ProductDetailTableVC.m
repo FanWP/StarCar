@@ -58,7 +58,7 @@
 @property (nonatomic,strong) UILabel *actuallyPaidLabel;
 @property (nonatomic,strong) UILabel *paidLabel;
 
-@property (nonatomic,copy) NSString *paidMoney;
+@property (nonatomic,copy) NSString *price;
 
 @property (nonatomic,strong) UIButton *okAddCartButton;
 
@@ -68,6 +68,8 @@
 
 
 @property (nonatomic,copy) NSString *totalStar;
+
+@property (nonatomic,assign) NSInteger appearCount;
 
 //判断是商品还是服务
 
@@ -85,7 +87,7 @@
     
     self.tableView.separatorStyle = 0;
     
-    self.countNumber = 1;
+    self.appearCount = 0;
     
     [self creatHeaderView];
     
@@ -95,9 +97,7 @@
     {
         self.productId = _productModel.ID;
         
-        [self buyProductInShoppingCar];
-        
-        self.paidMoney = [NSString stringWithFormat:@"%ld",_productModel.realPrice];
+        self.price = _productModel.price;
         
         self.productType = 1;
         
@@ -119,9 +119,7 @@
     {
         self.productId = _serviceModel.ID;
         
-        [self buyProductInShoppingCar];
-        
-        self.paidMoney = [NSString stringWithFormat:@"%ld",_serviceModel.realPrice];
+        self.price = _serviceModel.price;
         
         self.productType = 2;
         
@@ -144,6 +142,8 @@
         self.productId = _carModel.ID;
         
         NSString *images = _carModel.picture;
+        
+        self.price = _carModel.price;
         
         NSArray *array = [images componentsSeparatedByString:@","];
         
@@ -482,7 +482,21 @@
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     parameters[@"currentPage"] = @(1);
-    parameters[@"type"] = @(1);
+    
+    NSInteger type;
+    if ([self.title isEqualToString:@"保养维护详情"])
+    {
+        type = 1;
+    }
+    else if ([self.title isEqualToString:@"商品详情"])
+    {
+        type = 2;
+    }
+    else
+    {
+        type = 3;
+    }
+    parameters[@"type"] = @(type);
     
     YYLog(@"sessionid===%@",sessionid);
     YYLog(@"获取指定用户的全部收藏物的parameters===%@",parameters);
@@ -549,6 +563,10 @@
 //立即购买点击时间
 - (void)addCountAction:(UIButton *)button
 {
+    self.countNumber = 1;
+    
+    self.appearCount++;
+    
     CGFloat coverViewHeight = KScreenHeight - Klength44;
     self.coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, coverViewHeight)];
     self.coverView.backgroundColor = [UIColor colorWithRed:204.0 / 255.0 green:204.0 / 255.0 blue:204.0 / 255.0 alpha:0.8];
@@ -607,7 +625,7 @@
     CGFloat priceLabelY = 30;
     CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
     self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.scoreprice];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",self.price];
     self.priceLabel.font = Font18;
     [self.countView addSubview:self.priceLabel];
     
@@ -631,6 +649,8 @@
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
     
     [self addObserver:self forKeyPath:@"countNum" options:(NSKeyValueObservingOptionNew) context:nil];
+    
+    
 
     self.countLabel.text = self.countNum;
     self.countLabel.textAlignment = 1;
@@ -672,8 +692,6 @@
     
     
     self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
-    self.paidLabel.text = [NSString stringWithFormat:@"%@星币",self.paidMoney];
-    
     [self changeModelCount];
     [self.countView addSubview:self.paidLabel];
     
@@ -784,7 +802,6 @@
     NSString *newNum = [change objectForKey:@"new"];
     
     self.countLabel.text = newNum;
-    
 }
 
 
@@ -815,6 +832,8 @@
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
     //计算count
     [self changeModelCount];
+    
+    [self removeObserver:self forKeyPath:@"countNum" context:nil];
     
 }
 
@@ -966,7 +985,7 @@
                 cell.textLabel.text = _productModel.brand;
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.scoreprice];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.price];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_productModel.productmodel];
@@ -999,7 +1018,7 @@
                 cell.textLabel.text = _serviceModel.services;
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.scoreprice];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_serviceModel.servicetype];
@@ -1067,16 +1086,15 @@
 
 - (void)dealloc
 {
-    if (self.okAddCartButton)
+    YYLog(@"视图出现次数：%ld",self.appearCount);
+    
+
+    for (NSInteger i = 0; i < self.appearCount; i++)
     {
         [self removeObserver:self forKeyPath:@"countNum" context:nil];
     }
     
 }
-
-
-
-
 
 
 

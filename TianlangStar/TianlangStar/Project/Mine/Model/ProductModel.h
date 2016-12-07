@@ -96,6 +96,11 @@
 @property (nonatomic,assign) NSInteger realPrice;
 
 
+
+
+@property (nonatomic,copy) NSString *countNum;
+
+
 @end
 
 
