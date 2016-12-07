@@ -54,6 +54,12 @@
 @property (nonatomic,strong) UIButton *plusButton;
 @property (nonatomic,strong) UILabel *countLabel;
 @property (nonatomic,strong) UILabel *priceLabel;
+@property (nonatomic,strong) UILabel *memberDiscountLabel;
+@property (nonatomic,strong) UILabel *discountLabel;
+@property (nonatomic,strong) UILabel *actuallyPaidLabel;
+@property (nonatomic,strong) UILabel *paidLabel;
+
+@property (nonatomic,copy) NSString *paidMoney;
 
 @property (nonatomic,strong) UIButton *okAddCartButton;
 
@@ -92,7 +98,9 @@
     if ([self.title isEqualToString:@"商品详情"])//商品
     {
         self.productId = _productModel.ID;
+        [self buyProductInShoppingCar];
         
+        self.paidMoney = [NSString stringWithFormat:@"%ld",_productModel.realPrice];
         self.productType = 1;
         
         NSString *images = _productModel.images;
@@ -111,6 +119,9 @@
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
         self.productId = _serviceModel.ID;
+        [self buyProductInShoppingCar];
+        
+        self.paidMoney = [NSString stringWithFormat:@"%ld",_serviceModel.realPrice];
         
         self.productType = 2;
         
@@ -553,7 +564,7 @@
     
     
     
-    CGFloat countViewheight = 150;
+    CGFloat countViewheight = 205;
     CGFloat countViewY = coverViewHeight - countViewheight;
     self.countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, KScreenWidth, countViewheight)];
     self.countView.backgroundColor = [UIColor whiteColor];
@@ -588,7 +599,7 @@
     
     
     CGFloat selectCountLabelX = 50;
-    CGFloat selectCountLabelY = countViewheight - 37 - Klength30;
+    CGFloat selectCountLabelY = countViewheight - 50 - 3 * Klength20;
     CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
     self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
     self.selectCountLabel.text = @"选择数量";
@@ -600,7 +611,7 @@
     CGFloat priceLabelY = 30;
     CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
     self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.scoreprice];
     self.priceLabel.font = Font18;
     [self.countView addSubview:self.priceLabel];
     
@@ -608,7 +619,7 @@
     
     CGFloat minusButtonX = coverPicViewX + coverPicViewWidth + 5;
     CGFloat minusButtonY = selectCountLabelY;
-    CGFloat minusButtonWidth = 30;
+    CGFloat minusButtonWidth = Klength30;
     self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.minusButton.frame = CGRectMake(minusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
     [self.minusButton setImage:[UIImage imageNamed:@"minus"] forState:(UIControlStateNormal)];
@@ -637,6 +648,38 @@
     [self.plusButton setImage:[UIImage imageNamed:@"plus"] forState:(UIControlStateNormal)];
     [self.plusButton addTarget:self action:@selector(plusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
     [self.countView addSubview:self.plusButton];
+    
+    
+    
+    
+    CGFloat memberDiscountLabelY = selectCountLabelY + Klength30;
+    self.memberDiscountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, memberDiscountLabelY, selectCountLabelWidth, Klength30)];
+    self.memberDiscountLabel.text = @"会员折扣";
+    [self.countView addSubview:self.memberDiscountLabel];
+    
+    
+    
+    
+    CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
+    self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
+    self.discountLabel.text = [NSString stringWithFormat:@"%.f折",[UserInfo sharedUserInfo].discount];
+    [self.countView addSubview:self.discountLabel];
+    
+    
+    
+    
+    CGFloat actuallyPaidLabelY = memberDiscountLabelY + Klength30;
+    self.actuallyPaidLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, actuallyPaidLabelY, selectCountLabelWidth, Klength30)];
+    self.actuallyPaidLabel.text = @"实付金额";
+    [self.countView addSubview:self.actuallyPaidLabel];
+    
+    
+    
+    self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
+#warning shi fu jin e
+    self.paidLabel.text = [NSString stringWithFormat:@"%@星币",self.paidMoney];
+    [self.countView addSubview:self.paidLabel];
+    
     
     
     
