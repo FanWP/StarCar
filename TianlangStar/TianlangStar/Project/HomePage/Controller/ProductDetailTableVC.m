@@ -794,7 +794,7 @@
     }
     NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
 
-    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -838,14 +838,14 @@
     parmas[@"productlist"] = [NSString stringWithFormat:@"[%@]",dataStr];;
     parmas[@"type"] = @"1";//1是直接购买  2是购物车购买
     
-    YYLog(@"parmas--:%@",parmas);
+    YYLog(@"购买parmas--:%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
-        YYLog(@"%@",json);
+        YYLog(@"购买返回：%@",json);
     } failure:^(NSError *error) {
-        YYLog(@"%@",error);
+        YYLog(@"购买返回错误%@",error);
     }];
     
 }

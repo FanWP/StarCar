@@ -114,7 +114,7 @@
 
 - (void)creatTitleView
 {
-    self.segment = [[UISegmentedControl alloc] initWithItems:@[@"上架",@"下架"]];
+    self.segment = [[UISegmentedControl alloc] initWithItems:@[@"已上架",@"已下架"]];
     self.segment.frame = CGRectMake(0, 10, 120, 30);
     
     self.segment.tintColor = [UIColor whiteColor];
