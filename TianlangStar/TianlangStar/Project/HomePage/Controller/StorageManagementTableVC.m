@@ -52,10 +52,10 @@
     switch (self.segment.selectedSegmentIndex)
     {
         case 0:
-            [self fetchPutawayAndSoldoutDataWithType:1];
+            [self fetchPutawayAndSoldoutDataWithType:2];
             break;
         case 1:
-            [self fetchPutawayAndSoldoutDataWithType:2];
+            [self fetchPutawayAndSoldoutDataWithType:3];
             break;
             
         default:
@@ -141,7 +141,7 @@
         {
             YYLog(@"上架");
             [self.putawayAndSoldoutButton setTitle:@"下架" forState:(UIControlStateNormal)];
-            [self fetchPutawayAndSoldoutDataWithType:1];
+            [self fetchPutawayAndSoldoutDataWithType:2];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                
@@ -153,7 +153,7 @@
         {
             YYLog(@"下架");
             [self.putawayAndSoldoutButton setTitle:@"上架" forState:(UIControlStateNormal)];
-            [self fetchPutawayAndSoldoutDataWithType:2];
+            [self fetchPutawayAndSoldoutDataWithType:3];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -226,7 +226,7 @@
         {
             case 0:
             {
-                [self fetchPutawayAndSoldoutDataWithType:1];
+                [self fetchPutawayAndSoldoutDataWithType:2];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
@@ -236,7 +236,7 @@
                 break;
             case 1:
             {
-                [self fetchPutawayAndSoldoutDataWithType:2];
+                [self fetchPutawayAndSoldoutDataWithType:3];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
@@ -494,10 +494,10 @@
             switch (self.segment.selectedSegmentIndex)
             {
                 case 0:
-                    [self fetchPutawayAndSoldoutDataWithType:1];
+                    [self fetchPutawayAndSoldoutDataWithType:2];
                     break;
                 case 1:
-                    [self fetchPutawayAndSoldoutDataWithType:2];
+                    [self fetchPutawayAndSoldoutDataWithType:3];
                     break;
                     
                 default:

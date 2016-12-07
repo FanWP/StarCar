@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#import <WebKit/WebKit.h>
+
 @interface TLStarVC : UIViewController
+
+
+@property (nonatomic,strong) WKWebView *wkWebView;
+
+@property (nonatomic,copy) NSString *url;
+
+
 
 @end

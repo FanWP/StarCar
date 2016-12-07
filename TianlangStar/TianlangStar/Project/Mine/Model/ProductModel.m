@@ -43,7 +43,7 @@
     NSString *introduction = nil;
     if (_remark == nil || _remark.length == 0)
     {
-        introduction = @"无";
+        introduction = @"";
     }else
     {
         introduction = _introduction;
@@ -57,7 +57,7 @@
     NSString *introduction = nil;
     if (_introduction == nil || _introduction.length == 0)
     {
-        introduction = @"无";
+        introduction = @"";
     }else
     {
         introduction = _introduction;
