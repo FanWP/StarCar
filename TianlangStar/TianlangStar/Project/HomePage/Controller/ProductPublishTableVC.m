@@ -130,7 +130,7 @@ typedef enum : NSUInteger {
 - (void)creatTitleView
 {
     self.segment = [[UISegmentedControl alloc] initWithItems:@[@"商品",@"服务",@"二手车"]];
-    self.segment.frame = CGRectMake(0, 0, 120, 30);
+    self.segment.frame = CGRectMake(0, 0, 150, 30);
     [self.segment addTarget:self action:@selector(segmentChange:) forControlEvents:(UIControlEventValueChanged)];
     self.segment.apportionsSegmentWidthsByContent = YES;
     
@@ -144,6 +144,7 @@ typedef enum : NSUInteger {
     self.segment.selectedSegmentIndex = 0;
     self.navigationItem.titleView = self.segment;
     
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"入库" style:(UIBarButtonItemStylePlain) target:self action:@selector(productPutinStorage)];
 }
 
@@ -265,7 +266,6 @@ typedef enum : NSUInteger {
             }
         }
         
-        
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
@@ -277,6 +277,8 @@ typedef enum : NSUInteger {
         if (resultCode == 1000)
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"商品入库成功" title:@"提示"];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -343,6 +345,8 @@ typedef enum : NSUInteger {
         if (resultCode == 1000)
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"服务入库成功" title:@"提示"];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -414,6 +418,8 @@ typedef enum : NSUInteger {
         if (resultCode == 1000)
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"二手车入库成功" title:@"提示"];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
 
         
