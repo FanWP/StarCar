@@ -78,8 +78,8 @@
          self.orderArr = [WaitOrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (self.orderArr.count > 0) {
              self.currentPage++;
-             [self.tableView reloadData];
          }
+         [self.tableView reloadData];
          
          YYLog(@"json---%@",json);
          
@@ -106,9 +106,9 @@
          [self.tableView.mj_footer endRefreshing];
          NSArray *newArr = [WaitOrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
+         self.currentPage++;
          if (newArr.count > 0) {
              [self.orderArr addObjectsFromArray:newArr];
-             self.currentPage++;
              [self.tableView reloadData];
          }
          YYLog(@"待处理订单加载更多json---%@",json);

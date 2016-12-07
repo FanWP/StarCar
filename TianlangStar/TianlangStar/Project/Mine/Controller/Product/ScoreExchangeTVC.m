@@ -67,8 +67,8 @@
         if (self.productArr.count > 0)
         {
             self.currentPage++;
-            [self.tableView reloadData];
         }
+        [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
         
     } failure:^(NSError *error) {

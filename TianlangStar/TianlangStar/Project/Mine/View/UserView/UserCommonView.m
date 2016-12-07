@@ -115,12 +115,14 @@
         [headView addSubview:self.lineView];
         
         
+        //星币积分的宽度
+        CGFloat buttonW = 75;
         //星币
         self.moneyButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
         [self.moneyButton setTitle:@"0" forState:(UIControlStateNormal)];
         [self.moneyButton addTarget:self action:@selector(starButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.moneyButton.titleLabel.font = Font13;
-        self.moneyButton.frame = CGRectMake(108, CGRectGetMaxY(self.lineView.frame) + 1, 60, 25);
+        self.moneyButton.frame = CGRectMake(108, CGRectGetMaxY(self.lineView.frame) + 1, buttonW, 25);
         
         [headView addSubview:self.moneyButton];
         
@@ -129,7 +131,7 @@
         [self.moneyCountButton setTitle:@"星币" forState:UIControlStateNormal];
         [self.moneyCountButton addTarget:self action:@selector(starButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.moneyCountButton.titleLabel.font = Font13;
-        self.moneyCountButton.frame = CGRectMake(108, CGRectGetMaxY(self.moneyButton.frame) + 1, 60, 25);
+        self.moneyCountButton.frame = CGRectMake(108, CGRectGetMaxY(self.moneyButton.frame) + 1, buttonW, 25);
         [headView addSubview:self.moneyCountButton];
         
         

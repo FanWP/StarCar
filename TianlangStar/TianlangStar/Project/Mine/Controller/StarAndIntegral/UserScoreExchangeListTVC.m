@@ -60,8 +60,8 @@
          self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          if (self.orderArr.count > 0) {
              self.currentPage++;
-             [self.tableView reloadData];
          }
+         [self.tableView reloadData];
          
          YYLog(@"json---%@",json);
          

@@ -39,10 +39,7 @@
     [self setupRefresh];
     
     [self rightItemExportExcel];
-
 }
-
-
 
 - (void)rightItemExportExcel
 {
@@ -289,7 +286,13 @@
 //添加编辑模式
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (USERType == 1 || USERType == 2)//店长
+    {
+        return NO;
+    }else
+    {
     return YES;
+    }
 }
 
 
@@ -304,11 +307,18 @@
 //删除所做的动作
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (USERType == 1)//店长
+    {
+        [SVProgressHUD showErrorWithStatus:@"您没有该权限"];
+        return;
+    }
+    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"是否确认删除此会员？" preferredStyle:UIAlertControllerStyleActionSheet];
         
         [alert addAction:[UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
             
             /** 管理员删除用户 */
             UserInfo * userInfo = [UserInfo sharedUserInfo];

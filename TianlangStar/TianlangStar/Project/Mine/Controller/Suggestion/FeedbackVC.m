@@ -82,7 +82,7 @@
         return;
     }
     
-    NSString *url = [NSString stringWithFormat:@"%@addsuggestionservlet",URL];
+    NSString *url = [NSString stringWithFormat:@"%@send/suggestion",URL];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
 
     UserInfo *userInfo = [UserInfo sharedUserInfo];
