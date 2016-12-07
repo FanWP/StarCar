@@ -117,6 +117,13 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     {
         YYLog(@"上传轮播图返回：%@",responseObject);
         
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加轮播图成功" title:@"提示"];
+        }
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"上传轮播图错误%@",error);

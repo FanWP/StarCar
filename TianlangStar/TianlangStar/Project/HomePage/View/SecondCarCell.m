@@ -70,7 +70,7 @@
         [self.chatButton.titleLabel setFont:Font14];
         self.chatButton.layer.cornerRadius = BtncornerRadius;
         [self.chatButton setTitle:@"立即咨询" forState:(UIControlStateNormal)];
-        [self.contentView addSubview:self.chatButton];
+//        [self.contentView addSubview:self.chatButton];
         
         
         
