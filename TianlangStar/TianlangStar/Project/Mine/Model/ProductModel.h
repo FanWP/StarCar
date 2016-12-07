@@ -84,7 +84,7 @@
 /** 商品的个数 */
 @property (nonatomic,assign) NSInteger count;
 
-/** 商品的个数 */
+/** 购买类型（1--商品  2-- 服务） */
 @property (nonatomic,assign) NSInteger buytype;
 
 

@@ -164,6 +164,19 @@
     return 25;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 15)];
+    header.backgroundColor = BGcolor;
+    return header;
+
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 15;
+}
+
 
 
 

@@ -31,6 +31,13 @@
 
 /** 用户名 */
 @property (nonatomic,copy) NSString *username;
+/** 用户名 */
+@property (nonatomic,copy) NSString *suggestid;
+
+/** 用户名 */
+@property (nonatomic,copy) NSString *updatetime;
+/** 店主回复内容 */
+@property (nonatomic,copy) NSString *fbcontent;
 
 
 

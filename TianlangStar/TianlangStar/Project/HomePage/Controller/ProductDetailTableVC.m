@@ -672,7 +672,6 @@
     
     
     self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
-#warning shi fu jin e
     self.paidLabel.text = [NSString stringWithFormat:@"%@星币",self.paidMoney];
     [self.countView addSubview:self.paidLabel];
     
@@ -834,6 +833,9 @@
     self.productModel.productid = self.productModel.ID;
     self.serviceModel.productid = self.serviceModel.ID;
     self.serviceModel.buytype = 2;//服务
+    NSInteger realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
+    self.paidLabel.text = [NSString stringWithFormat:@"%ld星币",(long)realPrice];
+
 }
 
 

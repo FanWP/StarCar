@@ -130,6 +130,10 @@ typedef enum : NSUInteger
 @property (nonatomic,weak) UILabel *itemCount;
 
 
+/** 查询按钮点击后的参数拼接 */
+@property (nonatomic,strong) NSMutableDictionary *newparmas;
+
+
 
 
 
@@ -441,12 +445,12 @@ typedef enum : NSUInteger
 -(void)searchClick:(UIButton *)button
 {
     [self.view endEditing:YES];
-    
-    self.parmas = nil;
-    self.parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    self.parmas[@"pageNum"] = @"1";
-    self.parmas[@"pageSize"] = @"10";
-    self.parmas[@"type"] = @(self.searchType + 1);
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"pageNum"] = @"1";
+    parmas[@"pageSize"] = @"10";
+    parmas[@"type"] = @(self.searchType + 1);
     
     
     switch (self.searchType)
@@ -456,8 +460,8 @@ typedef enum : NSUInteger
             YYLog(@"%@",self.startText.text);
             YYLog(@"%@",self.endText.text);
  
-            self.parmas[@"startTime"] = self.startText.text;
-            self.parmas[@"endTime"] = self.endText.text;
+            parmas[@"startTime"] = self.startText.text;
+            parmas[@"endTime"] = self.endText.text;
             break;
         }
             
@@ -468,7 +472,7 @@ typedef enum : NSUInteger
                 [[AlertView sharedAlertView] addAlertMessage:@"请输入正确的手机号！" title:@"提示"];
                 return;
             }
-            self.parmas[@"account"] = self.accountText.text;
+            parmas[@"account"] = self.accountText.text;
             break;
         }
             
@@ -481,22 +485,25 @@ typedef enum : NSUInteger
                 return;
             }
             
-            self.parmas[@"product"] = self.productText.text;
+            parmas[@"product"] = self.productText.text;
             break;
         }
         case priceSearch://积分/金币
         {
             YYLog(@"%@",self.startPriceText.text);
             YYLog(@"%@",self.endPriceText.text);
-            self.parmas[@"minMoney"] = self.startPriceText.text;
-            self.parmas[@"maxMoney"] = self.endPriceText.text;
-            self.parmas[@"type"] = @(button.tag);
+            parmas[@"minMoney"] = self.startPriceText.text;
+            parmas[@"maxMoney"] = self.endPriceText.text;
+            parmas[@"type"] = @(button.tag);
             break;
         }
             
         default:
             break;
     }
+    
+    self.newparmas = parmas;
+    
     YYLog(@"self.parm as----%@",self.parmas);
     [self loadNewCFOInfo];
 }
@@ -768,13 +775,18 @@ typedef enum : NSUInteger
     
     self.currentPage = 1;
     
-    self.parmas[@"pageNum"] = @(self.currentPage);
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    
+    parmas = self.newparmas ? self.newparmas : self.parmas;
+    
+    
+    parmas[@"pageNum"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@find/finance/list",URL];
     
-    YYLog(@"self.parmas----%@",self.parmas);
+    YYLog(@"parmas----%@",parmas);
     
-    [HttpTool post:url parmas:self.parmas success:^(id json) {
+    [HttpTool post:url parmas:parmas success:^(id json) {
         
         [self.tableView.mj_header endRefreshing];
         
@@ -804,11 +816,14 @@ typedef enum : NSUInteger
 -(void)loadMoreCFOInfo
 {
     [self.tableView.mj_header endRefreshing];
-    self.parmas[@"pageNum"] = @(self.currentPage);
+    
+    NSMutableDictionary *parmas = self.newparmas ? self.newparmas : self.parmas;
+
+    parmas[@"pageNum"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@find/finance/list",URL];
     
-    [HttpTool post:url parmas:self.parmas success:^(id json) {
+    [HttpTool post:url parmas:parmas success:^(id json) {
         [self.tableView.mj_footer endRefreshing];
         
         NSArray *arr = [CFOModel mj_objectArrayWithKeyValuesArray:json[@"body"][@"finaceList"]];

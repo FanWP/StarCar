@@ -24,10 +24,10 @@
         {
             UILabel *lable = [[UILabel alloc] init];
             lable.x = width * i;
-            lable.y = 15;
+            lable.y = 0;
             lable.width = width;
             lable.height = 44;
-            lable.font = Font18;
+            lable.font = Font14;
             lable.textAlignment = NSTextAlignmentCenter;
             
             //做位置的微调
@@ -50,20 +50,23 @@
                 case 2://注册时间
                 {
                     //                    lable.width -= 20;
-                    //                    lable.x += 15;
-                    lable.y = 5;
+                    //
+                    lable.height = 22;
+                    lable.x += 15;
+                    lable.y = 0;
                     self.lasttime = lable;
-                    lable.font = Font16;
+                    lable.font = Font10;
                     lable.textAlignment = NSTextAlignmentLeft;
                     break;
                 }
                 case 3://时分秒
                 {
-                    lable.x = width * (i - 1);
+                    lable.height = 22;
                     self.time = lable;
                     lable.textAlignment = NSTextAlignmentLeft;
-                    lable.y = 30;
-                    lable.font = Font16;
+                    lable.y = 22;
+                    lable.centerX = self.lasttime.centerX;
+                    lable.font = Font10;
                     break;
                 }
                     
@@ -74,8 +77,13 @@
             [self.contentView addSubview:lable];
         }
         
+        //添加底部的灰色线条
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 44, KScreenWidth, 5)];
+        line.backgroundColor = BGcolor;
+        [self.contentView addSubview:line];
+        
     }
-
+    
     return self;
 }
 

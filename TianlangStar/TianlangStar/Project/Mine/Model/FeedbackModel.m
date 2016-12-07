@@ -27,6 +27,13 @@
     return [formatter stringFromDate:data];
 }
 
+-(NSString *)updatetime
+{
+
+    return [_updatetime getDetailCurrentTime];
+
+}
+
 
 -(CGFloat)textH
 {

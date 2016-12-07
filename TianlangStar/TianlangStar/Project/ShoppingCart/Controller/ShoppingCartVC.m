@@ -48,35 +48,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = BGcolor;
     self.title = @"购物车";
-    
-
-    
-//    [self addOrderArr];
-}
-
-
-- (void)addOrderArr
-{
-    ProductModel *model1 = [[ProductModel alloc] init];
-    model1.price = @"89.4";
-    model1.count = 1;
-
-    model1.productname = @"guwqrt";
-    
-    ProductModel *model2 = [[ProductModel alloc] init];
-    model2.price = @"100";
-    model2.count = 2;
-    model2.productname = @"guwqrt";
-    
-    ProductModel *model3 = [[ProductModel alloc] init];
-    model3.price = @"100";
-    model3.count = 3;
-    model3.productname = @"guwqrt";
-    
-    self.orderArr = @[model1,model2,model3];
-
 
 }
+
+
+
 
 
 -(void)viewWillAppear:(BOOL)animated
@@ -150,9 +126,6 @@
     total.text = @"合计：";
     total.textColor = lableTextcolor;
     [footerView addSubview:total];
-    
-    
-
 
     //设置footer
     UIView *foot = [[UIView alloc] initWithFrame:footerView.bounds];
@@ -162,7 +135,7 @@
     
 }
 
-
+#pragma mark==============添加上下拉功能====================
 -(void)setupRefresh
 {
     self.tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewOrderInfo)];
@@ -182,7 +155,7 @@
     self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-//    parmas[@"currentPage"] = @(self.currentPage);
+    //    parmas[@"currentPage"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@findshopcarlist",URL];
     YYLog(@"parmas---%@--url:%@",parmas,url);
@@ -195,7 +168,6 @@
              self.currentPage++;
              [self.tableView reloadData];
          }
-         
          YYLog(@"购物车查询返回：json---%@",json);
          
      } failure:^(NSError *error) {
@@ -263,6 +235,42 @@
     return cell;
 }
 
+
+/** 删除购物车 */
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        ProductModel *model = self.orderArr[indexPath.row];
+        [self.orderArr removeObjectAtIndex:indexPath.row];
+        
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.tableView endUpdates];
+        
+        
+        
+        NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+        parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+        parmas[@"favoriteid"] = model.ID;
+        
+        NSString *url = [NSString stringWithFormat:@"%@cancel/shopcar/servlet",URL];
+        
+        //发送删除请求
+        [HttpTool post:url parmas:parmas success:^(id json)
+         {
+             YYLog(@"json删除购物车--%@",json);
+             
+         } failure:^(NSError *error) {
+             YYLog(@"error删除购物车--%@",error);
+             
+         }];
+        
+        
+    }];
+    
+    return @[deleteAction];
+}
 
 //复选框按钮的点击事件、
 -(void)selectBtnClick:(UIButton *)button
@@ -357,7 +365,6 @@
         //刷新数据
         [self loadNewOrderInfo];
     }];
-
 }
 
 -(void)buyProductInShoppingCar
@@ -389,7 +396,7 @@
             //跳转
             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
-            vc.detalList = model;
+            vc.model = model;
             [self.navigationController pushViewController:vc                              animated:YES];
         }
         
@@ -397,7 +404,6 @@
     } failure:^(NSError *error) {
         YYLog(@"%@",error);
     }];
-
 }
 
 

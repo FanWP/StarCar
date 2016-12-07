@@ -134,7 +134,7 @@
 -(void)addHeaderView
 {
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 44)];
-//    headView.backgroundColor = [UIColor redColor];
+    headView.backgroundColor = BGcolor;
     
     NSArray *arr = @[@"手机号",@"等级",@"注册时间"];
     
@@ -151,7 +151,7 @@
         lable.width = width;
         lable.height = 44;
         lable.text = arr[i];
-        lable.font = Font18;
+        lable.font = Font17;
         lable.textAlignment = NSTextAlignmentCenter;
         
         //做位置的微调
@@ -281,7 +281,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 49;
 }
 
 
