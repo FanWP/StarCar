@@ -155,9 +155,7 @@
             
             [_imagesArray addObject:image];
         }
-        
     }
-
 }
 
 
