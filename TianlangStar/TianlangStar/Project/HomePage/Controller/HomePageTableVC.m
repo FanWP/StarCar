@@ -98,7 +98,7 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
-        YYLog(@"首页返回：%@",responseObject);
+//        YYLog(@"首页返回：%@",responseObject);
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
@@ -141,7 +141,7 @@
         
         [self.tableView reloadData];
 
-        
+       
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"首页返回错误: %@",error);
@@ -213,6 +213,10 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         
         [self.productsArray removeAllObjects];
+        
+        [self.ImgList removeAllObjects];
+        
+        [self fetchHomePageData];
         
         if (self.homePageSelectCell.maintenanceButton.enabled == NO)
         {
