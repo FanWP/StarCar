@@ -85,7 +85,6 @@
 
 
 
-
 #pragma mark - 获取首页数据
 - (void)fetchHomePageData
 {
@@ -559,6 +558,8 @@
 {
     button.selected = !button.selected;
     
+    button.userInteractionEnabled = NO;
+    
     [self fetchProductInfoWithType:1];
     
     self.homePageSelectCell.productButton.selected = NO;
@@ -573,6 +574,8 @@
 - (void)productAction:(TopPicBottomLabelButton *)button
 {
     button.selected = !button.selected;
+    
+    button.userInteractionEnabled = NO;
     
     [self fetchProductInfoWithType:2];
     

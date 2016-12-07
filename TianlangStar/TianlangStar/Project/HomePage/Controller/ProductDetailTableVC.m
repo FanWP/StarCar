@@ -97,6 +97,8 @@
     
     [self rightItem];
     
+    [self addFooterView];
+    
     if ([self.title isEqualToString:@"商品详情"])//商品
     {
         self.productId = _productModel.ID;
@@ -164,6 +166,16 @@
 
     }
 }
+
+
+
+- (void)addFooterView
+{
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44)];
+    self.tableView.tableFooterView = footerView;
+}
+
+
 
 -(void)setProductType:(NSInteger)productType
 {
@@ -596,7 +608,7 @@
     
     CGFloat coverPicViewX = 16;
     CGFloat coverPicViewY = coverViewHeight - countViewheight - 57;
-    CGFloat coverPicViewWidth = 225;
+    CGFloat coverPicViewWidth = 0.6 * KScreenWidth;
     CGFloat coverPicViewHeight = 107 + 12 + 12;
     self.coverPicView = [[UIView alloc] initWithFrame:CGRectMake(coverPicViewX, coverPicViewY, coverPicViewWidth, coverPicViewHeight)];
     self.coverPicView.layer.cornerRadius = BtncornerRadius;
@@ -627,7 +639,7 @@
     
     
     
-    CGFloat priceLabelX = coverPicViewX + coverPicViewWidth + 30;
+    CGFloat priceLabelX = coverPicViewX + coverPicViewWidth + 20;
     CGFloat priceLabelY = 30;
     CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
     self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
@@ -637,7 +649,7 @@
     
     
     
-    CGFloat minusButtonX = coverPicViewX + coverPicViewWidth + 5;
+    CGFloat minusButtonX = coverPicViewX + coverPicViewWidth;
     CGFloat minusButtonY = selectCountLabelY;
     CGFloat minusButtonWidth = Klength30;
     self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -685,6 +697,7 @@
     CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
     self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
     self.discountLabel.text = [NSString stringWithFormat:@"%.f折",[UserInfo sharedUserInfo].discount];
+    self.discountLabel.textAlignment = 1;
     [self.countView addSubview:self.discountLabel];
     
     
@@ -699,6 +712,7 @@
     
     self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
     [self changeModelCount];
+    self.paidLabel.textAlignment = 1;
     [self.countView addSubview:self.paidLabel];
     
     
@@ -741,7 +755,7 @@
     }
     NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
 
-    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleActionSheet];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -796,7 +810,6 @@
     }];
     
 }
-
 
 
 
@@ -907,7 +920,7 @@
         
         if (resultCode == 1000)
         {
-            
+            [[AlertView sharedAlertView] addAfterAlertMessage:@"成功加入购物车" title:@"提示"];
         }
         
         [self.coverView removeFromSuperview];

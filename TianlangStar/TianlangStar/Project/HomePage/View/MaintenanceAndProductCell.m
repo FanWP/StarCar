@@ -58,7 +58,7 @@
         self.buyButton.layer.cornerRadius = BtncornerRadius;
         [self.buyButton.titleLabel setFont:Font14];
         [self.buyButton setTitle:@"立即购买" forState:(UIControlStateNormal)];
-        [self.contentView addSubview:self.buyButton];
+//        [self.contentView addSubview:self.buyButton];
         
         
         
