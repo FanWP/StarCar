@@ -19,18 +19,15 @@
 -(void)setCount:(NSInteger)count
 {
     _count = count;
-    
-    
+
     //计算价格
-    NSInteger price =  [self.price integerValue];
+    NSInteger price =  [self.price doubleValue];
     
     CGFloat  discount = [UserInfo sharedUserInfo].discount / 100;
     
-    CGFloat total = (price * discount + 0.5);
+    NSInteger price1 = ceil(price * discount);
     
-    NSString *price1 = [NSString stringWithFormat:@"%.f",total];
-    
-    _realPrice = [price1 integerValue] * self.count;
+    _realPrice = price1 * self.count;
 
 
 }

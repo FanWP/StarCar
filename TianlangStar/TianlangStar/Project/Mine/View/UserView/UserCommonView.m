@@ -117,12 +117,13 @@
         
         //星币积分的宽度
         CGFloat buttonW = 75;
+        CGFloat buttonX = 50;
         //星币
         self.moneyButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
         [self.moneyButton setTitle:@"0" forState:(UIControlStateNormal)];
         [self.moneyButton addTarget:self action:@selector(starButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.moneyButton.titleLabel.font = Font13;
-        self.moneyButton.frame = CGRectMake(108, CGRectGetMaxY(self.lineView.frame) + 1, buttonW, 25);
+        self.moneyButton.frame = CGRectMake(buttonX, CGRectGetMaxY(self.lineView.frame) + 1, buttonW, 25);
         
         [headView addSubview:self.moneyButton];
         
@@ -131,7 +132,7 @@
         [self.moneyCountButton setTitle:@"星币" forState:UIControlStateNormal];
         [self.moneyCountButton addTarget:self action:@selector(starButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.moneyCountButton.titleLabel.font = Font13;
-        self.moneyCountButton.frame = CGRectMake(108, CGRectGetMaxY(self.moneyButton.frame) + 1, buttonW, 25);
+        self.moneyCountButton.frame = CGRectMake(buttonX, CGRectGetMaxY(self.moneyButton.frame) + 1, buttonW, 25);
         [headView addSubview:self.moneyCountButton];
         
         
@@ -140,7 +141,7 @@
         [self.scoreButton addTarget:self action:@selector(scoreButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
         self.scoreButton.titleLabel.font = Font13;
         self.scoreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        self.scoreButton.frame =  CGRectMake(KScreenWidth - 108 - self.moneyButton.width, self.moneyButton.y, self.moneyButton.width, self.moneyButton.height);
+        self.scoreButton.frame =  CGRectMake(KScreenWidth - buttonX - self.moneyButton.width, self.moneyButton.y, self.moneyButton.width, self.moneyButton.height);
         [headView addSubview:self.scoreButton];
         
         

@@ -99,11 +99,8 @@
             [view addSubview:line];
             left.y = left.y + 7 * (i - 2);
         }
-        
 
         [view addSubview:left];
-        
-        
         //设置右边的数据
         UILabel *right = [[UILabel alloc] init];
         right.width = KScreenWidth * 0.55;

@@ -105,7 +105,7 @@
         for (NSInteger i = 0; i < 4; i++)
         {
             UILabel *lable = [[UILabel alloc] init];
-            lable.width = KScreenWidth * 0.5;
+            lable.width = KScreenWidth * 0.55;
             lable.height = lableH;
             lable.x = KScreenWidth - 20 - lable.width;
             lable.y = i * lable.height;

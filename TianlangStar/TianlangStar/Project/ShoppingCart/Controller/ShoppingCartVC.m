@@ -394,6 +394,7 @@
         NSNumber *num = json[@"resultCode"];
         if ([num integerValue] == 1000)//返回成功
         {
+            self.allSelectedBtn.selected = NO;
             //跳转
             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];

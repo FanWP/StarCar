@@ -128,12 +128,12 @@
         
         
         //设置箭头
-        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrows"]];
-        img.x = KScreenWidth - 16 - img.width;
-        img.centerY = images.centerY;
-        [self.contentView addSubview:img];
-        
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+//        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrows"]];
+//        img.x = KScreenWidth - 16 - img.width;
+//        img.centerY = images.centerY;
+//        [self.contentView addSubview:img];
+//        
+//        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }

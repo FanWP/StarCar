@@ -204,7 +204,7 @@
     //账户余额和充值金额
     UILabel *creditLB = [[UILabel alloc] init];
     creditLB.text  = @"现金";
-    creditLB.x = 80;
+    creditLB.x = 50;
     creditLB.y = CGRectGetMaxY(rechargeLB.frame) + 20;
     creditLB.width = 35;
     creditLB.height = labelH;
