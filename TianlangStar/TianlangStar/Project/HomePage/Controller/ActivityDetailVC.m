@@ -18,8 +18,7 @@
     [super viewDidLoad];
 
     self.wkWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
-//    NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
-    NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.jianshu.com/p/165e92e128ec"]];
+    NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
     
     [self.wkWebView loadRequest:repuest];
     self.wkWebView.navigationDelegate = self;

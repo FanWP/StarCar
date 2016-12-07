@@ -41,6 +41,9 @@
 @property (nonatomic,copy) NSString *commercialtime;
 
 
+@property (nonatomic,copy) NSString *images;
+
+
 /** 车辆的ID */
 @property (nonatomic,copy) NSString *cid;
 

@@ -15,6 +15,8 @@
 @property (nonatomic,copy) NSString *content;
 @property (nonatomic,copy) NSString *pubTime;
 
+@property (nonatomic,copy) NSString *detailUrl;
+
 @property (nonatomic,copy) NSString *createTime;
 
 @end

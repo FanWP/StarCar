@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class ProductModel,ServiceModel,CarModel;
 @interface CollectionProductDetailTableVC : UITableViewController
+
+@property (nonatomic,strong) ProductModel *productModel;
+@property (nonatomic,strong) ServiceModel *serviceModel;
+@property (nonatomic,strong) CarModel *carModel;
+
 
 @end

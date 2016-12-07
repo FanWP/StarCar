@@ -14,7 +14,7 @@
 #import "ServiceModel.h"
 #import "CarModel.h"
 
-#import "ProductDetailTableVC.h"
+#import "CollectionProductDetailTableVC.h"
 
 @interface MyCollectionTableVC ()
 
@@ -417,7 +417,8 @@
         {
             CarModel *carModel = _collectionArray[indexPath.row];
             
-            NSArray *imagesArray = [carModel.picture componentsSeparatedByString:@","];
+            NSArray *imagesArray;
+            imagesArray = [carModel.images componentsSeparatedByString:@","];
             
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject]];
             [cell.productPic sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
@@ -442,8 +443,34 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ProductDetailTableVC *productDetailTableVC = [[ProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
-    [self.navigationController pushViewController:productDetailTableVC animated:YES];
+    CollectionProductDetailTableVC *collectionProductDetailTableVC = [[CollectionProductDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+    
+    switch (self.segment.selectedSegmentIndex)
+    {
+        case 0:
+        {
+            collectionProductDetailTableVC.title = @"商品详情";
+            collectionProductDetailTableVC.productModel = _collectionArray[indexPath.row];
+        }
+            break;
+        case 1:
+        {
+            collectionProductDetailTableVC.title = @"保养维护详情";
+            collectionProductDetailTableVC.serviceModel = _collectionArray[indexPath.row];
+        }
+            break;
+        case 2:
+        {
+            collectionProductDetailTableVC.title = @"二手车详情";
+            collectionProductDetailTableVC.carModel = _collectionArray[indexPath.row];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self.navigationController pushViewController:collectionProductDetailTableVC animated:YES];
 }
 
 

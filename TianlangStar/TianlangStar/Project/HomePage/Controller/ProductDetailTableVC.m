@@ -53,12 +53,21 @@
 @property (nonatomic,strong) UIButton *plusButton;
 @property (nonatomic,strong) UILabel *countLabel;
 @property (nonatomic,strong) UILabel *priceLabel;
+@property (nonatomic,strong) UILabel *memberDiscountLabel;
+@property (nonatomic,strong) UILabel *discountLabel;
+@property (nonatomic,strong) UILabel *actuallyPaidLabel;
+@property (nonatomic,strong) UILabel *paidLabel;
+
+@property (nonatomic,copy) NSString *paidMoney;
 
 @property (nonatomic,strong) UIButton *okAddCartButton;
 
 //购买数量
 @property (nonatomic,copy) NSString *countNum;
 @property (nonatomic,assign) NSInteger countNumber;
+
+
+@property (nonatomic,copy) NSString *totalStar;
 
 //判断是商品还是服务
 
@@ -80,13 +89,15 @@
     
     [self creatHeaderView];
     
-//    [self creatFootView];
-    
     [self rightItem];
     
     if ([self.title isEqualToString:@"商品详情"])//商品
     {
         self.productId = _productModel.ID;
+        
+        [self buyProductInShoppingCar];
+        
+        self.paidMoney = [NSString stringWithFormat:@"%ld",_productModel.realPrice];
         
         self.productType = 1;
         
@@ -107,6 +118,10 @@
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
         self.productId = _serviceModel.ID;
+        
+        [self buyProductInShoppingCar];
+        
+        self.paidMoney = [NSString stringWithFormat:@"%ld",_serviceModel.realPrice];
         
         self.productType = 2;
         
@@ -545,7 +560,7 @@
     
     
     
-    CGFloat countViewheight = 150;
+    CGFloat countViewheight = 205;
     CGFloat countViewY = coverViewHeight - countViewheight;
     self.countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, KScreenWidth, countViewheight)];
     self.countView.backgroundColor = [UIColor whiteColor];
@@ -580,7 +595,7 @@
     
     
     CGFloat selectCountLabelX = 50;
-    CGFloat selectCountLabelY = countViewheight - 37 - Klength30;
+    CGFloat selectCountLabelY = countViewheight - 50 - 3 * Klength20;
     CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
     self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
     self.selectCountLabel.text = @"选择数量";
@@ -592,7 +607,7 @@
     CGFloat priceLabelY = 30;
     CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
     self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.scoreprice];
     self.priceLabel.font = Font18;
     [self.countView addSubview:self.priceLabel];
     
@@ -600,7 +615,7 @@
     
     CGFloat minusButtonX = coverPicViewX + coverPicViewWidth + 5;
     CGFloat minusButtonY = selectCountLabelY;
-    CGFloat minusButtonWidth = 30;
+    CGFloat minusButtonWidth = Klength30;
     self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.minusButton.frame = CGRectMake(minusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
     [self.minusButton setImage:[UIImage imageNamed:@"minus"] forState:(UIControlStateNormal)];
@@ -632,6 +647,38 @@
     
     
     
+    
+    CGFloat memberDiscountLabelY = selectCountLabelY + Klength30;
+    self.memberDiscountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, memberDiscountLabelY, selectCountLabelWidth, Klength30)];
+    self.memberDiscountLabel.text = @"会员折扣";
+    [self.countView addSubview:self.memberDiscountLabel];
+    
+    
+    
+    
+    CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
+    self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
+    self.discountLabel.text = [NSString stringWithFormat:@"%.f折",[UserInfo sharedUserInfo].discount];
+    [self.countView addSubview:self.discountLabel];
+    
+    
+    
+    
+    CGFloat actuallyPaidLabelY = memberDiscountLabelY + Klength30;
+    self.actuallyPaidLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, actuallyPaidLabelY, selectCountLabelWidth, Klength30)];
+    self.actuallyPaidLabel.text = @"实付金额";
+    [self.countView addSubview:self.actuallyPaidLabel];
+    
+    
+    
+    self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
+#warning shi fu jin e
+    self.paidLabel.text = [NSString stringWithFormat:@"%@星币",self.paidMoney];
+    [self.countView addSubview:self.paidLabel];
+    
+    
+    
+    
     self.okAddCartButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.okAddCartButton.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
     self.okAddCartButton.backgroundColor = [UIColor redColor];
@@ -659,15 +706,15 @@
 {
     
     //显示确认支付的金额
-    NSString *totalStar = @"0";
+    self.totalStar = @"0";
     
     if (self.productType == 1) {//商品
-        totalStar = [NSString stringWithFormat:@"%ld",(long)self.productModel.realPrice];
+        self.totalStar = [NSString stringWithFormat:@"%ld",(long)self.productModel.realPrice];
     }else//服务
     {
-        totalStar = [NSString stringWithFormat:@"%ld",(long)_serviceModel.realPrice];
+        self.totalStar = [NSString stringWithFormat:@"%ld",(long)_serviceModel.realPrice];
     }
-    NSString *message = [NSString stringWithFormat:@"支付%@星币？",totalStar];
+    NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
 
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     
@@ -915,7 +962,7 @@
                 cell.textLabel.text = _productModel.brand;
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.price];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.scoreprice];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_productModel.productmodel];
@@ -948,7 +995,7 @@
                 cell.textLabel.text = _serviceModel.services;
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.scoreprice];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_serviceModel.servicetype];

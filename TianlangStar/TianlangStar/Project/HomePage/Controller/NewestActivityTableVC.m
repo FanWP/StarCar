@@ -47,42 +47,33 @@
 
 - (void)fetchNewActivityData
 {
-    //    find/activities/list
-    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
 
     self.pageNum = 1;
     parameters[@"pageNum"] = @(self.pageNum);
-    parameters[@"pageSize"] = @"4";
+    parameters[@"pageSize"] = @"10";
 
     NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",URL];
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-
-    [[AFHTTPSessionManager manager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
-
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
         YYLog(@"获取最新活动返回%@",responseObject);
-
-        NSInteger resultCode = [responseObject[@"resCode"] integerValue];
-
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
         if (resultCode == 1000)
         {
             self.activityArray = [NewActivityModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-
+            
             [self.tableView reloadData];
         }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"获取最新活动错误%@",error);
+        
     }];
 }
 
@@ -139,11 +130,11 @@
 #pragma mark - 点击单元格选中
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NewestActivityDetailTableVC *newestActivityDetailTableVC = [[NewestActivityDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
-//    [self.navigationController pushViewController:newestActivityDetailTableVC animated:YES];
-
-
     ActivityDetailVC *activityDetailVC = [[ActivityDetailVC alloc] init];
+    
+    _activityModel = _activityArray[indexPath.row];
+    
+    activityDetailVC.url = _activityModel.detailUrl;
     
     [self.navigationController pushViewController:activityDetailVC animated:YES];
     

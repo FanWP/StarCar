@@ -42,6 +42,8 @@
 // 二手车数组
 @property (nonatomic,strong) NSMutableArray *secondCarArray;
 
+@property (nonatomic,strong) NSArray *moreProductArray;
+
 // 模型
 @property (nonatomic,strong) ProductModel *productModel;
 @property (nonatomic,strong) ServiceModel *serviceModel;
@@ -74,16 +76,14 @@
     
     [self addSearchController];// 添加搜索框
     
-    
-//    [self setupPlayerPic];
-    
     [self fetchHomePageData];// 获取首页数据
-    
-//    [self creatHeaderView];// 轮播图
     
     [self fetchProductInfoWithType:1];
     
 
+    [self dropdownRefresh];
+    
+    [self pullOnLoading];
 }
 
 
@@ -149,15 +149,6 @@
     }];
     
 
-//    [[AFHTTPSessionManager manager] GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-//    {
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-//    {
-//        
-//    }];
 }
 
 
@@ -189,6 +180,8 @@
         
         if (resultCode == 1000)
         {
+            self.pageNum++;
+            
             if ([productType isEqualToString:@"1"])
             {
                 _productsArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
@@ -210,55 +203,113 @@
         YYLog(@"获取所有商品列表错误：%@",error);
         
     }];
-    
-    
-//    [[AFHTTPSessionManager manager] GET:url parameters:parmas progress:^(NSProgress * _Nonnull downloadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-//    {
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-//    {
-//        
-//        
-//    }];
 }
 
 
 
 
-//- (void)fetchProductInfoWithType:(NSInteger)type
-//{
-//    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-//    
-//    parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
-//    parmas[@"currentPage"]  = @"1";
-//    NSString *productType = [NSString stringWithFormat:@"%ld",type];
-//    parmas[@"type"]  = productType;
-//    
-//    YYLog(@"获取所有商品列表parmas--%@",parmas);
-//    
-//    NSString *url = [NSString stringWithFormat:@"%@getcommodityinfoservlet",URL];
-//    
-//    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-//    {
-//        YYLog(@"获取所有商品列表-%@",responseObject);
-//        
-//        self.productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-//        
-//        ProductModel *model = self.productsArray[0];
-//        
-//        YYLog(@"model---%ld",(long)model.scoreprice);
-//        
-//        [self.tableView reloadData];
-//
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-//    {
-//        YYLog(@"获取所有商品列表错误%@",error);
-//    }];
-//}
+// 下拉刷新
+- (void)dropdownRefresh
+{
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        
+        [self.productsArray removeAllObjects];
+        
+        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+        {
+            [self fetchProductInfoWithType:1];
+        }
+        else if (self.homePageSelectCell.productButton.selected == YES)
+        {
+            [self fetchProductInfoWithType:2];
+        }
+        else
+        {
+            [self fetchProductInfoWithType:3];
+        }
+        
+        [self.tableView reloadData];
+        
+        [self.tableView.mj_header endRefreshing];
+    }];
+}
+
+
+
+
+// 上拉加载
+- (void)pullOnLoading
+{
+    self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+        
+        NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+        
+        parmas[@"pageNum"] = @(self.pageNum);
+        parmas[@"pageSize"]  = @"10";
+        NSString *productType;
+        if (self.homePageSelectCell.maintenanceButton.selected == YES)
+        {
+            productType = @"1";
+        }
+        else if (self.homePageSelectCell.productButton.selected == YES)
+        {
+            productType = @"2";
+        }
+        else
+        {
+            productType = @"3";
+        }
+        
+        parmas[@"type"]  = productType;
+        
+        YYLog(@"获取所有商品列表参数--%@",parmas);
+        
+        NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",URL];
+        
+        
+        [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+         {
+             YYLog(@"获取所有商品列表返回：%@",responseObject);
+             
+             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+             
+             if (resultCode == 1000)
+             {
+                 self.pageNum++;
+                 
+                 if ([productType isEqualToString:@"1"])
+                 {
+                     _moreProductArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                     
+                     [_productsArray addObjectsFromArray:_moreProductArray];
+                 }
+                 else if ([productType isEqualToString:@"2"])
+                 {
+                     _moreProductArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                     
+                     [_productsArray addObjectsFromArray:_moreProductArray];
+                 }
+                 else
+                 {
+                     _moreProductArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                     
+                     [_productsArray addObjectsFromArray:_moreProductArray];
+                 }
+             }
+             
+             [self.tableView reloadData];
+             
+             [self.tableView.mj_footer endRefreshing];
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+         {
+             YYLog(@"获取所有商品列表错误：%@",error);
+             
+         }];
+    }];
+}
 
 
 
@@ -305,53 +356,6 @@
 }
 
 
-
-/**
- *  获取顶部轮播图的链接地址
- */
--(void)setupPlayerPic
-{
-//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-//    
-//    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-//    parameters[@"type"] = @"1";
-//    
-//    NSString *url = [NSString stringWithFormat:@"%@getallpicservlet",URL];
-//    
-//    [[AFHTTPSessionManager manager]POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-//     {
-//         YYLog(@"轮播图返回---%@",responseObject);
-//         NSNumber *num = responseObject[@"resultCode"];
-//         NSInteger result = [num integerValue];
-//         
-//         if (result == 1000)
-//         {
-//             NSArray *arr = responseObject[@"body"];
-//             
-//             for (NSDictionary *dic in arr)
-//             {
-//                 NSString *picture = [dic objectForKey:@"images"];
-//                 NSArray *imagesArray = [picture componentsSeparatedByString:@","];
-//                 
-//                 for (NSInteger i = 0; i < imagesArray.count; i++)
-//                 {
-//                     NSString *pic = imagesArray[i];
-//                     NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-//                     [self.ImgList addObject:image];
-//                 }
-//             }
-//             
-//             [self creatHeaderView];
-//
-//         }
-//         
-//     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-//     {
-//         YYLog(@"轮播图--%@",error);
-//     }];
-}
 
 
 
@@ -475,7 +479,7 @@
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
         cell.titleLabel.text = serviceModel.services;
         cell.detailLabel.text = serviceModel.content;
-        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.scoreprice];
         cell.priceLabel.font = Font14;
 
     }
@@ -487,30 +491,12 @@
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         cell.titleLabel.text = productModel.productname;
         cell.detailLabel.text = productModel.introduction;
-        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.price];
+        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.scoreprice];
         
     }
     
     return cell;
 }
-#pragma mark - 返回商品的cell
-//- (UITableViewCell *)tableView:(UITableView *)tableView productCellWithIndexPatch:(NSIndexPath *)indexPatch
-//{
-//    static NSString *identifier3 = @"cell3";
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
-//    
-//    if (cell == nil)
-//    {
-//        
-//        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier3];
-//        
-//    }
-//    
-//    cell.textLabel.text = @"商品的cell";
-//    
-//    return cell;
-//}
 
 
 
@@ -535,7 +521,6 @@
     [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     cell.carNameLabel.text = _carModel.brand;
-//    cell.carNameLabel.text = @"马自达阿特兹2017新款豪华版";
     cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
     cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
@@ -709,6 +694,18 @@
     }
     
     return _productsArray;
+}
+
+
+
+- (NSArray *)moreProductArray
+{
+    if (!_moreProductArray)
+    {
+        _moreProductArray = [NSArray array];
+    }
+    
+    return _moreProductArray;
 }
 
 
