@@ -782,7 +782,8 @@
 
 - (void)settlementAction
 {
-    
+    [self.coverView removeFromSuperview];
+    [self.okAddCartButton removeFromSuperview];
     //显示确认支付的金额
     self.totalStar = @"0";
     
@@ -807,7 +808,6 @@
     
     [self presentViewController:alert animated:YES completion:nil];
     
-
 }
 
 

@@ -100,6 +100,8 @@ typedef enum : NSUInteger {
 
 - (void)rightItem
 {
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:(UIBarButtonItemStylePlain) target:self action:@selector(finishAction)];
 }
 
