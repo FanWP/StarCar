@@ -203,22 +203,21 @@
     UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         //发送网络请求
-        
         FeedbackModel *model = self.feedbackArr[indexPath.row];
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-        parmas[@"sessoinId"] = [UserInfo sharedUserInfo].RSAsessionId;
+        parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"suggestid"] = model.ID;
         
         NSString *url = [NSString stringWithFormat:@"%@delete/suggestion/info",URL];
-
+        
         YYLog(@"parmas--：%@---url:%@",parmas,url);
         
-        [HttpTool post:url parmas:parmas success:^(id json) {
-            
-            YYLog(@"删除json--:%@",json);
-        } failure:^(NSError *error) {
-            YYLog(@"删除error--:%@",error);
-        }];
+        [HttpTool post:url parmas:parmas success:^(id json)
+         {
+             YYLog(@"删除json--:%@",json);
+         } failure:^(NSError *error) {
+             YYLog(@"删除error--:%@",error);
+         }];
         
         //本地删除操作
         [self.feedbackArr removeObjectAtIndex:indexPath.row];
@@ -226,9 +225,8 @@
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
         [self.tableView endUpdates];
     }];
-
+    
     return @[action];
-
 }
 
 
