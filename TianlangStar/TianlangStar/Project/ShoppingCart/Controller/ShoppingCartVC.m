@@ -53,14 +53,14 @@
     self.view.backgroundColor = BGcolor;
     self.title = @"购物车";
     
-//    //没有登录
-//    if (![UserInfo sharedUserInfo].isLogin)
-//    {
-//        LoginVC *vc = [[LoginVC alloc] init];
-//        [self.navigationController pushViewController:vc animated:YES];
-//        return;
-//        
-//    }
+    //    //没有登录
+    //    if (![UserInfo sharedUserInfo].isLogin)
+    //    {
+    //        LoginVC *vc = [[LoginVC alloc] init];
+    //        [self.navigationController pushViewController:vc animated:YES];
+    //        return;
+    //
+    //    }
     
     
     [self setupRefresh];
@@ -72,13 +72,13 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-
+    
     [super viewWillAppear:animated];
-//    //判断登录
-//    if ([UserInfo sharedUserInfo].isLogin)
-//    {
-//        return;
-//    }
+    //    //判断登录
+    //    if ([UserInfo sharedUserInfo].isLogin)
+    //    {
+    //        return;
+    //    }
     
     [self loadNewOrderInfo];
     [self addFoorView];
@@ -99,61 +99,61 @@
         return;
         
     }else{
-    
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88, KScreenWidth, 44)];
-    footerView.backgroundColor = [UIColor whiteColor];
-    self.footerView  = footerView;
-    [[UIApplication sharedApplication].keyWindow addSubview:footerView];
-    
-    //全选按钮
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(16, 0, 80, 44)];
-    [button setTitle:@"全选" forState:UIControlStateNormal];
-    [button setTitleColor:lableTextcolor forState:UIControlStateNormal];
-    button.titleLabel.font = Font12;
-//    button.backgroundColor = [UIColor redColor];
-    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    [button setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
-    [button addTarget:self action:@selector(allSelectedBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.allSelectedBtn = button;
-    [footerView addSubview:button];
-    
-    //结算
-   UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 80, 0, 80, 44)];
-    checkBtn.backgroundColor = [UIColor redColor];
-    [checkBtn setTitle:@"结算" forState:UIControlStateNormal];
-    checkBtn.titleLabel.font = Font18;
-    [checkBtn addTarget:self action:@selector(checkBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [checkBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-    checkBtn.enabled = NO;
-    self.checkBtn = checkBtn;
-    [footerView addSubview:checkBtn];
-    
-    //显示总计多少星币
-    UILabel *totalStar = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - checkBtn.width - 100, 0, 100, 44)];
-    totalStar.textColor = [UIColor redColor];
-    totalStar.font = Font17;
-    totalStar.text = @"0";
-    self.totalStar = totalStar;
-//    totalStar.backgroundColor = [UIColor orangeColor];
-    self.totalStar = totalStar;
-    [footerView addSubview:totalStar];
-    
-    //合计
-   UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - totalStar.width - checkBtn.width - 50, 0, 50, 44)];
-    total.font = Font15;
-    total.textAlignment = NSTextAlignmentRight;
-    total.text = @"合计：";
-    total.textColor = lableTextcolor;
-    [footerView addSubview:total];
-
-    //设置footer
-    UIView *foot = [[UIView alloc] initWithFrame:footerView.bounds];
-    foot.backgroundColor = BGcolor;
-    self.tableView.tableFooterView = foot;
+        
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88, KScreenWidth, 44)];
+        footerView.backgroundColor = [UIColor whiteColor];
+        self.footerView  = footerView;
+        [[UIApplication sharedApplication].keyWindow addSubview:footerView];
+        
+        //全选按钮
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(16, 0, 80, 44)];
+        [button setTitle:@"全选" forState:UIControlStateNormal];
+        [button setTitleColor:lableTextcolor forState:UIControlStateNormal];
+        button.titleLabel.font = Font12;
+        //    button.backgroundColor = [UIColor redColor];
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        [button setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
+        [button addTarget:self action:@selector(allSelectedBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        self.allSelectedBtn = button;
+        [footerView addSubview:button];
+        
+        //结算
+        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 80, 0, 80, 44)];
+        checkBtn.backgroundColor = [UIColor redColor];
+        [checkBtn setTitle:@"结算" forState:UIControlStateNormal];
+        checkBtn.titleLabel.font = Font18;
+        [checkBtn addTarget:self action:@selector(checkBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [checkBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+        checkBtn.enabled = NO;
+        self.checkBtn = checkBtn;
+        [footerView addSubview:checkBtn];
+        
+        //显示总计多少星币
+        UILabel *totalStar = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - checkBtn.width - 100, 0, 100, 44)];
+        totalStar.textColor = [UIColor redColor];
+        totalStar.font = Font17;
+        totalStar.text = @"0";
+        self.totalStar = totalStar;
+        //    totalStar.backgroundColor = [UIColor orangeColor];
+        self.totalStar = totalStar;
+        [footerView addSubview:totalStar];
+        
+        //合计
+        UILabel *total = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - totalStar.width - checkBtn.width - 50, 0, 50, 44)];
+        total.font = Font15;
+        total.textAlignment = NSTextAlignmentRight;
+        total.text = @"合计：";
+        total.textColor = lableTextcolor;
+        [footerView addSubview:total];
+        
+        //设置footer
+        UIView *foot = [[UIView alloc] initWithFrame:footerView.bounds];
+        foot.backgroundColor = BGcolor;
+        self.tableView.tableFooterView = foot;
     }
-    
+
 }
 
 #pragma mark==============添加上下拉功能====================
@@ -185,7 +185,7 @@
          YYLog(@"json购物车:%@",json);
          [self.tableView.mj_header endRefreshing];
          self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
-            [self.tableView reloadData];
+         [self.tableView reloadData];
          if (self.orderArr.count > 0)
          {
              self.currentPage++;
@@ -205,11 +205,11 @@
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-//    parmas[@"currentPage"] = @(self.currentPage);
+    //    parmas[@"currentPage"] = @(self.currentPage);
     
     NSString *url = [NSString stringWithFormat:@"%@",URL];
     
-    YYLog(@"待处理订单下来刷新parmas---%@",parmas);
+    YYLog(@"购物车下拉刷parmas---%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.tableView.mj_footer endRefreshing];
@@ -245,7 +245,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 92;
-
+    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -304,7 +304,7 @@
     //取出对应的模型
     ProductModel *model = self.orderArr[button.tag];
     model.btnSelected = button.selected;
-   [self checkTotalPrice];
+    [self checkTotalPrice];
 }
 
 //全选按钮的点击事件
@@ -316,7 +316,7 @@
     {
         model.btnSelected = button.selected;
     }
-     [self checkTotalPrice];
+    [self checkTotalPrice];
     
     [self.tableView reloadData];
 }
@@ -349,7 +349,7 @@
         {
             totalStar = totalStar + model.realPrice;
             
-//            totalStar = [];
+            //            totalStar = [];
             //记录选中数据的商品及个数数组
             [seletedArr addObject:model];
         }
@@ -363,7 +363,7 @@
     NSString *total = totalStar > 0 ? [NSString stringWithFormat:@"%.0ld星币",(long)totalStar] : @"0";
     
     self.totalStar.text = total;
-
+    
 }
 
 
@@ -393,9 +393,9 @@
 
 -(void)buyProductInShoppingCar
 {
-
+    
     NSArray *arr = [ProductModel mj_keyValuesArrayWithObjectArray:self.selectedOrderArr];
-
+    
     NSError *error;
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:arr options:0 error:&error];
@@ -413,13 +413,13 @@
     YYLog(@"parmas--:%@url---:%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json) {
-
-
+        
+        
         [self checkTotalPrice];
         NSNumber *num = json[@"resultCode"];
         if ([num integerValue] == 1000)//返回成功
         {
-
+            
             //跳转
             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
