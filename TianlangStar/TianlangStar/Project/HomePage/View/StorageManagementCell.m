@@ -22,7 +22,7 @@
         CGFloat height = 80;
         
         CGFloat selectButtonX = 15;
-        CGFloat selectButtonWidth = Klength30;
+        CGFloat selectButtonWidth = 50;
         CGFloat selectButtonY = (height / 2) - (selectButtonWidth / 2);
         self.selectButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         self.selectButton.frame = CGRectMake(selectButtonX, selectButtonY, selectButtonWidth, selectButtonWidth);

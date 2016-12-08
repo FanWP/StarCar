@@ -211,4 +211,98 @@
 
 
 
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+
+////删除所做的动作
+//-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return @"删除";
+//    
+//}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        
+        parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+        _activityModel = _activityArray[indexPath.row];
+        NSString *actionid = _activityModel.ID;
+        parameters[@"actionid"] =actionid;
+        
+        YYLog(@"删除活动参数:%@",parameters);
+        
+        NSString *url = [NSString stringWithFormat:@"%@delactivitiesservlet",URL];
+        
+        [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+        {
+            
+            YYLog(@"删除活动返回：%@",responseObject);
+            
+            NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+            
+            if (resultCode == 1000)
+            {
+                [[AlertView sharedAlertView] addAfterAlertMessage:@"删除成功" title:@"提示"];
+                
+                [self fetchNewActivityData];
+                
+                [self.tableView reloadData];
+            }
+            else
+            {
+                [[AlertView sharedAlertView] addAfterAlertMessage:@"删除失败" title:@"提示"];
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+        {
+            YYLog(@"删除活动错误：%@",error);
+        }];
+    }
+}
+
+
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

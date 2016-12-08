@@ -16,7 +16,7 @@ CGFloat const Klength20 = 20;
 /** 长度10 */
 CGFloat const Klength10 = 10;
 
-/** 长度15 */
+/** 长度15 */ 
 CGFloat const Klength15 = 15;
 
 /** 长度5 */
@@ -33,11 +33,16 @@ CGFloat const BtncornerRadius = 8.f;
 
 
 ///* 图片和网址前段 - 本地 */
-NSString *const URL = @"http://192.168.1.4:8080/car_api/";
-NSString *const picURL = @"http://192.168.1.4:8080/";
+//NSString *const URL = @"http://192.168.1.4:8080/car_api/";
+//NSString *const picURL = @"http://192.168.1.4:8080/";
 
 
 /* 图片和网址前段 - 本地 */
+NSString *const URL = @"http://192.168.1.18:8080/car_api/";
+NSString *const picURL = @"http://192.168.1.18:8080/";
+
+
+///* 图片和网址前段 - 本地 */
 //NSString *const URL = @"http://192.168.1.17/car_api/";
 //NSString *const picURL = @"http://192.168.1.17/";
 

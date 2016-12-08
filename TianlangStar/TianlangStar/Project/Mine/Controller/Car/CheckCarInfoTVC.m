@@ -428,6 +428,8 @@ typedef enum : NSUInteger {
         }
         else
         {
+            
+            
             [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:self.carModel.picture] placeholderImage:[UIImage imageNamed:@"touxiang"]];
         }
         return cell;
