@@ -881,6 +881,13 @@ typedef enum : NSUInteger
 }
 
 
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
+
 #pragma mark=========== 输入框的额代理事件==================
 
 /**
@@ -895,7 +902,7 @@ typedef enum : NSUInteger
     view.delegate = self;
     self.dateView = view;
     [self.view addSubview:view];
-    return YES;
+    return NO;
 }
 
 

@@ -453,7 +453,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (self.homePageSelectCell.maintenanceButton.enabled == NO)
+    if (self.homePageSelectCell.maintenanceButton.enabled == NO && indexPatch.section == 2)
     {
         ServiceModel *serviceModel = _productsArray[indexPatch.row];
         NSArray *array = [serviceModel.images componentsSeparatedByString:@","];
