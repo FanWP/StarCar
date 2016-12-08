@@ -129,11 +129,10 @@
     //    parmas[@"userid"] = userInfo.userID;
     
     NSString *url = [NSString stringWithFormat:@"%@getuserinfoserlvet",URL];
-    
-    
+
     [HttpTool post:url parmas:parmas success:^(id json)
      {
-         self.userModel = [UserModel mj_objectWithKeyValues:json[@"obj"]];
+         self.userModel = [UserModel mj_objectWithKeyValues:json[@"body"]];
          YYLog(@"%@",json);
          
          [self.tableView reloadData];

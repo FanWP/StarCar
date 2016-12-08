@@ -112,7 +112,7 @@ typedef enum : NSUInteger {
 {
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString * time=[outputFormatter stringFromDate:self.insuranceidData.date];
+//    NSString * time=[outputFormatter stringFromDate:self.insuranceidData.date];
     //    //更改输入框的数据
     //    //    self.textArr[_selectData] = time;
     //    [self.textArr replaceObjectAtIndex:_selectData withObject:time];

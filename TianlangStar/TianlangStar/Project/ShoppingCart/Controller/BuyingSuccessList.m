@@ -55,9 +55,7 @@
 - (void)addHeader
 {
     TBHeadersSucceedView *view = [TBHeadersSucceedView SuccessfulTrade];
-    
     self.tableView.tableHeaderView = view;
-
 }
 
 
@@ -70,7 +68,9 @@
     NSArray *arr = @[@"交易信息",@"折扣信息",@"收款方",@"合计支付",@"余额"];
     NSString *time = [self.model.buytime getDetailCurrentTime];
     NSString *discount = [NSString stringWithFormat:@"%@折",self.model.discount];
-    NSArray *arrright = @[time,discount,self.model.payee,self.model.totalPrice,self.model.balance];
+    NSString *total = [NSString stringWithFormat:@"%@星币",self.model.totalPrice];
+    NSString *blance = [NSString stringWithFormat:@"%@星币",self.model.balance];
+    NSArray *arrright = @[time,discount,self.model.payee,total,blance];
     
     CGFloat lableH = 45;
     for (NSInteger i = 0; i < arr.count; i++)

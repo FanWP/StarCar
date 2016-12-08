@@ -321,7 +321,7 @@
         return;
     }
     
-    NSString *str = [NSString stringWithFormat:@"确认充值%@狼币?",self.moneyTF.text];
+    NSString *str = [NSString stringWithFormat:@"确认充值%@星币?",self.moneyTF.text];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:str preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {

@@ -12,6 +12,8 @@
 #import "ServiceModel.h"
 #import "CarModel.h"
 #import "UserInfo.h"
+#import "BuyingSuccessListModel.h"
+#import "BuyingSuccessList.h"
 
 #import "CollectionModel.h"
 
@@ -842,11 +844,23 @@
     
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
     
-    [HttpTool post:url parmas:parmas success:^(id json) {
-        YYLog(@"购买返回：%@",json);
-    } failure:^(NSError *error) {
-        YYLog(@"购买返回错误%@",error);
-    }];
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         YYLog(@"购买返回：%@",json);
+         NSNumber *num = json[@"resultCode"];
+         if ([num integerValue] == 1000)//返回成功
+         {
+             //跳转
+             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
+             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
+             vc.model = model;
+             [self.navigationController pushViewController:vc                              animated:YES];
+         }
+         
+         
+     } failure:^(NSError *error) {
+         YYLog(@"购买返回错误%@",error);
+     }];
     
 }
 
@@ -874,15 +888,7 @@
     {
         self.countNumber = 0;
     }
-    
-//    if (self.productType == 1) {//商品
-//        self.productModel.count = self.countNumber;
-//    }else//服务
-    //    {
-    //
-    //        self.serviceModel.count = self.countNumber;
-    //    }
-    
+
     //计算count
     self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
     

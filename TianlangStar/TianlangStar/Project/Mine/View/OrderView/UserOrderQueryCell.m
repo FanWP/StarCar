@@ -135,6 +135,8 @@
 //        
 //        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
 }
 
