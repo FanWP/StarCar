@@ -110,7 +110,7 @@
         //用户
         UILabel *userName = [[UILabel alloc] init];
         userName.width = KScreenWidth - CGRectGetMaxX(time.frame) - 10;
-        userName.height = 30;
+        userName.height = 40;
         userName.centerY = produce.centerY;
         userName.x = CGRectGetMaxX(time.frame) + 5;
         userName.numberOfLines = 0;
