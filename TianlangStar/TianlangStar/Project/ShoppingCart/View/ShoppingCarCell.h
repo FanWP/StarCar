@@ -11,7 +11,8 @@
 @class ProductModel;
 @interface ShoppingCarCell : UITableViewCell
 
-
+/** 商品图片 */
+@property (nonatomic,weak) UIImageView *images;
 /** 选中按钮的点击事件 */
 @property (nonatomic,strong) UIButton *selectBtn;
 

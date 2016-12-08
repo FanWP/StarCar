@@ -12,8 +12,7 @@
 @interface ShoppingCarCell ()
 
 
-/** 商品图片 */
-@property (nonatomic,weak) UIImageView *images;
+
 
 /** 商品名称 */
 @property (nonatomic,weak) UILabel *productname;

@@ -11,7 +11,8 @@
 
 @interface ScoreExchangeCell ()
 
-
+/** 商品图片 */
+@property (nonatomic,strong) UIImageView *productImg;
 /** 商品名称 */
 @property (nonatomic,weak) UILabel *scoreprice;
 /** 商品名称 */
@@ -19,8 +20,7 @@
 /** 商品描述 */
 @property (nonatomic,weak) UILabel *introduction;
 
-/** 商品图片 */
-@property (nonatomic,strong) UIImageView *productImg;
+
 
 @end
 
@@ -111,7 +111,11 @@
 -(void)setModel:(ProductModel *)model
 {
     _model = model;
-    [self.productImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,model.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    NSArray *imagesArray = [model.images componentsSeparatedByString:@","];
+    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
+    NSURL *url = [NSURL URLWithString:pic];
+    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     self.productname.text = model.productname;
     self.introduction.text = model.introduction;
