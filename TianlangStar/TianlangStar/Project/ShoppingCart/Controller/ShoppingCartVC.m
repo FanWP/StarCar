@@ -265,10 +265,6 @@
     cell.selectBtn.tag = indexPath.row;
     ProductModel *model = self.orderArr[indexPath.row];
     cell.productModel = model;
-    NSArray *imagesArray = [model.images componentsSeparatedByString:@","];
-    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
-    NSURL *url = [NSURL URLWithString:pic];
-    [cell.images sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     return cell;
 }
