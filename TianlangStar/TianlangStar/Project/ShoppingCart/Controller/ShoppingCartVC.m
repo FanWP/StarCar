@@ -48,18 +48,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = BGcolor;
     self.title = @"购物车";
-
+    [self setupRefresh];
+    
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    
 }
-
-
-
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
 
     [super viewWillAppear:animated];
-    [self setupRefresh];
+    [self loadNewOrderInfo];
     [self addFoorView];
 }
 
@@ -280,7 +280,7 @@
     //取出对应的模型
     ProductModel *model = self.orderArr[button.tag];
     model.btnSelected = button.selected;
-    self.totalStar.text = [self checkTotalPrice];
+   [self checkTotalPrice];
 }
 
 //全选按钮的点击事件
@@ -292,13 +292,13 @@
     {
         model.btnSelected = button.selected;
     }
-    self.totalStar.text = [self checkTotalPrice];
+     [self checkTotalPrice];
     
     [self.tableView reloadData];
 }
 
 
--(NSString *)checkTotalPrice
+-(void)checkTotalPrice
 {
     //判断是否是全选
     for (ProductModel *model in self.orderArr)
@@ -334,13 +334,12 @@
     }
     self.selectedOrderArr = seletedArr;
     self.totalPriceStr = [NSString stringWithFormat:@"%ld",(long)totalStar];
-    if (totalStar > 0)
-    {
-        return [NSString stringWithFormat:@"%.0ld星币",(long)totalStar];
-    }else
-    {
-     return @"0";
-    }
+    
+    
+    NSString *total = totalStar > 0 ? [NSString stringWithFormat:@"%.0ld星币",(long)totalStar] : @"0";
+    
+    self.totalStar.text = total;
+
 }
 
 
@@ -390,11 +389,13 @@
     YYLog(@"parmas--:%@url---:%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json) {
-        
+
+
+        [self checkTotalPrice];
         NSNumber *num = json[@"resultCode"];
         if ([num integerValue] == 1000)//返回成功
         {
-            self.allSelectedBtn.selected = NO;
+
             //跳转
             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
@@ -404,6 +405,9 @@
         
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
+        [self checkTotalPrice];
+        
+        
         YYLog(@"%@",error);
     }];
 }
