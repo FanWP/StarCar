@@ -127,7 +127,10 @@
         case 1007:
         {
             //自定登录
-            [self loginUpdataSession];
+            if ([UserInfo sharedUserInfo].isLogin)
+            {
+                [self loginUpdataSession];
+            }
             break;
         }
         case 1008:
