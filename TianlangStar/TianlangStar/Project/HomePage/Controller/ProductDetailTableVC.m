@@ -237,8 +237,8 @@
 #pragma mark - 轮播图
 - (void)creatHeaderView
 {
-    _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
-    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:_imagesArray];
+    _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.3 * KScreenHeight)];
+    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.3 * KScreenHeight) imageNamesGroup:_imagesArray];
     _scrollView.delegate = self;
     _scrollView.placeholderImage = [UIImage imageNamed:@"touxiang"];
     _scrollView.autoScrollTimeInterval = 2.0;

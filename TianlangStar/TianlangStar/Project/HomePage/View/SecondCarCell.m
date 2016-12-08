@@ -21,7 +21,7 @@
 
         CGFloat pictureViewX = 7;
         CGFloat pictureViewY = 10;
-        CGFloat pictureViewWidth = 137;
+        CGFloat pictureViewWidth = 0.4 * KScreenWidth;
         CGFloat pictureViewHeight = 97;
         self.pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(pictureViewX, pictureViewY, pictureViewWidth, pictureViewHeight)];
         [self.contentView addSubview:self.pictureView];

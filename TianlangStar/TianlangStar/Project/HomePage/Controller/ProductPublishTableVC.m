@@ -278,7 +278,6 @@ typedef enum : NSUInteger {
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"商品入库成功" title:@"提示"];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -346,7 +345,6 @@ typedef enum : NSUInteger {
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"服务入库成功" title:@"提示"];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -419,9 +417,7 @@ typedef enum : NSUInteger {
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"二手车入库成功" title:@"提示"];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
         }
-
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {

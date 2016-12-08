@@ -133,7 +133,7 @@ typedef enum : NSUInteger {
     
     YYLog(@"添加最新活动参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@add/activities?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@upload/add/activities?",URL];
     
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
@@ -160,6 +160,18 @@ typedef enum : NSUInteger {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
         YYLog(@"添加最新活动返回%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加成功" title:@"提示"];
+            
+        }
+        else
+        {
+            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加失败" title:@"提示"];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
