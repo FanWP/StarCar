@@ -12,6 +12,8 @@
 @interface ShoppingCarCell ()
 
 
+/** 商品图片 */
+@property (nonatomic,weak) UIImageView *images;
 
 
 /** 商品名称 */
@@ -111,7 +113,10 @@
 {
     _productModel = productModel;
     
-    [self.images sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,productModel.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    NSArray *imagesArray = [productModel.images componentsSeparatedByString:@","];
+    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
+    NSURL *url = [NSURL URLWithString:pic];
+    [self.images sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     self.productname.text = productModel.buytype == 1 ? productModel.productname :productModel.services;
     self.star.text = productModel.price;
