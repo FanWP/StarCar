@@ -52,23 +52,22 @@
     //内容
     UILabel *content = [[UILabel alloc] init];
     content.x = 18;
-    content.y = 16;
+    content.y = 6;
     content.width = KScreenWidth - 2 * content.x;
-    
-    
-    
     content.text = self.feedbackModel.fbcontent;
-    
-    //计算内容的高度
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    dic[NSFontAttributeName] = Font12;
-    CGFloat contentH = [content.text sizeWithAttributes:dic].height;
-    content.height = contentH;
-    
     self.content = content;
     content.textColor = lableTextcolor;
     content.font = Font12;
     content.numberOfLines = 0;
+    
+    //计算内容的高度
+    NSString *str = [NSString stringWithFormat:@"%@",self.feedbackModel.fbcontent];
+    
+    CGSize maxSize = CGSizeMake(KScreenWidth - 36, MAXFLOAT);
+    
+    //计算文字的高度
+    CGFloat TextH = [str boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:Font14} context:nil].size.height;
+    content.height = TextH;
     [reView addSubview:content];
     
     //时间
@@ -88,18 +87,10 @@
     time.font = Font12;
     [reView addSubview:time];
     [self.view addSubview:reView];
-    
-    
-    //调整容器的高度
-    reView.height = CGRectGetMaxY(time.frame) + 12;
-    
-    
-    
-    //设置假数据测试
-#warning todo
 
-    
-    
+    //调整容器的高度
+    reView.height = CGRectGetMaxY(time.frame) + 5;
+
 }
 
 - (void)didReceiveMemoryWarning {
