@@ -95,13 +95,13 @@
         case 1002:
         {
             //                [[AlertView sharedAlertView] addAlertMessage:@"服务繁" title:@"提示"];
-            [SVProgressHUD showErrorWithStatus:@"服务繁忙，请稍后再试"];
+//            [SVProgressHUD showErrorWithStatus:@"服务繁忙，请稍后再试"];
             YYLog(@"reultCode=1002,系统错误");
             break;
         }
         case 1003:
         {
-            //                [[AlertView sharedAlertView] addAlertMessage:@"服务繁" title:@"提示"];
+                            [[AlertView sharedAlertView] addAlertMessage:@"服务繁忙，请稍后再试" title:@"提示"];
             //                [SVProgressHUD showErrorWithStatus:@"服务繁忙，请稍后再试"];
             YYLog(@"reultCode=1003,密码错误");
             break;

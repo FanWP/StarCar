@@ -11,6 +11,7 @@
 #import "ProductModel.h"
 #import "BuyingSuccessList.h"
 #import "BuyingSuccessListModel.h"
+#import "LoginVC.h"
 
 
 @interface ShoppingCartVC ()
@@ -40,6 +41,9 @@
 @property (nonatomic,copy) NSString *totalPriceStr;
 
 
+
+
+
 @end
 
 @implementation ShoppingCartVC
@@ -48,6 +52,17 @@
     [super viewDidLoad];
     self.view.backgroundColor = BGcolor;
     self.title = @"购物车";
+    
+//    //没有登录
+//    if (![UserInfo sharedUserInfo].isLogin)
+//    {
+//        LoginVC *vc = [[LoginVC alloc] init];
+//        [self.navigationController pushViewController:vc animated:YES];
+//        return;
+//        
+//    }
+    
+    
     [self setupRefresh];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
@@ -59,6 +74,12 @@
 {
 
     [super viewWillAppear:animated];
+//    //判断登录
+//    if ([UserInfo sharedUserInfo].isLogin)
+//    {
+//        return;
+//    }
+    
     [self loadNewOrderInfo];
     [self addFoorView];
 }

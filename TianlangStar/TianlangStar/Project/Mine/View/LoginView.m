@@ -431,53 +431,69 @@
          int result = [resultCode intValue];
          //2.判断并处理服务器的返回值
          //3记录sessionID,和用户模型数据
-         if (result == 1000)//如果登陆成功才能取出sessionID，否则为空报错
+         
+         switch (result)
          {
-             //获取sessionId
-             //取出字典中的用户类型——转模型
-             self.userM = [UserModel mj_objectWithKeyValues:json[@"obj"][@"user"]];
-             
-             NSNumber *mun = json[@"obj"][@"sessionId"];
-             NSString *sessionId = [NSString stringWithFormat:@"%@",mun];
-             
-             //0.设置用户提示
-//             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
-             //1.保存用户名和密码到沙河
-             
-             //加密过的sessionID
-             NSString *RSASessionID  = [RSA encryptString:sessionId publicKey:userInfo.publicKey];
-             userInfo.username = self.userNameTF.text;
-             userInfo.sessionId = sessionId;
-             userInfo.passWord = self.pwdTF.text;
-             userInfo.RSAsessionId = RSASessionID;
-             userInfo.userID = self.userM.ID;
-             userInfo.userType = self.userM.type;
-             userInfo.headerpic = self.userM.headimage;
-             userInfo.membername = self.userM.membername;
-             userInfo.viplevel = self.userM.viplevel;
-             userInfo.discount = self.userM.discount;
-             userInfo.isLogin = YES;
-             
-             [userInfo synchronizeToSandBox];
-             if ([self.delegate respondsToSelector:@selector(loginSuccess)])
+             case 1000:
              {
-                 [self.delegate loginSuccess];
+                 //获取sessionId
+                 //取出字典中的用户类型——转模型
+                 self.userM = [UserModel mj_objectWithKeyValues:json[@"obj"][@"user"]];
+                 
+                 NSNumber *mun = json[@"obj"][@"sessionId"];
+                 NSString *sessionId = [NSString stringWithFormat:@"%@",mun];
+                 
+                 //0.设置用户提示
+                 //             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
+                 //1.保存用户名和密码到沙河
+                 
+                 //加密过的sessionID
+                 NSString *RSASessionID  = [RSA encryptString:sessionId publicKey:userInfo.publicKey];
+                 userInfo.username = self.userNameTF.text;
+                 userInfo.sessionId = sessionId;
+                 userInfo.passWord = self.pwdTF.text;
+                 userInfo.RSAsessionId = RSASessionID;
+                 userInfo.userID = self.userM.ID;
+                 userInfo.userType = self.userM.type;
+                 userInfo.headerpic = self.userM.headimage;
+                 userInfo.membername = self.userM.membername;
+                 userInfo.viplevel = self.userM.viplevel;
+                 userInfo.discount = self.userM.discount;
+                 userInfo.isLogin = YES;
+                 
+                 [userInfo synchronizeToSandBox];
+                 if ([self.delegate respondsToSelector:@selector(loginSuccess)])
+                 {
+                     [self.delegate loginSuccess];
+                 }
+                 [self removeFromSuperview];
+                 break;
              }
-             
-             [self removeFromSuperview];
-             
-         }else if (result == 1013)//序列号发生改变
-         {
-             [[AlertView sharedAlertView]addAlertMessage:@"登录设备发生改变，请输入验证码验证！" title:@"提示"];
-             self.regist.y = self.okY;
-             self.foundPwdButton.y = self.okY;
-             self.okButton.y = CGRectGetMaxY(self.regist.frame) + 20;
-             
-             YYLog(@"用户名在数据库中已经存在");
-             return;
+             case 1013:
+             {
+                 [[AlertView sharedAlertView]addAlertMessage:@"登录设备发生改变，请输入验证码验证！" title:@"提示"];
+                 self.regist.y = self.okY;
+                 self.foundPwdButton.y = self.okY;
+                 self.okButton.y = CGRectGetMaxY(self.regist.frame) + 20;
+                 
+                 YYLog(@"用户名在数据库中已经存在");
+                 return;
+                 
+                 break;
+             }
+             case 1001://
+             {
+                 [[AlertView sharedAlertView]addAlertMessage:@"用户名或者密码错误！" title:@"提示"];
+                 return;
+                 break;
+             }
+                 
+             default:
+                 break;
          }
          
-
+         
+         
      } failure:^(NSError *error)
      {
          [SVProgressHUD dismiss];
