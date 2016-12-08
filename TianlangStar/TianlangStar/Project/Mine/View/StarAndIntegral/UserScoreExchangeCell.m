@@ -12,12 +12,13 @@
 
 @interface UserScoreExchangeCell ()
 
+/** 图片 */
+@property (nonatomic,weak) UIImageView *images;
 
 /** 商品名称 */
 @property (nonatomic,weak) UILabel *productname;
 
-/** 图片 */
-@property (nonatomic,weak) UIImageView *images;
+
 
 /** 价格 */
 @property (nonatomic,weak) UILabel *price;
@@ -112,7 +113,10 @@
     self.price.text = [NSString stringWithFormat:@"%@积分",model.scoreprice];
     self.productname.text = model.productname;
     self.time.text = [model.lasttime getDetailCurrentTime];
-    [self.images sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,model.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    NSArray *imagesArray = [model.images componentsSeparatedByString:@","];
+    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
+    NSURL *url = [NSURL URLWithString:pic];
+    [self.images sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     YYLog(@"model.images--%@",[NSString stringWithFormat:@"%@%@",picURL,model.images]);
     

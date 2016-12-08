@@ -119,7 +119,6 @@
     
     ProductModel *model = self.orderArr[indexPath.row];
     cell.model = model;
-
     return cell;
 
 }

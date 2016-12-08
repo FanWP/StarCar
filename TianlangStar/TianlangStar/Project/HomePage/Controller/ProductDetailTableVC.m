@@ -326,7 +326,7 @@
         
         NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
         parameters[@"sessionId"] = sessionid;
-        parameters[@"currentPage"] = @(1);
+        parameters[@"currentPage"] = @(0);
         NSInteger type;
         if ([self.title isEqualToString:@"保养维护详情"])
         {
@@ -539,7 +539,7 @@
     
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
-    parameters[@"currentPage"] = @(1);
+    parameters[@"currentPage"] = @(0);
     
     NSInteger type;
     if ([self.title isEqualToString:@"保养维护详情"])
