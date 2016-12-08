@@ -24,11 +24,8 @@
     NSInteger price =  [self.price doubleValue];
     
     CGFloat  discount = [UserInfo sharedUserInfo].discount / 100;
-    
-    NSInteger price1 = ceil(price * discount);
-    
-    _realPrice = price1 * self.count;
 
+    _realPrice = ceil(price * discount * self.count);
 
 }
 
