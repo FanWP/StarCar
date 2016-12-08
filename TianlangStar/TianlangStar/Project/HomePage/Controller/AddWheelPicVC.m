@@ -65,6 +65,8 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
 
 - (void)rightItem
 {
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"上传" style:(UIBarButtonItemStylePlain) target:self action:@selector(finishAction)];
     
     YYLog(@"uiersgkylv;/'jO:");

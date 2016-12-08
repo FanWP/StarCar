@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TianlangStar/Project/HomePage/Controller/ProductDetailTableVC.m"
-            timestampString = "502816338.883163"
+            filePath = "TianlangStar/Project/HomePage/Controller/CollectionProductDetailTableVC.m"
+            timestampString = "502854387.60034"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "846"
-            endingLineNumber = "846"
-            landmarkName = "-buyProductInShoppingCar"
+            startingLineNumber = "708"
+            endingLineNumber = "708"
+            landmarkName = "-settlementAction"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TianlangStar/Project/HomePage/Controller/HomePageTableVC.m"
-            timestampString = "502817934.326138"
+            filePath = "TianlangStar/Project/HomePage/Controller/CollectionProductDetailTableVC.m"
+            timestampString = "502854429.529927"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "-dropdownRefresh"
+            startingLineNumber = "713"
+            endingLineNumber = "713"
+            landmarkName = "-settlementAction"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -705,6 +705,7 @@
 
 - (void)settlementAction
 {
+    [self.coverView removeFromSuperview];
     
     //显示确认支付的金额
     NSString *totalStar = @"0";
