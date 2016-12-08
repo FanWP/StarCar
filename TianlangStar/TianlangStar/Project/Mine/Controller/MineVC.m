@@ -60,6 +60,10 @@
 @property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
 
+
+/** 登录的VIew */
+@property (nonatomic,weak) LoginView *loginView;
+
 /** 标记 */
 @property (nonatomic,assign) BOOL flag;
 
@@ -101,31 +105,45 @@
     //1.判断是否登录
     if ([UserInfo sharedUserInfo].isLogin)//已经登录
     {
-//        if (self.dataList) return;
-        //2.根据用户的类型选择对应的单元格列表
-        UserInfo *userInfo = [UserInfo sharedUserInfo];
-        self.dataList = nil;
-        
-        //3.填充顶部的用户数据
-        [self setupHearderInfo];
-        
-        //4.设置列表
-        if (userInfo.userType == 1 || userInfo.userType == 0)//管理员
-        {
-            [self addGroupAdmin];
-        }else if (userInfo.userType == 2)//普通用户
-        {
-            [self addGroupCustomer];
+        if (self.flag == YES)
+        {//登录界面还在显示
+            [self.loginView  removeFromSuperview];
         }
-        [self.tableView reloadData];
+
+        [self loginSuccess];
         
-        //获取积分余额----顶部个人头像
-        [self getAccountBalance];
-        [self getAccountBalanceScore];
     }else//未登录
     {
           [self getPubicKey];
     }
+    
+    
+    
+    
+    /*
+     
+     self.flag = NO;
+     self.tableView.scrollEnabled = YES;
+     
+     //设置数据
+     [self setupHearderInfo];
+     
+     //清空原有数组
+     self.dataList = nil;
+     if (USERType == 1 || USERType == 0)//管理员
+     {
+     [self addGroupAdmin];
+     }else if (USERType == 2)//普通用户
+     {
+     [self addGroupCustomer];
+     }
+     [self.tableView reloadData];
+     
+     //获取积分余额----顶部个人头像
+     [self getAccountBalance];
+     
+     [self getAccountBalanceScore];
+     */
 }
 
 
@@ -207,6 +225,7 @@
     {
         LoginView *logView = [[LoginView alloc] initWithFrame:self.view.bounds];
         logView.delegate = self;
+        self.loginView = logView;
         self.tableView.scrollEnabled = NO;
         [self.view addSubview:logView];
         self.flag = YES;

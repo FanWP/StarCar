@@ -49,14 +49,14 @@
         line.backgroundColor = BGcolor;
         [self.contentView addSubview: line];
         //设置按钮
-        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(16, 170  *0.5 + 7, 11, 11)];
+        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(16, 170  *0.5 + 7, 40, 40)];
         [selectBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
          [selectBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
         self.selectBtn = selectBtn;
         [self.contentView addSubview:selectBtn];
         
         //图像
-        UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(selectBtn.frame) + 16, 15, 105, 70)];
+        UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(selectBtn.frame) + 5, 15, 105, 70)];
 //        images.backgroundColor = [UIColor orangeColor];
         self.images = images;
         [self.contentView addSubview:images];

@@ -41,6 +41,10 @@
 @property (nonatomic,copy) NSString *totalPriceStr;
 
 
+/** flag记录用户是否登录 */
+@property (nonatomic,assign) BOOL flag;
+
+
 
 
 
@@ -52,17 +56,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = BGcolor;
     self.title = @"购物车";
-    
-    //    //没有登录
-    //    if (![UserInfo sharedUserInfo].isLogin)
-    //    {
-    //        LoginVC *vc = [[LoginVC alloc] init];
-    //        [self.navigationController pushViewController:vc animated:YES];
-    //        return;
-    //
-    //    }
-    
-    
+
     [self setupRefresh];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
@@ -74,11 +68,28 @@
 {
     
     [super viewWillAppear:animated];
-    //    //判断登录
-    //    if ([UserInfo sharedUserInfo].isLogin)
-    //    {
-    //        return;
-    //    }
+    //没有登录
+    if (![UserInfo sharedUserInfo].isLogin )
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"您还未登录，请先登录" preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            
+            LoginVC *vc = [[LoginVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+
+            
+        }]];
+        
+        
+        [self presentViewController:alert animated:YES completion:^{
+            
+        }];
+        
+
+    }
     
     [self loadNewOrderInfo];
     [self addFoorView];
@@ -160,7 +171,7 @@
 -(void)setupRefresh
 {
     self.tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewOrderInfo)];
-    [self.tableView.mj_header beginRefreshing];
+//    [self.tableView.mj_header beginRefreshing];
     [self.tableView.mj_header isAutomaticallyChangeAlpha];
     
     self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreOrderInfo)];

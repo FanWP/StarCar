@@ -331,6 +331,7 @@
         
         //充值
         [self recharge];
+        
     }] ];
     
     [self presentViewController:alert animated:YES completion:^{

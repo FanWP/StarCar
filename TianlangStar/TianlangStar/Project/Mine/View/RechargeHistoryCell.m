@@ -21,16 +21,28 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
+        YYLog(@"KScreenWidth---:%f",KScreenWidth);
+        
+        CGFloat maginX = 16;
+        
+        if (KScreenWidth == 320)//5S
+        {
+            maginX = 8;
+            
+        }
+        
+        
         //年月日
-        UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(16, 5, 100, 30)];
+        UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(maginX, 5, 70, 30)];
         self.time = time;
         time.font = Font12;
         time.textColor = lableTextcolor;
-//        time.backgroundColor = [UIColor orangeColor];
+        //        time.backgroundColor = [UIColor orangeColor];
         [self.contentView addSubview:time];
         
         //时分秒
-        UILabel *lastTime = [[UILabel alloc] initWithFrame:CGRectMake(100, 5 , 100, 30)];
+        UILabel *lastTime = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(time.frame) , 5 , 80, 30)];
         //        lastTime.backgroundColor = [UIColor redColor];
         lastTime.font = Font12;
         lastTime.textColor = lableTextcolor;
@@ -38,15 +50,14 @@
         [self.contentView addSubview:lastTime];
         
         //金额
-        UILabel *rechargLB = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 60 - 110 - 15, 5, 110, 30)];
+        UILabel *rechargLB = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 110 - 110 - 15, 5, 110, 30)];
         rechargLB.font = Font12;
         rechargLB.textColor = lableTextcolor;
         //        rechargLB.backgroundColor = [UIColor grayColor];
         self.rechargLB = rechargLB;
         [self.contentView addSubview:rechargLB];
-        
     }
-
+    
     return self;
 }
 
