@@ -52,6 +52,7 @@ typedef enum : NSUInteger {
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = BGcolor;
     
     self.inputEnble = NO;
     
@@ -229,6 +230,13 @@ typedef enum : NSUInteger {
     return count;
 }
 
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 14;
+
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
@@ -289,7 +297,7 @@ typedef enum : NSUInteger {
 {
     if (indexPath.section == 0)
     {
-        return 220;
+        return 240;
     }else
     {
         return 40;

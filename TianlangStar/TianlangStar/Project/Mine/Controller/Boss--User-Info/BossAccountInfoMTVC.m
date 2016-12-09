@@ -58,6 +58,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    self.view.backgroundColor = BGcolor;
+    
     self.inputEnble = NO;
     
     self.title =@"会员管理";
@@ -283,6 +286,10 @@
     return count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 14;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -373,14 +380,18 @@
         InputCell *cell = [InputCell cellWithTableView:tableView];
         cell.leftLB.text = @"他的爱车";
         cell.textField.x  = 100;
+        cell.textField.y = 3;
         cell.textField.width = KScreenWidth - CGRectGetMaxX(cell.leftLB.frame) - 20;
         cell.textField.enabled = NO;
         cell.textField.textAlignment = NSTextAlignmentRight;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         if (indexPath.row == self.carInfoArr.count)
         {
             cell.leftLB.text = @"添加爱车";
-        }else{
+            cell.textField.text = nil;
+        }
+        else{
             
             CarModel *model = self.carInfoArr[indexPath.row];
             cell.textField.text = model.carid;
@@ -409,7 +420,7 @@
         }else{//他的爱车
             
             CarModel *Model = self.carInfoArr[indexPath.row];
-            CheckCarInfoTVC *vc = [[CheckCarInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
+            CheckCarInfoTVC *vc = [[CheckCarInfoTVC alloc] init];
             vc.carModel = Model;
             self.flag = YES;
             [self.navigationController pushViewController:vc

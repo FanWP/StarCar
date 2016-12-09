@@ -43,12 +43,6 @@ singleton_interface(UserInfo);
 @property (nonatomic,assign) BOOL isQuit;
 
 
-///** 接收到的房源管理数据 */
-//@property (nonatomic,strong) NSArray *HouseRouseArr;
-//
-///** 用户选中的houseID */
-//@property (nonatomic,strong) NSArray *selectedHouseID;
-
 /**
  数据保存到沙盒，保存运行内存与沙盒的数据同步
  */

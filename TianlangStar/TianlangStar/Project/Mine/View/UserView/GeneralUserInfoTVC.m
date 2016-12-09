@@ -65,7 +65,7 @@
     
     self.title =@"会员管理";
     
-    YYLog(@"userModel----%@",self.userModel);
+    self.view.backgroundColor = BGcolor;
     [self loadUserInfo];
     
     [self setupControl];
@@ -108,7 +108,7 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"获取车辆----%@",json);
-         self.carInfoArr = [CarModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.carInfoArr = [CarModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          [self.tableView reloadData];
          
      } failure:^(NSError *error)
@@ -282,6 +282,11 @@
     return _leftArr;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
+
 
 
 
@@ -447,7 +452,7 @@
         }else{//他的爱车
             
             CarModel *Model = self.carInfoArr[indexPath.row];
-            CheckCarInfoTVC *vc = [[CheckCarInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
+            CheckCarInfoTVC *vc = [[CheckCarInfoTVC alloc] init];
             vc.carModel = Model;
             self.flag = YES;
             [self.navigationController pushViewController:vc
@@ -537,7 +542,7 @@
     
     parmas[@"membername"] = self.userModel.membername;
     parmas[@"sex"] = @(self.userModel.sex);
-    parmas[@"username"] = self.userModel.telephone;
+    parmas[@"username"] = self.userModel.username;
     parmas[@"identity"] = self.userModel.identity;
     parmas[@"address"] = self.userModel.address;
     parmas[@"referee"] = self.userModel.referee;
