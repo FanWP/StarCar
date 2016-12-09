@@ -37,18 +37,19 @@
     [self.view addSubview:self.wkWebView];
     
     
-    NSString *uRL = [NSString stringWithFormat:@"%@find/company/info",URL];
-    
-    [[AFHTTPSessionManager manager] POST:uRL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-    {
-        YYLog(@"==================================%@",responseObject);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        
-    }];
+//    NSString *uRL = [NSString stringWithFormat:@"%@unlogin/find/company/info",URL];
+//    
+//    [[AFHTTPSessionManager manager] POST:uRL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//    {
+//        YYLog(@"==================================%@",responseObject);
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//    {
+//        YYLog(@"错误++++ ： %@",error);
+//        
+//    }];
 
     
 }

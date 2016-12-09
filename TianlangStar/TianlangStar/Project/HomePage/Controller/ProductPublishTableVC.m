@@ -241,49 +241,56 @@ typedef enum : NSUInteger {
     
     YYLog(@"商品入库参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
-    
-    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.productModel.productname != nil || [self.productModel.productname length] != 0 || self.productModel.productmodel != nil || [self.productModel.productmodel length] != 0 || self.productModel.specifications != nil || [self.productModel.specifications length] != 0 || self.productModel.applycar != nil || [self.productModel.applycar length] != 0 || self.productModel.vendors != nil || [self.productModel.vendors length] != 0 || self.productModel.inventory != nil || [self.productModel.inventory length] != 0 || self.productModel.purchaseprice != nil || self.productModel.purchaseprice != 0 || self.productModel.price != nil || [self.productModel.price length] != 0 || self.productModel.scoreprice != nil || [self.productModel.scoreprice length] != 0 || self.productModel.introduction != nil || [self.productModel.introduction length]!= 0)
     {
-        _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+        NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
         
-        for (NSArray *array in _headerImagesArray)
-        {
-            YYLog(@"遍历得到的图片数组%@",array);
-            
-            for (WUAlbumAsset *image in array)
-            {
-                YYLog(@"遍历得到的图片%@",image);
-                
-                UIImage *getimage = [image imageWithOriginal];
-                
-                NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
-                
-                if (data != nil)
-                {
-                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-                }
-            }
-        }
-        
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+        [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+         {
+             _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+             
+             for (NSArray *array in _headerImagesArray)
+             {
+                 YYLog(@"遍历得到的图片数组%@",array);
+                 
+                 for (WUAlbumAsset *image in array)
+                 {
+                     YYLog(@"遍历得到的图片%@",image);
+                     
+                     UIImage *getimage = [image imageWithOriginal];
+                     
+                     NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                     
+                     if (data != nil)
+                     {
+                         [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                     }
+                 }
+             }
+             
+         } progress:^(NSProgress * _Nonnull uploadProgress) {
+             
+         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+         {
+             YYLog(@"商品入库返回：%@",responseObject);
+             
+             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+             
+             if (resultCode == 1000)
+             {
+                 [[AlertView sharedAlertView] addAfterAlertMessage:@"商品入库成功" title:@"提示"];
+                 
+             }
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+         {
+             YYLog(@"商品入库错误：%@",error);
+         }];
+    }
+    else
     {
-        YYLog(@"商品入库返回：%@",responseObject);
-        
-        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-        
-        if (resultCode == 1000)
-        {
-            [[AlertView sharedAlertView] addAfterAlertMessage:@"商品入库成功" title:@"提示"];
-            
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        YYLog(@"商品入库错误：%@",error);
-    }];
+        [[AlertView sharedAlertView] addAfterAlertMessage:@"请完整输入商品信息" title:@"提示"];
+    }
 }
 
 
@@ -308,50 +315,57 @@ typedef enum : NSUInteger {
     YYLog(@"服务入库参数parmas--%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
-
-    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    
+    if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.serviceModel.services != nil || self.serviceModel.services != 0 || self.serviceModel.servicetype != nil || [self.serviceModel.servicetype length] != 0 || self.serviceModel.content != nil || [self.serviceModel.content length] != 0 || self.serviceModel.warranty != nil || [self.serviceModel.warranty length] != 0 || self.serviceModel.manhours != nil || [self.serviceModel.manhours length] != 0 || self.serviceModel.price != nil || [self.serviceModel.price length] != 0 || self.serviceModel.scoreprice != nil || [self.serviceModel.scoreprice length] != 0)
     {
-        _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
-        
-        for (NSArray *array in _headerImagesArray)
-        {
-            YYLog(@"遍历得到的图片数组%@",array);
-            
-            for (WUAlbumAsset *image in array)
-            {
-                YYLog(@"遍历得到的图片%@",image);
-                
-                UIImage *getimage = [image imageWithOriginal];
-                
-                NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
-                
-                if (data != nil)
-                {
-                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-                }
-            }
-        }
-
-    } progress:^(NSProgress * _Nonnull uploadProgress)
+        [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+         {
+             _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+             
+             for (NSArray *array in _headerImagesArray)
+             {
+                 YYLog(@"遍历得到的图片数组%@",array);
+                 
+                 for (WUAlbumAsset *image in array)
+                 {
+                     YYLog(@"遍历得到的图片%@",image);
+                     
+                     UIImage *getimage = [image imageWithOriginal];
+                     
+                     NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                     
+                     if (data != nil)
+                     {
+                         [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                     }
+                 }
+             }
+             
+         } progress:^(NSProgress * _Nonnull uploadProgress)
+         {
+             
+         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+         {
+             YYLog(@"服务入库返回：%@",responseObject);
+             
+             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+             
+             if (resultCode == 1000)
+             {
+                 [[AlertView sharedAlertView] addAfterAlertMessage:@"服务入库成功" title:@"提示"];
+                 
+             }
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+         {
+             YYLog(@"服务入库错误：%@",error);
+             
+         }];
+    }
+    else
     {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-    {
-        YYLog(@"服务入库返回：%@",responseObject);
-        
-        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-        
-        if (resultCode == 1000)
-        {
-            [[AlertView sharedAlertView] addAfterAlertMessage:@"服务入库成功" title:@"提示"];
-            
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        YYLog(@"服务入库错误：%@",error);
-        
-    }];
+        [[AlertView sharedAlertView] addAfterAlertMessage:@"请完整输入服务信息" title:@"提示"];
+    }
 }
 
 
@@ -382,48 +396,55 @@ typedef enum : NSUInteger {
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
     
-    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.carModel.brand != nil || [self.carModel.brand length] != 0 || self.carModel.price != nil || [self.carModel.price length] != 0 || self.carModel.model != nil || [self.carModel.model length] != 0 || self.carModel.cartype != nil || [self.carModel.cartype length] != 0 || self.carModel.mileage != nil || [self.carModel.mileage length] != 0 || self.carModel.buytime != nil || [self.carModel.buytime length] != 0 || self.carModel.number != nil || [self.carModel.number length] || self.carModel.person != nil || [self.carModel.person length] != 0 || self.carModel.frameid != nil || [self.carModel.frameid length] != 0 || self.carModel.engineid != nil || [self.carModel.engineid length] != 0 || self.carModel.property != nil || [self.carModel.property length] != 0 || [self.carModel.carDescription length] != 0)
     {
-        _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
-        
-        for (NSArray *array in _headerImagesArray)
-        {
-            YYLog(@"遍历得到的图片数组%@",array);
-            
-            for (WUAlbumAsset *image in array)
-            {
-                YYLog(@"遍历得到的图片%@",image);
-                
-                UIImage *getimage = [image imageWithOriginal];
-                
-                NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
-                
-                if (data != nil)
-                {
-                    [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-                }
-            }
-        }
-
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+        [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+         {
+             _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+             
+             for (NSArray *array in _headerImagesArray)
+             {
+                 YYLog(@"遍历得到的图片数组%@",array);
+                 
+                 for (WUAlbumAsset *image in array)
+                 {
+                     YYLog(@"遍历得到的图片%@",image);
+                     
+                     UIImage *getimage = [image imageWithOriginal];
+                     
+                     NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                     
+                     if (data != nil)
+                     {
+                         [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+                     }
+                 }
+             }
+             
+         } progress:^(NSProgress * _Nonnull uploadProgress) {
+             
+         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+         {
+             YYLog(@"二手车入库返回：%@",responseObject);
+             
+             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+             
+             if (resultCode == 1000)
+             {
+                 [[AlertView sharedAlertView] addAfterAlertMessage:@"二手车入库成功" title:@"提示"];
+                 
+             }
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+         {
+             YYLog(@"二手车入库错误：%@",error);
+             
+         }];
+    }
+    else
     {
-        YYLog(@"二手车入库返回：%@",responseObject);
-        
-        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-        
-        if (resultCode == 1000)
-        {
-            [[AlertView sharedAlertView] addAfterAlertMessage:@"二手车入库成功" title:@"提示"];
-            
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        YYLog(@"二手车入库错误：%@",error);
-        
-    }];
+        [[AlertView sharedAlertView] addAfterAlertMessage:@"请完整输入二手车信息" title:@"提示"];
+    }
 }
 
 
@@ -524,28 +545,28 @@ typedef enum : NSUInteger {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (self.segment.selectedSegmentIndex) {
-        case 0:
-        {
-            
-            if (indexPath.row == self.leftBaseLabelArray.count - 2 || indexPath.row == self.leftBaseLabelArray.count - 1)
-            {
-                return 110;
-            }
-        }
-            break;
-        case 2:
-        {
-            if (indexPath.row == self.leftSecondcarLabelArray.count)
-            {
-                return 110;
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
+//    switch (self.segment.selectedSegmentIndex) {
+//        case 0:
+//        {
+//            
+//            if (indexPath.row == self.leftBaseLabelArray.count - 2 || indexPath.row == self.leftBaseLabelArray.count - 1)
+//            {
+//                return 110;
+//            }
+//        }
+//            break;
+//        case 2:
+//        {
+//            if (indexPath.row == self.leftSecondcarLabelArray.count)
+//            {
+//                return 110;
+//            }
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
     return 40;
 }
 
@@ -570,7 +591,8 @@ typedef enum : NSUInteger {
         {
             if (indexPath.row == self.leftBaseLabelArray.count - 2 || indexPath.row == self.leftBaseLabelArray.count - 1)
             {
-                cell.rightTF.height = 100;
+                cell.rightTF.adjustsFontSizeToFitWidth = YES;
+                cell.rightTF.minimumFontSize = 10;
             }
             cell.leftLabel.text = _leftBaseLabelArray[indexPath.row];
             cell.rightTF.delegate = self;
@@ -662,9 +684,10 @@ typedef enum : NSUInteger {
             break;
         case 2:
         {
-            if (indexPath.row == self.leftSecondcarLabelArray.count)
+            if (indexPath.row == self.leftSecondcarLabelArray.count - 1)
             {
-                cell.rightTF.height = 100;
+                cell.rightTF.adjustsFontSizeToFitWidth = YES;
+                cell.rightTF.minimumFontSize = 10;
             }
             cell.leftLabel.text = _leftSecondcarLabelArray[indexPath.row];
             cell.rightTF.delegate = self;

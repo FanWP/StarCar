@@ -47,6 +47,7 @@
 		711EFA571DDEA03D006AEF9E /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA561DDEA03D006AEF9E /* NSString+Hash.m */; };
 		711EFA5A1DDEA3F4006AEF9E /* WebExcelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA591DDEA3F4006AEF9E /* WebExcelVC.m */; };
 		711EFA5D1DDEAC4E006AEF9E /* ExcelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EFA5C1DDEAC4E006AEF9E /* ExcelModel.m */; };
+		712F117E1DFA5D8800DDA5DC /* ShopCartDetailTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F117D1DFA5D8800DDA5DC /* ShopCartDetailTableVC.m */; };
 		712F5C131DEC1F7B005B750A /* NewActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F5C121DEC1F7B005B750A /* NewActivityModel.m */; };
 		712F5C161DEC44E8005B750A /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 712F5C151DEC44E8005B750A /* HomePageVC.m */; };
 		7136B07D1DEFC061007598DB /* SecondCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7136B07C1DEFC061007598DB /* SecondCarCell.m */; };
@@ -283,6 +284,8 @@
 		711EFA591DDEA3F4006AEF9E /* WebExcelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebExcelVC.m; sourceTree = "<group>"; };
 		711EFA5B1DDEAC4E006AEF9E /* ExcelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExcelModel.h; sourceTree = "<group>"; };
 		711EFA5C1DDEAC4E006AEF9E /* ExcelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExcelModel.m; sourceTree = "<group>"; };
+		712F117C1DFA5D8800DDA5DC /* ShopCartDetailTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCartDetailTableVC.h; sourceTree = "<group>"; };
+		712F117D1DFA5D8800DDA5DC /* ShopCartDetailTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCartDetailTableVC.m; sourceTree = "<group>"; };
 		712F5C111DEC1F7B005B750A /* NewActivityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewActivityModel.h; sourceTree = "<group>"; };
 		712F5C121DEC1F7B005B750A /* NewActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewActivityModel.m; sourceTree = "<group>"; };
 		712F5C141DEC44E8005B750A /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
@@ -880,6 +883,8 @@
 				711EFA2E1DD9637D006AEF9E /* HomePageTableVC.m */,
 				71CFBB181DF117BD00D6ED9D /* ProductDetailTableVC.h */,
 				71CFBB191DF117BD00D6ED9D /* ProductDetailTableVC.m */,
+				712F117C1DFA5D8800DDA5DC /* ShopCartDetailTableVC.h */,
+				712F117D1DFA5D8800DDA5DC /* ShopCartDetailTableVC.m */,
 				713760671DF6C594008E4413 /* CollectionProductDetailTableVC.h */,
 				713760681DF6C594008E4413 /* CollectionProductDetailTableVC.m */,
 				7109851E1DF263A800726AC7 /* AddProductCountView.h */,
@@ -1443,7 +1448,7 @@
 				TargetAttributes = {
 					D705CEA31DC09BBF00F65BE0 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2JS4PPTR7V;
+						DevelopmentTeam = 5J97A4Q82Z;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1612,6 +1617,7 @@
 				D77927831DE6B537002D19EA /* BossCFOCell.m in Sources */,
 				711EFA441DDAE116006AEF9E /* LabelTextFieldCell.m in Sources */,
 				D728670E1DCB144800D77B38 /* ILSettingCell.m in Sources */,
+				712F117E1DFA5D8800DDA5DC /* ShopCartDetailTableVC.m in Sources */,
 				D71394281DD5D13600FFFE84 /* FeedbackModel.m in Sources */,
 				D72D26011DF26CDC007ECC49 /* ShoppingCarCell.m in Sources */,
 				D74454711DC0A93A008B5E27 /* UserModel.m in Sources */,
@@ -1889,11 +1895,11 @@
 				CODE_SIGN_ENTITLEMENTS = TianlangStar/TianlangStar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2JS4PPTR7V;
+				DEVELOPMENT_TEAM = 5J97A4Q82Z;
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar;
+				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1908,11 +1914,11 @@
 				CODE_SIGN_ENTITLEMENTS = TianlangStar/TianlangStar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2JS4PPTR7V;
+				DEVELOPMENT_TEAM = 5J97A4Q82Z;
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar;
+				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

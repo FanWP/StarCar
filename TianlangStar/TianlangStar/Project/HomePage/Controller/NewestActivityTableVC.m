@@ -56,7 +56,7 @@
     parameters[@"pageNum"] = @(self.pageNum);
     parameters[@"pageSize"] = @"10";
 
-    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/activities/list",URL];
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -187,9 +187,13 @@
     
     cell.titleLabel.text = _activityModel.title;
     cell.timeLabel.text = _activityModel.createTime;
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_activityModel.images]];
-    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    NSArray *array = [_activityModel.images componentsSeparatedByString:@","];
+    NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
+    YYLog(@"图片地址：%@",pic);
+    [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+//    http://192.168.1.18:8080/picture\2016-12-08\39ec0ebb-d46e-4d58-8c3e-bd166372163a_img.jpg
 
     return cell;
 }

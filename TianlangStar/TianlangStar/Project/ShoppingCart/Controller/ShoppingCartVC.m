@@ -12,7 +12,9 @@
 #import "BuyingSuccessList.h"
 #import "BuyingSuccessListModel.h"
 #import "LoginVC.h"
+#import "ShopCartDetailTableVC.h"
 
+#import "RechargeVC.h"
 
 @interface ShoppingCartVC ()
 
@@ -267,6 +269,25 @@
     cell.productModel = model;
     
     return cell;
+}
+
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShopCartDetailTableVC *shopCartDetailTableVC = [[ShopCartDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+    ProductModel *model = self.orderArr[indexPath.row];
+    shopCartDetailTableVC.ID = model.productid;
+    if (model.buytype == 1)
+    {
+        shopCartDetailTableVC.title = @"商品详情";
+    }
+    else if (model.buytype == 2)
+    {
+        shopCartDetailTableVC.title = @"保养维护详情";
+    }
+    [self.navigationController pushViewController:shopCartDetailTableVC animated:YES];
 }
 
 

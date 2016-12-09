@@ -35,15 +35,15 @@
         
         
         
-        CGFloat detailLabelY = titleLabelY + 8;
-        CGFloat detailLabelHeight = 50;
+        CGFloat detailLabelY = titleLabelY + Klength30;
+        CGFloat detailLabelHeight = 40;
         self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, detailLabelY, titleLabelWidth, detailLabelHeight)];
         self.detailLabel.numberOfLines = 0;
         [self.contentView addSubview:self.detailLabel];
         
         
         
-        CGFloat priceLabelY = detailLabelY + detailLabelHeight + 10;
+        CGFloat priceLabelY = detailLabelY + detailLabelHeight;
         CGFloat priceLabelWidth = 0.6 * titleLabelWidth;
         self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, priceLabelY, priceLabelWidth, Klength30)];
         [self.contentView addSubview:self.priceLabel];

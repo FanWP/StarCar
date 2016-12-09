@@ -18,13 +18,12 @@
     [super viewDidLoad];
 
     self.wkWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
-    NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    NSString *string = [NSString stringWithFormat:@"%@%@",picURL,self.url];
+    NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:string]];
     
     [self.wkWebView loadRequest:repuest];
     self.wkWebView.navigationDelegate = self;
     [self.view addSubview:self.wkWebView];
-
-    
 }
 
 - (void)didReceiveMemoryWarning {
