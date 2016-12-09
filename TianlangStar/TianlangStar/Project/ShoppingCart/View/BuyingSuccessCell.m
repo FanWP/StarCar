@@ -88,7 +88,7 @@
             lable.width = KScreenWidth * 0.45;
             lable.height = lableH;
             lable.y = i * lable.height;
-            lable.font = Font17;
+            lable.font = Font16;
             lable.text = Arr[i];
             
             //加灰色线条
@@ -110,6 +110,7 @@
             lable.x = KScreenWidth - 20 - lable.width;
             lable.y = i * lable.height;
             lable.textAlignment = NSTextAlignmentRight;
+            lable.font = Font14;
             [self.contentView addSubview:lable];
             
             //赋值

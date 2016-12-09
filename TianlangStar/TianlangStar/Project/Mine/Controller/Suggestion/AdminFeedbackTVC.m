@@ -225,7 +225,6 @@
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
         [self.tableView endUpdates];
     }];
-    
     return @[action];
 }
 

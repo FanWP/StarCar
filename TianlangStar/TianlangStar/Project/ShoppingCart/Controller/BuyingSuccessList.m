@@ -81,7 +81,7 @@
         left.height = lableH;
         left.width = KScreenWidth * 0.45;
         left.y = i * left.height;
-        left.font = Font17;
+        left.font = Font16;
         left.text = arr[i];
         
         //加灰色线条
@@ -103,12 +103,12 @@
         [view addSubview:left];
         //设置右边的数据
         UILabel *right = [[UILabel alloc] init];
-        right.width = KScreenWidth * 0.55;
+        right.width = KScreenWidth * 0.6;
         right.height = lableH;
         right.y = left.y;
         right.x = KScreenWidth - 20 - right.width;
         right.textAlignment = NSTextAlignmentRight;
-        right.font = Font15;
+        right.font = Font14;
         right.text = arrright[i];
         [view addSubview:right];
 
