@@ -55,7 +55,7 @@
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
     
-    NSArray *arr = @[@"我的星币",@"转增",@"手机号",@"接收人"];
+    NSArray *arr = @[@"我的星币",@"转赠",@"手机号",@"接收人"];
     
     for (NSInteger i = 0; i < arr.count; i++)
     {

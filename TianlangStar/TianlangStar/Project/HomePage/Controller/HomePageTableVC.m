@@ -84,6 +84,7 @@
     [self dropdownRefresh];
     
     [self pullOnLoading];
+    
 }
 
 
