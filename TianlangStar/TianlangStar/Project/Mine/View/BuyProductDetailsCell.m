@@ -145,7 +145,7 @@
     _model = model;
     
     self.productname.text = model.productname;
-    self.price.text = [NSString stringWithFormat:@"%@星币",model.price];
+    self.price.text = [NSString stringWithFormat:@"%@积分",model.scoreprice];
     self.productmodel.text = [NSString stringWithFormat:@"类型/型号：%@",model.productmodel];
     self.specifications.text = [NSString stringWithFormat:@"规格：%@",model.specifications];
     self.applycar.text = [NSString stringWithFormat:@"适用车型：%@",model.applycar];

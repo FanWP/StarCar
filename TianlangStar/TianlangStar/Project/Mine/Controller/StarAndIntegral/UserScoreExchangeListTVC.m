@@ -9,6 +9,7 @@
 #import "UserScoreExchangeListTVC.h"
 #import "UserScoreExchangeCell.h"
 #import "ProductModel.h"
+#import "BuyProductDetails.h"
 
 @interface UserScoreExchangeListTVC ()
 /** 当前页 */
@@ -127,6 +128,19 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     return 120;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    //设置跳转
+    ProductModel *model = self.orderArr[indexPath.row];
+    BuyProductDetails *vc = [[BuyProductDetails alloc] init];
+    vc.model = model;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+
+
 }
 
 @end

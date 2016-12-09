@@ -558,30 +558,20 @@
     parmas[@"referee"] = self.userModel.referee;
     parmas[@"description"] = self.userModel.describe;
 
-    if (self.headerImg)
-    {
-
-    NSString *oldheaderpic = nil;
-    //传入为空的话
-    if (self.userModel.headimage.length != 0 || self.userModel.headimage != nil)
-    {
-        NSRange rangge = [self.userModel.headimage rangeOfString:@"picture"];
-        
-        if (rangge.length != 0) {
-        
-            oldheaderpic = [self.userModel.headimage substringFromIndex:rangge.location];
-        }
-    };
-        parmas[@"oldheaderpic"] = oldheaderpic;
-        NSString * url = [NSString stringWithFormat:@"%@upload/updateaccountinfoservlet",URL];
-        
-        YYLog(@"修改账户信息---parmas---%@",parmas);
-        
-        [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    
+    NSString * url = [NSString stringWithFormat:@"%@upload/updateaccountinfoservlet",URL];
+    
+    YYLog(@"修改账户信息---parmas---%@",parmas);
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+     {
+         NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
+         //拼接data
+         if (data != nil)
          {
-             NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
-             //拼接data
+             parmas[@"oldheaderpic"]= self.userModel.headimage;
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+         }
          
      } progress:^(NSProgress * _Nonnull uploadProgress) {
          
@@ -589,22 +579,21 @@
      {
          YYLog(@"responseObject---%@",responseObject);
          
+         NSNumber *num = responseObject[@"resultCode"];
+         
+         
+         if ([num integerValue] == 1000)
+         {
+             UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
+             UserInfo *userInfo = [UserInfo sharedUserInfo];
+             //保存用户信息
+             userInfo.headerpic = model.headimage;
+             [userInfo synchronizeToSandBox];
+         }
+         
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          YYLog(@"error---%@",error);
      }];
-        
-    }else//不带图片的请求
-    {
-        NSString * url = [NSString stringWithFormat:@"%@updateaccountinfonoheadservlet",URL];
-        
-        [HttpTool post:url parmas:parmas success:^(id json)
-         {
-             YYLog(@"不带图片-json---%@",json);
-     } failure:^(NSError *error)
-     {
-         YYLog(@"error----%@",error);
-     }];
-    }
 }
 
 

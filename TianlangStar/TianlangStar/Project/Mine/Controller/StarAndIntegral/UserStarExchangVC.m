@@ -254,7 +254,10 @@
             self.transferBtn.enabled = NO;
             [[AlertView sharedAlertView] addAlertMessage:@"手机号输入有误，请核对" title:@"提示"];
         }else if ([phoneTF.text isEqualToString:[UserInfo sharedUserInfo].username]){
-            [[AlertView sharedAlertView] addAfterAlertMessage:@"积分、星币不能转增给自己！" title:@"提示"];
+            [[AlertView sharedAlertView] addAlertMessage:@"积分、星币不能转增给自己！" title:@"提示"];
+            //清空接收人的数据
+            phoneTF.text = nil;
+            
             return;
         }
         else
