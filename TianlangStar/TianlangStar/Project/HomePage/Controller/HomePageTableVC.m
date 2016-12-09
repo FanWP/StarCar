@@ -23,6 +23,8 @@
 
 #import "ProductDetailTableVC.h"
 
+#import "ShopCartDetailTableVC.h"
+
 @interface HomePageTableVC ()<SDCycleScrollViewDelegate>
 
 // 搜索框

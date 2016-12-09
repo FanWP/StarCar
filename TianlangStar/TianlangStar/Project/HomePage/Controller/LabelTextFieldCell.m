@@ -7,6 +7,8 @@
 //
 
 #import "LabelTextFieldCell.h"
+#import "YYUITextView.h"
+
 
 @implementation LabelTextFieldCell
 
@@ -38,10 +40,14 @@
         self.rightTF.borderStyle = UITextBorderStyleRoundedRect;
 //        self.rightTF.layer.cornerRadius = BtncornerRadius;
         
-        self.rightTF.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
         
         [self.contentView addSubview:self.rightTF];
         
+        
+//        self.rightTextView = [[YYUITextView alloc] initWithFrame:CGRectMake(rightTFX, leftLabelY, rightTFWidth, 60)];
+//        self.rightTextView.font = Font14;
+//        self.rightTextView.backgroundColor = [UIColor colorWithRed:239.0 / 255.0 green:239.0 / 255.0 blue:239.0 / 255.0 alpha:1.0];
+//        [self.contentView addSubview:self.rightTextView];
         
         
         self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightTFX, leftLabelY, rightTFWidth, leftLabelHeight)];

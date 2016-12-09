@@ -133,7 +133,7 @@ typedef enum : NSUInteger {
     
     YYLog(@"添加最新活动参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@upload/add/activities?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@upload/add/activities",URL];
     
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
@@ -199,10 +199,10 @@ typedef enum : NSUInteger {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 2)
-    {
-        return 110;
-    }
+//    if (indexPath.row == 2)
+//    {
+//        return 110;
+//    }
     
     return 40;
 }
@@ -224,7 +224,8 @@ typedef enum : NSUInteger {
     cell.leftLabel.text = _leftArray[indexPath.row];
     if (indexPath.row == 2)
     {
-        cell.rightTF.height = 100;
+        cell.rightTF.adjustsFontSizeToFitWidth = YES;
+        cell.rightTF.minimumFontSize = 10;
     }
     
     cell.rightTF.delegate = self;

@@ -1,13 +1,12 @@
 //
-//  ProductDetailTableVC.m
+//  ShopCartDetailTableVC.m
 //  TianlangStar
 //
-//  Created by Beibei on 16/12/2.
+//  Created by Beibei on 16/12/9.
 //  Copyright © 2016年 yysj. All rights reserved.
 //
 
-#import "ProductDetailTableVC.h"
-
+#import "ShopCartDetailTableVC.h"
 #import "ProductModel.h"
 #import "ServiceModel.h"
 #import "CarModel.h"
@@ -15,7 +14,7 @@
 
 #import "CollectionModel.h"
 
-@interface ProductDetailTableVC ()<SDCycleScrollViewDelegate>
+@interface ShopCartDetailTableVC ()<SDCycleScrollViewDelegate>
 
 // scrollView
 @property (nonatomic,strong) SDCycleScrollView *scrollView;
@@ -42,6 +41,15 @@
 @property (nonatomic,strong) NSMutableArray *collectionArray;
 /** 保存已收藏所有商品id */
 @property (nonatomic,strong) NSMutableArray *collectionIdArray;
+
+
+@property (nonatomic,strong) NSMutableArray *productArray;
+@property (nonatomic,strong) NSMutableArray *serviceArray;
+@property (nonatomic,strong) NSMutableArray *secondCarArray;
+
+@property (nonatomic,strong) ProductModel *productModel;
+@property (nonatomic,strong) ServiceModel *serviceModel;
+@property (nonatomic,strong) CarModel *carModel;
 
 
 @property (nonatomic,strong) UIView *coverView;
@@ -80,16 +88,22 @@
 /** 显示是商品详情的1---商品  2----是服务 */
 @property (nonatomic,assign) NSInteger productType;
 
+
+@property (nonatomic,strong) NSDictionary *dataDic;
+
+
 @end
 
-@implementation ProductDetailTableVC
+@implementation ShopCartDetailTableVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self fetchDetailData];
     
     _userInfo = [UserInfo sharedUserInfo];
     
-     _imagesArray = [NSMutableArray array];
+    _imagesArray = [NSMutableArray array];
     
     self.tableView.separatorStyle = 0;
     
@@ -98,81 +112,94 @@
     [self rightItem];
     
     [self addFooterView];
+
+}
+
+
+
+- (void)fetchDetailData
+{
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
-    if ([self.title isEqualToString:@"商品详情"])//商品
+    parmas[@"id"]  = self.ID;
+    NSString *type;
+    if ([self.title isEqualToString:@"商品详情"])
     {
-        YYLog(@"_productModel.brand::%@",_productModel.brand);
-        
-        self.productId = _productModel.ID;
-        
-        self.price = _productModel.price;
-        
-        self.productType = 1;
-        
-        NSString *images = _productModel.images;
-        
-        NSArray *array = [images componentsSeparatedByString:@","];
-        
-        for (NSInteger i = 0; i < array.count - 1; i++)
-        {
-            NSString *pic = array[i];
-            
-            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-            
-            [_imagesArray addObject:image];
-        }
-
-    }
-    else if ([self.title isEqualToString:@"保养维护详情"])
-    {
-        self.productId = _serviceModel.ID;
-        
-        self.price = _serviceModel.price;
-        
-        self.productType = 2;
-        
-        NSString *images = _serviceModel.images;
-        
-        NSArray *array = [images componentsSeparatedByString:@","];
-        
-        for (NSInteger i = 0; i < array.count - 1; i++)
-        {
-            NSString *pic = array[i];
-            
-            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-            
-            [_imagesArray addObject:image];
-        }
-
+        type = @"1";
     }
     else
     {
-        self.productId = _carModel.ID;
-        
-        self.telNum = _carModel.telephone;
-        
-        YYLog(@"_carModel.carDescription::--------- %@",_carModel.carDescription);
-        
-        NSString *images = _carModel.images;
-        
-        self.price = _carModel.price;
-        
-        NSArray *array = [images componentsSeparatedByString:@","];
-        
-        for (NSInteger i = 0; i < array.count - 1; i++)
-        {
-            NSString *pic = array[i];
-            
-            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-            
-            [_imagesArray addObject:image];
-        }
-
+        type = @"2";
     }
+    parmas[@"type"]  = type;
     
+    YYLog(@"商品详情参数parmas--%@",parmas);
     
-    [self creatHeaderView];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/getonecommondityinfoservlet",URL];
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"商品详情返回：%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            if ([self.title isEqualToString:@"商品详情"])//商品
+            {
+                self.dataDic = responseObject[@"body"];
+                
+                NSString *images = self.dataDic[@"images"];
+        
+                NSArray *array = [images componentsSeparatedByString:@","];
+        
+                for (NSInteger i = 0; i < array.count - 1; i++)
+                {
+                    NSString *pic = array[i];
+        
+                    NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+        
+                    [_imagesArray addObject:image];
+                }
+        
+            }
+            else
+            {
+                self.dataDic = responseObject[@"body"];
+                
+                NSString *images = self.dataDic[@"images"];
+        
+                NSArray *array = [images componentsSeparatedByString:@","];
+        
+                for (NSInteger i = 0; i < array.count - 1; i++)
+                {
+                    NSString *pic = array[i];
+        
+                    NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+        
+                    [_imagesArray addObject:image];
+                }
+        
+            }
+            
+            [self creatHeaderView];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
+                
+            });
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"商品详情错误：%@",error);
+    }];
 }
+
+
 
 
 
@@ -188,7 +215,7 @@
 {
     _productType = productType;
     [self changeModelCount];
-
+    
 }
 
 
@@ -257,9 +284,9 @@
 {
     CGFloat bottomViewY = KScreenHeight - Klength44;
     
-        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
-        [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
-        
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomViewY, KScreenWidth, Klength44)];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
+    
     CGFloat buttonWidth = KScreenWidth / 3;
     
     
@@ -280,13 +307,13 @@
     self.buyButton.frame = CGRectMake(2 * buttonWidth, 0, buttonWidth, Klength44);
     self.buyButton.tag = 112;
     [self.buyButton setTitle:@"立即购买" forState:(UIControlStateNormal)];
-
+    
     
     self.chatButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.chatButton.frame = CGRectMake(KScreenWidth / 2, 0, KScreenWidth / 2, Klength44);
     [self.chatButton setTitle:@"咨询" forState:(UIControlStateNormal)];
     [self.chatButton addTarget:self action:@selector(chatAction) forControlEvents:(UIControlEventTouchUpInside)];
-
+    
     
     if ([self.title isEqualToString:@"二手车详情"])
     {
@@ -321,7 +348,7 @@
 - (void)collectionAction
 {
     YYLog(@"收藏");
-
+    
     if (self.userInfo.isLogin)
     {
         NSString *url = [NSString stringWithFormat:@"%@getallcollectionservlet",URL];
@@ -572,7 +599,7 @@
         NSInteger result = [num integerValue];
         
         if (result == 1000)
-        {        
+        {
             NSArray *array = responseObject[@"body"];
             
             NSMutableArray *mArray = [CollectionModel mj_objectArrayWithKeyValuesArray:array];
@@ -581,13 +608,13 @@
             {
                 [self.collectionIdArray addObject:collectionModel.productid];
             }
-
+            
             
             // 收藏过的数据里包含这个id则显示取消收藏 self.collectionModel.ID
             if ([self.collectionIdArray containsObject:self.productId])
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                
+                    
                     // 取消收藏
                     [self.collectionButton setTitle:@"取消收藏" forState:(UIControlStateNormal)];
                 });
@@ -712,7 +739,7 @@
     [self addObserver:self forKeyPath:@"countNum" options:(NSKeyValueObservingOptionNew) context:nil];
     
     
-
+    
     self.countLabel.text = self.countNum;
     self.countLabel.textAlignment = 1;
     [self.countView addSubview:self.countLabel];
@@ -798,7 +825,7 @@
         self.totalStar = [NSString stringWithFormat:@"%ld",(long)_serviceModel.realPrice];
     }
     NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
-
+    
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -860,7 +887,7 @@
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-{    
+{
     NSString *newNum = [change objectForKey:@"new"];
     
     self.countLabel.text = newNum;
@@ -878,14 +905,6 @@
     {
         self.countNumber = 0;
     }
-    
-//    if (self.productType == 1) {//商品
-//        self.productModel.count = self.countNumber;
-//    }else//服务
-    //    {
-    //
-    //        self.serviceModel.count = self.countNumber;
-    //    }
     
     //计算count
     self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
@@ -908,7 +927,7 @@
 }
 
 
-    //计算count
+//计算count
 -(void)changeModelCount
 {
     //计算count
@@ -918,7 +937,7 @@
     self.serviceModel.buytype = 2;//服务
     NSInteger realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
     self.paidLabel.text = [NSString stringWithFormat:@"%ld星币",(long)realPrice];
-
+    
 }
 
 
@@ -948,32 +967,32 @@
     parameters[@"productid"] = self.productId;
     parameters[@"type"] = @(type);// 1:商品 2:服务
     parameters[@"count"] = self.countNum;
-
+    
     YYLog(@"加入购物车参数：%@",parameters);
     
     NSString *url = [NSString stringWithFormat:@"%@add/shopping/car?",URL];
- 
+    
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-    {
-        YYLog(@"加入购物车返回：%@",responseObject);
-        
-        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-        
-        if (resultCode == 1000)
-        {
-            [[AlertView sharedAlertView] addAfterAlertMessage:@"成功加入购物车" title:@"提示"];
-        }
-        
-        [self.coverView removeFromSuperview];
-        
-        [self.okAddCartButton removeFromSuperview];
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        YYLog(@"加入购物车错误：%@",error);
-    }];
+     {
+         YYLog(@"加入购物车返回：%@",responseObject);
+         
+         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+         
+         if (resultCode == 1000)
+         {
+             [[AlertView sharedAlertView] addAfterAlertMessage:@"成功加入购物车" title:@"提示"];
+         }
+         
+         [self.coverView removeFromSuperview];
+         
+         [self.okAddCartButton removeFromSuperview];
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"加入购物车错误：%@",error);
+     }];
 }
 
 
@@ -989,7 +1008,7 @@
     }
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
-
+    
 }
 
 
@@ -1016,14 +1035,11 @@
     {
         return 9;
     }
-    else if ([self.title isEqualToString:@"保养维护详情"])
+    else
     {
         return 6;
     }
-    else
-    {
-        return 10;
-    }
+
 }
 
 
@@ -1048,25 +1064,6 @@
             return 40;
         }
     }
-    else if ([self.title isEqualToString:@"二手车详情"])
-    {
-        if (indexPath.row == 9)
-        {
-            CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
-            
-            return height + 20;
-        }
-        else if (indexPath.row == 10)
-        {
-            CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
-            
-            return height + 20;
-        }
-        else
-        {
-            return 40;
-        }
-    }
     else
     {
         return 40;
@@ -1076,7 +1073,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     static NSString *identifier = @"cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -1093,31 +1090,12 @@
         if (indexPath.row == 6)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
-
+            
             cell.detailTextLabel.height = height + 20;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
-            
-            cell.detailTextLabel.height = height + 20;
-        }
-        if (indexPath.row == 1)
-        {
-            cell.detailTextLabel.backgroundColor = [UIColor redColor];
-        }
-    }
-    else if ([self.title isEqualToString:@"二手车详情"])
-    {
-        if (indexPath.row == 9)
-        {
-            CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
-            
-            cell.detailTextLabel.height = height + 20;
-        }
-        else if (indexPath.row == 10)
-        {
-            CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
             cell.detailTextLabel.height = height + 20;
         }
@@ -1128,28 +1106,28 @@
         switch (indexPath.row)
         {
             case 0:
-                cell.textLabel.text = _productModel.productname;
+                cell.textLabel.text = self.dataDic[@"productname"];
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.price];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",self.dataDic[@"price"]];
                 break;
             case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_productModel.productmodel];
+                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"productmodel"]];
                 break;
             case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"规格：%@",_productModel.specifications];
+                cell.textLabel.text = [NSString stringWithFormat:@"规格：%@",self.dataDic[@"specifications"]];
                 break;
             case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"适用车型：%@",_productModel.applycar];
+                cell.textLabel.text = [NSString stringWithFormat:@"适用车型：%@",self.dataDic[@"applycar"]];
                 break;
             case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"供应商：%@",_productModel.vendors];
+                cell.textLabel.text = [NSString stringWithFormat:@"供应商：%@",self.dataDic[@"vendors"]];
                 break;
             case 6:
-                cell.textLabel.text = [NSString stringWithFormat:@"简介：%@",_productModel.introduction];
+                cell.textLabel.text = [NSString stringWithFormat:@"简介：%@",self.dataDic[@"introduction"]];
                 break;
             case 7:
-                cell.textLabel.text = [NSString stringWithFormat:@"备注：%@",_productModel.remark];
+                cell.textLabel.text = [NSString stringWithFormat:@"备注：%@",self.dataDic[@"remark"]];
                 break;
                 
             default:
@@ -1158,64 +1136,26 @@
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
+        
         switch (indexPath.row)
         {
             case 0:
-                cell.textLabel.text = _serviceModel.services;
+                cell.textLabel.text = self.dataDic[@"services"];
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",self.dataDic[@"price"]];
                 break;
             case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_serviceModel.servicetype];
+                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"servicetype"]];
                 break;
             case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",_serviceModel.content];
+                cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",self.dataDic[@"content"]];
                 break;
             case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",_serviceModel.warranty];
+                cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",self.dataDic[@"warranty"]];
                 break;
             case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@小时",_serviceModel.manhours];
-                break;
-        }
-    }
-    else
-    {
-        switch (indexPath.row)
-        {
-            case 0:
-                cell.textLabel.text = _carModel.brand;
-                break;
-            case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
-                break;
-            case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"型号：%@",_carModel.model];
-                break;
-            case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"行驶里程：%@",_carModel.mileage];
-                break;
-            case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"购买年份：%@",_carModel.buytime];
-                break;
-            case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"原车主：%@",_carModel.person];
-                break;
-            case 6:
-                cell.textLabel.text = [NSString stringWithFormat:@"车牌号：%@",_carModel.number];
-                break;
-            case 7:
-                cell.textLabel.text = [NSString stringWithFormat:@"车架号：%@",_carModel.frameid];
-                break;
-            case 8:
-                cell.textLabel.text = [NSString stringWithFormat:@"使用性质：%@",_carModel.property];
-                break;
-            case 9:
-                cell.textLabel.text = [NSString stringWithFormat:@"车辆简介：%@",_carModel.carDescription];
-                break;
-
-            default:
+                cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@",self.dataDic[@"manhours"]];
                 break;
         }
     }
@@ -1228,13 +1168,11 @@
 
 
 
-
-
 - (void)dealloc
 {
     YYLog(@"视图出现次数：%ld",self.appearCount);
     
-
+    
     for (NSInteger i = 0; i < self.appearCount; i++)
     {
         [self removeObserver:self forKeyPath:@"countNum" context:nil];
@@ -1297,6 +1235,45 @@
 
 
 
+- (NSMutableArray *)productArray
+{
+    if (!_productArray)
+    {
+        _productArray = [NSMutableArray array];
+    }
+    
+    return _productArray;
+}
+
+
+
+
+- (NSMutableArray *)serviceArray
+{
+    if (!_serviceArray)
+    {
+        _serviceArray = [NSMutableArray array];
+    }
+    
+    return _serviceArray;
+}
+
+
+
+
+- (NSMutableArray *)secondCarArray
+{
+    if (!_secondCarArray)
+    {
+        _secondCarArray = [NSMutableArray array];
+    }
+    
+    return _secondCarArray;
+}
+
+
+
+
 - (NSMutableArray *)collectionArray
 {
     if (!_collectionArray)
@@ -1322,27 +1299,4 @@
 
 
 
-
-
-
-
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
