@@ -45,7 +45,7 @@
     self.textView = textView;
     textView.placeholder = @"输入回复内容";
     textView.placeholderColor = lableTextcolor;
-    
+
     
     //设置提交按钮
     UIButton *btn = [[UIButton alloc] init];
@@ -72,7 +72,39 @@
 -(void)commitBtnClick
 {
     
-//    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    if (self.textView.text.length == 0 || self.textView.text == nil)
+    {
+        [[AlertView sharedAlertView] addAlertMessage:@"请输入回复内容" title:@"提示！"];
+        return;
+    }
+    
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"content"] = self.textView.text;
+    parmas[@"suggestid"] = self.feedbackModel.ID;
+    
+    NSString *url = [NSString stringWithFormat:@"%@feedback/suggestion",URL];
+    
+    YYLog(@"管理员意见回复parmas--:%@url--:%@",parmas,url);
+    
+    [SVProgressHUD showWithStatus:@"数据提交中..."];
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         [SVProgressHUD dismiss];
+         NSNumber *num = json[@"resultCode"];
+         
+         if ([num integerValue] == 1000)
+         {
+             self.textView.text = nil;
+             [SVProgressHUD showSuccessWithStatus:@"提交成功！"];
+         }
+         YYLog(@"json--%@",json);
+         
+     } failure:^(NSError *error) {
+         YYLog(@"error--%@",error);
+         [SVProgressHUD dismiss];
+     }];
     
     
     YYLog(@"提交");

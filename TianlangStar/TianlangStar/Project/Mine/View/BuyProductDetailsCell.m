@@ -116,6 +116,7 @@
         remark.textColor = lableTextcolor;
         remark.font = Font14;
         self.remark = remark;
+        remark.numberOfLines = 0;
         [self.contentView addSubview:remark];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;

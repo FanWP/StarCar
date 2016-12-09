@@ -22,6 +22,8 @@
         [self.contentView addSubview:self.pictureView];
     }
     
+    self.selectionStyle = UITableViewCellEditingStyleNone;
+    
     return self;
 }
 

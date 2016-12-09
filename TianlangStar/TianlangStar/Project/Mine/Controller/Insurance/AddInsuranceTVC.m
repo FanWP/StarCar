@@ -112,7 +112,7 @@ typedef enum : NSUInteger {
 {
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString * time=[outputFormatter stringFromDate:self.insuranceidData.date];
+//    NSString * time=[outputFormatter stringFromDate:self.insuranceidData.date];
     //    //更改输入框的数据
     //    //    self.textArr[_selectData] = time;
     //    [self.textArr replaceObjectAtIndex:_selectData withObject:time];
@@ -149,7 +149,7 @@ typedef enum : NSUInteger {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 30)];
     [button setTitle:@"保存" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     self.saveBtn = button;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
@@ -236,6 +236,13 @@ typedef enum : NSUInteger {
     return count;
 }
 
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+
+    return 14;
+}
+
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES];
@@ -303,7 +310,7 @@ typedef enum : NSUInteger {
 {
     if (indexPath.section == 0 && self.headerImg)
     {
-        return 220;
+        return 240;
     }else
     {
         return 40;

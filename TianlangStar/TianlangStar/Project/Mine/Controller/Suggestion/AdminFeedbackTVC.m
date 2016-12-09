@@ -180,14 +180,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FeedbackModel *model = self.feedbackArr[indexPath.row];
-    //假数据
-//    FeedbackModel *model = [[FeedbackModel alloc] init];
-//    model.lasttime = @"1446652800";
-//    model.content = @"7ty4931y08t143426326235746253837658675965896967896889659865986598650yh81035ugosdjovjhkdashbkjsFJBVsdjlbjljldbsJL";
-//    model.username =@"ut4oqwutowqutuqwo";
-//    model.membername = @"王小二";
-    
-    
+
     if (self.revertType == 0)//未回复
     {
         ReFeedbackVC *vc = [[ReFeedbackVC alloc] init];
@@ -202,20 +195,40 @@
     }
 }
 
-//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//    UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 30)];
-//    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth * 0.5, 14)];
-//    lable.centerX = KScreenWidth * 0.5;
-//    lable.backgroundColor = [UIColor redColor];
-//    [foot addSubview:lable];
-//    return foot;
-//}
-//
-//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//    return 10;
-//}
+
+//左滑删除
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        //发送网络请求
+        FeedbackModel *model = self.feedbackArr[indexPath.row];
+        NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+        parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+        parmas[@"suggestid"] = model.ID;
+        
+        NSString *url = [NSString stringWithFormat:@"%@delete/suggestion/info",URL];
+        
+        YYLog(@"parmas--：%@---url:%@",parmas,url);
+        
+        [HttpTool post:url parmas:parmas success:^(id json)
+         {
+             YYLog(@"删除json--:%@",json);
+         } failure:^(NSError *error) {
+             YYLog(@"删除error--:%@",error);
+         }];
+        
+        //本地删除操作
+        [self.feedbackArr removeObjectAtIndex:indexPath.row];
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView endUpdates];
+    }];
+    return @[action];
+}
+
+
 
 
 

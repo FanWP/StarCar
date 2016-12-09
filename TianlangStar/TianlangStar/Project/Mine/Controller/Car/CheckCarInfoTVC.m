@@ -62,8 +62,13 @@ typedef enum : NSUInteger {
 {
 
     [super viewDidLoad];
+
+    self.view.backgroundColor = BGcolor;
     
-    [self addRightBar];
+    if (USERType != 2)
+    {
+        [self addRightBar];
+    }
     
     [self addDatePIcker];
     
@@ -137,9 +142,8 @@ typedef enum : NSUInteger {
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
         parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-        parmas[@"id"] = self.carModel.ID;
-        
-        
+        parmas[@"id"] = self.carModel.cid;
+
         NSString *oldheaderpic = nil;
         //传入为空的话
         if (self.carModel.picture.length != 0 || self.carModel.picture != nil)
@@ -398,6 +402,11 @@ typedef enum : NSUInteger {
         }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 14;
+}
+
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -406,10 +415,6 @@ typedef enum : NSUInteger {
     return headerView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 1;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -566,17 +571,17 @@ typedef enum : NSUInteger {
         [[AlertView sharedAlertView] addAlertMessage:nil title:nil cancleAction:cancleAction photoLibraryAction:photoLibraryAction cameraAction:cameraAction];
     }
     
-    if (indexPath.section == 2)
+    if (indexPath.section == 2)//保单管理
     {
         UserInfo *userInfo = [UserInfo sharedUserInfo];
         if (userInfo.userType == 1 || userInfo.userType == 0)
         {
-            BossInsuranceManagement *vc = [[BossInsuranceManagement alloc] initWithStyle:UITableViewStyleGrouped];
+            BossInsuranceManagement *vc = [[BossInsuranceManagement alloc] init];
             vc.carID = self.carModel.cid;
             [self.navigationController pushViewController:vc animated:YES];
         }else
         {
-            UserInsurecemangement *vc = [[UserInsurecemangement alloc] initWithStyle:UITableViewStyleGrouped];
+            UserInsurecemangement *vc = [[UserInsurecemangement alloc] init];
             vc.carID = self.carModel.ID;
             [self.navigationController pushViewController:vc animated:YES];
             

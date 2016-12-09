@@ -14,7 +14,7 @@
 #import "PictureCell.h"
 typedef enum : NSUInteger {
     expenses = 0,
-    payment,
+    company,
     buytime,
     policyid,
     continuetime
@@ -54,7 +54,7 @@ typedef enum : NSUInteger {
 /** 时间选择器 */
 @property (nonatomic,strong) UIDatePicker *insuranceidData;
 
-/** 险种的类型 */
+/** 险种的类型  1---较强险  2---商业险*/
 @property (nonatomic,assign) NSInteger insuranceType;
 
 @end
@@ -66,6 +66,9 @@ typedef enum : NSUInteger {
     
     self.insuranceType = 1;
     [self addTitleView];
+    
+    
+    self.view.backgroundColor = BGcolor;
     
     [self loadData];
     
@@ -230,6 +233,8 @@ typedef enum : NSUInteger {
 #pragma mark=============初始化请求数据=====================
 -(void)loadData
 {
+    [self.tableView reloadData];
+    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     UserInfo *userInfo = [UserInfo sharedUserInfo];
     parmas[@"sessionId"] = userInfo.RSAsessionId;
@@ -275,11 +280,11 @@ typedef enum : NSUInteger {
     parmas[@"buytime"] = self.insuranceModel.buytime;
     parmas[@"policyid"] = self.insuranceModel.policyid;
     parmas[@"continuetime"] = self.insuranceModel.continuetime;
+    parmas[@"expenses"] = self.insuranceModel.expenses;
     
-    
-    
-    YYLog(@"parmas---更新数据%@",parmas);
+
     NSString *url = [NSString stringWithFormat:@"%@upload/updateadmininsuranceservlet",URL];
+    YYLog(@"parmas---更新数据%@url--:%@",parmas,url);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
@@ -304,7 +309,7 @@ typedef enum : NSUInteger {
          {
 //             [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
              [SVProgressHUD showSuccessWithStatus:@"修改成功"];
-             [self.navigationController popViewControllerAnimated:YES];
+//             [self.navigationController popViewControllerAnimated:YES];
              
          }
          
@@ -348,8 +353,6 @@ typedef enum : NSUInteger {
     if (self.insuranceType == 1 && section == 1)
     {
         count = self.leftArr.count;
-
-        
     }else if (self.insuranceType == 1 && section == 0)
     {
         count = 1;
@@ -358,6 +361,13 @@ typedef enum : NSUInteger {
       count =  self.insuranceArr.count;
     }
     return count;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 14;
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -402,15 +412,18 @@ typedef enum : NSUInteger {
             cell.textField.delegate = self;
             cell.textField.textAlignment = NSTextAlignmentRight;
             cell.textField.enabled  = self.inputEnble;
+
+            
             //设置数据
             switch (self.selectedData)
             {
                 case expenses:
-                    cell.leftLB.text = self.insuranceModel.insurancetype;
+                {
+                    cell.leftLB.text = self.insuranceType ==1 ? @"交强险" : self.insuranceModel.insurancetype;
                     cell.textField.text = self.insuranceModel.expenses;
-                    
                     break;
-                case payment:
+                }
+                case company:
                     cell.textField.text = self.insuranceModel.company;
                     break;
                 case buytime:
@@ -443,7 +456,7 @@ typedef enum : NSUInteger {
     if (self.insuranceType == 1 && indexPath.section == 0)
     {
         
-        return 220;
+        return 240;
     }else
     {
         return 40;
@@ -457,7 +470,7 @@ typedef enum : NSUInteger {
     {
 #warning todo  pand判断为零
         InsuranceModel *model = self.insuranceArr[indexPath.row];
-        CheckInsureceTVC *vc = [[CheckInsureceTVC alloc] initWithStyle:UITableViewStyleGrouped];
+        CheckInsureceTVC *vc = [[CheckInsureceTVC alloc] init];
         vc.title = model.insurancetype;
         vc.insuranceModel = model;
         [self.navigationController pushViewController:vc animated:YES];
@@ -535,9 +548,6 @@ typedef enum : NSUInteger {
             [self.insuranceArr removeObjectAtIndex:indexPath.row];
             // Delete the row from the data source.
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-            
-            //管理员删除保险信息-----暂未做接口
 
             [[AFHTTPSessionManager manager]POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
                 
@@ -639,8 +649,8 @@ typedef enum : NSUInteger {
             self.insuranceModel.expenses = textField.text;
             break;
             
-        case payment:
-            self.insuranceModel.payment = textField.text;
+        case company:
+            self.insuranceModel.company = textField.text;
             break;
         case policyid:
             self.insuranceModel.policyid = textField.text;

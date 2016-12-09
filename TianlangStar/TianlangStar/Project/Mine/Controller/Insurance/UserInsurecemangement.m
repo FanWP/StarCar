@@ -18,7 +18,7 @@
 
 typedef enum : NSUInteger {
     expenses = 0,
-    payment,
+    company,
     buytime,
     policyid,
     continuetime
@@ -72,11 +72,16 @@ typedef enum : NSUInteger {
     
     [self addTitleView];
     
+    self.view.backgroundColor = BGcolor;
+    
     [self loadData];
     
     [self addRightBar];
     
     [self addDatePIcker];
+    
+    
+    
 }
 
 
@@ -207,13 +212,15 @@ typedef enum : NSUInteger {
     [button setTitle:@"保存" forState:UIControlStateSelected];
     self.rightBarBtn = button;
     [button addTarget:self action:@selector(rightBarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
 -(void)rightBarClick:(UIButton *)button
 {
     [self.view endEditing:YES];
+    
+    
     
     self.inputEnble = !button.selected;
     
@@ -240,17 +247,19 @@ typedef enum : NSUInteger {
     
     NSString *url = [NSString stringWithFormat:@"%@querycarinsuranceservlet",URL];
     YYLog(@"self.carID-----%@",self.carID);
-    YYLog(@"parmas-----%@",parmas);
+    YYLog(@"parmas-----%@ URL---：%@",parmas,url);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"json----%@",json);
          
-         self.insuranceArr = [InsuranceModel mj_objectArrayWithKeyValuesArray:json[@"obj"]];
+         self.insuranceArr = [InsuranceModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
          
-         if (self.insuranceType == 1 && self.insuranceArr  && self.insuranceArr.count > 0)
+         if (self.insuranceType == 1 && self.insuranceArr  && self.insuranceArr.count > 0)//交强险
          {
              self.insuranceModel = self.insuranceArr[0];
+             
+             self.rightBarBtn.hidden = self.insuranceModel.ID != nil;
          }
          
          YYLog(@"%@",json);
@@ -265,11 +274,75 @@ typedef enum : NSUInteger {
     
 }
 
+
+
+-(void)addinsurance//添加较强险
+{
+    NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
+    UserInfo *userInfo = [UserInfo sharedUserInfo];
+    parmas[@"sessionId"] = userInfo.RSAsessionId;
+    parmas[@"carid"] = self.carID;
+    parmas[@"insurancetype"] = self.insuranceModel.insurancetype;
+    parmas[@"company"] = self.insuranceModel.company;
+    parmas[@"policyid"] = self.insuranceModel.policyid;
+    parmas[@"expenses"] = self.insuranceModel.expenses;
+    parmas[@"buytime"] = self.insuranceModel.buytime;
+    parmas[@"continuetime"] = self.insuranceModel.continuetime;
+    parmas[@"type"] = @"1";
+    
+    YYLog(@"parmas---添加较强险信息%@",parmas);
+    NSString *url = [NSString stringWithFormat:@"%@upload/addinsuranceservlet",URL];
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+     {
+         NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
+         
+         if (data != nil)
+         {
+             //             parmas[@"oldheaderpic"] = self.insuranceModel.images;
+             [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
+         }
+         
+     } progress:^(NSProgress * _Nonnull uploadProgress)
+     {
+         
+     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         YYLog(@"添加保险信息返回返回：%@",responseObject);
+         
+         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+         
+         if (resultCode == 1000)
+         {
+             
+             [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+             
+             
+             //             [self.navigationController popViewControllerAnimated:YES];
+             
+         }
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"修改保险错误：%@",error);
+     }];
+    
+}
+
+
 //更新数据
 
 #pragma mark=============更新数据=====================
 -(void)updataUserInfo
 {
+    
+    
+    if (self.insuranceModel.ID == nil)//需要添加交强险
+    {
+        [self addinsurance];
+        return;
+    }else{//用户更新保险数据
+
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     UserInfo *userInfo = [UserInfo sharedUserInfo];
     parmas[@"sessionId"] = userInfo.RSAsessionId;
@@ -281,8 +354,8 @@ typedef enum : NSUInteger {
     
     
     
-    YYLog(@"parmas---更新数据%@",parmas);
     NSString *url = [NSString stringWithFormat:@"%@upload/updateadmininsuranceservlet",URL];
+    YYLog(@"parmas---更新数据%@,url--:%@",parmas,url);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
@@ -306,13 +379,13 @@ typedef enum : NSUInteger {
          if (resultCode == 1000)
          {
              [SVProgressHUD showSuccessWithStatus:@"修改成功"];
-             [self.navigationController popViewControllerAnimated:YES];
          }
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"添加爱车错误：%@",error);
      }];
+    }
     
 }
 
@@ -339,7 +412,7 @@ typedef enum : NSUInteger {
     {
         count = 2;
     }
-    
+
     return count;
 }
 
@@ -352,11 +425,18 @@ typedef enum : NSUInteger {
         return count;
     }else if(self.insuranceType ==1 && section == 0)
     {
-        return self.insuranceArr.count * 1;
+        return 1;
     }else
     {
         return self.insuranceArr.count + 1;
     }
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+
+    return 14;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -418,7 +498,7 @@ typedef enum : NSUInteger {
                     cell.textField.text = self.insuranceModel.expenses;
                     
                     break;
-                case payment:
+                case company:
                     cell.textField.text = self.insuranceModel.company;
                     break;
                 case buytime:
@@ -451,7 +531,7 @@ typedef enum : NSUInteger {
     if (self.insuranceType == 1 && indexPath.section == 0)
     {
         
-        return 220;
+        return 240;
     }else
     {
         return 40;
@@ -465,7 +545,7 @@ typedef enum : NSUInteger {
     {
         if (self.insuranceArr.count == indexPath.row )
         {
-            AddInsuranceTVC *vc = [[AddInsuranceTVC alloc] initWithStyle:UITableViewStyleGrouped];
+            AddInsuranceTVC *vc = [[AddInsuranceTVC alloc] init];
             vc.carID = self.carID;
             [self.navigationController pushViewController:vc animated:YES];
         }else//显示险种闲情
@@ -534,9 +614,16 @@ typedef enum : NSUInteger {
 //删除所做的动作
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+//    if (USERType == 2) {//普通用户
+//        [SVProgressHUD showErrorWithStatus:@"您没有该权限"];
+//        return;
+//    }
+    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"是否确认删除此会员？" preferredStyle:UIAlertControllerStyleActionSheet];
+
         
         [alert addAction:[UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
@@ -657,8 +744,8 @@ typedef enum : NSUInteger {
             self.insuranceModel.expenses = textField.text;
             break;
             
-        case payment:
-            self.insuranceModel.payment = textField.text;
+        case company:
+            self.insuranceModel.company = textField.text;
             break;
         case policyid:
             self.insuranceModel.policyid = textField.text;

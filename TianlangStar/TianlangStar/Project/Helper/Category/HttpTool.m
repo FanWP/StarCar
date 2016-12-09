@@ -8,6 +8,7 @@
 
 #import "HttpTool.h"
 #import <AFNetworking.h>
+#import "UserModel.h"
 
 
 @interface HttpTool ()
@@ -296,8 +297,12 @@
              NSNumber * mun = responseObject[@"obj"][@"sessionId"];
              userInfo.sessionId = [NSString stringWithFormat:@"%@",mun];
              userInfo.RSAsessionId = [RSA encryptString:userInfo.sessionId publicKey:userInfo.publicKey];
-             NSNumber *discount = responseObject[@"obj"][@"user"][@"discount"];
-             userInfo.discount = [discount doubleValue];
+             UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"obj"][@"user"]];
+             userInfo.discount = model.discount;
+             userInfo.headerpic = model.headimage;
+             userInfo.username = model.username;
+             userInfo.userType = model.type;
+             userInfo.membername = model.membername;
              [userInfo synchronizeToSandBox];
          }else
          {

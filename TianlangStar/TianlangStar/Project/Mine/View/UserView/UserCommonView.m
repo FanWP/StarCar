@@ -229,12 +229,12 @@
 
     if (USERType == 1 || USERType == 0)//老板
     {
-        AdminInfoTVC *vc = [[AdminInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
+        AdminInfoTVC *vc = [[AdminInfoTVC alloc] init];
         [self.nav pushViewController:vc animated:YES];
         
     }else if (USERType == 2)//普通用户
     {
-        GeneralUserInfoTVC *vc = [[GeneralUserInfoTVC alloc] initWithStyle:UITableViewStyleGrouped];
+        GeneralUserInfoTVC *vc = [[GeneralUserInfoTVC alloc] init];
         [self.nav pushViewController:vc animated:YES];
     }
     

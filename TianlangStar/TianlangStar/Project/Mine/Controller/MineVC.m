@@ -266,6 +266,9 @@
     NSString *strHeader = [NSString stringWithFormat:@"%@%@",picURL,userInfo.headerpic];
     
     [self.userCommonView.headerPic sd_setImageWithURL:[NSURL URLWithString:strHeader] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    
+    
+    
     //级别或者是老板  或者是店长
     NSString *username = nil;
     switch (USERType) {
@@ -402,7 +405,6 @@
          YYLog(@"json-获取账户积分余额%@",json);
 
          NSNumber *num = json[@"body"];
-         
 
          NSString *starStr = num == nil ? @"0":[NSString stringWithFormat:@"%@",num];
          

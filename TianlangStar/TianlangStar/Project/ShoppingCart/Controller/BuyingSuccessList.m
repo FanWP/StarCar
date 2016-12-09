@@ -55,9 +55,7 @@
 - (void)addHeader
 {
     TBHeadersSucceedView *view = [TBHeadersSucceedView SuccessfulTrade];
-    
     self.tableView.tableHeaderView = view;
-
 }
 
 
@@ -70,7 +68,9 @@
     NSArray *arr = @[@"交易信息",@"折扣信息",@"收款方",@"合计支付",@"余额"];
     NSString *time = [self.model.buytime getDetailCurrentTime];
     NSString *discount = [NSString stringWithFormat:@"%@折",self.model.discount];
-    NSArray *arrright = @[time,discount,self.model.payee,self.model.totalPrice,self.model.balance];
+    NSString *total = [NSString stringWithFormat:@"%@星币",self.model.totalPrice];
+    NSString *blance = [NSString stringWithFormat:@"%@星币",self.model.balance];
+    NSArray *arrright = @[time,discount,self.model.payee,total,blance];
     
     CGFloat lableH = 45;
     for (NSInteger i = 0; i < arr.count; i++)
@@ -81,7 +81,7 @@
         left.height = lableH;
         left.width = KScreenWidth * 0.45;
         left.y = i * left.height;
-        left.font = Font17;
+        left.font = Font16;
         left.text = arr[i];
         
         //加灰色线条
@@ -103,12 +103,12 @@
         [view addSubview:left];
         //设置右边的数据
         UILabel *right = [[UILabel alloc] init];
-        right.width = KScreenWidth * 0.55;
+        right.width = KScreenWidth * 0.6;
         right.height = lableH;
         right.y = left.y;
         right.x = KScreenWidth - 20 - right.width;
         right.textAlignment = NSTextAlignmentRight;
-        right.font = Font15;
+        right.font = Font14;
         right.text = arrright[i];
         [view addSubview:right];
 
