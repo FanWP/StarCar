@@ -1104,7 +1104,7 @@
         }
         if (indexPath.row == 1)
         {
-            cell.detailTextLabel.backgroundColor = [UIColor redColor];
+            cell.detailTextLabel.textColor = [UIColor redColor];
         }
     }
     else if ([self.title isEqualToString:@"二手车详情"])
