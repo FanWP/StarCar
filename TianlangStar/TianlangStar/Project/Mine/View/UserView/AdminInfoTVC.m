@@ -223,23 +223,14 @@
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
-         NSData *data = UIImageJPEGRepresentation(self.headerImg, 1);
-         YYLog(@"data.length---:%lu",(unsigned long)data.length);
+         //         NSData *data = UIImageJPEGRepresentation(self.headerImg, 1);
+         NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
          
          if (data != nil)
          {
              parmas[@"headimage"] = self.userModel.headimage;
-             //拼接data
-             UIImage *result = [UIImage imageWithData:data];
-             
-             data = [WUAlbumAsset compressionWithImage:result];
-             
-             YYLog(@"data.length---:%lu",(unsigned long)data.length);
-
-             
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-             
-             YYLog(@"data.lengt--:%lu",(unsigned long)data.length);
+             YYLog(@"data.length--:%lu",(unsigned long)data.length);
          }
          
      } progress:^(NSProgress * _Nonnull uploadProgress)

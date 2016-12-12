@@ -17,4 +17,7 @@
 //图片截图  view指的是需要截屏的视图
 + (instancetype)imageWithCaptureView:(UIView *)view;
 
+/** 图片裁剪 */
++ (NSData *)reSizeImageData:(UIImage *)sourceImage maxImageSize:(CGFloat)maxImageSize maxSizeWithKB:(CGFloat) maxSize;
+
 @end
