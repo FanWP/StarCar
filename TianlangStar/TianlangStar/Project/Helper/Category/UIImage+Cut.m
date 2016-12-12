@@ -32,4 +32,67 @@
     return newImage;
 }
 
+
+
+
++ (UIImage *)compressImage:(UIImage *)sourceImage toTargetHeight:(CGFloat)targetHeight
+{
+    CGSize imageSize = sourceImage.size;
+    
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    
+    CGFloat targetWidth = (targetHeight / height) * width;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(targetWidth, targetHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, targetWidth, targetHeight)];
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+
+
++ (NSData *)compressImage:(UIImage *)image toMaxDataSizeKBytes:(CGFloat)size
+{
+    NSData * data = UIImageJPEGRepresentation(image, 1.0);
+    CGFloat dataKBytes = data.length / 1000.0;
+    CGFloat maxQuality = 0.9f;
+    CGFloat lastData = dataKBytes;
+    while (dataKBytes > size && maxQuality > 0.01f) {
+        maxQuality = maxQuality - 0.01f;
+        data = UIImageJPEGRepresentation(image, maxQuality);
+        dataKBytes = data.length / 1000.0;
+        if (lastData == dataKBytes) {
+            break;
+        }
+        else
+        {
+            lastData = dataKBytes;
+        }
+    }
+    return data;
+}
+
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

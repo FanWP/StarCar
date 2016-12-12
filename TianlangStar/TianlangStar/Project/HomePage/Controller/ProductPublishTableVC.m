@@ -253,13 +253,11 @@ typedef enum : NSUInteger {
              {
                  YYLog(@"遍历得到的图片数组%@",array);
                  
-                 for (WUAlbumAsset *image in array)
+                 for (WUAlbumAsset *imageset in array)
                  {
-                     YYLog(@"遍历得到的图片%@",image);
+                     UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
                      
-                     UIImage *getimage = [image imageWithOriginal];
-                     
-                     NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                     NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
                      
                      if (data != nil)
                      {
@@ -326,13 +324,11 @@ typedef enum : NSUInteger {
              {
                  YYLog(@"遍历得到的图片数组%@",array);
                  
-                 for (WUAlbumAsset *image in array)
+                 for (WUAlbumAsset *imageset in array)
                  {
-                     YYLog(@"遍历得到的图片%@",image);
+                     UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
                      
-                     UIImage *getimage = [image imageWithOriginal];
-                     
-                     NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                     NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
                      
                      if (data != nil)
                      {
@@ -406,13 +402,11 @@ typedef enum : NSUInteger {
              {
                  YYLog(@"遍历得到的图片数组%@",array);
                  
-                 for (WUAlbumAsset *image in array)
+                 for (WUAlbumAsset *imageset in array)
                  {
-                     YYLog(@"遍历得到的图片%@",image);
+                     UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
                      
-                     UIImage *getimage = [image imageWithOriginal];
-                     
-                     NSData *data = UIImageJPEGRepresentation(getimage, 0.5);
+                     NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
                      
                      if (data != nil)
                      {

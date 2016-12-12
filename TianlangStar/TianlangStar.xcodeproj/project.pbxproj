@@ -1448,7 +1448,7 @@
 				TargetAttributes = {
 					D705CEA31DC09BBF00F65BE0 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 5J97A4Q82Z;
+						DevelopmentTeam = QL2W84V672;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1895,11 +1895,11 @@
 				CODE_SIGN_ENTITLEMENTS = TianlangStar/TianlangStar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 5J97A4Q82Z;
+				DEVELOPMENT_TEAM = QL2W84V672;
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar.com;
+				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1914,11 +1914,11 @@
 				CODE_SIGN_ENTITLEMENTS = TianlangStar/TianlangStar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 5J97A4Q82Z;
+				DEVELOPMENT_TEAM = QL2W84V672;
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar.com;
+				PRODUCT_BUNDLE_IDENTIFIER = yysi.TianlangStar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
