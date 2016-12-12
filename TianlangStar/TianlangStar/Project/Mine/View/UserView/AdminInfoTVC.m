@@ -223,7 +223,6 @@
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
-         //         NSData *data = UIImageJPEGRepresentation(self.headerImg, 1);
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
          
          if (data != nil)

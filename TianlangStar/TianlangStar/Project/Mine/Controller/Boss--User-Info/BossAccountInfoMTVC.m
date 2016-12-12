@@ -564,16 +564,12 @@
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
-         NSData *data = UIImageJPEGRepresentation(self.headerImg, 1);
+         NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
          //拼接data
          if (data != nil)
          {
              parmas[@"oldheaderpic"]= self.userModel.headimage;
-//             UIImage *result = [UIImage imageWithData:data];
-//             while (data.length > 307000) {
-//                 data = UIImageJPEGRepresentation(result, 0.8);
-//                 result = [UIImage imageWithData:data];
-//             }
+
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
              
              YYLog(@"data.length--:%lu",(unsigned long)data.length);

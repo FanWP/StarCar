@@ -226,23 +226,8 @@
     
     [[AFHTTPSessionManager manager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
-        NSString *oldheaderpic = nil;
-        
-        if (self.carInfo.picture.length != 0 || self.carInfo.picture != nil)
-        {
-            NSRange range = [self.carInfo.picture rangeOfString:@"picture"];
-            
-            if (range.length != 0)
-            {
-                oldheaderpic = [self.carInfo.picture substringFromIndex:range.location];
-            }
-        }
-        
-        YYLog(@"oldheaderpic===%@",oldheaderpic);
-        
-        params[@"oldheaderpic"] = oldheaderpic;
-        
-        NSData *data = UIImageJPEGRepresentation(self.carImage, 0.5);
+        params[@"oldheaderpic"] = self.carInfo.picture;
+         NSData *data = [UIImage reSizeImageData:self.carImage maxImageSize:420 maxSizeWithKB:300];
         
         if (data != nil)
         {

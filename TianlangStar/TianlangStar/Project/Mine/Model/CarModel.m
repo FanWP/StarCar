@@ -45,10 +45,6 @@
 //}
 
 
--(NSString *)picture
-{
-    return [NSString stringWithFormat:@"%@%@",picURL,_picture];
-}
 
 
 @end

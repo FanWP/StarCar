@@ -139,20 +139,28 @@
 
 -(void)updataVIPInfo
 {
-    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-    
+    parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"discount1"] = self.VIP.vip1;
     parmas[@"discount2"] = self.VIP.vip2;
     parmas[@"discount3"] = self.VIP.vip3;
     parmas[@"discount4"] = self.VIP.vip4;
     parmas[@"discount5"] = self.VIP.vip5;
+    
 
     YYLog(@"parmas---%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@update/vip/level/info",URL];
     [HttpTool post:url parmas:parmas success:^(id json) {
         YYLog(@"更新优惠信息json%@",json);
+        NSNumber *num = json[@"resultCode"];
+        if ([num integerValue] == 1000)
+        {
+            [SVProgressHUD showSuccessWithStatus:@"更改成功！"];
+        }
+        
+        
+        
     } failure:^(NSError *error) {
         YYLog(@"更新优惠信息error%@",error);
     }];

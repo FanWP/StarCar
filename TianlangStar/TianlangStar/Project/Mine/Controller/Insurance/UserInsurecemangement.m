@@ -359,7 +359,7 @@ typedef enum : NSUInteger {
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
-         NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
+         NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
          
          if (data != nil)
          {
