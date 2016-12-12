@@ -63,7 +63,6 @@
 
         
         
-        
         CGFloat chatButtonX = (carNameLabelX + 0.6 * carNameLabelWidth);
         self.chatButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         self.chatButton.frame = CGRectMake(chatButtonX, buytimeLabelY + Klength20, 0.4 * carNameLabelWidth, Klength30);
@@ -71,7 +70,7 @@
         [self.chatButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         [self.chatButton.titleLabel setFont:Font14];
         self.chatButton.layer.cornerRadius = BtncornerRadius;
-        [self.chatButton setTitle:@"立即咨询" forState:(UIControlStateNormal)];        
+        [self.chatButton setTitle:@"立即咨询" forState:(UIControlStateNormal)];
         
         
         

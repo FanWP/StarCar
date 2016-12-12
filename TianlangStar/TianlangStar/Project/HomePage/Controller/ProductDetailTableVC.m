@@ -102,80 +102,89 @@
     
     [self addFooterView];
     
-    if ([self.title isEqualToString:@"商品详情"])//商品
-    {
-        YYLog(@"_productModel.brand::%@",_productModel.brand);
-        
-        self.productId = _productModel.ID;
-        
-        self.price = _productModel.price;
-        
-        self.productType = 1;
-        
-        NSString *images = _productModel.images;
-        
-        NSArray *array = [images componentsSeparatedByString:@","];
-        
-        for (NSInteger i = 0; i < array.count - 1; i++)
-        {
-            NSString *pic = array[i];
-            
-            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-            
-            [_imagesArray addObject:image];
-        }
+    [self fetchData];
+    
+}
 
-    }
-    else if ([self.title isEqualToString:@"保养维护详情"])
-    {
-        self.productId = _serviceModel.ID;
-        
-        self.price = _serviceModel.price;
-        
-        self.productType = 2;
-        
-        NSString *images = _serviceModel.images;
-        
-        NSArray *array = [images componentsSeparatedByString:@","];
-        
-        for (NSInteger i = 0; i < array.count - 1; i++)
-        {
-            NSString *pic = array[i];
-            
-            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-            
-            [_imagesArray addObject:image];
-        }
 
-    }
-    else
-    {
-        self.productId = _carModel.ID;
-        
-        self.telNum = _carModel.telephone;
-        
-        YYLog(@"_carModel.carDescription::--------- %@",_carModel.carDescription);
-        
-        NSString *images = _carModel.images;
-        
-        self.price = _carModel.price;
-        
-        NSArray *array = [images componentsSeparatedByString:@","];
-        
-        for (NSInteger i = 0; i < array.count - 1; i++)
-        {
-            NSString *pic = array[i];
-            
-            NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-            
-            [_imagesArray addObject:image];
-        }
 
+- (void)fetchData
+{    if ([self.title isEqualToString:@"商品详情"])//商品
+{
+    YYLog(@"_productModel.brand::%@",_productModel.brand);
+    
+    self.productId = _productModel.ID;
+    
+    self.price = _productModel.price;
+    
+    self.productType = 1;
+    
+    NSString *images = _productModel.images;
+    
+    NSArray *array = [images componentsSeparatedByString:@","];
+    
+    for (NSInteger i = 0; i < array.count - 1; i++)
+    {
+        NSString *pic = array[i];
+        
+        NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+        
+        [_imagesArray addObject:image];
     }
+    
+}
+else if ([self.title isEqualToString:@"保养维护详情"])
+{
+    self.productId = _serviceModel.ID;
+    
+    self.price = _serviceModel.price;
+    
+    self.productType = 2;
+    
+    NSString *images = _serviceModel.images;
+    
+    NSArray *array = [images componentsSeparatedByString:@","];
+    
+    for (NSInteger i = 0; i < array.count - 1; i++)
+    {
+        NSString *pic = array[i];
+        
+        NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+        
+        [_imagesArray addObject:image];
+    }
+    
+}
+else
+{
+    self.productId = _carModel.ID;
+    
+    self.telNum = _carModel.telephone;
+    
+    YYLog(@"_carModel.carDescription::--------- %@",_carModel.carDescription);
+    
+    NSString *images = _carModel.images;
+    
+    self.price = _carModel.price;
+    
+    NSArray *array = [images componentsSeparatedByString:@","];
+    
+    for (NSInteger i = 0; i < array.count - 1; i++)
+    {
+        NSString *pic = array[i];
+        
+        NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+        
+        [_imagesArray addObject:image];
+    }
+    
+}
     
     
     [self creatHeaderView];
+
 }
+
 
 
 
