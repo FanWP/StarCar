@@ -127,6 +127,16 @@ typedef enum : NSUInteger {
 
 
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+}
+
+
+
+
 - (void)creatTitleView
 {
     self.segment = [[UISegmentedControl alloc] initWithItems:@[@"商品",@"服务",@"二手车"]];
@@ -280,13 +290,23 @@ typedef enum : NSUInteger {
              {
                  [[AlertView sharedAlertView] addAfterAlertMessage:@"商品入库成功" title:@"提示"];
                  
-                 [SVProgressHUD dismiss];
+                 [_bottomView removeFromSuperview];
+                 
+                 [self creatAddImagesView];
+                 
+                 self.productModel = nil;
+                 
+                 [self.tableView reloadData];
                  
              }
+             
+             [SVProgressHUD dismiss];
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
              YYLog(@"商品入库错误：%@",error);
+             
+             [SVProgressHUD dismiss];
          }];
     }
     else
@@ -356,6 +376,16 @@ typedef enum : NSUInteger {
              {
                  [[AlertView sharedAlertView] addAfterAlertMessage:@"服务入库成功" title:@"提示"];
                  
+                 [_bottomView removeFromSuperview];
+                 
+                 [self creatAddImagesView];
+                 
+                 self.serviceModel = nil;
+                 
+                 self.warranty = @"";
+                 
+                 [self.tableView reloadData];
+                 
              }
              
              [SVProgressHUD dismiss];
@@ -363,6 +393,8 @@ typedef enum : NSUInteger {
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
              YYLog(@"服务入库错误：%@",error);
+             
+             [SVProgressHUD dismiss];
              
          }];
     }
@@ -437,12 +469,24 @@ typedef enum : NSUInteger {
              {
                  [[AlertView sharedAlertView] addAfterAlertMessage:@"二手车入库成功" title:@"提示"];
                  
-                 [SVProgressHUD dismiss];
+                 [_bottomView removeFromSuperview];
+                 
+                 [self creatAddImagesView];
+                 
+                 self.carModel = nil;
+                 
+                 self.buytime = @"";
+                 
+                 [self.tableView reloadData];
              }
+             
+             [SVProgressHUD dismiss];
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
              YYLog(@"二手车入库错误：%@",error);
+             
+             [SVProgressHUD dismiss];
              
          }];
     }

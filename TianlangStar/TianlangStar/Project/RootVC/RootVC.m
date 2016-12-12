@@ -24,6 +24,8 @@
     [super viewDidLoad];
     
     [self setTabBarController];// 给TabBarController添加4个子控制器
+    
+    [self setupAPPKEY];
 }
 
 
@@ -80,6 +82,25 @@
 //    shoppingCartVC.view.backgroundColor = [UIColor orangeColor];
 //    mineVC.view.backgroundColor = [UIColor orangeColor];
 }
+
+
+
+
+- (void)setupAPPKEY
+{
+#pragma mark - 第三方
+//    [UMSocialData setAppKey:@"5808888dae1bf83e270005d6"];
+//    
+//    // 集成QQ开关
+//    [UMSocialQQHandler setQQWithAppId:@"1105841792" appKey:@"clhyflMQx3CAjh56" url:@"http://www.umeng.com/social"];
+//    
+//    // 集成新浪微博开关
+//    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"1881878869" secret:@"4b152da06776868de5ff12e096b8a614" RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+//    
+//    // 集成微信开关
+//    [UMSocialWechatHandler setWXAppId:@"wx14d4924c758a456b" appSecret:@"13c89352ac91d0cc27929facac0f1c2c" url:@"http://www.umeng.com/social"];
+}
+
 
 
 

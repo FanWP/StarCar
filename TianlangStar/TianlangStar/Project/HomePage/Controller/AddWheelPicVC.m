@@ -133,6 +133,10 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
         if (resultCode == 1000)
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"添加轮播图成功" title:@"提示"];
+            
+            [_bottomView removeFromSuperview];
+            
+            [self creatWeelView];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
