@@ -177,6 +177,12 @@ typedef enum : NSUInteger {
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"添加成功" title:@"提示"];
             
+            [_bottomView removeFromSuperview];
+            
+            _activityModel = nil;
+                        
+            [self creatHeaderView];
+            
         }
         else
         {

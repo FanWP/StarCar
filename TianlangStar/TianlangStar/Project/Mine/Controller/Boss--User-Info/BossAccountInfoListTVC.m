@@ -49,10 +49,6 @@
 
 - (void)exportExcelAction
 {
-//    http://192.168.1.116:8080/exportfileuserinfoservlet
-//    
-//    http://192.168.1.116:8080/carservice/exportfileuserinfoservlet
-    
     NSString *url = [NSString stringWithFormat:@"%@exportfileuserinfoservlet",URL];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -69,40 +65,32 @@
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
         if (resultCode == 1000)
-        {
-            YYLog(@"导出excel");
-            
+        {            
             NSString *obj = responseObject[@"body"];
             
             YYLog(@"http://192.168.1.116:8080/%@",obj);
             
-            NSString *objString = [NSString stringWithFormat:@"http://192.168.1.116:8080/%@",obj];
+            NSString *url = [NSString stringWithFormat:@"http://192.168.1.116:8080/%@",obj];
             
-            NSURL *uRL = [NSURL URLWithString:objString];
+            NSString *shareText = @"客户信息表：";
             
-            NSURLRequest *request = [NSURLRequest requestWithURL:uRL cachePolicy:0 timeoutInterval:60];
-            
-            NSURLSession *session = [NSURLSession sharedSession];
-            
-            NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                
-                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                
-            }];
-            
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否导出" message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
+//            [UMSocialData defaultData].extConfig.title = @"天狼星";
 //            
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:obj style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+//            [UMSocialSnsService presentSnsIconSheetView:self appKey:@"5808888dae1bf83e270005d6" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone] delegate:self];
+//            
+//            [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ,UMShareToQzone,UMShareToSina,UMShareToTencent,UMShareToWechatFavorite,UMShareToWechatSession,UMShareToWechatTimeline] content:nil image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
 //                
+//                if (response.responseCode == UMSResponseCodeSuccess)   {
+//                    
+//                    NSString *url = [NSString stringWithFormat:@"%@sharing/fx.htm",URLhttps];
+//                    
+//                    [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
+//                    [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
+//                    [UMSocialData defaultData].extConfig.qqData.url = url;
+//                    [UMSocialData defaultData].extConfig.qzoneData.url = url;
+//                    [UMSocialData defaultData].extConfig.sinaData.urlResource.url = url ;
+//                }
 //            }];
-//            
-//            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
-//            
-//            [alert addAction:okAction];
-//            [alert addAction:cancleAction];
-//            
-//            [self presentViewController:alert animated:YES completion:nil];
-            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
