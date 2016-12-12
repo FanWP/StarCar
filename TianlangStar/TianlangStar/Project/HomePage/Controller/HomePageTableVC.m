@@ -77,7 +77,7 @@
     
     [super viewDidLoad];
     
-    [self fetchHomePageData];// 获取首页数据
+    
     
     [self fetchProductInfoWithType:1];
     
@@ -85,6 +85,16 @@
     
     [self pullOnLoading];
     
+}
+
+
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self fetchHomePageData];// 获取首页数据
 }
 
 
@@ -120,8 +130,9 @@
                 for (NSInteger i = 0; i < imagesArray.count; i++)
                 {
                     NSString *pic = imagesArray[i];
+                    
                     NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-                    YYLog(@"轮播图图片大小：%ld",[image length]);
+                    
                     [self.ImgList addObject:image];
                 }
                 
@@ -149,8 +160,6 @@
     {
         YYLog(@"首页返回错误: %@",error);
     }];
-    
-
 }
 
 

@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self fetchAllCollectionDataWithType:1];
+    
     self.tableView.rowHeight = 0.2 * KScreenWidth + 2 * Klength5;
     
     [self creatTitleView];
@@ -121,8 +123,20 @@
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     NSString *collectionType = [NSString stringWithFormat:@"%ld",type];
-    parameters[@"currentPage"] = @(1);
-    parameters[@"type"] = collectionType;
+    parameters[@"currentPage"] = @(0);
+//    if ([self.title isEqualToString:@"保养维护详情"])
+//    {
+//        type = 2;
+//    }
+//    else if ([self.title isEqualToString:@"商品详情"])
+//    {
+//        type = 1;
+//    }
+//    else
+//    {
+//        type = 3;
+//    }
+    parameters[@"type"] = @(type);
     
     YYLog(@"sessionid===%@",sessionid);
     YYLog(@"获取指定用户的全部收藏物的parameters===%@",parameters);
@@ -168,7 +182,7 @@
 {
     [super viewWillAppear:animated];
     
-    [self fetchAllCollectionDataWithType:1];
+    
     
 //    [self creatCartAndCancleCollection];
     
@@ -316,7 +330,7 @@
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     parameters[@"productid"] = @"1";
-    parameters[@"type"] = @"1";// 1:物品 2:服务
+    parameters[@"type"] = @(type);// 1:物品 2:服务
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         

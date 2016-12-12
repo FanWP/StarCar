@@ -103,7 +103,6 @@
     [self addFooterView];
     
     [self fetchData];
-    
 }
 
 
