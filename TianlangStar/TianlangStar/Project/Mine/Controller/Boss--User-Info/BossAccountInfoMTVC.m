@@ -89,6 +89,12 @@
     }
 }
 
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [SVProgressHUD dismiss];
+}
+
 /** 获取当前用户名下对应的车辆 */
 -(void)setupCarInfoData
 {
@@ -562,6 +568,8 @@
     
     YYLog(@"修改账户信息---parmas%@url---:%@",parmas,url);
     
+    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
@@ -569,7 +577,7 @@
          if (data != nil)
          {
              parmas[@"oldheaderpic"]= self.userModel.headimage;
-
+             
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
              
              YYLog(@"data.length--:%lu",(unsigned long)data.length);
@@ -579,6 +587,8 @@
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+         
+         [SVProgressHUD dismiss];
          YYLog(@"responseObject---%@",responseObject);
          
          NSNumber *num = responseObject[@"resultCode"];
@@ -595,6 +605,7 @@
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          YYLog(@"error---%@",error);
+         [SVProgressHUD dismiss];
      }];
 }
 

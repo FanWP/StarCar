@@ -62,6 +62,14 @@
 }
 
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+    
+}
+
 
 
 -(void)setupControl
@@ -221,6 +229,11 @@
     NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
     YYLog(@"parmas----%@",parmas);
     
+    
+//    [SVProgressHUD showWithStatus:@"数据提交中，请稍后！"];
+    
+    [SVProgressHUD show];
+    
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
@@ -237,6 +250,7 @@
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"responseObject---%@",responseObject);
          NSNumber *num = responseObject[@"resultCode"];
          if ([num integerValue] == 1000)
@@ -259,6 +273,7 @@
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          YYLog(@"error---%@",error);
+                  [SVProgressHUD dismiss];
      }];
     
     

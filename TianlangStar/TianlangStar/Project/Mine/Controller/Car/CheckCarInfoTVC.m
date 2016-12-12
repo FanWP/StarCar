@@ -78,6 +78,12 @@ typedef enum : NSUInteger {
 
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+}
+
 
 -(void)addCoverView
 {
@@ -143,19 +149,7 @@ typedef enum : NSUInteger {
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
         parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"id"] = self.carModel.cid;
-
-        NSString *oldheaderpic = nil;
-        //传入为空的话
-        if (self.carModel.picture.length != 0 || self.carModel.picture != nil)
-        {
-            NSRange rangge = [self.carModel.picture rangeOfString:@"picture"];
-            
-            if (rangge.length !=0)
-            {
-                oldheaderpic = [self.carModel.picture substringFromIndex:rangge.location];
-            }
-        };
-        parmas[@"oldheaderpic"] = oldheaderpic;
+        parmas[@"oldheaderpic"] = self.carModel.picture;
 
         YYLog(@"parmas--删除车辆%@",parmas);
         
@@ -323,26 +317,15 @@ typedef enum : NSUInteger {
 //            return;
 //        }
     
-    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.carImage maxImageSize:420 maxSizeWithKB:300];
          
          if (data != nil)
          {
-             NSString *oldheaderpic = nil;
-             //传入为空的话
-             if (self.carModel.picture.length != 0 || self.carModel.picture != nil)
-             {
-                 NSRange rangge = [self.carModel.picture rangeOfString:@"picture"];
-                 
-                 if (rangge.length !=0)
-                 {
-                     oldheaderpic = [self.carModel.picture substringFromIndex:rangge.location];
-                 }
-                 parameters[@"oldheaderpic"] = oldheaderpic;
-             }
-             
+             parameters[@"oldheaderpic"] = self.carModel.picture;
+
              [formData appendPartWithFileData:data name:@"picture" fileName:@"img.jpg" mimeType:@"image/jpeg"];
          }
          
@@ -350,6 +333,7 @@ typedef enum : NSUInteger {
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"修改爱车返回：%@",responseObject);
          
          NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -362,6 +346,7 @@ typedef enum : NSUInteger {
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"添加爱车错误：%@",error);
+         [SVProgressHUD dismiss];
      }];
     
     
@@ -433,9 +418,8 @@ typedef enum : NSUInteger {
         }
         else
         {
-            
-            
-            [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:self.carModel.picture] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+
+            [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,self.carModel.picture]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
         }
         return cell;
     }else if (indexPath.section == 1)

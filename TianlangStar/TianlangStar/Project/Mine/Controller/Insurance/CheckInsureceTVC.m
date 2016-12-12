@@ -62,6 +62,12 @@ typedef enum : NSUInteger {
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+}
+
 -(NSArray *)leftArr
 {
     if (!_leftArr) {
@@ -174,6 +180,8 @@ typedef enum : NSUInteger {
     YYLog(@"parmas---更新数据%@",parmas);
     NSString *url = [NSString stringWithFormat:@"%@upload/updateadmininsuranceservlet",URL];
     
+    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
@@ -189,6 +197,7 @@ typedef enum : NSUInteger {
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"修改保险信息返回返回：%@",responseObject);
          
          NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -203,6 +212,7 @@ typedef enum : NSUInteger {
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"修改保险错误：%@",error);
      }];
 

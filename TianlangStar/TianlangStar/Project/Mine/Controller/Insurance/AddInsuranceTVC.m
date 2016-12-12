@@ -66,7 +66,14 @@ typedef enum : NSUInteger {
     [self addDatePIcker];
     
     [self addRightBar];
-    
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+
 }
 
 -(NSArray *)leftArr
@@ -178,6 +185,8 @@ typedef enum : NSUInteger {
     YYLog(@"parmas---添加保险信息%@",parmas);
     NSString *url = [NSString stringWithFormat:@"%@upload/addinsuranceservlet",URL];
     
+    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
@@ -194,6 +203,7 @@ typedef enum : NSUInteger {
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          YYLog(@"添加保险信息返回返回：%@",responseObject);
+         [SVProgressHUD dismiss];
          
          NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
          
@@ -210,6 +220,7 @@ typedef enum : NSUInteger {
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"修改保险错误：%@",error);
+         [SVProgressHUD dismiss];
      }];
     
 }

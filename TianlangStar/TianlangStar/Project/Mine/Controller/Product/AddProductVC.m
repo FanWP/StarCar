@@ -110,6 +110,7 @@
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
 
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager]POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
         UIImage *image1 = [UIImage imageNamed:@"homePage_normal"];
@@ -134,9 +135,15 @@
     {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-    {
-        YYLog(@"添加商品responseObject--%@",responseObject);
-        NSNumber *num = responseObject[@"resultCode"];
+     {
+         [SVProgressHUD dismiss];
+         YYLog(@"添加商品responseObject--%@",responseObject);
+         NSNumber *num = responseObject[@"resultCode"];
+         
+         if ([num integerValue] == 1000)
+         {
+             [SVProgressHUD showSuccessWithStatus:@"添加成功！"];
+         }
 
         
         

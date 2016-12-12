@@ -88,8 +88,10 @@
     {
         [self setupCarInfoData];
     }
-
-
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [SVProgressHUD dismiss];
 }
 
 
@@ -554,6 +556,7 @@
     NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
     YYLog(@"parmas----%@----url:%@",parmas,url);
     
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
@@ -567,6 +570,7 @@
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
          
+         [SVProgressHUD dismiss];
          YYLog(@"responseObject---%@",responseObject);
          
          NSNumber *num = responseObject[@"resultCode"];
@@ -582,6 +586,7 @@
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          YYLog(@"error---%@",error);
+         [SVProgressHUD dismiss];
      }];
     
 }

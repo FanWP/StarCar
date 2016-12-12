@@ -62,6 +62,13 @@
     [self addDatePIcker];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [SVProgressHUD dismiss];
+}
+
 
 /**
  *  添加时间选择器
@@ -224,6 +231,8 @@
     NSString *url = [NSString stringWithFormat:@"%@upload/updatecarinfoservlet",URL];
     YYLog(@"params----%@",params);
     
+    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
         params[@"oldheaderpic"] = self.carInfo.picture;
@@ -239,11 +248,13 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
+        [SVProgressHUD dismiss];
         YYLog(@"修改车辆信息返回：%@",responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"修改车辆信息错误：%@",error);
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -300,7 +311,7 @@
         }
         else
         {
-            NSString *pic = [NSString stringWithFormat:@"%@",self.carInfo.picture];
+            NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,self.carInfo.picture];
             [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:pic]];
         }
         
