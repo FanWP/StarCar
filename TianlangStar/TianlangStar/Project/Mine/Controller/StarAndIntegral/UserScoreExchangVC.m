@@ -301,6 +301,8 @@
         }else if ([phoneTF.text isEqualToString:[UserInfo sharedUserInfo].username]){//判断是否是本人的手机号
 //            [[AlertView sharedAlertView] addAfterAlertMessage:@"积分、星币不能转增给自己！" title:@"提示"];
             [[AlertView sharedAlertView]addAlertMessage:@"积分、星币不能转赠给自己！" title:@"提示"];
+            //清空接收人的数据
+            phoneTF.text = nil;
             return;
         }
         else

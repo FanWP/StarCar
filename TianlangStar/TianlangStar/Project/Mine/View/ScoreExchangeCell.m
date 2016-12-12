@@ -99,6 +99,7 @@
 
         //设置箭头
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.selectionStyle = UITableViewCellEditingStyleNone;
  
     }
     return self;

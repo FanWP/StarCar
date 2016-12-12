@@ -550,40 +550,40 @@
     
     YYLog(@"parmas------%@",parmas);
     
-    if (self.headerImg)
-    {
-        parmas[@"oldheaderpic"] = self.userModel.headimage;
-        NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
-        YYLog(@"parmas----%@",parmas);
-        
-        [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    parmas[@"oldheaderpic"] = self.userModel.headimage;
+    NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
+    YYLog(@"parmas----%@----url:%@",parmas,url);
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+     {
+         NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
+         //拼接data
+         if (data != nil)
          {
-             NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
-             //拼接data
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-             
-         } progress:^(NSProgress * _Nonnull uploadProgress) {
-             
-         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             
-             
-             YYLog(@"responseObject---%@",responseObject);
-             
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             YYLog(@"error---%@",error);
-         }];
-    }
-    else
-    {
-        NSString *url = [NSString stringWithFormat:@"%@updateowninfoservlet",URL];
-        [HttpTool post:url parmas:parmas success:^(id json)
+         }
+         
+     } progress:^(NSProgress * _Nonnull uploadProgress) {
+         
+     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+         
+         YYLog(@"responseObject---%@",responseObject);
+         
+         NSNumber *num = responseObject[@"resultCode"];
+         
+         if ([num integerValue] == 1000)//保存数据
          {
-             YYLog(@"json---%@",json);
-         } failure:^(NSError *error)
-         {
-             YYLog(@"error--%@",error);
-         }];
-    }
+             UserInfo *userInfo = [UserInfo sharedUserInfo];
+             UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
+             userInfo.headerpic = model.headimage;
+             [userInfo synchronizeToSandBox];
+         }
+         
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         YYLog(@"error---%@",error);
+     }];
+    
 }
 
 
