@@ -121,6 +121,7 @@
                 {
                     NSString *pic = imagesArray[i];
                     NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+                    YYLog(@"轮播图图片大小：%ld",[image length]);
                     [self.ImgList addObject:image];
                 }
                 

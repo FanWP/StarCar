@@ -144,9 +144,9 @@ typedef enum : NSUInteger {
         {
             for (WUAlbumAsset *imageset in array)
             {
-                UIImage *image = [imageset imageWithOriginal];
+                UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
                 
-                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
                 
                 if (data != nil)
                 {

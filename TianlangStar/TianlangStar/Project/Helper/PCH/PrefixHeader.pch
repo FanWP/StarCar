@@ -167,7 +167,7 @@
 
 
 
-
+#import "UIImage+Cut.h"
 
 #import "UITableViewCell+AdjustHeight.h"
 

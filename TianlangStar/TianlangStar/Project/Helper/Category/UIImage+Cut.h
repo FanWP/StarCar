@@ -13,4 +13,8 @@
 // 图片裁剪,把图片裁剪为圆形  name是图片的名称
 + (instancetype)imageWithName:(NSString *)name;
 
++ (UIImage *)compressImage:(UIImage *)sourceImage toTargetHeight:(CGFloat)targetHeight;
+
++ (NSData *)compressImage:(UIImage *)image toMaxDataSizeKBytes:(CGFloat)size;
+
 @end

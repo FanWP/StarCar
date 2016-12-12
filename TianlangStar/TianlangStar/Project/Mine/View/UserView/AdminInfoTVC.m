@@ -224,21 +224,18 @@
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = UIImageJPEGRepresentation(self.headerImg, 1);
+         YYLog(@"data.length---:%lu",(unsigned long)data.length);
          
          if (data != nil)
          {
              parmas[@"headimage"] = self.userModel.headimage;
              //拼接data
              UIImage *result = [UIImage imageWithData:data];
-
+             
              data = [WUAlbumAsset compressionWithImage:result];
              
-//
-//             while (data.length > 307000)
-//             {
-//                 data = UIImageJPEGRepresentation(result, 0.8);
-//                 result = [UIImage imageWithData:data];
-//             }
+             YYLog(@"data.length---:%lu",(unsigned long)data.length);
+
              
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
              
@@ -263,7 +260,6 @@
              userInfo.viplevel = model.viplevel;
              userInfo.username = model.username;
              userInfo.discount = model.discount;
-             
              [userInfo synchronizeToSandBox];
              
              YYLog(@"%@",model.username);

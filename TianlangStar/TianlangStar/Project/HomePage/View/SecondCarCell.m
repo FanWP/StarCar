@@ -24,6 +24,8 @@
         CGFloat pictureViewWidth = 0.4 * KScreenWidth;
         CGFloat pictureViewHeight = 97;
         self.pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(pictureViewX, pictureViewY, pictureViewWidth, pictureViewHeight)];
+        self.pictureView.contentMode = UIViewContentModeScaleAspectFill;
+        self.pictureView.layer.masksToBounds = YES;
         [self.contentView addSubview:self.pictureView];
         
         
@@ -61,7 +63,6 @@
 
         
         
-        
         CGFloat chatButtonX = (carNameLabelX + 0.6 * carNameLabelWidth);
         self.chatButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         self.chatButton.frame = CGRectMake(chatButtonX, buytimeLabelY + Klength20, 0.4 * carNameLabelWidth, Klength30);
@@ -70,8 +71,6 @@
         [self.chatButton.titleLabel setFont:Font14];
         self.chatButton.layer.cornerRadius = BtncornerRadius;
         [self.chatButton setTitle:@"立即咨询" forState:(UIControlStateNormal)];
-//        [self.contentView addSubview:self.chatButton];
-        
         
         
         

@@ -69,7 +69,6 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"上传" style:(UIBarButtonItemStylePlain) target:self action:@selector(finishAction)];
     
-    YYLog(@"uiersgkylv;/'jO:");
 }
 
 
@@ -102,9 +101,9 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
         {
             for (WUAlbumAsset *imageset in array)
             {
-                UIImage *image = [imageset imageWithOriginal];
+                UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
                 
-                NSData *data = UIImageJPEGRepresentation(image, 0.5);
+                NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300 * 1024];
                 
                 if (data != nil)
                 {

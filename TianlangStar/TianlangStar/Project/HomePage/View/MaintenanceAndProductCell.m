@@ -23,6 +23,8 @@
         CGFloat pictureViewWidth = 0.4 * KScreenWidth;
         CGFloat pictureViewHeight = 97;
         self.pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(pictureViewX, pictureViewY, pictureViewWidth, pictureViewHeight)];
+        self.pictureView.contentMode = UIViewContentModeScaleAspectFill;
+        self.pictureView.layer.masksToBounds = YES;
         [self.contentView addSubview:self.pictureView];
         
         
