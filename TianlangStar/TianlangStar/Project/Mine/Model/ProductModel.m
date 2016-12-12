@@ -46,7 +46,7 @@
         introduction = @"";
     }else
     {
-        introduction = _introduction;
+        introduction = _remark;
     }
     return introduction;
 }

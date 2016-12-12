@@ -18,11 +18,7 @@
 /** 导航控制器 */
 @property (nonatomic,strong) UINavigationController *nav;
 
-// 积分数量
-@property (nonatomic,strong) UIButton *scoreCountButton;
 
-// 星币数量
-@property (nonatomic,strong) UIButton *moneyCountButton;
 
 // 线
 @property (nonatomic,strong) UIView *lineView;
@@ -118,6 +114,12 @@
         //星币积分的宽度
         CGFloat buttonW = 75;
         CGFloat buttonX = 50;
+        
+        if (KScreenWidth > 400 && KScreenWidth < 420) {//plus
+            buttonW = 90;
+            buttonX = 80;
+        }
+        
         //星币
         self.moneyButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
         [self.moneyButton setTitle:@"0" forState:(UIControlStateNormal)];

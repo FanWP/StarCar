@@ -306,16 +306,32 @@
     if (USERType == 1 || USERType == 0)//管理员
     {
         [self addGroupAdmin];
+        
+        self.userCommonView.moneyButton.hidden = YES;
+        self.userCommonView.scoreButton.hidden = YES;
+        
+        self.userCommonView.scoreCountButton.y = 100;
+        self.userCommonView.moneyCountButton.y = 100;
+        
+        
     }else if (USERType == 2)//普通用户
     {
+        self.userCommonView.moneyButton.hidden = NO;
+        self.userCommonView.scoreButton.hidden = NO;
+        
+        self.userCommonView.scoreCountButton.y = 110;
+        self.userCommonView.moneyCountButton.y = 110;
+        
         [self addGroupCustomer];
+        
+        //获取积分余额----顶部个人头像
+        [self getAccountBalance];
+        
+        [self getAccountBalanceScore];
     }
     [self.tableView reloadData];
     
-    //获取积分余额----顶部个人头像
-    [self getAccountBalance];
-    
-    [self getAccountBalanceScore];
+
 
 }
 

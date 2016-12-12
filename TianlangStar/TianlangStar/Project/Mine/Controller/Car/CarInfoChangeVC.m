@@ -62,6 +62,13 @@
     [self addDatePIcker];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [SVProgressHUD dismiss];
+}
+
 
 /**
  *  添加时间选择器
@@ -224,25 +231,12 @@
     NSString *url = [NSString stringWithFormat:@"%@upload/updatecarinfoservlet",URL];
     YYLog(@"params----%@",params);
     
+    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
-        NSString *oldheaderpic = nil;
-        
-        if (self.carInfo.picture.length != 0 || self.carInfo.picture != nil)
-        {
-            NSRange range = [self.carInfo.picture rangeOfString:@"picture"];
-            
-            if (range.length != 0)
-            {
-                oldheaderpic = [self.carInfo.picture substringFromIndex:range.location];
-            }
-        }
-        
-        YYLog(@"oldheaderpic===%@",oldheaderpic);
-        
-        params[@"oldheaderpic"] = oldheaderpic;
-        
-        NSData *data = UIImageJPEGRepresentation(self.carImage, 0.5);
+        params[@"oldheaderpic"] = self.carInfo.picture;
+         NSData *data = [UIImage reSizeImageData:self.carImage maxImageSize:420 maxSizeWithKB:300];
         
         if (data != nil)
         {
@@ -254,11 +248,13 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
+        [SVProgressHUD dismiss];
         YYLog(@"修改车辆信息返回：%@",responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"修改车辆信息错误：%@",error);
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -315,7 +311,7 @@
         }
         else
         {
-            NSString *pic = [NSString stringWithFormat:@"%@",self.carInfo.picture];
+            NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,self.carInfo.picture];
             [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:pic]];
         }
         

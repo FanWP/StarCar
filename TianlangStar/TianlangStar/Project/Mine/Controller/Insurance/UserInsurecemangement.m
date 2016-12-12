@@ -79,9 +79,15 @@ typedef enum : NSUInteger {
     [self addRightBar];
     
     [self addDatePIcker];
-    
-    
-    
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+
 }
 
 
@@ -293,6 +299,7 @@ typedef enum : NSUInteger {
     YYLog(@"parmas---添加较强险信息%@",parmas);
     NSString *url = [NSString stringWithFormat:@"%@upload/addinsuranceservlet",URL];
     
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
@@ -308,6 +315,7 @@ typedef enum : NSUInteger {
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"添加保险信息返回返回：%@",responseObject);
          
          NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -325,6 +333,7 @@ typedef enum : NSUInteger {
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"修改保险错误：%@",error);
+         [SVProgressHUD dismiss];
      }];
     
 }
@@ -357,9 +366,11 @@ typedef enum : NSUInteger {
     NSString *url = [NSString stringWithFormat:@"%@upload/updateadmininsuranceservlet",URL];
     YYLog(@"parmas---更新数据%@,url--:%@",parmas,url);
     
+        
+        [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
-         NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
+         NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
          
          if (data != nil)
          {
@@ -372,6 +383,7 @@ typedef enum : NSUInteger {
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"添加爱车返回：%@",responseObject);
          
          NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -384,6 +396,7 @@ typedef enum : NSUInteger {
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"添加爱车错误：%@",error);
+         [SVProgressHUD dismiss];
      }];
     }
     

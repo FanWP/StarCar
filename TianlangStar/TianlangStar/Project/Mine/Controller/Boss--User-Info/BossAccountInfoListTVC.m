@@ -113,6 +113,13 @@
 }
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self loadNewUserInfoData];
+}
+
+
 
 #pragma mark====== 增加上下拉功能======
 -(void)setupRefresh
@@ -238,7 +245,7 @@
          if (arr.count > 0)
          {
              self.currentPage++;
-             self.allPeopleArray = [NSMutableArray arrayWithArray:arr];
+             [self.allPeopleArray addObjectsFromArray:arr];
          }
          //刷新数据
          [self.tableView reloadData];

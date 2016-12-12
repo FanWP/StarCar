@@ -101,6 +101,7 @@ typedef enum : NSUInteger {
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
     
     [self.finishView removeFromSuperview];
 }
@@ -158,9 +159,10 @@ typedef enum : NSUInteger {
     }
     else
     {
+        [SVProgressHUD show];
         [[AFHTTPSessionManager manager] POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
-             NSData *data = UIImageJPEGRepresentation(self.carImage, 0.5);
+         NSData *data = [UIImage reSizeImageData:self.carImage maxImageSize:420 maxSizeWithKB:300];
              
              if (data != nil)
              {
@@ -173,11 +175,13 @@ typedef enum : NSUInteger {
          {
              YYLog(@"添加爱车返回：%@",responseObject);
              
+             [SVProgressHUD dismiss];
              NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
              
              if (resultCode == 1000)
              {
-                 [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
+//                 [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
+                 [SVProgressHUD showSuccessWithStatus:@"添加爱车成功！"];
                  
                  //调用代理
                  if ([self.delegate respondsToSelector:@selector(addCarInfoSuccess)])
@@ -191,6 +195,7 @@ typedef enum : NSUInteger {
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
              YYLog(@"添加爱车错误：%@",error);
+             [SVProgressHUD dismiss];
          }];
     }
 }

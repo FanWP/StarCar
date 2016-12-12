@@ -87,6 +87,13 @@ typedef enum : NSUInteger {
 }
 
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+}
+
 
 /**
  *  添加时间选择器
@@ -241,9 +248,11 @@ typedef enum : NSUInteger {
     NSString *url = [NSString stringWithFormat:@"%@upload/carinforegistservlet",URL];
     YYLog(@"我的车辆信息登记params----%@",params);
     
+    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
-        NSData *data = UIImageJPEGRepresentation(self.carImage, 0.5);
+         NSData *data = [UIImage reSizeImageData:self.carImage maxImageSize:420 maxSizeWithKB:300];
         
         if (data != nil)
         {
@@ -254,6 +263,7 @@ typedef enum : NSUInteger {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
+        [SVProgressHUD dismiss];
         YYLog(@"我的车辆信息登记返回：%@",responseObject);
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -266,6 +276,7 @@ typedef enum : NSUInteger {
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         YYLog(@"我的车辆信息登记错误：error----%@",error);
+        [SVProgressHUD dismiss];
     }];
 }
 

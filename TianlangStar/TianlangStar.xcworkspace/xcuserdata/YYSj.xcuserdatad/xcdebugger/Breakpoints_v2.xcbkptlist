@@ -32,32 +32,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TianlangStar/Project/Mine/View/UserView/AdminInfoTVC.m"
-            timestampString = "502960168.688215"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TianlangStar/Project/Mine/Controller/Car/CheckCarInfoTVC.m"
-            timestampString = "502955463.681252"
+            filePath = "TianlangStar/Project/HomePage/Controller/ProductPublishTableVC.m"
+            timestampString = "503213856.544224"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "-deleteBtnClick"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "-productPutinStorage"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

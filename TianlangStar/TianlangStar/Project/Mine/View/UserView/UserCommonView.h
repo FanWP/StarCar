@@ -23,4 +23,11 @@
 @property (nonatomic,strong) UIButton *scoreButton;
 
 
+// 积分
+@property (nonatomic,strong) UIButton *scoreCountButton;
+
+// 星币
+@property (nonatomic,strong) UIButton *moneyCountButton;
+
+
 @end

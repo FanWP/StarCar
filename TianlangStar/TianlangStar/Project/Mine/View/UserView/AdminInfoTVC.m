@@ -9,6 +9,7 @@
 #import "AdminInfoTVC.h"
 #import "UserModel.h"
 #import "InputCell.h"
+#import "WUAlbumAsset.h"
 
 
 
@@ -60,6 +61,14 @@
     [self addRightBar];
 }
 
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+    
+}
 
 
 
@@ -204,9 +213,9 @@
 //    //身份证
 //    if (![self.userModel.identity isIdentityCardNo])
 //    {
-//        [[AlertView sharedAlertView] addAlertMessage:@"身份证号输入有误，请核对！" title:@"提示"];
-//        return;
-//    }
+    //        [[AlertView sharedAlertView] addAlertMessage:@"身份证号输入有误，请核对！" title:@"提示"];
+    //        return;
+    //    }
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
@@ -217,62 +226,56 @@
     parmas[@"identity"] = self.userModel.identity;
     parmas[@"address"] = self.userModel.address;
     
-    if (self.headerImg)
-    {
-        parmas[@"headimage"] = self.userModel.headimage;
-        NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
-        YYLog(@"parmas----%@",parmas);
-        
-        [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
+    YYLog(@"parmas----%@",parmas);
+    
+    
+//    [SVProgressHUD showWithStatus:@"数据提交中，请稍后！"];
+    
+    [SVProgressHUD show];
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+     {
+         NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
+         
+         if (data != nil)
          {
-             NSData *data = UIImageJPEGRepresentation(self.headerImg, 0.5);
-             //拼接data
+             parmas[@"headimage"] = self.userModel.headimage;
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
-             
-         } progress:^(NSProgress * _Nonnull uploadProgress)
-        {
-             
-         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-        {
-             YYLog(@"responseObject---%@",responseObject);
-            NSNumber *num = responseObject[@"resultCode"];
-            if ([num integerValue] == 1000)
-            {
-                UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
-                UserInfo *userInfo = [UserInfo sharedUserInfo];
-                
-                //保存数据
-                userInfo.headerpic = model.headimage;
-                userInfo.userType = model.type;
-                userInfo.viplevel = model.viplevel;
-                userInfo.username = model.username;
-                userInfo.discount = model.discount;
-                
-                [userInfo synchronizeToSandBox];
-                
-                YYLog(@"%@",model.username);
-                
-                
-            }
-            
-            
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             YYLog(@"error---%@",error);
-         }];
-    }
-    else
-    {
-//        NSString *url = [NSString stringWithFormat:@"%@updateowninfoservlet",URL];
-        
-        NSString *url = [NSString stringWithFormat:@"%@upload/updateuserinfoservlet",URL];
-        [HttpTool post:url parmas:parmas success:^(id json)
+             YYLog(@"data.length--:%lu",(unsigned long)data.length);
+         }
+         
+     } progress:^(NSProgress * _Nonnull uploadProgress)
+     {
+         
+     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         [SVProgressHUD dismiss];
+         YYLog(@"responseObject---%@",responseObject);
+         NSNumber *num = responseObject[@"resultCode"];
+         if ([num integerValue] == 1000)
          {
-            YYLog(@"json---%@",json);
-        } failure:^(NSError *error)
-        {
-            YYLog(@"error--%@",error);
-        }];
-    }
+             UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
+             UserInfo *userInfo = [UserInfo sharedUserInfo];
+             
+             //保存数据
+             userInfo.headerpic = model.headimage;
+             userInfo.userType = model.type;
+             userInfo.viplevel = model.viplevel;
+             userInfo.username = model.username;
+             userInfo.discount = model.discount;
+             [userInfo synchronizeToSandBox];
+             
+             YYLog(@"%@",model.username);
+             
+         }
+         
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         YYLog(@"error---%@",error);
+                  [SVProgressHUD dismiss];
+     }];
+    
     
 }
 
@@ -298,18 +301,18 @@
     
     
     [HttpTool post:url parmas:parmas success:^(id json)
-    {
-       self.userModel = [UserModel mj_objectWithKeyValues:json[@"body"]];
-        
-        YYLog(@"%@",json);
-
-        [self.tableView reloadData];
-
-    } failure:^(NSError *error)
-    {
-        YYLog(@"%@",error);
-    }];
-
+     {
+         self.userModel = [UserModel mj_objectWithKeyValues:json[@"body"]];
+         
+         YYLog(@"%@",json);
+         
+         [self.tableView reloadData];
+         
+     } failure:^(NSError *error)
+     {
+         YYLog(@"%@",error);
+     }];
+    
 }
 
 

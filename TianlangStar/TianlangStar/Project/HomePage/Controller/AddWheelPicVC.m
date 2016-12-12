@@ -51,6 +51,11 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+}
 
 
 - (void)creatWeelView
@@ -93,6 +98,7 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasepictureservlet",URL];
     
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         NSArray *imagesArray = [self getAllImages];
@@ -120,6 +126,8 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     {
         YYLog(@"上传轮播图返回：%@",responseObject);
         
+        [SVProgressHUD dismiss];
+        
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
         if (resultCode == 1000)
@@ -130,6 +138,7 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"上传轮播图错误%@",error);
+        [SVProgressHUD dismiss];
     }];
 }
 

@@ -57,8 +57,15 @@
 {
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 7)];
+        line.backgroundColor = BGcolor;
+        [self.contentView addSubview:line];
+        
+        
         //图片
-        UIImageView *productImg = [[UIImageView alloc] initWithFrame:CGRectMake(14, 14, 137, 105)];
+        UIImageView *productImg = [[UIImageView alloc] initWithFrame:CGRectMake(14, 14, 137, 100)];
+//        productImg.contentMode = UIViewContentModeScaleAspectFill;
+//        productImg.layer.masksToBounds = YES;
         self.productImg = productImg;
         [self.contentView addSubview:productImg];
         
@@ -75,9 +82,10 @@
         //商品描述
         UILabel *introduction = [[UILabel alloc] init];
         introduction.x = productname.x;
-        introduction.y = CGRectGetMaxY(productname.frame) + 8;
-        introduction.height = productImg.height - 20;
+        introduction.height = productImg.height - 80;
         introduction.width = KScreenWidth * 0.5;
+//        introduction.y = CGRectGetMaxY(productname.frame) + 8;
+        introduction.centerY = productImg.centerY;
         introduction.numberOfLines = 0;
         introduction.font = Font10;
 //        introduction.backgroundColor = [UIColor orangeColor];
@@ -127,13 +135,6 @@
 
 }
 
--(void)setFrame:(CGRect)frame
-{
-
-    frame.size.height -= 7;
-    [super setFrame:frame];
-
-}
 
 
 @end

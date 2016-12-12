@@ -71,6 +71,14 @@ typedef enum : NSUInteger {
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+
+    [super viewWillDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+}
+
 
 
 - (NewActivityModel *)activityModel
@@ -135,7 +143,7 @@ typedef enum : NSUInteger {
     
     NSString *url = [NSString stringWithFormat:@"%@upload/add/activities",URL];
     
-    
+    [SVProgressHUD show];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
         NSArray *imagesArray = [self getAllImages];
@@ -161,6 +169,8 @@ typedef enum : NSUInteger {
     {
         YYLog(@"添加最新活动返回%@",responseObject);
         
+        [SVProgressHUD dismiss];
+        
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
         if (resultCode == 1000)
@@ -176,6 +186,7 @@ typedef enum : NSUInteger {
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"添加最新活动错误%@",error);
+        [SVProgressHUD dismiss];
     }];
 }
 
