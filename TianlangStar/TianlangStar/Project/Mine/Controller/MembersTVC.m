@@ -293,7 +293,7 @@
             break;
     }
     
-    YYLog(@"self.VIP=--%@",self.VIP);
+//    YYLog(@"self.VIP=--%@",self.VIP);
     
 }
 
