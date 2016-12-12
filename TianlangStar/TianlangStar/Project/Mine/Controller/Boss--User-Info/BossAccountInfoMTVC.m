@@ -536,14 +536,6 @@
         return;
     }
     
-    
-    //手机号
-    if (![self.userModel.username isMobileNumber])
-    {
-        [[AlertView sharedAlertView] addAlertMessage:@"手机号输入有误，请核对！" title:@"提示"];
-        return;
-    }
-    
 //    //身份证
 //    if (![self.userModel.identity isIdentityCardNo])
 //    {
