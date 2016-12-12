@@ -155,7 +155,7 @@
         }
         case 1012:
         {
-            //                [SVProgressHUD showErrorWithStatus:@"服务繁忙，请稍后再试"];
+                            [SVProgressHUD showErrorWithStatus:@"服务器"];
             YYLog(@"reultCode=1012,误差值过大");
             break;
         }
@@ -227,6 +227,12 @@
         case 1023:
         {
             [SVProgressHUD showErrorWithStatus:@"用户名不存在"];
+            YYLog(@"reultCode=1022,用户名不存在");
+            break;
+        }
+        case 1024:
+        {
+            [SVProgressHUD showErrorWithStatus:@"余额不足"];
             YYLog(@"reultCode=1022,用户名不存在");
             break;
         }

@@ -348,6 +348,7 @@ typedef enum : NSUInteger {
             cell.textLabel.text = @"上传照片";
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
 
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
     }
@@ -403,7 +404,7 @@ typedef enum : NSUInteger {
             default:
                 break;
         }
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 }
