@@ -97,7 +97,7 @@
     
     if ([self.title isEqualToString:@"商品详情"])//商品
     {
-        self.productId = _productModel.ID;
+        self.productId = _productModel.productid;
         [self buyProductInShoppingCar];
         
         self.paidMoney = [NSString stringWithFormat:@"%ld",_productModel.realPrice];
@@ -118,7 +118,7 @@
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
-        self.productId = _serviceModel.ID;
+        self.productId = _serviceModel.productid;
         [self buyProductInShoppingCar];
         
         self.paidMoney = [NSString stringWithFormat:@"%ld",_serviceModel.realPrice];
@@ -141,7 +141,7 @@
     }
     else
     {
-        self.productId = _carModel.ID;
+        self.productId = _carModel.productid;
         
         NSString *images = _carModel.picture;
         
@@ -190,14 +190,7 @@
     
     [self creatFootView];
     
-    if ([UserInfo sharedUserInfo].isLogin) {
-        
-        [self allCollectionAction];
-    }
-    else
-    {
-        [self.collectionButton setTitle:@"收藏" forState:(UIControlStateNormal)];
-    }
+    [self allCollectionAction];
 }
 
 
@@ -242,7 +235,7 @@
     
     self.collectionButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.collectionButton.frame = CGRectMake(0, 0, buttonWidth, Klength44);
-    [self.collectionButton setTitle:@"收藏" forState:(UIControlStateNormal)];
+    [self.collectionButton setTitle:@"取消收藏" forState:(UIControlStateNormal)];
     
     
     
@@ -307,8 +300,21 @@
         
         NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
         parameters[@"sessionId"] = sessionid;
-        parameters[@"currentPage"] = @(1);
-        parameters[@"type"] = @(1);
+        parameters[@"currentPage"] = @(0);
+        NSInteger type;
+        if ([self.title isEqualToString:@"保养维护详情"])
+        {
+            type = 2;
+        }
+        else if ([self.title isEqualToString:@"商品详情"])
+        {
+            type = 1;
+        }
+        else
+        {
+            type = 3;
+        }
+        parameters[@"type"] = @(type);
         
         [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -338,16 +344,22 @@
                 if ([self.collectionIdArray containsObject:self.productId])
                 {
                     // 取消收藏
-                    [self cancleCollectionActionWithType:1];
+                    [self cancleCollectionAction];
                     
                 }
                 // 否则添加收藏
                 else
                 {
                     // 添加收藏
-                    [self addCollectionActionWithType:1];
+                    [self addCollectionAction];
                     
                 }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.tableView reloadData];
+                    
+                });
                 
             }
             
@@ -372,14 +384,27 @@
 /**
  *  添加收藏
  */
-- (void)addCollectionActionWithType:(NSInteger)type
+- (void)addCollectionAction
 {
     NSString *url = [NSString stringWithFormat:@"%@addtocollectionservlet",URL];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     parameters[@"id"] = self.productId;
-    parameters[@"type"] = @(type);// 1:物品 2:服务
+    NSInteger type;
+    if ([self.title isEqualToString:@"保养维护详情"])
+    {
+        type = 2;
+    }
+    else if ([self.title isEqualToString:@"商品详情"])
+    {
+        type = 1;
+    }
+    else
+    {
+        type = 3;
+    }
+    parameters[@"type"] = @(type);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -399,6 +424,12 @@
                 [self.collectionButton setTitle:@"取消收藏" forState:(UIControlStateNormal)];
                 
                 self.isCollection = YES;
+                
+            });
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
                 
             });
         }
@@ -424,14 +455,27 @@
 /**
  *  取消收藏
  */
-- (void)cancleCollectionActionWithType:(NSInteger)type
+- (void)cancleCollectionAction
 {
     NSString *url = [NSString stringWithFormat:@"%@canclecollectionservlet",URL];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     parameters[@"productid"] = self.productId;
-    parameters[@"type"] = @(type);// 1:物品 2:服务
+    NSInteger type;
+    if ([self.title isEqualToString:@"保养维护详情"])
+    {
+        type = 2;
+    }
+    else if ([self.title isEqualToString:@"商品详情"])
+    {
+        type = 1;
+    }
+    else
+    {
+        type = 3;
+    }
+    parameters[@"type"] = @(type);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -451,6 +495,12 @@
                 [self.collectionButton setTitle:@"收藏" forState:(UIControlStateNormal)];
                 
                 self.isCollection = NO;
+                
+            });
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.tableView reloadData];
                 
             });
         }
@@ -483,10 +533,22 @@
     
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
-    parameters[@"currentPage"] = @(1);
-    parameters[@"type"] = @(1);
+    parameters[@"currentPage"] = @(0);
+    NSInteger type;
+    if ([self.title isEqualToString:@"保养维护详情"])
+    {
+        type = 2;
+    }
+    else if ([self.title isEqualToString:@"商品详情"])
+    {
+        type = 1;
+    }
+    else
+    {
+        type = 3;
+    }
+    parameters[@"type"] = @(type);
     
-    YYLog(@"sessionid===%@",sessionid);
     YYLog(@"获取指定用户的全部收藏物的parameters===%@",parameters);
     
     [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -495,8 +557,7 @@
         
         YYLog(@"获取指定用户的全部收藏物请求返回-%@",responseObject);
         
-        NSNumber *num = responseObject[@"resultCode"];
-        NSInteger result = [num integerValue];
+        NSInteger result = [responseObject[@"resultCode"] integerValue];
         
         if (result == 1000)
         {
@@ -529,6 +590,12 @@
                     
                 });
             }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               
+                [self.tableView reloadData];
+                
+            });
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -965,7 +1032,7 @@
         switch (indexPath.row)
         {
             case 0:
-                cell.textLabel.text = _productModel.brand;
+                cell.textLabel.text = _productModel.productname;
                 break;
             case 1:
                 cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.price];

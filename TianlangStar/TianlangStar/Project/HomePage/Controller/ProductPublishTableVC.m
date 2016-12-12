@@ -245,6 +245,8 @@ typedef enum : NSUInteger {
     {
         NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
         
+        [SVProgressHUD showWithStatus:@"正在入库~"];
+        
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
              _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
@@ -277,6 +279,8 @@ typedef enum : NSUInteger {
              if (resultCode == 1000)
              {
                  [[AlertView sharedAlertView] addAfterAlertMessage:@"商品入库成功" title:@"提示"];
+                 
+                 [SVProgressHUD dismiss];
                  
              }
              
@@ -316,6 +320,8 @@ typedef enum : NSUInteger {
     
     if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.serviceModel.services != nil || self.serviceModel.services != 0 || self.serviceModel.servicetype != nil || [self.serviceModel.servicetype length] != 0 || self.serviceModel.content != nil || [self.serviceModel.content length] != 0 || self.serviceModel.warranty != nil || [self.serviceModel.warranty length] != 0 || self.serviceModel.manhours != nil || [self.serviceModel.manhours length] != 0 || self.serviceModel.price != nil || [self.serviceModel.price length] != 0 || self.serviceModel.scoreprice != nil || [self.serviceModel.scoreprice length] != 0)
     {
+        [SVProgressHUD showWithStatus:@"正在入库~"];
+        
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
              _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
@@ -351,6 +357,8 @@ typedef enum : NSUInteger {
                  [[AlertView sharedAlertView] addAfterAlertMessage:@"服务入库成功" title:@"提示"];
                  
              }
+             
+             [SVProgressHUD dismiss];
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
@@ -394,6 +402,8 @@ typedef enum : NSUInteger {
     
     if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.carModel.brand != nil || [self.carModel.brand length] != 0 || self.carModel.price != nil || [self.carModel.price length] != 0 || self.carModel.model != nil || [self.carModel.model length] != 0 || self.carModel.cartype != nil || [self.carModel.cartype length] != 0 || self.carModel.mileage != nil || [self.carModel.mileage length] != 0 || self.carModel.buytime != nil || [self.carModel.buytime length] != 0 || self.carModel.number != nil || [self.carModel.number length] || self.carModel.person != nil || [self.carModel.person length] != 0 || self.carModel.frameid != nil || [self.carModel.frameid length] != 0 || self.carModel.engineid != nil || [self.carModel.engineid length] != 0 || self.carModel.property != nil || [self.carModel.property length] != 0 || [self.carModel.carDescription length] != 0)
     {
+        [SVProgressHUD showWithStatus:@"正在入库~"];
+        
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
              _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
@@ -427,6 +437,7 @@ typedef enum : NSUInteger {
              {
                  [[AlertView sharedAlertView] addAfterAlertMessage:@"二手车入库成功" title:@"提示"];
                  
+                 [SVProgressHUD dismiss];
              }
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)

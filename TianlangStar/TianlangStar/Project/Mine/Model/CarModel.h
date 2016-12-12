@@ -13,6 +13,8 @@
 /** 后台返回为id */
 @property (nonatomic,copy) NSString *ID;
 
+@property (nonatomic,copy) NSString *productid;
+
 /** 用户ID */
 @property (nonatomic,copy) NSString *userid;
 /** 后台返回为id */

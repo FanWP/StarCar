@@ -19,29 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TianlangStar/Project/HomePage/Controller/CollectionProductDetailTableVC.m"
-            timestampString = "502854387.60034"
+            filePath = "TianlangStar/Project/HomePage/Controller/AddWheelPicVC.m"
+            timestampString = "503219385.361993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "708"
-            endingLineNumber = "708"
-            landmarkName = "-settlementAction"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TianlangStar/Project/HomePage/Controller/CollectionProductDetailTableVC.m"
-            timestampString = "502854429.529927"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "713"
-            endingLineNumber = "713"
-            landmarkName = "-settlementAction"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-fetchCreatWeelPicData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

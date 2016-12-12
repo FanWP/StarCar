@@ -111,6 +111,8 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
                 
                 NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300 * 1024];
                 
+                YYLog(@"上传轮播图图片大小：：%ld",data.length);
+                
                 if (data != nil)
                 {
                     [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];

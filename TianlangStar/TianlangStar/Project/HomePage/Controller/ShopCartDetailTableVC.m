@@ -181,7 +181,6 @@
         
                     [_imagesArray addObject:image];
                 }
-        
             }
             
             [self creatHeaderView];
