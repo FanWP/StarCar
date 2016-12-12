@@ -113,6 +113,13 @@
 }
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self loadNewUserInfoData];
+}
+
+
 
 #pragma mark====== 增加上下拉功能======
 -(void)setupRefresh

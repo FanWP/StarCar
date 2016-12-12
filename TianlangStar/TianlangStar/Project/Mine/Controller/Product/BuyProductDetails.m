@@ -33,33 +33,6 @@
     self.title = @"积分兑换详情";
     
     [self addHeader];
-    
-    
-    
-    
-//    ProductModel *model = [[ProductModel alloc] init];
-//    /*
-//     self.productname.text = model.productname;
-//     self.price.text = model.price;
-//     self.productmodel.text = model.productmodel;
-//     self.specifications.text = model.specifications;
-//     self.applycar.text = model.applycar;
-//     self.vendors.text = model.vendors;
-//     self.introduction.text = model.introduction;
-//     */
-//    
-//    model.productname = @"商品名称";
-//    model.price = @"9000";
-//    model.productmodel = @"美孚";
-//    model.specifications = @"品牌三滤 ";
-//    model.applycar = @"大众";
-//    model.vendors = @"中国制造";
-//    model.introduction = @"uyqo34gojad;kd;AKG;ef简介  简介  就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介就是简介";
-//    model.cartype = @"ti4q03wt034";
-//    model.remark = @"无";
-//    
-//    
-//    self.model = model;
 }
 
 
@@ -67,9 +40,17 @@
 -(void)addHeader
 {
     NSArray *arr = [self.model.images componentsSeparatedByString:@","];
+    
+    NSMutableArray *picArr  = [NSMutableArray array];
+    
+    for (NSString *pic  in arr)
+    {
+        NSString *url = [NSString stringWithFormat:@"%@%@",picURL,pic];
+        [picArr addObject:url];
+    }
 
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 210)];
-    SDCycleScrollView *view = [SDCycleScrollView cycleScrollViewWithFrame:headerView.bounds imageURLStringsGroup:arr];//_ImgList为图片url数组
+    SDCycleScrollView *view = [SDCycleScrollView cycleScrollViewWithFrame:headerView.bounds imageURLStringsGroup:picArr];//_ImgList为图片url数组
     view.delegate = self;
     view.placeholderImage = [UIImage imageNamed:@"touxiang"];
     view.autoScroll = YES;

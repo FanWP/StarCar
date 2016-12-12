@@ -560,6 +560,13 @@
          //拼接data
          if (data != nil)
          {
+//             UIImage *result = [UIImage imageWithData:data];
+//             
+//             while (data.length > 307000) {
+//                 data = UIImageJPEGRepresentation(result, 0.8);
+//                 result = [UIImage imageWithData:data];
+//             }
+             
              [formData appendPartWithFileData:data name:@"headimage" fileName:@"img.jpg" mimeType:@"image/jpeg"];
          }
          
