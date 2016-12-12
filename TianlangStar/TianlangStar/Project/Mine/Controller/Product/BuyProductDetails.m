@@ -188,13 +188,13 @@
 /** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
-    YYLog(@"SDCycleScrollView---%ld",(long)index);
+//    YYLog(@"SDCycleScrollView---%ld",(long)index);
 
 }
 
 /** 图片滚动回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didScrollToIndex:(NSInteger)index{
-        YYLog(@"SDCycleScrollView====%ld",(long)index);
+//        YYLog(@"SDCycleScrollView====%ld",(long)index);
 }
 
 

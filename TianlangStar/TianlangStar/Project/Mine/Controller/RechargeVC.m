@@ -72,6 +72,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+    
     [self.RecordView removeFromSuperview];
 }
 
@@ -358,9 +360,11 @@
     
     NSString *url = [NSString stringWithFormat:@"%@rchrgsrvlt",URL];
     
+    [SVProgressHUD show];
+    
     [HttpTool post:url parmas:parmas success:^(id json)
      {
-         
+         [SVProgressHUD dismiss];
          [SVProgressHUD showSuccessWithStatus:@"充值成功！"];
          self.moneyTF.text = nil;
          self.addStar.text = nil;
@@ -369,6 +373,7 @@
          
      } failure:^(NSError *error)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"json-充值%@",error);
      }];
 }

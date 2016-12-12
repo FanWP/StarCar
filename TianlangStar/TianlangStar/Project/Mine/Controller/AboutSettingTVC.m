@@ -50,7 +50,16 @@
     ILSettingItem *contact = [ILSettingItem itemWithIcon:nil title:@"联系我们"];
     contact.subTitle = @"029-87563668";
     contact.option = ^{
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://029-87563668"]];
+        
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"是否拨打029-87563668？" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"呼叫" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://029-87563668"]];
+        }]];
+
+        [self presentViewController:alert animated:YES completion:nil];
+        
     };
     
     UserInfo *userInfo = [UserInfo sharedUserInfo];

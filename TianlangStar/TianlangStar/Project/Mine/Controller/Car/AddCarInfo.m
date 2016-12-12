@@ -270,7 +270,8 @@ typedef enum : NSUInteger {
         
         if (resultCode == 1000)
         {
-            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
+//            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
+            [SVProgressHUD showSuccessWithStatus:@"添加爱车成功！"];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

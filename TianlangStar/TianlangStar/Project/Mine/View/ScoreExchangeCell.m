@@ -75,7 +75,7 @@
         productname.y = 15;
         productname.height = 12;
         productname.width = KScreenWidth * 0.5;
-        productname.font = Font12;
+        productname.font = Font14;
         self.productname = productname;
         [self.contentView addSubview:productname];
         
@@ -87,7 +87,7 @@
 //        introduction.y = CGRectGetMaxY(productname.frame) + 8;
         introduction.centerY = productImg.centerY;
         introduction.numberOfLines = 0;
-        introduction.font = Font10;
+        introduction.font = Font12;
 //        introduction.backgroundColor = [UIColor orangeColor];
         introduction.textColor = lableTextcolor;
         self.introduction = introduction;
@@ -100,7 +100,7 @@
         scoreprice.y = 136 - 22 - 7 - 4;
         scoreprice.height = 11;
         scoreprice.width = KScreenWidth * 0.5;
-        scoreprice.font = Font11;
+        scoreprice.font = Font13;
         scoreprice.textColor = [UIColor redColor];
         self.scoreprice = scoreprice;
         [self.contentView addSubview:scoreprice];

@@ -52,22 +52,22 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
-
+    
     
     NSString *url = [NSString stringWithFormat:@"%@findorderinfoservlet",URL];
     
-    YYLog(@"url---%@",url);
+    YYLog(@"parmas---：%@url---:%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json)
-    {
-        [self.tableView.mj_header endRefreshing];
-        
-        self.orderArr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
-        
-        if (self.orderArr.count > 0)
-        {
-            self.currentPage++;
-        }
+     {
+         [self.tableView.mj_header endRefreshing];
+         
+         self.orderArr = [OrderModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+         
+         if (self.orderArr.count > 0)
+         {
+             self.currentPage++;
+         }
         [self.tableView reloadData];
         YYLog(@"json----%@",json);
     } failure:^(NSError *error) {
