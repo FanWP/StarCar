@@ -344,7 +344,7 @@
             case membername://姓名
                 cell.textField.text = self.userModel.membername;
                 break;
-            case telephone:
+            case username:
             {
                 cell.textField.text = self.userModel.username;
                 break;
@@ -614,7 +614,7 @@
         case membername:
             self.userModel.membername = textField.text;
             break;
-        case telephone:
+        case username:
             self.userModel.username = textField.text;
             break;
         case identity:
