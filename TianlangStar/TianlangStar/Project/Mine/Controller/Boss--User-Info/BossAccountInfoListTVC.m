@@ -13,7 +13,7 @@
 
 
 
-@interface BossAccountInfoListTVC ()
+@interface BossAccountInfoListTVC ()<UMSocialUIDelegate>
 
 /** 保存服务器返回的数据 */
 @property (nonatomic,strong) NSMutableArray *allPeopleArray;
@@ -43,6 +43,8 @@
 
 - (void)rightItemExportExcel
 {
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"导出" style:(UIBarButtonItemStylePlain) target:self action:@selector(exportExcelAction)];
 }
 
@@ -68,29 +70,25 @@
         {            
             NSString *obj = responseObject[@"body"];
             
-            YYLog(@"http://192.168.1.116:8080/%@",obj);
+            YYLog(@"导出excel链接：：http://192.168.1.18:8080/%@",obj);
             
-            NSString *url = [NSString stringWithFormat:@"http://192.168.1.116:8080/%@",obj];
+            NSString *url = [NSString stringWithFormat:@"http://192.168.1.18:8080/%@",obj];
             
-            NSString *shareText = @"客户信息表：";
+            NSString *shareText = [NSString stringWithFormat:@"客户信息表：%@",url];
             
-//            [UMSocialData defaultData].extConfig.title = @"天狼星";
-//            
-//            [UMSocialSnsService presentSnsIconSheetView:self appKey:@"5808888dae1bf83e270005d6" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone] delegate:self];
-//            
-//            [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ,UMShareToQzone,UMShareToSina,UMShareToTencent,UMShareToWechatFavorite,UMShareToWechatSession,UMShareToWechatTimeline] content:nil image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
-//                
-//                if (response.responseCode == UMSResponseCodeSuccess)   {
-//                    
-//                    NSString *url = [NSString stringWithFormat:@"%@sharing/fx.htm",URLhttps];
-//                    
-//                    [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
-//                    [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
-//                    [UMSocialData defaultData].extConfig.qqData.url = url;
-//                    [UMSocialData defaultData].extConfig.qzoneData.url = url;
-//                    [UMSocialData defaultData].extConfig.sinaData.urlResource.url = url ;
-//                }
-//            }];
+            [UMSocialData defaultData].extConfig.title = @"天狼星";
+            
+            [UMSocialSnsService presentSnsIconSheetView:self appKey:@"584f99c25312ddbd6a0011b4" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToQQ] delegate:self];
+            
+            [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ] content:shareText image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
+                
+                if (response.responseCode == UMSResponseCodeSuccess)   {
+                    
+                    [UMSocialData defaultData].extConfig.qqData.url = url;
+                    
+                    YYLog(@"分享出去的链接%@",url);
+                }
+            }];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)

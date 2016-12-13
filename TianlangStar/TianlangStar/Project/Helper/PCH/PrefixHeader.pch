@@ -68,6 +68,10 @@
 #import <SVProgressHUD.h>
 #import <MJExtension.h>
 #import <SDCycleScrollView.h>
+#import <UMengSocial/UMSocial.h>
+#import <UMSocialQQHandler.h>
+#import <UMSocialSinaSSOHandler.h>
+#import <UMSocialWechatHandler.h>
 
 
 
