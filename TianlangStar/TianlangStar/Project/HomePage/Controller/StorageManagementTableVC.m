@@ -49,20 +49,9 @@
     
     [self creatHeaderView];
     
-    switch (self.segment.selectedSegmentIndex)
-    {
-        case 0:
-            [self fetchPutawayAndSoldoutDataWithType:2];
-            break;
-        case 1:
-            [self fetchPutawayAndSoldoutDataWithType:3];
-            break;
-            
-        default:
-            break;
-    }
+    [self fetchPutawayAndSoldoutDataWithType:2];
     
-    [self pullOnLoadingwWithType:1];
+    [self pullOnLoading];
     
     [self dropdownRefresh];
     
@@ -259,17 +248,25 @@
 
 
 // 上拉加载
-- (void)pullOnLoadingwWithType:(NSInteger)type
+- (void)pullOnLoading
 {
     self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
         
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
         
-        self.pageNum = 1;
-
         parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"pageNum"]  = @(self.pageNum);
         parmas[@"pageSize"] = @"10";
+        
+        NSInteger type;
+        if (self.segment.selectedSegmentIndex == 0)
+        {
+            type = 2;
+        }
+        else
+        {
+            type = 3;
+        }
         parmas[@"type"]  = @(type);
         
         YYLog(@"仓库管理参数parmas--%@",parmas);
@@ -288,6 +285,11 @@
             {
                 self.pageNum++;
                 self.moreStorageArray = [StorageManagementModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                
+                if (self.moreStorageArray.count == 0)
+                {
+                    [[AlertView sharedAlertView] addAfterAlertMessage:@"没有更多数据了~" title:@"提示"];
+                }
                 [self.storageArray addObjectsFromArray:self.moreStorageArray];
                 
                 [self.tableView reloadData];
@@ -314,8 +316,8 @@
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, height)];
     self.headerView.backgroundColor = BGcolor;
     
-    CGFloat allSelectedImageButtonX = 15;
-    CGFloat allSelectedImageButtonWidth = 20;
+    CGFloat allSelectedImageButtonX = 10;
+    CGFloat allSelectedImageButtonWidth = 40;
     CGFloat allSelectedImageButtonY = (height / 2) - (allSelectedImageButtonWidth / 2);
     self.allSelectedImageButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.allSelectedImageButton.frame = CGRectMake(allSelectedImageButtonX, allSelectedImageButtonY, allSelectedImageButtonWidth, allSelectedImageButtonWidth);
@@ -334,9 +336,9 @@
     [self.headerView addSubview:self.allSelectedLabel];
     
     
-    CGFloat nameLabelX = allSelectedLabelX + allSelectedLabelWidth + 40;
+    CGFloat nameLabelX = allSelectedLabelX + allSelectedLabelWidth + 10;
     
-    CGFloat width = (KScreenWidth - nameLabelX - allSelectedImageButtonX);
+    CGFloat width = (KScreenWidth - nameLabelX - allSelectedImageButtonX - 10 - 10);
     
     CGFloat nameLabelWidth = 0.4 * width;
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabelX, top, nameLabelWidth, Klength30)];
@@ -345,7 +347,7 @@
     
     
     
-    CGFloat countLabelX = nameLabelX + nameLabelWidth;
+    CGFloat countLabelX = nameLabelX + nameLabelWidth + 10;
     CGFloat countLabelWidth = 0.3 * width;
     self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake(countLabelX, top, countLabelWidth, Klength30)];
     self.countLabel.text = @"库存";
@@ -354,7 +356,7 @@
     
     
     CGFloat statusLabelX = countLabelX + countLabelWidth;
-    CGFloat statusLabelWidth = 0.3 * width;
+    CGFloat statusLabelWidth = width - nameLabelWidth - countLabelWidth;
     self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(statusLabelX, top, statusLabelWidth, Klength30)];
     self.statusLabel.text = @"状态";
     self.statusLabel.textAlignment = 1;

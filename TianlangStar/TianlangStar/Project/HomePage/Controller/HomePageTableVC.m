@@ -301,17 +301,32 @@
                  {
                      NSArray *moreServiceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
                      
+                     if (moreServiceArray.count == 0)
+                     {
+                         [[AlertView sharedAlertView] addAfterAlertMessage:@"没有更多数据了~" title:@"提示"];
+                     }
+                     
                      [_serviceArray addObjectsFromArray:moreServiceArray];
                  }
                  else if ([productType isEqualToString:@"2"])
                  {
                      NSArray *moreProductArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
                      
+                     if (moreProductArray.count == 0)
+                     {
+                         [[AlertView sharedAlertView] addAfterAlertMessage:@"没有更多数据了~" title:@"提示"];
+                     }
+                     
                      [_productsArray addObjectsFromArray:moreProductArray];
                  }
                  else
                  {
                      NSArray *moreCarArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                     
+                     if (moreCarArray.count == 0)
+                     {
+                         [[AlertView sharedAlertView] addAfterAlertMessage:@"没有更多数据了~" title:@"提示"];
+                     }
                      
                      [_secondCarArray addObjectsFromArray:moreCarArray];
                  }
@@ -675,6 +690,121 @@
 
 
 
+
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 2)
+    {
+        if ([UserInfo sharedUserInfo].isLogin == YES && ([UserInfo sharedUserInfo].userType == 0 || [UserInfo sharedUserInfo].userType == 1))
+        {
+            return YES;
+        }
+        else
+        {
+            return NO;
+        }
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        
+        parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+        
+        NSInteger type;
+        NSString *ID;
+        
+        if (self.homePageSelectCell.maintenanceButton.enabled == NO)
+        {
+            type = 2;
+            
+            _serviceModel = _serviceArray[indexPath.row];
+            
+            ID = _serviceModel.ID;
+        }
+        else if (self.homePageSelectCell.productButton.enabled == NO)
+        {
+            type = 1;
+            
+            _productModel = _productsArray[indexPath.row];
+            
+            ID = _productModel.ID;
+        }
+        else
+        {
+            type = 3;
+            
+            _carModel = _secondCarArray[indexPath.row];
+            
+            ID = _carModel.ID;
+        }
+        parameters[@"id"] = ID;
+        parameters[@"type"] = @(type);
+        
+        YYLog(@"删除商品参数:%@",parameters);
+        
+        NSString *url = [NSString stringWithFormat:@"%@delete/goods",URL];
+        
+        [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+         {
+             
+             YYLog(@"删除商品返回：%@",responseObject);
+             
+             NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+             
+             if (resultCode == 1000)
+             {
+                 [[AlertView sharedAlertView] addAfterAlertMessage:@"删除成功" title:@"提示"];
+                 
+                 NSInteger deleteType;
+                 
+                 if (self.homePageSelectCell.maintenanceButton.enabled == NO)
+                 {
+                     deleteType = 1;
+                 }
+                 else if (self.homePageSelectCell.productButton.enabled == NO)
+                 {
+                     deleteType = 2;
+                 }
+                 else
+                 {
+                     deleteType = 3;
+                 }
+
+                 [self fetchProductInfoWithType:deleteType];
+                 
+                 [self.tableView reloadData];
+             }
+             else
+             {
+                 [[AlertView sharedAlertView] addAfterAlertMessage:@"删除失败" title:@"提示"];
+             }
+             
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+         {
+             YYLog(@"删除商品错误：%@",error);
+         }];
+    }
+}
 
 
 
