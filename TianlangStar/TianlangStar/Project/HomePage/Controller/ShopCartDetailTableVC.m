@@ -912,9 +912,7 @@
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
     //计算count
     [self changeModelCount];
-    
-    [self removeObserver:self forKeyPath:@"countNum" context:nil];
-    
+        
 }
 
 - (void)plusCountAction

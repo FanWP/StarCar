@@ -89,11 +89,11 @@
 - (void)setupAPPKEY
 {
 #pragma mark - 第三方
-//    [UMSocialData setAppKey:@"5808888dae1bf83e270005d6"];
-//    
+    [UMSocialData setAppKey:@"584f99c25312ddbd6a0011b4"];
+//
 //    // 集成QQ开关
-//    [UMSocialQQHandler setQQWithAppId:@"1105841792" appKey:@"clhyflMQx3CAjh56" url:@"http://www.umeng.com/social"];
-//    
+    [UMSocialQQHandler setQQWithAppId:@"1105808395" appKey:@"PEm1E3PdSWLOIOyX" url:@"http://www.umeng.com/social"];
+//
 //    // 集成新浪微博开关
 //    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"1881878869" secret:@"4b152da06776868de5ff12e096b8a614" RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
 //    

@@ -30,7 +30,7 @@ typedef enum : NSUInteger
 #define StableViewH KScreenHeight - 64 - 40 - 70 - 44 - 8 
 
 
-@interface CFOStatisticsTVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UWDatePickerViewDelegate>
+@interface CFOStatisticsTVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UWDatePickerViewDelegate,UMSocialUIDelegate>
 
 /** 底部的tableView */
 @property (nonatomic,strong) UITableView *tableView;
@@ -598,7 +598,7 @@ typedef enum : NSUInteger
     exportBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 30);
     [exportBtn setImage:[UIImage imageNamed:@"educe"] forState:UIControlStateNormal];
     [exportBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [exportBtn addTarget:self action:@selector(exportBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [exportBtn addTarget:self action:@selector(exportBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:exportBtn];
     
     self.coverView = cover;
@@ -618,25 +618,96 @@ typedef enum : NSUInteger
 
 
 //导出按钮的点击事件
--(void)exportBtnClick
+-(void)exportBtnClick:(UIButton *)button
 {
     self.coverView.hidden = YES;
     
     YYLog(@"导出");
     
-    NSString *url = [NSString stringWithFormat:@"%@",URL];
+    NSString *url = [NSString stringWithFormat:@"%@export/finance/list",URL];
     
-    [[AFHTTPSessionManager manager]POST:url parameters:self.parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
+    parameters[@"sessionId"] = sessionid;
+    
+    parameters[@"pageNum"] = @(self.currentPage);
+    parameters[@"pageSize"] = @"10";
+    parameters[@"startTime"] = self.startTime;
+    parameters[@"endTime"] = self.endtTime;
+    parameters[@"account"] = self.accountText.text;
+    parameters[@"product"] = self.productText.text;
+    parameters[@"minMoney"] = self.startPriceText.text;
+    parameters[@"maxMoney"] = self.endPriceText.text;
+    
+    NSInteger type;
+    switch (self.searchType)
+    {
+        case timeSearch:
+            type = 1;
+            break;
+        case userSearch:
+            type = 2;
+            break;
+        case accountSearch:
+            type = 3;
+            break;
+        case priceSearch:
+            if (button.tag == 4)
+            {
+                type = 4;
+            }
+            else if (button.tag == 5)
+            {
+                type = 5;
+            }
+            break;
+            
+        default:
+            break;
+    }
+    parameters[@"type"] = @(type);
+    
+    YYLog(@"财务统计导出参数：%@",parameters);
+    
+    [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-    
-    
-    
-    
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         YYLog(@"导出excel返回%@",responseObject);
+         
+         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+         
+         if (resultCode == 1000)
+         {
+             NSString *obj = responseObject[@"body"];
+             
+             YYLog(@"导出excel链接：：http://192.168.1.18:8080/%@",obj);
+             
+             NSString *url = [NSString stringWithFormat:@"http://192.168.1.18:8080/%@",obj];
+             
+             NSString *shareText = [NSString stringWithFormat:@"财务统计表：%@",url];
+             
+             [UMSocialData defaultData].extConfig.title = @"天狼星";
+             
+             [UMSocialSnsService presentSnsIconSheetView:self appKey:@"584f99c25312ddbd6a0011b4" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToQQ] delegate:self];
+             
+             [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ] content:shareText image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
+                 
+                 if (response.responseCode == UMSResponseCodeSuccess)   {
+                     
+                     [UMSocialData defaultData].extConfig.qqData.url = url;
+                     
+                     YYLog(@"分享出去的链接%@",url);
+                 }
+             }];
+         }
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"导出excel失败%@",error);
+         
+     }];
 }
 
 -(void)searchBtnClick:(UIButton *)button
