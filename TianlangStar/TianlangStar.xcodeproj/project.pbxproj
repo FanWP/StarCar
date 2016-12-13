@@ -131,6 +131,9 @@
 		D728670F1DCB144800D77B38 /* ILSettingLabelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D72867071DCB144800D77B38 /* ILSettingLabelItem.m */; };
 		D72867101DCB144800D77B38 /* ILSettingSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D72867091DCB144800D77B38 /* ILSettingSwitchItem.m */; };
 		D728671B1DCB33BE00D77B38 /* CarsNav.m in Sources */ = {isa = PBXBuildFile; fileRef = D728671A1DCB33BE00D77B38 /* CarsNav.m */; };
+		D72AE27A1DFF8569001089CB /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D72AE2791DFF8569001089CB /* libc++abi.tbd */; };
+		D72AE27C1DFF907B001089CB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D72AE27B1DFF907B001089CB /* libc++.tbd */; };
+		D72AE27E1DFF9089001089CB /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D72AE27D1DFF9089001089CB /* libc++.1.tbd */; };
 		D72B9D2A1DDD519100C446D3 /* CheckCarInfoTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D72B9D291DDD519100C446D3 /* CheckCarInfoTVC.m */; };
 		D72D0BED1DDB19C400AA8B06 /* GeneralUserInfoTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D72D0BEC1DDB19C400AA8B06 /* GeneralUserInfoTVC.m */; };
 		D72D26011DF26CDC007ECC49 /* ShoppingCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D72D26001DF26CDC007ECC49 /* ShoppingCarCell.m */; };
@@ -450,6 +453,9 @@
 		D72867091DCB144800D77B38 /* ILSettingSwitchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILSettingSwitchItem.m; sourceTree = "<group>"; };
 		D72867191DCB33BE00D77B38 /* CarsNav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarsNav.h; sourceTree = "<group>"; };
 		D728671A1DCB33BE00D77B38 /* CarsNav.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarsNav.m; sourceTree = "<group>"; };
+		D72AE2791DFF8569001089CB /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		D72AE27B1DFF907B001089CB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		D72AE27D1DFF9089001089CB /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
 		D72B9D281DDD519100C446D3 /* CheckCarInfoTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckCarInfoTVC.h; sourceTree = "<group>"; };
 		D72B9D291DDD519100C446D3 /* CheckCarInfoTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckCarInfoTVC.m; sourceTree = "<group>"; };
 		D72D0BEB1DDB19C400AA8B06 /* GeneralUserInfoTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralUserInfoTVC.h; path = TianlangStar/Project/Mine/View/UserView/GeneralUserInfoTVC.h; sourceTree = SOURCE_ROOT; };
@@ -570,6 +576,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D72AE27E1DFF9089001089CB /* libc++.1.tbd in Frameworks */,
+				D72AE27C1DFF907B001089CB /* libc++.tbd in Frameworks */,
+				D72AE27A1DFF8569001089CB /* libc++abi.tbd in Frameworks */,
 				2EA5BADAA63B9509A3B0A5A3 /* libPods-TianlangStar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,6 +612,9 @@
 		5370577114BDF5920017DEE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D72AE27D1DFF9089001089CB /* libc++.1.tbd */,
+				D72AE27B1DFF907B001089CB /* libc++.tbd */,
+				D72AE2791DFF8569001089CB /* libc++abi.tbd */,
 				2B90E1B38CD70A4ED6F4D1C9 /* libPods-TianlangStar.a */,
 			);
 			name = Frameworks;

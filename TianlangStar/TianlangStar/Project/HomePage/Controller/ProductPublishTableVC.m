@@ -237,17 +237,30 @@ typedef enum : NSUInteger {
     
     parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"type"]  = @"1";
-    parmas[@"productname"] = self.productModel.productname;
-    parmas[@"productmodel"] = self.productModel.productmodel;
-    parmas[@"specifications"] = self.productModel.specifications;
-    parmas[@"applycar"] = self.productModel.applycar;
-    parmas[@"vendors"] = self.productModel.vendors;
-    parmas[@"inventory"] = self.productModel.inventory;
-    parmas[@"purchaseprice"] = self.productModel.purchaseprice;
-    parmas[@"price"] = self.productModel.price;
-    parmas[@"scoreprice"] = self.productModel.scoreprice;
-    parmas[@"introduction"] = self.productModel.introduction;
-    parmas[@"remark"] = self.productModel.remark;
+//    parmas[@"productname"] = self.productModel.productname;
+//    parmas[@"productmodel"] = self.productModel.productmodel;
+//    parmas[@"specifications"] = self.productModel.specifications;
+//    parmas[@"applycar"] = self.productModel.applycar;
+//    parmas[@"vendors"] = self.productModel.vendors;
+//    parmas[@"inventory"] = self.productModel.inventory;
+//    parmas[@"purchaseprice"] = self.productModel.purchaseprice;
+//    parmas[@"price"] = self.productModel.price;
+//    parmas[@"scoreprice"] = self.productModel.scoreprice;
+//    parmas[@"introduction"] = self.productModel.introduction;
+//    parmas[@"remark"] = self.productModel.remark;
+    
+    
+    parmas[@"productname"] = @"900test";
+    parmas[@"productmodel"] = @"900test";
+    parmas[@"specifications"] = @"900test";
+    parmas[@"applycar"] = @"900test";
+    parmas[@"vendors"] =@"900test";
+    parmas[@"inventory"] =@"900test";
+    parmas[@"purchaseprice"] = @"111";
+    parmas[@"price"] = @"111";
+    parmas[@"scoreprice"] =@"111";;
+    parmas[@"introduction"] =@"111";
+    parmas[@"remark"] = @"900test";
     
     YYLog(@"商品入库参数parmas--%@",parmas);
     
@@ -259,24 +272,29 @@ typedef enum : NSUInteger {
         
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
-             _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
-             
-             for (NSArray *array in _headerImagesArray)
-             {
-                 YYLog(@"遍历得到的图片数组%@",array);
-                 
-                 for (WUAlbumAsset *imageset in array)
-                 {
-                     UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
-                     
-                     NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
+             _headerImagesArray = [NSMutableArray arrayWithArray:[self getImagesWithSection:0]];
+
+             if(_headerImagesArray && _headerImagesArray.count > 0) {
+                 for (id item in _headerImagesArray) {
+                     NSData *data;
+                     if([self isAsset:item]) {
+                         data = [item dataWithCompressionQualityDefault];
+                     } else {
+                         data = UIImageJPEGRepresentation(item, 1);
+                     }
                      
                      if (data != nil)
                      {
+                         if (data.length > 300 * 1024) {
+                             UIImage *newImg = [UIImage imageWithData:data];
+                             data = [UIImage reSizeImageData:newImg maxImageSize:420 maxSizeWithKB:300];
+                         }
                          [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
                      }
                  }
              }
+             
+
              
          } progress:^(NSProgress * _Nonnull uploadProgress) {
              
@@ -348,20 +366,23 @@ typedef enum : NSUInteger {
         
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
-             _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+             _headerImagesArray = [NSMutableArray arrayWithArray:[self getImagesWithSection:0]];
              
-             for (NSArray *array in _headerImagesArray)
-             {
-                 YYLog(@"遍历得到的图片数组%@",array);
-                 
-                 for (WUAlbumAsset *imageset in array)
-                 {
-                     UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
-                     
-                     NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
+             if(_headerImagesArray && _headerImagesArray.count > 0) {
+                 for (id item in _headerImagesArray) {
+                     NSData *data;
+                     if([self isAsset:item]) {
+                         data = [item dataWithCompressionQualityDefault];
+                     } else {
+                         data = UIImageJPEGRepresentation(item, 1);
+                     }
                      
                      if (data != nil)
                      {
+                         if (data.length > 300 * 1024) {
+                             UIImage *newImg = [UIImage imageWithData:data];
+                             data = [UIImage reSizeImageData:newImg maxImageSize:420 maxSizeWithKB:300];
+                         }
                          [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
                      }
                  }
@@ -442,20 +463,23 @@ typedef enum : NSUInteger {
         
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
-             _headerImagesArray = [NSMutableArray arrayWithArray:[self getAllImages]];
+             _headerImagesArray = [NSMutableArray arrayWithArray:[self getImagesWithSection:0]];
              
-             for (NSArray *array in _headerImagesArray)
-             {
-                 YYLog(@"遍历得到的图片数组%@",array);
-                 
-                 for (WUAlbumAsset *imageset in array)
-                 {
-                     UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
-                     
-                     NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
+             if(_headerImagesArray && _headerImagesArray.count > 0) {
+                 for (id item in _headerImagesArray) {
+                     NSData *data;
+                     if([self isAsset:item]) {
+                         data = [item dataWithCompressionQualityDefault];
+                     } else {
+                         data = UIImageJPEGRepresentation(item, 1);
+                     }
                      
                      if (data != nil)
                      {
+                         if (data.length > 300 * 1024) {
+                             UIImage *newImg = [UIImage imageWithData:data];
+                             data = [UIImage reSizeImageData:newImg maxImageSize:420 maxSizeWithKB:300];
+                         }
                          [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
                      }
                  }

@@ -102,7 +102,7 @@
         }
         case 1003:
         {
-                            [[AlertView sharedAlertView] addAlertMessage:@"服务繁忙，请稍后再试" title:@"提示"];
+                            [[AlertView sharedAlertView] addAlertMessage:@"用户名或密码错误，请重试" title:@"提示"];
             //                [SVProgressHUD showErrorWithStatus:@"服务繁忙，请稍后再试"];
             YYLog(@"reultCode=1003,密码错误");
             break;

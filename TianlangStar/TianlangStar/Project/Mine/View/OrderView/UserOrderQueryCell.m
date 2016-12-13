@@ -53,7 +53,8 @@
         //商品图片
         CGFloat margin = 16;
         UIImageView *images = [[UIImageView alloc] initWithFrame:CGRectMake(margin, 14, 105, 70)];
-        images.contentMode = UIViewContentModeScaleAspectFit;
+        images.contentMode = UIViewContentModeScaleAspectFill;
+        images.layer.masksToBounds = YES;
         self.images = images;
         [self.contentView addSubview:images];
         
@@ -128,12 +129,12 @@
         
         
         //设置箭头
-//        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrows"]];
-//        img.x = KScreenWidth - 16 - img.width;
-//        img.centerY = images.centerY;
-//        [self.contentView addSubview:img];
-//        
-//        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrows"]];
+        img.x = KScreenWidth - 16 - img.width;
+        img.centerY = images.centerY;
+        [self.contentView addSubview:img];
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -146,8 +147,15 @@
 {
     _orderModel = orderModel;
     
-    [self.images sd_setImageWithURL:[NSURL URLWithString:orderModel.picture] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    NSArray *arr = [orderModel.images componentsSeparatedByString:@","];
+    
+    NSString *imgURl = [arr firstObject];
+    
+    [self.images sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imgURl]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     self.productname.text = orderModel.productname;
+    
+//    NSString *url = [NSString stringWithFormat:@"%@%@",picURL,orderModel.images];
+    
     self.count.text = [NSString stringWithFormat:@"* %@",orderModel.count];
     self.date.text = orderModel.lasttime;
     

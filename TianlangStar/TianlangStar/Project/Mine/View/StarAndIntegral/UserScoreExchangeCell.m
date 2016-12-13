@@ -27,6 +27,10 @@
 @property (nonatomic,weak) UILabel *time;
 
 
+/** <#房源信息#> */
+@property (nonatomic,weak) UILabel *confirm;
+
+
 @end
 
 @implementation UserScoreExchangeCell
@@ -78,6 +82,17 @@
 //        price.backgroundColor = [UIColor orangeColor];
         [self.contentView addSubview:price];
         
+        
+        
+        //交易状态
+        UILabel *confirm = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(productname.frame) + 12, 20, priceW, 30)];
+        confirm.y = CGRectGetMaxY(price.frame) + 2;
+        confirm.font = Font12;
+        confirm.textColor = lableRedTextcolor;
+        self.confirm = confirm;
+        //        price.backgroundColor = [UIColor orangeColor];
+        [self.contentView addSubview:confirm];
+        
         //箭头
         UIImageView *arrows = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrows"]];
         arrows.x = KScreenWidth - 16 - arrows.width;
@@ -117,6 +132,8 @@
     NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
     NSURL *url = [NSURL URLWithString:pic];
     [self.images sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+
+    self.confirm.text = model.confirm == 0 ? @"交易中" : @"交易完成";
     
     YYLog(@"model.images--%@",[NSString stringWithFormat:@"%@%@",picURL,model.images]);
     
