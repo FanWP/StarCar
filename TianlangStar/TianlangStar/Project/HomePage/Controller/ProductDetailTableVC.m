@@ -816,6 +816,7 @@
     {
         self.totalStar = [NSString stringWithFormat:@"%ld",(long)_serviceModel.realPrice];
     }
+    
     NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
 
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -878,15 +879,10 @@
              [self.navigationController pushViewController:vc                              animated:YES];
          }
          
-         
      } failure:^(NSError *error) {
          YYLog(@"购买返回错误%@",error);
      }];
-    
 }
-
-
-
 
 
 
@@ -1055,17 +1051,17 @@
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 40;
+            return height + 10;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 40;
+            return height + 10;
         }
         else
         {
-            return 40;
+            return 30;
         }
     }
     else if ([self.title isEqualToString:@"二手车详情"])
@@ -1074,22 +1070,22 @@
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
             
-            return height + 40;
+            return height + 10;
         }
         else if (indexPath.row == 10)
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
-            return height + 40;
+            return height + 10;
         }
         else
         {
-            return 40;
+            return 30;
         }
     }
     else
     {
-        return 40;
+        return 30;
     }
 }
 
@@ -1108,7 +1104,9 @@
         
     }
     
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.font = Font14;
     
     if ([self.title isEqualToString:@"商品详情"])
     {
@@ -1116,19 +1114,19 @@
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            cell.detailTextLabel.height = height + 40;
+            cell.textLabel.height = height;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            cell.detailTextLabel.numberOfLines = 0;
+            cell.textLabel.numberOfLines = 0;
             
-            cell.detailTextLabel.height = height + 40;
+            cell.detailTextLabel.height = height;
         }
         if (indexPath.row == 1)
         {
-            cell.detailTextLabel.textColor = [UIColor redColor];
+            cell.textLabel.textColor = [UIColor redColor];
         }
     }
     else if ([self.title isEqualToString:@"二手车详情"])
@@ -1137,17 +1135,17 @@
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
             
-            cell.detailTextLabel.numberOfLines = 0;
+            cell.textLabel.numberOfLines = 0;
             
-            cell.detailTextLabel.height = height + 40;
+            cell.textLabel.height = height;
         }
         else if (indexPath.row == 10)
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
-            cell.detailTextLabel.numberOfLines = 0;
+            cell.textLabel.numberOfLines = 0;
             
-            cell.detailTextLabel.height = height + 40;
+            cell.textLabel.height = height;
         }
     }
     

@@ -13,7 +13,7 @@
 + (CGFloat)heightForString:(NSString *)string WithFontSize:(NSInteger)fontSize
 {
     NSDictionary *dict = [NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:fontSize] forKey:NSFontAttributeName];
-    CGRect bounds= [string boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width-21, 3000) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:dict context:nil];
+    CGRect bounds= [string boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 3000) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:dict context:nil];
     
     return bounds.size.height;
 }

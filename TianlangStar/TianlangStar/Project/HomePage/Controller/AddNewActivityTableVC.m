@@ -238,6 +238,7 @@ typedef enum : NSUInteger {
         
     }
 
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.leftLabel.text = _leftArray[indexPath.row];
     if (indexPath.row == 2)
     {
