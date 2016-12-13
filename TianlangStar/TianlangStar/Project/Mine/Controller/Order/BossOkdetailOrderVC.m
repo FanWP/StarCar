@@ -85,7 +85,7 @@
                 rightlable.text = self.orderModel.productname;
                 break;
             case 3:
-                rightlable.text = self.orderModel.date;
+                rightlable.text = self.orderModel.lasttime;
                 break;
             case 4:
                 rightlable.text = self.orderModel.saleid;

@@ -81,7 +81,7 @@
             
             LoginVC *vc = [[LoginVC alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
-
+            
             
         }]];
         
@@ -90,7 +90,7 @@
             
         }];
         
-
+        
     }
     
     [self loadNewOrderInfo];
@@ -222,7 +222,7 @@
     
     NSString *url = [NSString stringWithFormat:@"%@",URL];
     
-    YYLog(@"购物车下拉刷parmas---%@",parmas);
+    YYLog(@"购物车parmas---%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.tableView.mj_footer endRefreshing];
@@ -233,7 +233,7 @@
              self.currentPage++;
              [self.tableView reloadData];
          }
-         YYLog(@"待处理订单加载更多json---%@",json);
+         YYLog(@"购物车加载更多json---%@",json);
      } failure:^(NSError *error) {
          [self.tableView.mj_footer endRefreshing];
          YYLog(@"error---%@",error);

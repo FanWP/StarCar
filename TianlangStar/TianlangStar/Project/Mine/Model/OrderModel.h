@@ -54,6 +54,9 @@
 /** 商品图片 */
 @property (nonatomic,copy) NSString *images;
 
+/** 商品图片 */
+@property (nonatomic,copy) NSString *productid;
+
 
 /** 积分价格 */
 @property (nonatomic,copy) NSString *scoreprice;

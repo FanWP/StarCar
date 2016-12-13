@@ -168,11 +168,12 @@
         self.confirm.text = @"交易成功";
     }
     //购买类型
-    if (orderModel.buytype == 1) {//虚拟币
-        self.price.text = [NSString stringWithFormat:@"%@星币",orderModel.price];
-    }else if (orderModel.buytype == 2){//积分
-        self.price.text = [NSString stringWithFormat:@"%@积分",orderModel.price];
-    }
+//    if (orderModel.buytype == 1) {//虚拟币
+//        self.price.text = [NSString stringWithFormat:@"%.0f星币",orderModel.real_price];
+//    }else if (orderModel.buytype == 2){//积分
+//        self.price.text = [NSString stringWithFormat:@"%.0f积分",orderModel.real_price];
+//    }
+    self.price.text = [NSString stringWithFormat:@"%.0f星币",orderModel.real_price];
     
 
     

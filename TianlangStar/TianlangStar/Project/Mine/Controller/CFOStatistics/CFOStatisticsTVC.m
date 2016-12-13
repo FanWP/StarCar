@@ -463,7 +463,7 @@ typedef enum : NSUInteger
         {
             YYLog(@"%@",self.startText.text);
             YYLog(@"%@",self.endText.text);
- 
+            
             parmas[@"startTime"] = self.startText.text;
             parmas[@"endTime"] = self.endText.text;
             break;
@@ -484,7 +484,7 @@ typedef enum : NSUInteger
         {
             YYLog(@"项目--%@",self.productText.text);
             if (self.productText.text.length == 0 || self.productText.text == nil) {
-             
+                
                 [[AlertView sharedAlertView] addAlertMessage:@"请输入查询条件" title:@"提示"];
                 return;
             }
@@ -626,88 +626,49 @@ typedef enum : NSUInteger
     
     NSString *url = [NSString stringWithFormat:@"%@export/finance/list",URL];
     
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    NSMutableDictionary *parmas = self.newparmas ? self.newparmas : self.parmas;
     
-    NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
-    parameters[@"sessionId"] = sessionid;
     
-    parameters[@"pageNum"] = @(self.currentPage);
-    parameters[@"pageSize"] = @"10";
-    parameters[@"startTime"] = self.startTime;
-    parameters[@"endTime"] = self.endtTime;
-    parameters[@"account"] = self.accountText.text;
-    parameters[@"product"] = self.productText.text;
-    parameters[@"minMoney"] = self.startPriceText.text;
-    parameters[@"maxMoney"] = self.endPriceText.text;
+    YYLog(@"parmas-----:%@",parmas);
     
-    NSInteger type;
-    switch (self.searchType)
-    {
-        case timeSearch:
-            type = 1;
-            break;
-        case userSearch:
-            type = 2;
-            break;
-        case accountSearch:
-            type = 3;
-            break;
-        case priceSearch:
-            if (button.tag == 4)
-            {
-                type = 4;
-            }
-            else if (button.tag == 5)
-            {
-                type = 5;
-            }
-            break;
-            
-        default:
-            break;
-    }
-    parameters[@"type"] = @(type);
-    
-    YYLog(@"财务统计导出参数：%@",parameters);
-    
-    [[AFHTTPSessionManager manager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-     {
-         YYLog(@"导出excel返回%@",responseObject);
-         
-         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-         
-         if (resultCode == 1000)
-         {
-             NSString *obj = responseObject[@"body"];
-             
-             YYLog(@"导出excel链接：：http://192.168.1.18:8080/%@",obj);
-             
-             NSString *url = [NSString stringWithFormat:@"http://192.168.1.18:8080/%@",obj];
-             
-             NSString *shareText = [NSString stringWithFormat:@"财务统计表：%@",url];
-             
-             [UMSocialData defaultData].extConfig.title = @"天狼星";
-             
-             [UMSocialSnsService presentSnsIconSheetView:self appKey:@"584f99c25312ddbd6a0011b4" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToQQ] delegate:self];
-             
-             [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ] content:shareText image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
-                 
-                 if (response.responseCode == UMSResponseCodeSuccess)   {
-                     
-                     [UMSocialData defaultData].extConfig.qqData.url = url;
-                     
-                     YYLog(@"分享出去的链接%@",url);
-                 }
-             }];
-         }
-         
-     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-     {
-         YYLog(@"导出excel失败%@",error);
-         
-     }];
+//    [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//     {
+//         YYLog(@"导出excel返回%@",responseObject);
+//         
+//         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+//         
+//         if (resultCode == 1000)
+//         {
+//             NSString *obj = responseObject[@"body"];
+//             
+//             YYLog(@"导出excel链接：：http://192.168.1.18:8080/%@",obj);
+//             
+//             NSString *url = [NSString stringWithFormat:@"http://192.168.1.18:8080/%@",obj];
+//             
+//             NSString *shareText = [NSString stringWithFormat:@"财务统计表：%@",url];
+//             
+//             [UMSocialData defaultData].extConfig.title = @"天狼星";
+//             
+//             [UMSocialSnsService presentSnsIconSheetView:self appKey:@"584f99c25312ddbd6a0011b4" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToQQ] delegate:self];
+//             
+//             [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ] content:shareText image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
+//                 
+//                 if (response.responseCode == UMSResponseCodeSuccess)   {
+//                     
+//                     [UMSocialData defaultData].extConfig.qqData.url = url;
+//                     
+//                     YYLog(@"分享出去的链接%@",url);
+//                 }
+//             }];
+//         }
+//         
+//     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//     {
+//         YYLog(@"导出excel失败%@",error);
+//         
+//     }];
 }
 
 -(void)searchBtnClick:(UIButton *)button

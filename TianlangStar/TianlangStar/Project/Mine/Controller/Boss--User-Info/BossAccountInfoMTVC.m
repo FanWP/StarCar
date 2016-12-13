@@ -580,7 +580,6 @@
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          
-         [SVProgressHUD dismiss];
          YYLog(@"responseObject---%@",responseObject);
          
          NSNumber *num = responseObject[@"resultCode"];
@@ -588,11 +587,17 @@
          
          if ([num integerValue] == 1000)
          {
+             [SVProgressHUD showSuccessWithStatus:@"修改成功！"];
              UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
              UserInfo *userInfo = [UserInfo sharedUserInfo];
              //保存用户信息
              userInfo.headerpic = model.headimage;
              [userInfo synchronizeToSandBox];
+              [SVProgressHUD dismissWithDelay:3];
+
+         }else
+         {
+             [SVProgressHUD dismiss];
          }
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

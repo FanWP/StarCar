@@ -9,6 +9,7 @@
 #import "UserOrderQueryTVC.h"
 #import "OrderModel.h"
 #import "UserOrderQueryCell.h"
+#import "ShopCartDetailTableVC.h"
 
 @interface UserOrderQueryTVC ()
 
@@ -68,12 +69,12 @@
          {
              self.currentPage++;
          }
-        [self.tableView reloadData];
-        YYLog(@"json----%@",json);
-    } failure:^(NSError *error) {
-        [self.tableView.mj_header endRefreshing];
-        YYLog(@"error----%@",error);
-    }];
+         [self.tableView reloadData];
+         YYLog(@"json----%@",json);
+     } failure:^(NSError *error) {
+         [self.tableView.mj_header endRefreshing];
+         YYLog(@"error----%@",error);
+     }];
 }
 
 
@@ -132,6 +133,23 @@
     OrderModel *model = self.orderArr[indexPath.row];
     cell.orderModel = model;
     return cell;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShopCartDetailTableVC *shopCartDetailTableVC = [[ShopCartDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+    OrderModel *model = self.orderArr[indexPath.row];
+    shopCartDetailTableVC.ID = model.productid;
+    if (model.buytype == 1)
+    {
+        shopCartDetailTableVC.title = @"商品详情";
+    }
+    else if (model.buytype == 2)
+    {
+        shopCartDetailTableVC.title = @"保养维护详情";
+    }
+    [self.navigationController pushViewController:shopCartDetailTableVC animated:YES];
 
 }
 

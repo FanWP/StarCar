@@ -557,6 +557,7 @@
     YYLog(@"parmas----%@----url:%@",parmas,url);
     
     [SVProgressHUD show];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeCustom];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
      {
          NSData *data = [UIImage reSizeImageData:self.headerImg maxImageSize:420 maxSizeWithKB:300];
@@ -570,17 +571,23 @@
          
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
          
-         [SVProgressHUD dismiss];
+         
          YYLog(@"responseObject---%@",responseObject);
          
          NSNumber *num = responseObject[@"resultCode"];
          
          if ([num integerValue] == 1000)//保存数据
          {
+             [SVProgressHUD showSuccessWithStatus:@"修改成功！"];
              UserInfo *userInfo = [UserInfo sharedUserInfo];
              UserModel *model = [UserModel mj_objectWithKeyValues:responseObject[@"body"]];
              userInfo.headerpic = model.headimage;
              [userInfo synchronizeToSandBox];
+             [SVProgressHUD dismissWithDelay:3];
+             
+         }else
+         {
+             [SVProgressHUD dismiss];
          }
          
          
