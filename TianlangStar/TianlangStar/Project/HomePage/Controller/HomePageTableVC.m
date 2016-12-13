@@ -121,6 +121,8 @@
             // 轮播图数据
             NSArray *imageArray = dic[@"firstImages"];
             
+            [_ImgList removeAllObjects];
+            
             for (NSDictionary *dic in imageArray)
             {
                 NSString *picture = [dic objectForKey:@"images"];
