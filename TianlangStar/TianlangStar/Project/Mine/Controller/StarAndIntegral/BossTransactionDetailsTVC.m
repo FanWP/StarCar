@@ -113,8 +113,7 @@
     
     cell.textLabel.text = model.leftLB;
     cell.detailTextLabel.text = model.rightLB;
-    
-    
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;

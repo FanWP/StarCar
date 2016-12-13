@@ -75,6 +75,7 @@
                 case 2:// 交易金额
                 {
                     self.star = lable;
+                    lable.x -= 10;
                     lable.textAlignment = NSTextAlignmentRight;
                     break;
                 }
