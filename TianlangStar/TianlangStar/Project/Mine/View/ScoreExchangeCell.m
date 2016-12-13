@@ -63,9 +63,9 @@
         
         
         //图片
-        UIImageView *productImg = [[UIImageView alloc] initWithFrame:CGRectMake(14, 14, 137, 100)];
-//        productImg.contentMode = UIViewContentModeScaleAspectFill;
-//        productImg.layer.masksToBounds = YES;
+        UIImageView *productImg = [[UIImageView alloc] initWithFrame:CGRectMake(14, 14, 137, 110)];
+        productImg.contentMode = UIViewContentModeScaleAspectFill;
+        productImg.layer.masksToBounds = YES;
         self.productImg = productImg;
         [self.contentView addSubview:productImg];
         
@@ -123,7 +123,7 @@
     NSArray *imagesArray = [model.images componentsSeparatedByString:@","];
     NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
     NSURL *url = [NSURL URLWithString:pic];
-    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    [self.productImg sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
     self.productname.text = model.productname;
     self.introduction.text = model.introduction;

@@ -227,7 +227,7 @@
  */
 + (NSString *)VIPis:(NSInteger )VIP
 {
-    NSString *leval = @"LV.1";
+    NSString *leval = @"LV.0";
     switch (VIP) {
         case 1:
             leval = @"LV.1";
@@ -258,6 +258,7 @@
             break;
             
         default:
+            leval = @"LV.0";
             break;
     }
     

@@ -127,16 +127,19 @@
                 
                 NSArray *imagesArray = [picture componentsSeparatedByString:@","];
                 
+                [self.ImgList removeAllObjects];
                 for (NSInteger i = 0; i < imagesArray.count; i++)
                 {
                     NSString *pic = imagesArray[i];
                     
                     NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
                     
+
                     [self.ImgList addObject:image];
                 }
                 
-                [self creatHeaderView];
+                
+                [self.scrollView setImageURLStringsGroup:self.ImgList];
             }
             
             
@@ -185,36 +188,36 @@
     [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-    {
-        YYLog(@"获取所有商品列表返回：%@",responseObject);
-        
-        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
-        
-        if (resultCode == 1000)
-        {
-            self.pageNum++;
-            
-            if ([productType isEqualToString:@"1"])
-            {
-                _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-            }
-            else if ([productType isEqualToString:@"2"])
-            {
-                _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-            }
-            else
-            {
-                _secondCarArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
-            }
-        }
-        
-        [self.tableView reloadData];
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-    {
-        YYLog(@"获取所有商品列表错误：%@",error);
-        
-    }];
+     {
+         YYLog(@"获取所有商品列表返回：%@",responseObject);
+         
+         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+         
+         if (resultCode == 1000)
+         {
+             self.pageNum++;
+             
+             if ([productType isEqualToString:@"1"])
+             {
+                 _serviceArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+             }
+             else if ([productType isEqualToString:@"2"])
+             {
+                 _productsArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+             }
+             else
+             {
+                 _secondCarArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+             }
+         }
+         
+         [self.tableView reloadData];
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"获取所有商品列表错误：%@",error);
+         
+     }];
 }
 
 
@@ -339,16 +342,21 @@
 
 
 
-#pragma mark - 轮播图
-- (void)creatHeaderView
+
+/** 轮播图的懒加载 */
+-(SDCycleScrollView *)scrollView
 {
-    _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
-    _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:self.ImgList];
-    _scrollView.delegate = self;
-    _scrollView.placeholderImage = [UIImage imageNamed:@"touxiang"];
-    _scrollView.autoScrollTimeInterval = 2.0;
-    [_headerView addSubview:_scrollView];
-    self.tableView.tableHeaderView = _headerView;
+    if (_scrollView == nil) {
+        
+        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight)];
+        _scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, KScreenWidth, 0.25 * KScreenHeight) imageNamesGroup:self.ImgList];
+        _scrollView.delegate = self;
+        _scrollView.placeholderImage = [UIImage imageNamed:@"touxiang"];
+        _scrollView.autoScrollTimeInterval = 2.0;
+        [_headerView addSubview:_scrollView];
+        self.tableView.tableHeaderView = _headerView;
+    }
+    return _scrollView;
 }
 
 

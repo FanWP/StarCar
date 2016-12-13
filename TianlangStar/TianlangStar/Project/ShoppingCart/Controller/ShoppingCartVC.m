@@ -462,8 +462,7 @@
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
         [self checkTotalPrice];
-        
-        
+
         YYLog(@"%@",error);
     }];
 }

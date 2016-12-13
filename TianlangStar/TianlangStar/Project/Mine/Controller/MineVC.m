@@ -80,7 +80,21 @@
     
     self.automaticallyAdjustsScrollViewInsets = YES;
     
+    //下拉刷新
+    [self setupNewUserInfo];
+    
 }
+
+-(void)setupNewUserInfo
+{
+    self.tableView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+        [self loginSuccess];
+        [self.tableView.mj_header endRefreshing];
+    }];
+    
+}
+
+
 
 
 -(UserCommonView *)userCommonView
@@ -117,33 +131,7 @@
           [self getPubicKey];
     }
     
-    
-    
-    
-    /*
-     
-     self.flag = NO;
-     self.tableView.scrollEnabled = YES;
-     
-     //设置数据
-     [self setupHearderInfo];
-     
-     //清空原有数组
-     self.dataList = nil;
-     if (USERType == 1 || USERType == 0)//管理员
-     {
-     [self addGroupAdmin];
-     }else if (USERType == 2)//普通用户
-     {
-     [self addGroupCustomer];
-     }
-     [self.tableView reloadData];
-     
-     //获取积分余额----顶部个人头像
-     [self getAccountBalance];
-     
-     [self getAccountBalanceScore];
-     */
+
 }
 
 

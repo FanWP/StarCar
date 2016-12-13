@@ -263,7 +263,7 @@ typedef enum : NSUInteger {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        [SVProgressHUD dismiss];
+
         YYLog(@"我的车辆信息登记返回：%@",responseObject);
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
@@ -273,6 +273,8 @@ typedef enum : NSUInteger {
 //            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
             [SVProgressHUD showSuccessWithStatus:@"添加爱车成功！"];
         }
+        
+                [SVProgressHUD dismissWithDelay:2];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
