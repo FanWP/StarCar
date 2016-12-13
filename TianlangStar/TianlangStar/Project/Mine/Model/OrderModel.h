@@ -52,7 +52,7 @@
 
 
 /** 商品图片 */
-@property (nonatomic,copy) NSString *picture;
+@property (nonatomic,copy) NSString *images;
 
 
 /** 积分价格 */

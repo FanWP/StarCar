@@ -97,6 +97,10 @@
 
 
 
+/** 交易状态  0-  未确认  1   ----已确认 */
+@property (nonatomic,assign) NSInteger confirm;
+
+
 
 @property (nonatomic,copy) NSString *countNum;
 

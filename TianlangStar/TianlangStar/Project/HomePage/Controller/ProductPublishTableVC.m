@@ -267,6 +267,7 @@ typedef enum : NSUInteger {
                  
                  for (WUAlbumAsset *imageset in array)
                  {
+#warning todo
                      UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
                      
                      NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];

@@ -146,8 +146,11 @@
 {
     _orderModel = orderModel;
     
-    [self.images sd_setImageWithURL:[NSURL URLWithString:orderModel.picture] placeholderImage:[UIImage imageNamed:@"touxiang"]];
+    [self.images sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,orderModel.images]] placeholderImage:[UIImage imageNamed:@"touxiang"]];
     self.productname.text = orderModel.productname;
+    
+//    NSString *url = [NSString stringWithFormat:@"%@%@",picURL,orderModel.images];
+    
     self.count.text = [NSString stringWithFormat:@"* %@",orderModel.count];
     self.date.text = orderModel.lasttime;
     

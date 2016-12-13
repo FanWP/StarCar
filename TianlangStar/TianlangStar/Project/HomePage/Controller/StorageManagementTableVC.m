@@ -65,11 +65,9 @@
     [self pullOnLoadingwWithType:1];
     
     [self dropdownRefresh];
-    
-    
-    
+
     [self creatFooterView];
-    
+
 }
 
 
@@ -265,7 +263,7 @@
         
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
         
-        self.pageNum = 1;
+//        self.pageNum = 1;
 
         parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"pageNum"]  = @(self.pageNum);
