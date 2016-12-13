@@ -110,7 +110,7 @@ typedef enum : NSUInteger {
 {
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:(UIBarButtonItemStylePlain) target:self action:@selector(finishAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:(UIBarButtonItemStylePlain) target:self action:@selector(finishAction:)];
 }
 
 
@@ -128,8 +128,11 @@ typedef enum : NSUInteger {
 
 
 
-- (void)finishAction
+- (void)finishAction:(UIBarButtonItem *)sender
 {
+    [SVProgressHUD showWithStatus:@"正在添加~"];
+
+    
     [self.view endEditing:YES];
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
@@ -143,7 +146,7 @@ typedef enum : NSUInteger {
     
     NSString *url = [NSString stringWithFormat:@"%@upload/add/activities",URL];
     
-    [SVProgressHUD show];
+    
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
         NSArray *imagesArray = [self getAllImages];
@@ -182,6 +185,8 @@ typedef enum : NSUInteger {
             _activityModel = nil;
                         
             [self creatHeaderView];
+            
+            [self.tableView reloadData];
             
         }
         else

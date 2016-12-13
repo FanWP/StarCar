@@ -36,7 +36,7 @@
     return self;
 }
 
--(void)initialize {
+-(void)initialize { 
     
     _imageView = [[UIImageView alloc] init];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;

@@ -268,7 +268,7 @@ NSString *const WUAlbumViewCellIdentifier = @"WUAlbumViewCellIdentifier";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSArray<NSIndexPath*> *selecteds = [collectionView indexPathsForSelectedItems];
-    if(_maxSelectCount > 0 && selecteds && selecteds.count > _maxSelectCount) {
+    if(_maxSelectCount > 0 && selecteds && selecteds.count > _maxSelectCount && selecteds.count <= 9) {
         [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     }
     

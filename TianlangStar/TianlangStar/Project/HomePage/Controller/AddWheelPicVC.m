@@ -287,7 +287,14 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     SectionModel *s = _dataArray[section];
-    return s.mutableCells.count;
+//    if (s.mutableCells.count <= 9)
+//    {
+        return s.mutableCells.count;
+//    }
+//    else
+//    {
+//        return 9;
+//    }
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -468,7 +475,7 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     cell.imageView.image = nil;
     NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
     SectionModel *s = _dataArray[indexPath.section];
-    [s.mutableCells removeObjectAtIndex:indexPath.row];
+    [s.mutableCells removeObjectAtIndex:indexPath.item];
     [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
     
 }

@@ -151,35 +151,47 @@
             {
                 self.dataDic = responseObject[@"body"];
                 
-                NSString *images = self.dataDic[@"images"];
-        
-                NSArray *array = [images componentsSeparatedByString:@","];
-        
-                for (NSInteger i = 0; i < array.count - 1; i++)
+                if (self.dataDic == nil)
                 {
-                    NSString *pic = array[i];
-        
-                    NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-        
-                    [_imagesArray addObject:image];
+                    return;
                 }
-        
+                else
+                {
+                    NSString *images = self.dataDic[@"images"];
+                    
+                    NSArray *array = [images componentsSeparatedByString:@","];
+                    
+                    for (NSInteger i = 0; i < array.count - 1; i++)
+                    {
+                        NSString *pic = array[i];
+                        
+                        NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+                        
+                        [_imagesArray addObject:image];
+                    }
+                }
             }
             else
             {
                 self.dataDic = responseObject[@"body"];
-                
-                NSString *images = self.dataDic[@"images"];
-        
-                NSArray *array = [images componentsSeparatedByString:@","];
-        
-                for (NSInteger i = 0; i < array.count - 1; i++)
+                if (self.dataDic == nil)
                 {
-                    NSString *pic = array[i];
-        
-                    NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-        
-                    [_imagesArray addObject:image];
+                    return;
+                }
+                else
+                {
+                    NSString *images = self.dataDic[@"images"];
+                    
+                    NSArray *array = [images componentsSeparatedByString:@","];
+                    
+                    for (NSInteger i = 0; i < array.count - 1; i++)
+                    {
+                        NSString *pic = array[i];
+                        
+                        NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
+                        
+                        [_imagesArray addObject:image];
+                    }
                 }
             }
             
