@@ -360,7 +360,7 @@
             case membername://姓名
                 cell.textField.text = self.userModel.membername;
                 break;
-            case telephone://手机号
+            case username://手机号
             {
                 cell.textField.text = self.userModel.username;
                 cell.textField.enabled = NO;

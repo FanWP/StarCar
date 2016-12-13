@@ -222,7 +222,7 @@
     
     parmas[@"membername"] = self.userModel.membername;
     parmas[@"sex"] = @(self.userModel.sex);
-    parmas[@"username"] = self.userModel.telephone;
+    parmas[@"username"] = self.userModel.username;
     parmas[@"identity"] = self.userModel.identity;
     parmas[@"address"] = self.userModel.address;
     
@@ -395,7 +395,7 @@
                 cell.textField.text = sexstr;
                 break;
             }
-            case telephone://手机号
+            case username://手机号
             {
                 cell.textField.text = self.userModel.username;
 //                cell.textField.keyboardType = UIKeyboardTypePhonePad;
@@ -529,7 +529,7 @@
             //        case sex:
             //            self.userModel.sex = textField.text;
             //            break;
-        case telephone:
+        case username:
             self.userModel.username = textField.text;
             break;
         case identity:

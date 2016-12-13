@@ -50,7 +50,7 @@ UIKIT_EXTERN NSString *const picURL;
 typedef enum : NSUInteger {
     membername = 0,
     sex =1,
-    telephone = 2,
+    username = 2,
     identity = 3,
     address =4,
     viplevel = 5,
