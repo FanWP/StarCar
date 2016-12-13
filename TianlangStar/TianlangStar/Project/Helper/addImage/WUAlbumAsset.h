@@ -29,7 +29,7 @@
 /**
  *  根据尺寸获取图片
  */
--(UIImage*)imageWithSize:(CGSize)size;
+-(UIImage *)imageWithSize:(CGSize)size;
 
 /**
  *  获取原图(大图)

@@ -184,7 +184,7 @@
 
     YYLog(@"仓库管理参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@find/products/list?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@find/products/list",URL];
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -462,7 +462,7 @@
     
     YYLog(@"上架下架参数parmas--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@update/products/shelves?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@update/products/shelves",URL];
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         

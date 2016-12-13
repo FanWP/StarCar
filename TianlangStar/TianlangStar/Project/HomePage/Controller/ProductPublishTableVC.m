@@ -340,6 +340,8 @@ typedef enum : NSUInteger {
 {
     [self.view endEditing:YES];
     
+    [SVProgressHUD showWithStatus:@"正在入库~"];
+    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
     parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
@@ -356,9 +358,11 @@ typedef enum : NSUInteger {
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
     
+    
+    
     if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.serviceModel.services != nil || self.serviceModel.services != 0 || self.serviceModel.servicetype != nil || [self.serviceModel.servicetype length] != 0 || self.serviceModel.content != nil || [self.serviceModel.content length] != 0 || self.serviceModel.warranty != nil || [self.serviceModel.warranty length] != 0 || self.serviceModel.manhours != nil || [self.serviceModel.manhours length] != 0 || self.serviceModel.price != nil || [self.serviceModel.price length] != 0 || self.serviceModel.scoreprice != nil || [self.serviceModel.scoreprice length] != 0)
     {
-        [SVProgressHUD showWithStatus:@"正在入库~"];
+        
         
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {

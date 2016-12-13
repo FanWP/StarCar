@@ -218,7 +218,14 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if ([UserInfo sharedUserInfo].isLogin == YES && ([UserInfo sharedUserInfo].userType == 0 || [UserInfo sharedUserInfo].userType == 1))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 
@@ -228,12 +235,6 @@
 }
 
 
-////删除所做的动作
-//-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return @"删除";
-//    
-//}
 
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
