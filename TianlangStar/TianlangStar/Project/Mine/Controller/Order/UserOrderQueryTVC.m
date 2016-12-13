@@ -138,18 +138,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    ShopCartDetailTableVC *shopCartDetailTableVC = [[ShopCartDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
-//    OrderModel *model = self.orderArr[indexPath.row];
-//    shopCartDetailTableVC.ID = model.productid;
-//    if (model.buytype == 1)
-//    {
-//        shopCartDetailTableVC.title = @"商品详情";
-//    }
-//    else if (model.buytype == 2)
-//    {
-//        shopCartDetailTableVC.title = @"保养维护详情";
-//    }
-//    [self.navigationController pushViewController:shopCartDetailTableVC animated:YES];
+    ShopCartDetailTableVC *shopCartDetailTableVC = [[ShopCartDetailTableVC alloc] initWithStyle:(UITableViewStylePlain)];
+    OrderModel *model = self.orderArr[indexPath.row];
+    shopCartDetailTableVC.ID = model.productid;
+    if (model.buytype == 1)
+    {
+        shopCartDetailTableVC.title = @"商品详情";
+    }
+    else if (model.buytype == 2)
+    {
+        shopCartDetailTableVC.title = @"保养维护详情";
+    }
+    [self.navigationController pushViewController:shopCartDetailTableVC animated:YES];
 
 }
 
