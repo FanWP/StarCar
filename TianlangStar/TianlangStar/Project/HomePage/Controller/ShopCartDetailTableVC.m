@@ -155,6 +155,7 @@
         {
             if ([self.title isEqualToString:@"商品详情"])//商品
             {
+                
                 self.dataDic = responseObject[@"body"];
                 
                 if (self.dataDic == nil)
@@ -163,6 +164,8 @@
                 }
                 else
                 {
+                    self.productModel = [ProductModel mj_objectWithKeyValues:self.dataDic];
+                    
                     NSString *images = self.dataDic[@"images"];
                     
                     self.price = self.dataDic[@"price"];
@@ -182,6 +185,7 @@
             else
             {
                 self.dataDic = responseObject[@"body"];
+                self.serviceModel = [ServiceModel mj_objectWithKeyValues:self.dataDic];
                 if (self.dataDic == nil)
                 {
                     return;
