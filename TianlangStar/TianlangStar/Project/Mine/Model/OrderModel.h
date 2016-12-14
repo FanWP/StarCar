@@ -58,6 +58,12 @@
 @property (nonatomic,copy) NSString *productid;
 
 
+/** 购买价格 */
+@property (nonatomic,copy) NSString *purchaseprice;
+
+
+
+
 /** 积分价格 */
 @property (nonatomic,copy) NSString *scoreprice;
 

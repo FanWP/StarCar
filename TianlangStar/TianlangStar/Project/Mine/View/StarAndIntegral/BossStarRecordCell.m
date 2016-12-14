@@ -93,7 +93,7 @@
 -(void)setOrderModel:(OrderModel *)orderModel
 {
     _orderModel = orderModel;
-    self.username.text = orderModel.membername;
+    self.username.text = (orderModel.membername == nil || orderModel.membername.length == 0) ? orderModel.username : orderModel.membername;
     self.saletype.text = @"交易成功";
     if (orderModel.purchasetype == 2) {//积分交易
         self.star.text = [NSString stringWithFormat:@"+%@积分",orderModel.scoreprice];
