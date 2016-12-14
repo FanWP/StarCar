@@ -58,7 +58,8 @@
     [self.tableView.mj_header beginRefreshing];
     [self.tableView.mj_header isAutomaticallyChangeAlpha];
 
-    self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreOrderInfo)];
+    //不做上拉刷新
+//    self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreOrderInfo)];
 }
 
 
