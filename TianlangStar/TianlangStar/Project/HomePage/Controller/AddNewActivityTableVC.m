@@ -55,6 +55,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,strong) SectionModel *s0;
 
+@property (nonatomic,strong) NSMutableArray *headerImagesArray;
 
 @end
 
@@ -90,6 +91,19 @@ typedef enum : NSUInteger {
     
     return _activityModel;
 }
+
+
+
+- (NSMutableArray *)headerImagesArray
+{
+    if (!_headerImagesArray)
+    {
+        _headerImagesArray = [NSMutableArray array];
+    }
+    
+    return _headerImagesArray;
+}
+
 
 
 
@@ -130,7 +144,7 @@ typedef enum : NSUInteger {
 
 - (void)finishAction:(UIBarButtonItem *)sender
 {
-    [SVProgressHUD showWithStatus:@"正在添加~"];
+    [SVProgressHUD showWithStatus:@"正在添加"];
 
     
     [self.view endEditing:YES];
@@ -149,18 +163,23 @@ typedef enum : NSUInteger {
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
     {
-        NSArray *imagesArray = [self getAllImages];
+        _headerImagesArray = [NSMutableArray arrayWithArray:[self getImagesWithSection:0]];
         
-        for (NSArray *array in imagesArray)
-        {
-            for (WUAlbumAsset *imageset in array)
-            {
-                UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
-                
-                NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300];
+        if(_headerImagesArray && _headerImagesArray.count > 0) {
+            for (id item in _headerImagesArray) {
+                NSData *data;
+                if([self isAsset:item]) {
+                    data = [item dataWithCompressionQualityDefault];
+                } else {
+                    data = UIImageJPEGRepresentation(item, 1);
+                }
                 
                 if (data != nil)
                 {
+                    if (data.length > 300 * 1024) {
+                        UIImage *newImg = [UIImage imageWithData:data];
+                        data = [UIImage reSizeImageData:newImg maxImageSize:420 maxSizeWithKB:300];
+                    }
                     [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
                 }
             }

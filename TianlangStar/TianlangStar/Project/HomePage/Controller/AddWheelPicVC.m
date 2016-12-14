@@ -35,6 +35,8 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
 
 @property (nonatomic,strong) SectionModel *s0;
 
+@property (nonatomic,strong) NSMutableArray *headerImagesArray;
+
 @end
 
 @implementation AddWheelPicVC
@@ -78,6 +80,19 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
 
 
 
+- (NSMutableArray *)headerImagesArray
+{
+    if (!_headerImagesArray)
+    {
+        _headerImagesArray = [NSMutableArray array];
+    }
+    
+    return _headerImagesArray;
+}
+
+
+
+
 - (void)finishAction
 {
     YYLog(@"上传");
@@ -98,23 +113,26 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasepictureservlet",URL];
     
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"正在添加"];
     [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
-        NSArray *imagesArray = [self getAllImages];
+        _headerImagesArray = [NSMutableArray arrayWithArray:[self getImagesWithSection:0]];
         
-        for (NSArray *array in imagesArray)
-        {
-            for (WUAlbumAsset *imageset in array)
-            {
-                UIImage *image = [imageset imageWithSize:CGSizeMake(KScreenWidth, 0.25 * KScreenHeight)];
-                
-                NSData *data = [UIImage compressImage:image toMaxDataSizeKBytes:300 * 1024];
-                
-                YYLog(@"上传轮播图图片大小：：%ld",data.length);
+        if(_headerImagesArray && _headerImagesArray.count > 0) {
+            for (id item in _headerImagesArray) {
+                NSData *data;
+                if([self isAsset:item]) {
+                    data = [item dataWithCompressionQualityDefault];
+                } else {
+                    data = UIImageJPEGRepresentation(item, 1);
+                }
                 
                 if (data != nil)
                 {
+                    if (data.length > 300 * 1024) {
+                        UIImage *newImg = [UIImage imageWithData:data];
+                        data = [UIImage reSizeImageData:newImg maxImageSize:420 maxSizeWithKB:300];
+                    }
                     [formData appendPartWithFileData:data name:@"images" fileName:@"img.jpg" mimeType:@"image/jpeg"];
                 }
             }
