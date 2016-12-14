@@ -129,10 +129,12 @@
     NSString *type;
     if ([self.title isEqualToString:@"商品详情"])
     {
+        self.productType = 1;
         type = @"1";
     }
     else
     {
+        self.productType = 2;
         type = @"2";
     }
     parmas[@"type"]  = type;
@@ -232,6 +234,7 @@
 
 -(void)setProductType:(NSInteger)productType
 {
+    self.countNumber = 1;
     _productType = productType;
     [self changeModelCount];
     
