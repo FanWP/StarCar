@@ -12,6 +12,10 @@
 #import "CarModel.h"
 #import "UserInfo.h"
 
+#import "BuyingSuccessListModel.h"
+
+#import "BuyingSuccessList.h"
+
 #import "CollectionModel.h"
 
 @interface ShopCartDetailTableVC ()<SDCycleScrollViewDelegate>
@@ -159,6 +163,8 @@
                 {
                     NSString *images = self.dataDic[@"images"];
                     
+                    self.price = self.dataDic[@"price"];
+                    
                     NSArray *array = [images componentsSeparatedByString:@","];
                     
                     for (NSInteger i = 0; i < array.count - 1; i++)
@@ -181,6 +187,8 @@
                 else
                 {
                     NSString *images = self.dataDic[@"images"];
+                    
+                    self.price = self.dataDic[@"price"];
                     
                     NSArray *array = [images componentsSeparatedByString:@","];
                     
@@ -662,6 +670,7 @@
 //立即购买点击时间
 - (void)addCountAction:(UIButton *)button
 {
+    
     self.countNumber = 1;
     
     self.appearCount++;
@@ -818,8 +827,169 @@
     [self.okAddCartButton setTintColor:[UIColor whiteColor]];
     
     [[UIApplication sharedApplication].keyWindow addSubview:self.okAddCartButton];
+
+    
+//    self.countNumber = 1;
+//
+//    self.appearCount++;
+//
+//    CGFloat coverViewHeight = KScreenHeight - Klength44;
+//    self.coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, coverViewHeight)];
+//    self.coverView.backgroundColor = [UIColor colorWithRed:204.0 / 255.0 green:204.0 / 255.0 blue:204.0 / 255.0 alpha:0.8];
+//    self.coverView.userInteractionEnabled = YES;
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+//    [self.coverView addGestureRecognizer:tap];
+//    [self.view addSubview:self.coverView];
+//    [[UIApplication sharedApplication].keyWindow addSubview:self.coverView];
+//    
+//    
+//    
+//    CGFloat countViewheight = 205;
+//    CGFloat countViewY = coverViewHeight - countViewheight;
+//    self.countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, KScreenWidth, countViewheight)];
+//    self.countView.backgroundColor = [UIColor whiteColor];
+//    self.countView.userInteractionEnabled = YES;
+//    [self.coverView addSubview:self.countView];
+//    
+//    
+//    
+//    
+//    CGFloat coverPicViewX = 16;
+//    CGFloat coverPicViewY = coverViewHeight - countViewheight - 57;
+//    CGFloat coverPicViewWidth = 0.6 * KScreenWidth;
+//    CGFloat coverPicViewHeight = 107 + 12 + 12;
+//    self.coverPicView = [[UIView alloc] initWithFrame:CGRectMake(coverPicViewX, coverPicViewY, coverPicViewWidth, coverPicViewHeight)];
+//    self.coverPicView.layer.cornerRadius = BtncornerRadius;
+//    self.coverPicView.backgroundColor = [UIColor whiteColor];
+//    [self.coverView addSubview:self.coverPicView];
+//    
+//    
+//    
+//    
+//    CGFloat picViewX = 16;
+//    CGFloat picViewY = 12;
+//    CGFloat picViewWidth = coverPicViewWidth - 2 * picViewX;
+//    CGFloat picViewHight = 107;
+//    self.picView = [[UIImageView alloc] initWithFrame:CGRectMake(picViewX, picViewY, picViewWidth, picViewHight)];
+//    [self.coverPicView addSubview:self.picView];
+//    
+//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_imagesArray.firstObject]];
+//    [self.picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+//    
+//    
+//    
+//    CGFloat selectCountLabelX = 50;
+//    CGFloat selectCountLabelY = countViewheight - 50 - 3 * Klength20;
+//    CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
+//    self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
+//    self.selectCountLabel.text = @"选择数量";
+//    [self.countView addSubview:self.selectCountLabel];
+//    
+//    
+//    
+//    CGFloat priceLabelX = coverPicViewX + coverPicViewWidth + 20;
+//    CGFloat priceLabelY = 30;
+//    CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
+//    self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
+//    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",self.price];
+//    self.priceLabel.font = Font18;
+//    [self.countView addSubview:self.priceLabel];
+//    
+//    
+//    
+//    CGFloat minusButtonX = coverPicViewX + coverPicViewWidth;
+//    CGFloat minusButtonY = selectCountLabelY;
+//    CGFloat minusButtonWidth = Klength30;
+//    self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    self.minusButton.frame = CGRectMake(minusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
+//    [self.minusButton setImage:[UIImage imageNamed:@"minus"] forState:(UIControlStateNormal)];
+//    [self.minusButton addTarget:self action:@selector(minusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    [self.countView addSubview:self.minusButton];
+//    
+//    
+//    
+//    CGFloat countLabelX = minusButtonX + minusButtonWidth;
+//    CGFloat countLabelWidth = 44;
+//    self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake(countLabelX, minusButtonY, countLabelWidth, Klength30)];
+//    
+//    self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+//    
+//    [self addObserver:self forKeyPath:@"countNum" options:(NSKeyValueObservingOptionNew) context:nil];
+//    
+//    
+//    
+//    self.countLabel.text = self.countNum;
+//    self.countLabel.textAlignment = 1;
+//    [self.countView addSubview:self.countLabel];
+//    
+//    
+//    
+//    CGFloat plusButtonX = countLabelX + countLabelWidth;
+//    self.plusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    self.plusButton.frame = CGRectMake(plusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
+//    [self.plusButton setImage:[UIImage imageNamed:@"plus"] forState:(UIControlStateNormal)];
+//    [self.plusButton addTarget:self action:@selector(plusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    [self.countView addSubview:self.plusButton];
+//    
+//    
+//    
+//    
+//    CGFloat memberDiscountLabelY = selectCountLabelY + Klength30;
+//    self.memberDiscountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, memberDiscountLabelY, selectCountLabelWidth, Klength30)];
+//    self.memberDiscountLabel.text = @"会员折扣";
+//    [self.countView addSubview:self.memberDiscountLabel];
+//    
+//    
+//    
+//    
+//    CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
+//    self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
+//    self.discountLabel.text = [NSString stringWithFormat:@"%.f折",[UserInfo sharedUserInfo].discount];
+//    self.discountLabel.textAlignment = 1;
+//    [self.countView addSubview:self.discountLabel];
+//    
+//    
+//    
+//    
+//    CGFloat actuallyPaidLabelY = memberDiscountLabelY + Klength30;
+//    self.actuallyPaidLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, actuallyPaidLabelY, selectCountLabelWidth, Klength30)];
+//    self.actuallyPaidLabel.text = @"实付金额";
+//    [self.countView addSubview:self.actuallyPaidLabel];
+//    
+//    
+//    
+//    self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
+//    [self changeModelCount];
+//    self.paidLabel.textAlignment = 1;
+//    [self.countView addSubview:self.paidLabel];
+//    
+//    
+//    
+//    
+//    self.okAddCartButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    self.okAddCartButton.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
+//    self.okAddCartButton.backgroundColor = [UIColor redColor];
+//    
+//    
+//    if (button.tag == 111)
+//    {
+//        [self.okAddCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
+//        [self.okAddCartButton addTarget:self action:@selector(okAddCartAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    }
+//    else if (button.tag == 112)
+//    {
+//        [self.okAddCartButton setTitle:@"结算" forState:(UIControlStateNormal)];
+//        [self.okAddCartButton addTarget:self action:@selector(settlementAction) forControlEvents:(UIControlEventTouchUpInside)];
+//    }
+//    
+//    [self.okAddCartButton setTintColor:[UIColor whiteColor]];
+//    
+//    [[UIApplication sharedApplication].keyWindow addSubview:self.okAddCartButton];
     
 }
+
+
+
 
 
 - (void)settlementAction
@@ -835,6 +1005,7 @@
     {
         self.totalStar = [NSString stringWithFormat:@"%ld",(long)_serviceModel.realPrice];
     }
+    
     NSString *message = [NSString stringWithFormat:@"支付%@星币？",self.totalStar];
     
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -884,16 +1055,23 @@
     
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
     
-    [HttpTool post:url parmas:parmas success:^(id json) {
-        YYLog(@"购买返回：%@",json);
-    } failure:^(NSError *error) {
-        YYLog(@"购买返回错误%@",error);
-    }];
-    
+    [HttpTool post:url parmas:parmas success:^(id json)
+     {
+         YYLog(@"购买返回：%@",json);
+         NSNumber *num = json[@"resultCode"];
+         if ([num integerValue] == 1000)//返回成功
+         {
+             //跳转
+             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
+             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
+             vc.model = model;
+             [self.navigationController pushViewController:vc                              animated:YES];
+         }
+         
+     } failure:^(NSError *error) {
+         YYLog(@"购买返回错误%@",error);
+     }];
 }
-
-
-
 
 
 
@@ -924,7 +1102,6 @@
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
     //计算count
     [self changeModelCount];
-        
 }
 
 - (void)plusCountAction
@@ -1048,7 +1225,6 @@
     {
         return 6;
     }
-
 }
 
 
@@ -1060,22 +1236,22 @@
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 20;
+            return height + 30;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 20;
+            return height + 30;
         }
         else
         {
-            return 40;
+            return 30;
         }
     }
     else
     {
-        return 40;
+        return 30;
     }
 }
 
@@ -1094,19 +1270,29 @@
         
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.font = Font14;
+    
     if ([self.title isEqualToString:@"商品详情"])
     {
         if (indexPath.row == 6)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            cell.detailTextLabel.height = height + 20;
+            cell.textLabel.height = height;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            cell.detailTextLabel.height = height + 20;
+            cell.textLabel.numberOfLines = 0;
+            
+            cell.textLabel.height = height;
+        }
+        if (indexPath.row == 1)
+        {
+            cell.textLabel.textColor = [UIColor redColor];
         }
     }
     
@@ -1138,14 +1324,14 @@
             case 7:
                 cell.textLabel.text = [NSString stringWithFormat:@"备注：%@",self.dataDic[@"remark"]];
                 break;
-                
+
             default:
                 break;
         }
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
-        
+
         switch (indexPath.row)
         {
             case 0:
@@ -1177,10 +1363,11 @@
 
 
 
+
+
 - (void)dealloc
 {
     YYLog(@"视图出现次数：%ld",self.appearCount);
-    
     
     for (NSInteger i = 0; i < self.appearCount; i++)
     {
@@ -1244,45 +1431,6 @@
 
 
 
-- (NSMutableArray *)productArray
-{
-    if (!_productArray)
-    {
-        _productArray = [NSMutableArray array];
-    }
-    
-    return _productArray;
-}
-
-
-
-
-- (NSMutableArray *)serviceArray
-{
-    if (!_serviceArray)
-    {
-        _serviceArray = [NSMutableArray array];
-    }
-    
-    return _serviceArray;
-}
-
-
-
-
-- (NSMutableArray *)secondCarArray
-{
-    if (!_secondCarArray)
-    {
-        _secondCarArray = [NSMutableArray array];
-    }
-    
-    return _secondCarArray;
-}
-
-
-
-
 - (NSMutableArray *)collectionArray
 {
     if (!_collectionArray)
@@ -1305,6 +1453,13 @@
     
     return _collectionIdArray;
 }
+
+
+
+
+
+
+
 
 
 

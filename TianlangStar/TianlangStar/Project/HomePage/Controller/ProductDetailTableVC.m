@@ -1051,13 +1051,13 @@
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 10;
+            return height + 30;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 10;
+            return height + 30;
         }
         else
         {
@@ -1070,13 +1070,13 @@
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
             
-            return height + 10;
+            return height + 30;
         }
         else if (indexPath.row == 10)
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
-            return height + 10;
+            return height + 30;
         }
         else
         {
@@ -1122,7 +1122,7 @@
             
             cell.textLabel.numberOfLines = 0;
             
-            cell.detailTextLabel.height = height;
+            cell.textLabel.height = height;
         }
         if (indexPath.row == 1)
         {

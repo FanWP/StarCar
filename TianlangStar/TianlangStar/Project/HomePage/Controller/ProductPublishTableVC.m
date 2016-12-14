@@ -163,14 +163,14 @@ typedef enum : NSUInteger {
 - (void)creatAddImagesView
 {
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenWidth / 3 + 20)];
-    if (self.s0.mutableCells.count > 3)
-    {
-        _bottomView.height = 2 * (KScreenWidth / 3) + 20;
-    }
-    if (self.s0.mutableCells.count > 6)
-    {
-        _bottomView.height = 3 * (KScreenWidth / 3) + 20;
-    }
+//    if (self.s0.mutableCells.count > 3)
+//    {
+//        _bottomView.height = 2 * (KScreenWidth / 3) + 20;
+//    }
+//    if (self.s0.mutableCells.count > 6)
+//    {
+//        _bottomView.height = 3 * (KScreenWidth / 3) + 20;
+//    }
     [self createData];
     [self.bottomView addSubview:self.collectionView];
     self.tableView.tableHeaderView = self.bottomView;
@@ -237,30 +237,17 @@ typedef enum : NSUInteger {
     
     parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"type"]  = @"1";
-//    parmas[@"productname"] = self.productModel.productname;
-//    parmas[@"productmodel"] = self.productModel.productmodel;
-//    parmas[@"specifications"] = self.productModel.specifications;
-//    parmas[@"applycar"] = self.productModel.applycar;
-//    parmas[@"vendors"] = self.productModel.vendors;
-//    parmas[@"inventory"] = self.productModel.inventory;
-//    parmas[@"purchaseprice"] = self.productModel.purchaseprice;
-//    parmas[@"price"] = self.productModel.price;
-//    parmas[@"scoreprice"] = self.productModel.scoreprice;
-//    parmas[@"introduction"] = self.productModel.introduction;
-//    parmas[@"remark"] = self.productModel.remark;
-    
-    
-    parmas[@"productname"] = @"900test";
-    parmas[@"productmodel"] = @"900test";
-    parmas[@"specifications"] = @"900test";
-    parmas[@"applycar"] = @"900test";
-    parmas[@"vendors"] =@"900test";
-    parmas[@"inventory"] =@"900test";
-    parmas[@"purchaseprice"] = @"111";
-    parmas[@"price"] = @"111";
-    parmas[@"scoreprice"] =@"111";;
-    parmas[@"introduction"] =@"111";
-    parmas[@"remark"] = @"900test";
+    parmas[@"productname"] = self.productModel.productname;
+    parmas[@"productmodel"] = self.productModel.productmodel;
+    parmas[@"specifications"] = self.productModel.specifications;
+    parmas[@"applycar"] = self.productModel.applycar;
+    parmas[@"vendors"] = self.productModel.vendors;
+    parmas[@"inventory"] = self.productModel.inventory;
+    parmas[@"purchaseprice"] = self.productModel.purchaseprice;
+    parmas[@"price"] = self.productModel.price;
+    parmas[@"scoreprice"] = self.productModel.scoreprice;
+    parmas[@"introduction"] = self.productModel.introduction;
+    parmas[@"remark"] = self.productModel.remark;
     
     YYLog(@"商品入库参数parmas--%@",parmas);
     
@@ -268,7 +255,7 @@ typedef enum : NSUInteger {
     {
         NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
         
-        [SVProgressHUD showWithStatus:@"正在入库~"];
+        [SVProgressHUD showWithStatus:@"正在入库"];
         
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
@@ -340,7 +327,7 @@ typedef enum : NSUInteger {
 {
     [self.view endEditing:YES];
     
-    [SVProgressHUD showWithStatus:@"正在入库~"];
+    [SVProgressHUD showWithStatus:@"正在入库"];
     
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
@@ -459,7 +446,7 @@ typedef enum : NSUInteger {
     
     if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.carModel.brand != nil || [self.carModel.brand length] != 0 || self.carModel.price != nil || [self.carModel.price length] != 0 || self.carModel.model != nil || [self.carModel.model length] != 0 || self.carModel.cartype != nil || [self.carModel.cartype length] != 0 || self.carModel.mileage != nil || [self.carModel.mileage length] != 0 || self.carModel.buytime != nil || [self.carModel.buytime length] != 0 || self.carModel.number != nil || [self.carModel.number length] || self.carModel.person != nil || [self.carModel.person length] != 0 || self.carModel.frameid != nil || [self.carModel.frameid length] != 0 || self.carModel.engineid != nil || [self.carModel.engineid length] != 0 || self.carModel.property != nil || [self.carModel.property length] != 0 || [self.carModel.carDescription length] != 0)
     {
-        [SVProgressHUD showWithStatus:@"正在入库~"];
+        [SVProgressHUD showWithStatus:@"正在入库"];
         
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {

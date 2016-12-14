@@ -24,7 +24,7 @@
         
         CGFloat leftLabelX = Klength15;
         CGFloat leftLabelY = Klength5;
-        CGFloat leftLabelWidth = 80;
+        CGFloat leftLabelWidth = 100;
         CGFloat leftLabelHeight = Klength30;
         self.leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftLabelX, leftLabelY, leftLabelWidth, leftLabelHeight)];
         self.leftLabel.font = Font16;
