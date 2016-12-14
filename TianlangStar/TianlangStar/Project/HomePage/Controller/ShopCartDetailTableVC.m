@@ -129,10 +129,12 @@
     NSString *type;
     if ([self.title isEqualToString:@"商品详情"])
     {
+        self.productType = 1;
         type = @"1";
     }
     else
     {
+        self.productType = 2;
         type = @"2";
     }
     parmas[@"type"]  = type;
@@ -153,6 +155,7 @@
         {
             if ([self.title isEqualToString:@"商品详情"])//商品
             {
+                
                 self.dataDic = responseObject[@"body"];
                 
                 if (self.dataDic == nil)
@@ -161,6 +164,8 @@
                 }
                 else
                 {
+                    self.productModel = [ProductModel mj_objectWithKeyValues:self.dataDic];
+                    
                     NSString *images = self.dataDic[@"images"];
                     
                     self.price = self.dataDic[@"price"];
@@ -180,6 +185,7 @@
             else
             {
                 self.dataDic = responseObject[@"body"];
+                self.serviceModel = [ServiceModel mj_objectWithKeyValues:self.dataDic];
                 if (self.dataDic == nil)
                 {
                     return;
@@ -232,6 +238,7 @@
 
 -(void)setProductType:(NSInteger)productType
 {
+    self.countNumber = 1;
     _productType = productType;
     [self changeModelCount];
     

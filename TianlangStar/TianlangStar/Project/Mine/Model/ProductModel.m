@@ -31,7 +31,7 @@
         
         //计算文字的高度
         CGFloat TextH = [str boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:Font14} context:nil].size.height;
-
+        
         _introductionH = TextH + 158 + 24;
     }
     return _introductionH;
