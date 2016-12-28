@@ -15,6 +15,7 @@ typedef enum : NSUInteger {
     specifications,
     applycar,
     vendors,
+    shelvestime,
     inventory,
     purchaseprice,
     price,

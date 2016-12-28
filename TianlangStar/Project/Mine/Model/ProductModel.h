@@ -30,6 +30,8 @@
 
 /** 商品的供应商 */
 @property (nonatomic,copy) NSString *vendors;
+/** 商品的入库时间 */
+@property (nonatomic,copy) NSString *shelvestime;
 
 /** 库存量 */
 @property (nonatomic,copy) NSString *inventory;

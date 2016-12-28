@@ -72,10 +72,12 @@ typedef enum : NSUInteger {
 @property (nonatomic,strong) NSMutableArray *imagesArray;
 
 /** 时间选择器 */
+@property (nonatomic,strong) UIDatePicker *shelvestimePtricker;
 @property (nonatomic,strong) UIDatePicker *buytimePicker;
 @property (nonatomic,strong) UIDatePicker *warrantyPicker;
 
 /** 接收购买时间的字符串 */
+@property (nonatomic,copy) NSString *shelvestime;
 @property (nonatomic,copy) NSString *buytime;
 @property (nonatomic,copy) NSString *warranty;
 
@@ -106,9 +108,9 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _leftBaseLabelArray = @[@"商品名称",@"商品类型",@"商品规格",@"适用车型",@"供应商",@"入库数量",@"进价(元)",@"售价(星币)",@"售价(积分)",@"简介",@"备注"];
+    _leftBaseLabelArray = @[@"商品名称",@"商品类型",@"商品规格",@"适用车型",@"供应商",@"入库时间",@"入库数量",@"进价(元)",@"售价(星币)",@"售价(积分)",@"简介",@"备注"];
     
-    _leftSeviceLabelArray = @[@"服务项目",@"服务类型",@"服务内容",@"保修期限",@"预计耗时(h)",@"售价(星币)",@"售价(积分)"];
+    _leftSeviceLabelArray = @[@"服务项目",@"服务类型",@"服务内容",@"保修期限",@"预计耗时(min)",@"售价(星币)",@"售价(积分)"];
     
     _leftSecondcarLabelArray = @[@"品牌",@"报价",@"型号",@"车型",@"行驶里程",@"购买年份",@"车牌号",@"原车主",@"车架号",@"发动机号",@"使用性质",@"车辆简介"];
     
@@ -242,6 +244,7 @@ typedef enum : NSUInteger {
     parmas[@"specifications"] = self.productModel.specifications;
     parmas[@"applycar"] = self.productModel.applycar;
     parmas[@"vendors"] = self.productModel.vendors;
+    parmas[@"shelvestime"] = self.productModel.shelvestime;
     parmas[@"inventory"] = self.productModel.inventory;
     parmas[@"purchaseprice"] = self.productModel.purchaseprice;
     parmas[@"price"] = self.productModel.price;
@@ -301,6 +304,8 @@ typedef enum : NSUInteger {
                  
                  self.productModel = nil;
                  
+                 self.shelvestime = @"";
+                 
                  [self.tableView reloadData];
                  
              }
@@ -345,12 +350,8 @@ typedef enum : NSUInteger {
     
     NSString *url = [NSString stringWithFormat:@"%@upload/releasecommodityservlet",URL];
     
-    
-    
     if ([UserInfo sharedUserInfo].RSAsessionId != nil || [[UserInfo sharedUserInfo].RSAsessionId length] != 0 || self.serviceModel.services != nil || self.serviceModel.services != 0 || self.serviceModel.servicetype != nil || [self.serviceModel.servicetype length] != 0 || self.serviceModel.content != nil || [self.serviceModel.content length] != 0 || self.serviceModel.warranty != nil || [self.serviceModel.warranty length] != 0 || self.serviceModel.manhours != nil || [self.serviceModel.manhours length] != 0 || self.serviceModel.price != nil || [self.serviceModel.price length] != 0 || self.serviceModel.scoreprice != nil || [self.serviceModel.scoreprice length] != 0)
     {
-        
-        
         [[AFHTTPSessionManager manager] POST:url parameters:parmas constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
          {
              _headerImagesArray = [NSMutableArray arrayWithArray:[self getImagesWithSection:0]];
@@ -524,12 +525,17 @@ typedef enum : NSUInteger {
     
     startDatePicker.datePickerMode = UIDatePickerModeDate;
     startDatePicker.date = [NSDate date];
+    
+    self.shelvestimePtricker.hidden = NO;
+    self.shelvestimePtricker = startDatePicker;
+    
     self.buytimePicker.hidden = NO;
     self.buytimePicker = startDatePicker;
     
     self.warrantyPicker.hidden = NO;
     self.warrantyPicker = startDatePicker;
     
+    [self.shelvestimePtricker addTarget:self action:@selector(selecStartDate) forControlEvents:(UIControlEventValueChanged)];
     [self.buytimePicker addTarget:self action:@selector(selecStartDate) forControlEvents:UIControlEventValueChanged];
     [self.warrantyPicker addTarget:self action:@selector(selecStartDate) forControlEvents:(UIControlEventValueChanged)];
 }
@@ -542,6 +548,19 @@ typedef enum : NSUInteger {
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"yyyy-MM-dd"];
     
+    
+    switch (self.productPublish)
+    {
+        case shelvestime:
+        {
+            self.shelvestime = [outputFormatter stringFromDate:self.shelvestimePtricker.date];
+            self.productModel.shelvestime = [NSString stringWithFormat:@"%ld",(long)[self.shelvestimePtricker.date timeIntervalSince1970]];
+        }
+            break;
+            
+        default:
+            break;
+    }
     switch (self.secondCarPublish)
     {
         case buytime://购买日期
@@ -609,28 +628,6 @@ typedef enum : NSUInteger {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    switch (self.segment.selectedSegmentIndex) {
-//        case 0:
-//        {
-//            
-//            if (indexPath.row == self.leftBaseLabelArray.count - 2 || indexPath.row == self.leftBaseLabelArray.count - 1)
-//            {
-//                return 110;
-//            }
-//        }
-//            break;
-//        case 2:
-//        {
-//            if (indexPath.row == self.leftSecondcarLabelArray.count)
-//            {
-//                return 110;
-//            }
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
     return 40;
 }
 
@@ -645,9 +642,7 @@ typedef enum : NSUInteger {
     
     if (cell == nil)
     {
-        
         cell = [[LabelTextFieldCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier0];
-        
     }
     
     switch (self.segment.selectedSegmentIndex) {
@@ -679,6 +674,14 @@ typedef enum : NSUInteger {
                     break;
                 case vendors:
                     cell.rightTF.text = self.productModel.vendors;
+                    break;
+                case shelvestime:
+                {
+                    if (self.shelvestime)
+                    {
+                        cell.rightTF.text = self.shelvestime;
+                    }
+                }
                     break;
                 case inventory:
                     cell.rightTF.text = self.productModel.inventory;
@@ -967,6 +970,27 @@ typedef enum : NSUInteger {
     
     switch (self.segment.selectedSegmentIndex)
     {
+        case 0:
+        {
+            if (textField.tag == shelvestime)
+            {
+                if (![textField.text isEqualToString:@"请选择日期"])
+                {
+                    textField.inputView = self.shelvestimePtricker;
+                    self.productPublish = textField.tag;
+                    textField.text = @"请选择日期";
+                }
+                else
+                {
+                    textField.text = self.shelvestime;
+                }
+            }
+            else
+            {
+                [self.shelvestimePtricker removeFromSuperview];
+            }
+        }
+            break;
         case 1:
         {
             if (textField.tag == warranty)
