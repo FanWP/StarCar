@@ -254,7 +254,7 @@
     
     NSString *password = [RSA encryptString:userInfo.passWord publicKey:userInfo.publicKey];
     //手机序列号的获取
-    NSString *uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+//    NSString *uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"username"] = userInfo.username;
     params[@"value"] = password;
@@ -309,6 +309,7 @@
              userInfo.username = model.username;
              userInfo.userType = model.type;
              userInfo.membername = model.membername;
+             userInfo.telephone = model.telephone;
              [userInfo synchronizeToSandBox];
          }else
          {
