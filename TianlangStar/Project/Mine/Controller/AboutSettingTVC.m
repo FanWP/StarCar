@@ -48,21 +48,29 @@
     };
     
     ILSettingItem *contact = [ILSettingItem itemWithIcon:nil title:@"联系我们"];
-    contact.subTitle = @"029-87563668";
+    
+    UserInfo *userInfo = [UserInfo sharedUserInfo];
+    
+    NSString *telephone = (userInfo.telephone.length > 0 ? userInfo.telephone : @"13991831033");
+    
+    contact.subTitle = telephone;
     contact.option = ^{
         
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"是否拨打029-87563668？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:telephone preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
         [alert addAction:[UIAlertAction actionWithTitle:@"呼叫" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://029-87563668"]];
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",telephone]]];
         }]];
-
+        
         [self presentViewController:alert animated:YES completion:nil];
         
     };
     
-    UserInfo *userInfo = [UserInfo sharedUserInfo];
+    
+ 
+    
+    
     
     ILSettingItem *opinion = nil;
     if (userInfo.userType == 1 || userInfo.userType == 0)

@@ -15,6 +15,7 @@
 #define Headerpic @"Headerpic"
 #define Viplevel @"Viplevel"
 #define Discount @"discount"
+#define Telephone @"Telephone"
 
 //#import <MJExtension.h>
 
@@ -37,6 +38,7 @@ singleton_implementation(UserInfo);
     [defaults setBool:self.isQuit forKey:@"isQuit"];
     [defaults setInteger:self.viplevel forKey:Viplevel];
     [defaults setDouble:self.discount forKey:Discount];
+    [defaults setObject:self.telephone forKey:Telephone];
     [defaults synchronize];
 }
 
@@ -57,6 +59,7 @@ singleton_implementation(UserInfo);
     self.isQuit = [defaults boolForKey:@"isQuit"];
     self.viplevel = [defaults integerForKey:Viplevel];
     self.discount = [defaults doubleForKey:Discount];
+    self.telephone = [defaults objectForKey:Telephone];
 }
 
 

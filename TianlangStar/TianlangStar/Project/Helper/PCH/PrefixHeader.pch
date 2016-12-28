@@ -1,0 +1,183 @@
+//
+//  PrefixHeader.pch
+//  TianlangStar
+//
+//  Created by Beibei on 16/10/26.
+//  Copyright © 2016年 apple. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#ifdef DEBUG
+#define YYLog(...) NSLog(__VA_ARGS__)
+#else
+#define YYLog(...)
+#endif
+
+
+
+#define USERType [UserInfo sharedUserInfo].userType
+
+
+
+
+
+
+
+//设置文字颜色RGB
+#define XLXcolor(r, g, b)  [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+
+//按钮的背景颜色设置
+#define buttonBG XLXcolor(100, 160, 250)
+//按钮的字体颜色设置
+#define buttonTitleC [UIColor whiteColor]
+
+//设置背景颜色
+#define BGcolor XLXcolor(240, 240, 242)
+
+//设置背景颜色
+#define Tintcolor XLXcolor(26, 129, 251)
+
+#define lableTextcolor XLXcolor(97, 97, 97)
+
+#define lableRedTextcolor XLXcolor(245, 37, 64)
+
+
+
+#pragma mark - 字体大小
+#define Font10 [UIFont systemFontOfSize:10]// 10号字
+#define Font11 [UIFont systemFontOfSize:11]// 11号字
+#define Font12 [UIFont systemFontOfSize:12]// 12号字
+#define Font13 [UIFont systemFontOfSize:13]// 12号字
+#define Font14 [UIFont systemFontOfSize:14]// 14号字
+#define Font15 [UIFont systemFontOfSize:15]// 14号字
+#define Font16 [UIFont systemFontOfSize:16]// 16号字
+#define Font17 [UIFont systemFontOfSize:17]// 16号字
+#define Font18 [UIFont systemFontOfSize:18]// 18号字
+#define Font20 [UIFont systemFontOfSize:20]// 18号字
+#define Font22 [UIFont systemFontOfSize:22]// 18号字
+
+
+
+#pragma mark - 第三方类库
+#import <AFNetworking.h>
+#import <MJRefresh/MJRefresh.h>
+#import <UIImageView+WebCache.h>
+#import <Masonry/Masonry.h>
+#import <SVProgressHUD.h>
+#import <MJExtension.h>
+#import <SDCycleScrollView.h>
+#import <UMengSocial/UMSocial.h>
+#import <UMSocialQQHandler.h>
+#import <UMSocialSinaSSOHandler.h>
+#import <UMSocialWechatHandler.h>
+
+
+
+
+
+#pragma mark - 分类
+#import "UITextField+extension.h"
+#import "NSString+extension.h"
+#import "UIView+XMGExtension.h"
+#import "UIImage+Tool.h"
+#import "UIImage+Cut.h"
+#import "TestFildJudge.h"
+#import "XLXConst.h"
+#import "UserInfo.h"
+#import "RSA.h"
+#import "AlertView.h"
+#import "HttpTool.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#import "UIImage+Cut.h"
+
+#import "UITableViewCell+AdjustHeight.h"
+
+#import "HttpTool.h"
+#import "UserInfo.h"
+#define KScreenWidth [UIScreen mainScreen].bounds.size.width
+#define KScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#endif /* PrefixHeader_pch */

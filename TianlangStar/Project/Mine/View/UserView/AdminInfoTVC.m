@@ -67,7 +67,6 @@
     [super viewDidDisappear:animated];
     
     [SVProgressHUD dismiss];
-    
 }
 
 
@@ -210,6 +209,13 @@
         return;
     }
     
+    //服务电话
+    if (![self.userModel.telephone isMobileNumber])
+    {
+        [[AlertView sharedAlertView] addAlertMessage:@"手机号输入有误，请核对！" title:@"提示"];
+        return;
+    }
+    
 //    //身份证
 //    if (![self.userModel.identity isIdentityCardNo])
 //    {
@@ -225,6 +231,8 @@
     parmas[@"username"] = self.userModel.username;
     parmas[@"identity"] = self.userModel.identity;
     parmas[@"address"] = self.userModel.address;
+    parmas[@"telephone"] = _userModel.telephone;
+    
     
     NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
     YYLog(@"parmas----%@",parmas);
@@ -320,7 +328,7 @@
 {
     if (!_leftArr)
     {
-        _leftArr = @[@"姓名",@"性别",@"手机号",@"身份证",@"住址"];
+        _leftArr = @[@"姓 名",@"性 别",@"手机号",@"身份证",@"住 址",@"服务电话"];
     }
     return _leftArr;
 }
@@ -409,6 +417,9 @@
             }
             case address://地址
                 cell.textField.text = self.userModel.address;
+                break;
+            case viplevel://服务电话
+                cell.textField.text = self.userModel.telephone;
                 break;
                 
             default:
@@ -537,6 +548,9 @@
             break;
         case address:
             self.userModel.address = textField.text;
+            break;
+        case viplevel:
+            _userModel.telephone = textField.text;
             break;
             
         default:

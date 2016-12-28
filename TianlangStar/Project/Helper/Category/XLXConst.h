@@ -56,6 +56,7 @@ typedef enum : NSUInteger {
     viplevel = 5,
     referee = 6,
     description =7,
+    telephone,
     //    insurancetime = 8,
     //    commercialtime = 9,
 } UserInfoType;
