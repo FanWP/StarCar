@@ -49,7 +49,14 @@
 /** 折扣 */
 @property (nonatomic,weak) UILabel *discountLabel;
 /** 余额 */
-@property (nonatomic,weak) UILabel *accountBalanceCountLabel;
+@property (nonatomic,strong) UILabel *accountBalanceCountLabel;
+
+
+/** 用户的当前账户余额 */
+@property (nonatomic,assign) NSInteger blance;
+
+
+
 
 
 
@@ -64,11 +71,7 @@
     self.title = @"购物车";
 
     [self setupRefresh];
-    
-    [self dataDiscountAndAccountBalance];
-    
     self.automaticallyAdjustsScrollViewInsets = YES;
-    
 }
 
 
@@ -89,17 +92,23 @@
          
          NSArray *dataArray = responseObject[@"body"];
          
-         NSString *discount;
-         NSString *accountBalance;
+         NSNumber *discount;
+         NSNumber *accountBalance;
          
          for (NSDictionary *dic in dataArray)
          {
              discount = [dic objectForKey:@"discount"];
              accountBalance = [dic objectForKey:@"balance"];
          }
+         _blance = [accountBalance integerValue];
+         _discountLabel.text = [NSString stringWithFormat:@"折扣：%@折",discount];
+         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"剩余金额：%@星币",accountBalance];
          
-         _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
-         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+         if ([discount integerValue] > 0 ) {//更新本地discount
+             [UserInfo sharedUserInfo].discount = [discount floatValue];
+             [[UserInfo sharedUserInfo] synchronizeToSandBox];
+         }
+         
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
@@ -124,20 +133,16 @@
             
             LoginVC *vc = [[LoginVC alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
-            
-            
         }]];
-        
-        
+
         [self presentViewController:alert animated:YES completion:^{
             
         }];
-        
-        
     }
     
     [self loadNewOrderInfo];
     [self addFoorView];
+    [self dataDiscountAndAccountBalance];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -176,8 +181,7 @@
         [footerView addSubview:button];
         
         //结算
-        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 80, 0, 80, 88
-                                                                        )];
+        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 100, 0, 100, 88                                                )];
         checkBtn.backgroundColor = [UIColor redColor];
         [checkBtn setTitle:@"结算" forState:UIControlStateNormal];
         checkBtn.titleLabel.font = Font18;
@@ -204,6 +208,31 @@
         total.text = @"合计：";
         total.textColor = lableTextcolor;
         [footerView addSubview:total];
+        
+        //折扣
+        UILabel *discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 40, 180, 44)];
+        discountLabel.font = Font15;
+        discountLabel.textAlignment = NSTextAlignmentLeft;
+        discountLabel.text = @"折扣：";
+//        discountLabel.textColor = lableTextcolor;
+        self.discountLabel = discountLabel;
+        [footerView addSubview:discountLabel];
+        
+        
+        //余额
+        UILabel *accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(total.x, 40, 200, 44)];
+        accountBalanceCountLabel.font = Font15;
+        accountBalanceCountLabel.textAlignment = NSTextAlignmentLeft;
+        accountBalanceCountLabel.text = @"余额：";
+//        accountBalanceCountLabel.textColor = lableTextcolor;
+        self.accountBalanceCountLabel = accountBalanceCountLabel;
+        [footerView addSubview:accountBalanceCountLabel];
+        
+        
+        
+        
+        
+        
         
         //设置footer
         UIView *foot = [[UIView alloc] initWithFrame:footerView.bounds];
@@ -415,7 +444,6 @@
     
     
     NSMutableArray *seletedArr = [NSMutableArray array];
-    
     NSInteger totalStar = 0;
     //当前用户所享受的折扣价格
     
@@ -430,7 +458,8 @@
             [seletedArr addObject:model];
         }
         //判断结算按钮是否可用
-        self.checkBtn.enabled = totalStar != 0;
+        self.checkBtn.enabled = ( _blance > totalStar) && totalStar > 0;
+
     }
     self.selectedOrderArr = seletedArr;
     self.totalPriceStr = [NSString stringWithFormat:@"%ld",(long)totalStar];
