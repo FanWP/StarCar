@@ -29,7 +29,9 @@
 @property (nonatomic,strong) NSMutableArray *imagesArray;
 
 /** 时间选择器 */
-@property (nonatomic,strong) UIDatePicker *buytimePicker;
+@property (nonatomic,strong) UIDatePicker *shelvestimePicker;
+
+@property (nonatomic,copy) NSString *shelvestime;
 
 /** 商品数组 */
 @property (nonatomic,strong) NSArray *leftLabelArray;
@@ -57,7 +59,9 @@
     
     [self creatAddImagesView];// 添加图片的headerView
     
-    _leftLabelArray = @[@"商品名称",@"商品类型",@"商品规格",@"适用车型",@"供应商",@"入库数量",@"进价(元)",@"星币",@"积分",@"简介",@"备注"];
+    [self addDatePIcker];
+    
+    _leftLabelArray = @[@"商品名称",@"商品类型",@"商品规格",@"适用车型",@"供应商",@"入库时间",@"入库数量",@"进价(元)",@"售价(星币)",@"售价(积分)",@"简介",@"备注"];
     
     YYLog(@"仓库管理传来的模型id:%@",_storageManagementModel.ID);
 
@@ -154,6 +158,7 @@
     parmas[@"specifications"] = self.storageManagementModel.specifications;
     parmas[@"applycar"] = self.storageManagementModel.applycar;
     parmas[@"vendors"] = self.storageManagementModel.vendors;
+    parmas[@"shelvestime"] = self.productModel.shelvestime;
     parmas[@"inventory"] = self.storageManagementModel.inventory;
     parmas[@"purchaseprice"] = self.storageManagementModel.purchaseprice;
     parmas[@"price"] = self.storageManagementModel.price;
@@ -201,11 +206,11 @@
     
     startDatePicker.datePickerMode = UIDatePickerModeDate;
     startDatePicker.date=[NSDate date];
-    self.buytimePicker.hidden = NO;
-    self.buytimePicker = startDatePicker;
+    self.shelvestimePicker.hidden = NO;
+    self.shelvestimePicker = startDatePicker;
     
     
-    [self.buytimePicker addTarget:self action:@selector(selecStarttDate) forControlEvents:UIControlEventValueChanged];
+    [self.shelvestimePicker addTarget:self action:@selector(selecStarttDate) forControlEvents:UIControlEventValueChanged];
 }
 
 
@@ -213,21 +218,21 @@
 /** 时间选择器的点击事件--较强险提醒日期 */
 -(void)selecStarttDate
 {
-//    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-//    [outputFormatter setDateFormat:@"yyyy-MM-dd"];
-//    
-//    switch (self.productPublish)
-//    {
-//        case buytime://购买日期
-//        {
-//            self.buytime=[outputFormatter stringFromDate:self.buytimePicker.date];
-//            self.carModel.buytime = [NSString stringWithFormat:@"%ld", (long)[self.buytimePicker.date timeIntervalSince1970]];
-//            break;
-//        }
-//            
-//        default:
-//            break;
-//    }
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    switch (self.productPublish)
+    {
+        case shelvestime://购买日期
+        {
+            self.shelvestime = [outputFormatter stringFromDate:self.shelvestimePicker.date];
+            self.productModel.shelvestime = [NSString stringWithFormat:@"%ld", (long)[self.shelvestimePicker.date timeIntervalSince1970]];
+            break;
+        }
+            
+        default:
+            break;
+    }
     
     //回到主线程刷新数据
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -312,6 +317,18 @@
         case vendors:
             cell.rightTF.text = self.storageManagementModel.vendors;
             break;
+        case shelvestime:
+        {
+            if (self.shelvestime)
+            {
+                cell.rightTF.text = self.shelvestime;
+            }
+            else
+            {
+                cell.rightTF.text = self.storageManagementModel.shelvestime;
+            }
+        }
+            break;
         case inventory:
             cell.rightTF.text = self.storageManagementModel.inventory;
             break;
@@ -378,7 +395,7 @@
             self.storageManagementModel.inventory = textField.text;
             break;
         case purchaseprice:
-            self.storageManagementModel.purchaseprice = textField.text;
+            self.storageManagementModel.purchaseprice = textField.text; 
             break;
         case price:
             self.storageManagementModel.price = textField.text;
@@ -403,23 +420,23 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    //    if (textField.tag == buytime)
-    //    {
-    //        if (![textField.text isEqualToString:@"请选择日期"])
-    //        {
-    //            textField.inputView = self.buytimeData;
-    //            self.carInfoType = textField.tag;
-    //            textField.text = @"请选择日期";
-    //        }
-    //        else
-    //        {
-    //            textField.text = self.buytime;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        [self.buytimeData removeFromSuperview];
-    //    }
+    if (textField.tag == shelvestime)
+    {
+        if (![textField.text isEqualToString:@"请选择日期"])
+        {
+            textField.inputView = self.shelvestimePicker;
+            self.productPublish = textField.tag;
+            textField.text = @"请选择日期";
+        }
+        else
+        {
+            textField.text = self.shelvestime;
+        }
+    }
+    else
+    {
+        [self.shelvestimePicker removeFromSuperview];
+    }
     
     return YES;
 }

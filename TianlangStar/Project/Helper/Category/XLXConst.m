@@ -25,6 +25,8 @@ CGFloat const Klength5 = 5;
 /** 长度30 */
 CGFloat const Klength30 = 30;
 
+CGFloat const Klength25 = 25;
+
 /** 长度44 */
 CGFloat const Klength44 = 44;
 

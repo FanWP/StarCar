@@ -77,6 +77,8 @@
 		71BE7FC81DC324B4000E0BFB /* RegistProtocolVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BE7FC71DC324B4000E0BFB /* RegistProtocolVC.m */; };
 		71BE7FD11DC336E6000E0BFB /* ForgetPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BE7FD01DC336E6000E0BFB /* ForgetPwdVC.m */; };
 		71CFBB1A1DF117BD00D6ED9D /* ProductDetailTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CFBB191DF117BD00D6ED9D /* ProductDetailTableVC.m */; };
+		71EA393F1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA393E1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.m */; };
+		71EA39421E14A9D2004BEAE8 /* DiscountHTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA39411E14A9D2004BEAE8 /* DiscountHTTPHelper.m */; };
 		D701E7061DED2570001237E8 /* UserCommonView.m in Sources */ = {isa = PBXBuildFile; fileRef = D701E7051DED2570001237E8 /* UserCommonView.m */; };
 		D70220AE1DE8377D00C36227 /* UWDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70220AC1DE8377D00C36227 /* UWDatePickerView.m */; };
 		D70220AF1DE8377D00C36227 /* UWDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D70220AD1DE8377D00C36227 /* UWDatePickerView.xib */; };
@@ -347,6 +349,10 @@
 		71BE7FD01DC336E6000E0BFB /* ForgetPwdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdVC.m; sourceTree = "<group>"; };
 		71CFBB181DF117BD00D6ED9D /* ProductDetailTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailTableVC.h; sourceTree = "<group>"; };
 		71CFBB191DF117BD00D6ED9D /* ProductDetailTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailTableVC.m; sourceTree = "<group>"; };
+		71EA393D1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountAndAccountBalanceModel.h; sourceTree = "<group>"; };
+		71EA393E1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountAndAccountBalanceModel.m; sourceTree = "<group>"; };
+		71EA39401E14A9D2004BEAE8 /* DiscountHTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountHTTPHelper.h; sourceTree = "<group>"; };
+		71EA39411E14A9D2004BEAE8 /* DiscountHTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountHTTPHelper.m; sourceTree = "<group>"; };
 		D701E7041DED2570001237E8 /* UserCommonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCommonView.h; sourceTree = "<group>"; };
 		D701E7051DED2570001237E8 /* UserCommonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCommonView.m; sourceTree = "<group>"; };
 		D70220AB1DE8377D00C36227 /* UWDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UWDatePickerView.h; sourceTree = "<group>"; };
@@ -819,6 +825,8 @@
 				D705CEDF1DC09C6400F65BE0 /* Category */,
 				D705CEF71DC09C6400F65BE0 /* PCH */,
 				D705CEF91DC09C6400F65BE0 /* Singleton */,
+				71EA39401E14A9D2004BEAE8 /* DiscountHTTPHelper.h */,
+				71EA39411E14A9D2004BEAE8 /* DiscountHTTPHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -948,6 +956,8 @@
 				71AB1EFE1DEABE6200C0739F /* StorageManagementModel.m */,
 				712F5C111DEC1F7B005B750A /* NewActivityModel.h */,
 				712F5C121DEC1F7B005B750A /* NewActivityModel.m */,
+				71EA393D1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.h */,
+				71EA393E1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1593,6 +1603,7 @@
 				D77DA89A1DE6B7BA00BD90CF /* CFOModel.m in Sources */,
 				711EC3381DE3EA0700C51E40 /* UIViewController+Default.m in Sources */,
 				711EFA3E1DD9BAD7006AEF9E /* ProductCell.m in Sources */,
+				71EA393F1E14A1E7004BEAE8 /* DiscountAndAccountBalanceModel.m in Sources */,
 				7136B07D1DEFC061007598DB /* SecondCarCell.m in Sources */,
 				71A40D8F1DD5AC6B00335660 /* CollectionCell.m in Sources */,
 				D705CF211DC09C6400F65BE0 /* RSA.m in Sources */,
@@ -1750,6 +1761,7 @@
 				71AB1EFC1DEABA1E00C0739F /* StorageManagementCell.m in Sources */,
 				D735EAFE1DD075790051D8E7 /* HttpTool.m in Sources */,
 				D7470BBD1DEC11050051E851 /* ScoreExchangeCell.m in Sources */,
+				71EA39421E14A9D2004BEAE8 /* DiscountHTTPHelper.m in Sources */,
 				D754A5411DD956B000C79616 /* AccountInfoCell.m in Sources */,
 				D7408FC71DE28AB500F532CA /* CheckInsureceTVC.m in Sources */,
 				D764B6A21DF021D700A996CF /* UserScoreExchangeCell.m in Sources */,
