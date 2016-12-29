@@ -382,7 +382,7 @@
     //rsa加密
     NSString *password = [RSA encryptString:self.pwdTF.text publicKey:userInfo.publicKey];
     //手机序列号的获取
-    NSString *uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+//    NSString *uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"username"] = self.userNameTF.text;
     params[@"value"] = password;
