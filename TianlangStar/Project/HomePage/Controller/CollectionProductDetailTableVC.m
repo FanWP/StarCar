@@ -671,13 +671,18 @@
          
          NSArray *dataArray = responseObject[@"body"];
          
-         NSString *discount;
-         NSString *accountBalance;
+         NSNumber *discount;
+         NSNumber *accountBalance;
          
          for (NSDictionary *dic in dataArray)
          {
              discount = [dic objectForKey:@"discount"];
              accountBalance = [dic objectForKey:@"balance"];
+             if (discount != nil)
+             {
+                 [UserInfo sharedUserInfo].discount = [discount floatValue];
+                 [[UserInfo sharedUserInfo] synchronizeToSandBox];
+             }
          }
          
          _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];

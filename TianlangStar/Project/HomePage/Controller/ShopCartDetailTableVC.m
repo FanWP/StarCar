@@ -207,7 +207,13 @@
                     
                     self.productId = self.dataDic[@"id"];
                     
-                    self.warranty = self.dataDic[@"warranty"];
+                    NSString *shelvestimeString = self.dataDic[@"warranty"];
+                    NSTimeInterval _interval = [shelvestimeString doubleValue];
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
+                    NSDateFormatter *objectDateformat = [[NSDateFormatter alloc] init];
+                    [objectDateformat setDateFormat:@"yyyy-MM-dd"];
+                    
+                    self.warranty = [objectDateformat stringFromDate:date];
                     
                     NSArray *array = [images componentsSeparatedByString:@","];
                     
@@ -697,13 +703,18 @@
          
          NSArray *dataArray = responseObject[@"body"];
          
-         NSString *discount;
-         NSString *accountBalance;
+         NSNumber *discount;
+         NSNumber *accountBalance;
          
          for (NSDictionary *dic in dataArray)
          {
              discount = [dic objectForKey:@"discount"];
              accountBalance = [dic objectForKey:@"balance"];
+             if (discount != nil)
+             {
+                 [UserInfo sharedUserInfo].discount = [discount floatValue];
+                 [[UserInfo sharedUserInfo] synchronizeToSandBox];
+             }
          }
          
          _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
@@ -1176,7 +1187,7 @@
     }
     else
     {
-        if ([_serviceModel.warranty isEqualToString:@""])
+        if (self.warranty == nil)
         {
             return 5;
         }
@@ -1291,7 +1302,7 @@
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
-        if ([_serviceModel.warranty isEqualToString:@""])
+        if (self.warranty == nil)
         {
             switch (indexPath.row)
             {
@@ -1329,7 +1340,7 @@
                     cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",self.dataDic[@"content"]];
                     break;
                 case 4:
-                    cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",self.dataDic[@"warranty"]];
+                    cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",self.warranty];
                     break;
                 case 5:
                     cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@",self.dataDic[@"manhours"]];
