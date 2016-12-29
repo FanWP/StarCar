@@ -89,9 +89,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          YYLog(@"折扣信息账户余额返回：%@",responseObject);
-         
          NSArray *dataArray = responseObject[@"body"];
-         
          NSNumber *discount;
          NSNumber *accountBalance;
          
@@ -102,13 +100,12 @@
          }
          _blance = [accountBalance integerValue];
          _discountLabel.text = [NSString stringWithFormat:@"折扣：%@折",discount];
-         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"剩余金额：%@星币",accountBalance];
+         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"余额：%@星币",accountBalance];
          
          if ([discount integerValue] > 0 ) {//更新本地discount
              [UserInfo sharedUserInfo].discount = [discount floatValue];
              [[UserInfo sharedUserInfo] synchronizeToSandBox];
          }
-         
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
@@ -452,23 +449,18 @@
         if (model.btnSelected)
         {
             totalStar = totalStar + model.realPrice;
-            
-            //            totalStar = [];
             //记录选中数据的商品及个数数组
             [seletedArr addObject:model];
         }
         //判断结算按钮是否可用
         self.checkBtn.enabled = ( _blance > totalStar) && totalStar > 0;
-
+        
     }
     self.selectedOrderArr = seletedArr;
     self.totalPriceStr = [NSString stringWithFormat:@"%ld",(long)totalStar];
-    
-    
+
     NSString *total = totalStar > 0 ? [NSString stringWithFormat:@"%.0ld星币",(long)totalStar] : @"0";
-    
     self.totalStar.text = total;
-    
 }
 
 
@@ -477,7 +469,6 @@
 {
     
     NSString *message = [NSString stringWithFormat:@"支付%@？",self.totalStar.text];
-    
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {

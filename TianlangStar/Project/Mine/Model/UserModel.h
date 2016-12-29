@@ -67,6 +67,10 @@
 @property (nonatomic,assign) NSInteger viplevel;
 
 
+/** 服务电话 */
+@property (nonatomic,copy) NSString *telephone;
+
+
 
 
 

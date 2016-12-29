@@ -205,7 +205,7 @@
  */
 -(CGFloat)getCache
 {
-    NSInteger totalCount = [[SDImageCache sharedImageCache] getDiskCount];
+//    NSInteger totalCount = [[SDImageCache sharedImageCache] getDiskCount];
     NSInteger totalSize = [[SDImageCache sharedImageCache] getSize];
     
     float totalSizeM = totalSize/1024.0/1024.0;

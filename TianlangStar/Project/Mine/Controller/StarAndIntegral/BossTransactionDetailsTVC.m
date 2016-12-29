@@ -40,7 +40,7 @@
     LeftAndRightModel *name = [LeftAndRightModel modelWithLeft:@"商品名称" Right:self.OrderModel.productname];
     LeftAndRightModel *time = [LeftAndRightModel modelWithLeft:@"交易时间" Right:self.OrderModel.date];
     LeftAndRightModel *num = [LeftAndRightModel modelWithLeft:@"交易单号" Right:self.OrderModel.saleid];
-    LeftAndRightModel *receive = [LeftAndRightModel modelWithLeft:@"收款方" Right:@"天狼星汽车服务有限公司"];
+    LeftAndRightModel *receive = [LeftAndRightModel modelWithLeft:@"收款方" Right:@"天狼星汽车贸易有限公司"];
     
     NSArray *group1 = @[name,time,num,receive];
     

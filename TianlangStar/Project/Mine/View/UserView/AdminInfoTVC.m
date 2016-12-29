@@ -272,14 +272,10 @@
              userInfo.viplevel = model.viplevel;
              userInfo.username = model.username;
              userInfo.discount = model.discount;
-             userInfo.telephone = model.bossTel;
+             userInfo.telephone = model.telephone;
              [userInfo synchronizeToSandBox];
-             
-             YYLog(@"%@",model.username);
-             
          }
-         
-         
+
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          YYLog(@"error---%@",error);
                   [SVProgressHUD dismiss];
@@ -420,7 +416,7 @@
                 cell.textField.text = self.userModel.address;
                 break;
             case viplevel://服务电话
-                cell.textField.text = self.userModel.bossTel;
+                cell.textField.text = self.userModel.telephone;
                 break;
                 
             default:

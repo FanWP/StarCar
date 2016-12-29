@@ -338,7 +338,7 @@
      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          YYLog(@"更新商品responseObject--%@",responseObject);
-         NSNumber *num = responseObject[@"resultCode"];
+//         NSNumber *num = responseObject[@"resultCode"];
          
          
          
@@ -350,14 +350,7 @@
 
     
     return;
-    [HttpTool post:url parmas:parmas success:^(id json)
-    {
-        YYLog(@"json--%@",json);
-        
-    } failure:^(NSError *error) {
-        YYLog(@"error---%@",error);
-    }];
-    
+ 
 }
 
 #pragma mark=====修改账户信息--宇鹏======
