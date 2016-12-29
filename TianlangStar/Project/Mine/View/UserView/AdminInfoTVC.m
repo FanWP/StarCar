@@ -272,6 +272,7 @@
              userInfo.viplevel = model.viplevel;
              userInfo.username = model.username;
              userInfo.discount = model.discount;
+             userInfo.telephone = model.telephone;
              [userInfo synchronizeToSandBox];
              
              YYLog(@"%@",model.username);

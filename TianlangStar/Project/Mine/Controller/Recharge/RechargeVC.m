@@ -9,6 +9,8 @@
 #import "RechargeVC.h"
 #import "VirtualcenterModel.h"
 #import "RechargeHistoryCell.h"
+#import "NeighborhoodCircleHeaderView.h"
+#import "BossRechargeRecordVC.h"
 
 @interface RechargeVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -25,15 +27,12 @@
 /** 充值记录 */
 @property (nonatomic,weak) UIButton *recordsBtn;
 
-
-
 /** 充值时查询到的用户名 */
 @property (nonatomic,weak) UILabel *username;
 
 
 /** 输入充值现金时候直接转换成星币 */
 @property (nonatomic,weak) UILabel *addStar;
-
 
 /** 账户余额 */
 @property (nonatomic,weak) UILabel *balanceLable;
@@ -51,6 +50,18 @@
 /** 当前页 */
 @property (nonatomic,assign) NSInteger currentPage;
 
+
+/** 底部积分的 */
+@property (nonatomic,weak) UIView *ScoreFooterView;
+/** 底部星币的 */
+@property (nonatomic,weak) UIView *StarFooterView;
+
+/** 判断是充值还是积分的记录 */
+@property (nonatomic,assign) NSInteger rechareType;
+
+
+
+
 @end
 
 @implementation RechargeVC
@@ -61,32 +72,81 @@
     
     self.view.backgroundColor = BGcolor;
     
-    
+    self.rechareType = 1;
+
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self setupRechargeRecordView];
     
     [self setupView];
     
-    [self setupRechargeRecordView];
+    [self setupRightBar];
+    
 }
+
+-(void)setupRightBar
+{
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"查询" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+}
+
+-(void)rightBarClick
+{
+    BossRechargeRecordVC *VC = [[BossRechargeRecordVC alloc] init];
+    VC.rechareType = self.rechareType;
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
+
+
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    
     [self.RecordView removeFromSuperview];
 }
 
 
 -(void)setupView
 {
+    
+    //设置顶部的滑动充值和积分
+    NSArray *arr = @[@"星币",@"积分"];
+    NeighborhoodCircleHeaderView *header = [[NeighborhoodCircleHeaderView alloc] initWithFrame:CGRectMake(0, 64, KScreenWidth, 44) titles:arr clickBlick:^(NSInteger index) {
+        
+        YYLog(@"%ld",(long)index);
+        switch (index) {
+            case 1://星币
+            {
+                self.rechareType = 1;
+                [self setupStarFooterView];
+            }
+                break;
+            case 2://积分
+            {
+                self.rechareType = 2;
+                [self setupScoreFooterView];
+            }
+                break;
+                
+            default:
+                break;
+        }
+
+    }];
+    
+    header.titleSelectColor = [UIColor blueColor];
+    
+    [self.view insertSubview:header belowSubview:self.coverView];
+    
     //顶部的输入框
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 15, KScreenWidth, 135)];
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 15 + 44, KScreenWidth, 135)];
     topView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:topView];
+//    [self.view addSubview:topView];
+    [self.view insertSubview:topView belowSubview:self.coverView];
     
     CGFloat left = 16;
-    CGFloat margin = 10;
+//    CGFloat margin = 10;
     CGFloat labelH = 17;
     
     //手机号
@@ -167,8 +227,7 @@
     self.balanceLable = balanceLable;
     [topView addSubview:balanceLable];
     
-    
-    
+
     
     UIButton *recordsBtn = [[UIButton alloc] init];
     recordsBtn.width = 72;
@@ -186,39 +245,75 @@
     [topView addSubview:recordsBtn];
     
     
+    //底部的确认充值按钮
+    UIButton *OKBtn = [[UIButton alloc] init];
+    OKBtn.width = KScreenWidth;
+    OKBtn.height = 50;
+    OKBtn.y = KScreenHeight - OKBtn.height;
+    OKBtn.x = 0;
+    OKBtn.backgroundColor = Tintcolor;
+    OKBtn.titleLabel.font = Font18;
+    //    OKBtn.layer.masksToBounds = YES;
+    //    OKBtn.layer.cornerRadius = BtncornerRadius;
+    [OKBtn setTitle:@"确认充值" forState:UIControlStateNormal];
+    [OKBtn addTarget:self action:@selector(OKBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:OKBtn];
+
+    [self setupStarFooterView];
+
+}
+
+-(void)setupScoreFooterView
+{
+    [self.ScoreFooterView removeFromSuperview];
+    [self.StarFooterView removeFromSuperview];
     
-    //设置分割线
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,CGRectGetMaxY(topView.frame) + 14, KScreenWidth, 83)];
-    lineView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:lineView];
+    
+    self.balanceLable.text = nil;
+    self.username.text = nil;
+    self.recordsBtn.enabled = NO;
+    self.phoneText.text = nil;
+    
+    CGFloat left = 16;
+//    CGFloat margin = 10;
+    CGFloat labelH = 17;
+
+    //底部的充值View
+    UIView *ScoreFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,272, KScreenWidth, 83)];
+    ScoreFooterView.backgroundColor = [UIColor whiteColor];
+    
+    self.ScoreFooterView = ScoreFooterView;
+    
+//    [self.view addSubview:ScoreFooterView];
+    [self.view insertSubview:ScoreFooterView belowSubview:self.coverView];
     
     UILabel *rechargeLB = [[UILabel alloc] init];
-    rechargeLB.text  = @"充值金额";
+    rechargeLB.text  = @"积分充值";
     rechargeLB.x = left;
-    rechargeLB.y = CGRectGetMaxY(topView.frame) + 29;
+    rechargeLB.y = 10;
     rechargeLB.width = 75;
     rechargeLB.height = labelH;
     rechargeLB.font = Font16;
     
-    [self.view addSubview:rechargeLB];
+    [ScoreFooterView addSubview:rechargeLB];
     
     
     //账户余额和充值金额
     UILabel *creditLB = [[UILabel alloc] init];
-    creditLB.text  = @"现金";
+    creditLB.text  = @"充值数量";
     creditLB.x = 50;
     creditLB.y = CGRectGetMaxY(rechargeLB.frame) + 20;
-    creditLB.width = 35;
+    creditLB.width = 90;
     creditLB.height = labelH;
     creditLB.font = Font16;
     //    phone.backgroundColor = [UIColor redColor];
-    [self.view addSubview:creditLB];
+    [ScoreFooterView addSubview:creditLB];
     
     
     //冲值金额的输入框
     UITextField *moneyTF = [[UITextField alloc] init];
-    moneyTF.x = CGRectGetMaxX(creditLB.frame) + 5;
-    moneyTF.width = 80;
+    moneyTF.x = CGRectGetMaxX(creditLB.frame) + 30;
+    moneyTF.width = 100;
     moneyTF.height = 35;
     moneyTF.centerY = creditLB.centerY;
     moneyTF.borderStyle = TFborderStyle;
@@ -228,7 +323,73 @@
     moneyTF.keyboardType = UIKeyboardTypeNumberPad;
     moneyTF.backgroundColor = BGcolor;
     self.moneyTF = moneyTF;
-    [self.view addSubview:moneyTF];
+    [ScoreFooterView addSubview:moneyTF];
+
+}
+
+
+
+
+-(void)setupStarFooterView
+{
+    [self.ScoreFooterView removeFromSuperview];
+    [self.StarFooterView removeFromSuperview];
+
+    self.balanceLable.text = nil;
+    self.username.text = nil;
+    self.recordsBtn.enabled = NO;
+    self.phoneText.text = nil;
+    
+    CGFloat left = 16;
+    CGFloat margin = 10;
+    CGFloat labelH = 17;
+    
+
+    //底部的充值View
+    UIView *StarFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,272, KScreenWidth, 83)];
+    StarFooterView.backgroundColor = [UIColor whiteColor];
+    
+    self.StarFooterView = StarFooterView;
+    
+//    [self.view addSubview:StarFooterView];
+    [self.view insertSubview:StarFooterView belowSubview:self.coverView];
+    
+    UILabel *rechargeLB = [[UILabel alloc] init];
+    rechargeLB.text  = @"充值金额";
+    rechargeLB.x = left;
+    rechargeLB.y = 10;
+    rechargeLB.width = 75;
+    rechargeLB.height = labelH;
+    rechargeLB.font = Font16;
+    
+    [StarFooterView addSubview:rechargeLB];
+    
+    //账户余额和充值金额
+    UILabel *creditLB = [[UILabel alloc] init];
+    creditLB.text  = @"现金";
+    creditLB.x = 20;
+    creditLB.y = CGRectGetMaxY(rechargeLB.frame) + 20;
+    creditLB.width = 35;
+    creditLB.height = labelH;
+    creditLB.font = Font16;
+    //    phone.backgroundColor = [UIColor redColor];
+    [StarFooterView addSubview:creditLB];
+    
+    
+    //冲值金额的输入框
+    UITextField *moneyTF = [[UITextField alloc] init];
+    moneyTF.x = CGRectGetMaxX(creditLB.frame) + 5;
+    moneyTF.width = 100;
+    moneyTF.height = 35;
+    moneyTF.centerY = creditLB.centerY;
+    moneyTF.borderStyle = TFborderStyle;
+    moneyTF.placeholder = @"请输入金额";
+    moneyTF.font = Font14;
+    [moneyTF addTarget:self action:@selector(moneyTFChanged:) forControlEvents:UIControlEventEditingChanged];
+    moneyTF.keyboardType = UIKeyboardTypeNumberPad;
+    moneyTF.backgroundColor = BGcolor;
+    self.moneyTF = moneyTF;
+    [StarFooterView addSubview:moneyTF];
     
     
     //星币
@@ -239,12 +400,12 @@
     star.width = 35;
     star.height = labelH;
     star.font = Font16;
-//    star.backgroundColor = [UIColor redColor];
-    [self.view addSubview:star];
+    //    star.backgroundColor = [UIColor redColor];
+    [StarFooterView addSubview:star];
     
     
     UILabel *addStar = [[UILabel alloc] init];
-//    addStar.text  = @"1000";
+    //    addStar.text  = @"1000";
     addStar.x = CGRectGetMaxX(star.frame);
     addStar.y = creditLB.y;
     addStar.width = 100;
@@ -252,25 +413,11 @@
     addStar.font = Font16;
     self.addStar = addStar;
     //    phone.backgroundColor = [UIColor redColor];
-    [self.view addSubview:addStar];
+    [StarFooterView addSubview:addStar];
     
-    
-    
-    //底部的确认充值按钮
-    UIButton *OKBtn = [[UIButton alloc] init];
-    OKBtn.width = KScreenWidth;
-    OKBtn.height = 50;
-    OKBtn.y = KScreenHeight - OKBtn.height;
-    OKBtn.x = 0;
-    OKBtn.backgroundColor = Tintcolor;
-    OKBtn.titleLabel.font = Font18;
-//    OKBtn.layer.masksToBounds = YES;
-//    OKBtn.layer.cornerRadius = BtncornerRadius;
-    [OKBtn setTitle:@"确认充值" forState:UIControlStateNormal];
-    [OKBtn addTarget:self action:@selector(OKBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:OKBtn];
 
 }
+
 
 /* 历史记录按钮的点击事件 */
 -(void)recordsBtnClick
@@ -284,13 +431,12 @@
         [[AlertView sharedAlertView] addAlertMessage:@"请输入手机号！" title:@"提示"];
         return;
     }
-    
-    [self getRechargeRecord];
-    
+
     [UIView animateWithDuration:0.25 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState) animations:^{
         self.coverView.hidden = NO;
         self.title = @"充值记录";
         self.RecordView.x = 75;
+        [self.RecordView.mj_header beginRefreshing];
     } completion:^(BOOL finished) {
     }];
 
@@ -355,6 +501,7 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"username"] = self.phoneText.text;
     parmas[@"amount"] = self.moneyTF.text;
+    parmas[@"type"] = @(self.rechareType);
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     YYLog(@"parmas---%@",parmas);
     
@@ -364,13 +511,18 @@
     
     [HttpTool post:url parmas:parmas success:^(id json)
      {
-         [SVProgressHUD dismiss];
-         [SVProgressHUD showSuccessWithStatus:@"充值成功！"];
-         self.moneyTF.text = nil;
-         self.addStar.text = nil;
-         [self.view setNeedsLayout];
-         YYLog(@"json-充值%@",json);
-         
+         NSNumber *num = json[@"resultCode"];
+         if ([num integerValue] == 1000) {
+             
+             [SVProgressHUD showSuccessWithStatus:@"充值成功！"];
+             self.moneyTF.text = nil;
+             self.addStar.text = nil;
+             [self.view setNeedsLayout];
+             YYLog(@"json-充值%@",json);
+         }else{
+             [SVProgressHUD dismiss];
+         }
+   
      } failure:^(NSError *error)
      {
          [SVProgressHUD dismiss];
@@ -380,41 +532,11 @@
 
 
 
-
-
-/**
- * 地址管理：获取用户充值记录ID
- */
--(void)getRechargeRecord
-{
-    /*
-     username 用户名
-     amount 金额
-     sessionId 会话id
-     */
-    
-    if (!self.virtualcenterModel)
-    {
-        [[AlertView sharedAlertView] addAlertMessage:@"请输入充值手机号！" title:@"提示"];
-        return;
-    }
-    
-    
-    self.RecordView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewRecord)];
-    [self.RecordView.mj_header beginRefreshing];
-    [self.RecordView.mj_header isAutomaticallyChangeAlpha];
-    
-    self.RecordView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreRecord)];
-
-}
-
-
-
 -(void)loadNewRecord
 {
     self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
-    parmas[@"userid"] = self.virtualcenterModel.userid;
+    parmas[@"userid"] = _virtualcenterModel.userid;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"currentPage"] = @(self.currentPage);
     YYLog(@"parmas---%@",parmas);
@@ -484,6 +606,7 @@
 {
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"username"] = self.phoneText.text;
+    parmas[@"type"] = @(self.rechareType);
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     YYLog(@"parmas---%@",parmas);
     
@@ -498,9 +621,14 @@
          {
              self.virtualcenterModel = arr[0];
          }
-//         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
-         self.balanceLable.text = [NSString stringWithFormat:@"%.0f星币",self.virtualcenterModel.balance];
-         self.username.text = self.virtualcenterModel.membername;
+         //         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
+         if (self.rechareType == 2) {
+             self.balanceLable.text = [NSString stringWithFormat:@"%.0f积分",self.virtualcenterModel.balance];
+             self.username.text = self.virtualcenterModel.membername;
+         }else{
+             self.balanceLable.text = [NSString stringWithFormat:@"%.0f星币",self.virtualcenterModel.balance];
+             self.username.text = self.virtualcenterModel.membername;
+         }
 
      } failure:^(NSError *error)
      {
@@ -527,6 +655,12 @@
     RecordView.dataSource = self;
     RecordView.backgroundColor = BGcolor;
     self.RecordView = RecordView;
+    
+    self.RecordView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewRecord)];
+    [self.RecordView.mj_header isAutomaticallyChangeAlpha];
+    
+    self.RecordView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreRecord)];
+    
     [[UIApplication sharedApplication].keyWindow addSubview:RecordView];
 //    [coverView addSubview:RecordView];
 }
@@ -566,6 +700,7 @@
     {
         self.balanceLable.text = nil;
         self.username.text = nil;
+        self.recordsBtn.enabled = NO;
     }
 }
 
