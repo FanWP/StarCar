@@ -95,10 +95,10 @@
     [UMSocialQQHandler setQQWithAppId:@"1105808395" appKey:@"PEm1E3PdSWLOIOyX" url:@"http://www.umeng.com/social"];
 //
 //    // 集成新浪微博开关
-//    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"1881878869" secret:@"4b152da06776868de5ff12e096b8a614" RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-//    
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"3916973439" secret:@"3445cd13de3de9201fd8cc9aca419574" RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+//
 //    // 集成微信开关
-//    [UMSocialWechatHandler setWXAppId:@"wx14d4924c758a456b" appSecret:@"13c89352ac91d0cc27929facac0f1c2c" url:@"http://www.umeng.com/social"];
+    [UMSocialWechatHandler setWXAppId:@"wx14d4924c758a456b" appSecret:@"13c89352ac91d0cc27929facac0f1c2c" url:@"http://www.umeng.com/social"];
 }
 
 

@@ -52,6 +52,16 @@
 				<string>QQ41e94c0b</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>微博</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb3916973439</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0.0</string>

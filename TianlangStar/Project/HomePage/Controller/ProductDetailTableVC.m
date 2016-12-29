@@ -20,7 +20,7 @@
 
 #import "DiscountAndAccountBalanceModel.h"
 
-@interface ProductDetailTableVC ()<SDCycleScrollViewDelegate>
+@interface ProductDetailTableVC ()<SDCycleScrollViewDelegate,UMSocialUIDelegate>
 
 // scrollView
 @property (nonatomic,strong) SDCycleScrollView *scrollView;
@@ -69,6 +69,8 @@
 @property (nonatomic,copy) NSString *productName;
 @property (nonatomic,copy) NSString *price;
 
+@property (nonatomic,copy) NSString *shareUrl;
+
 @property (nonatomic,strong) UIButton *okAddCartButton;
 
 //购买数量
@@ -106,7 +108,7 @@
     
     self.appearCount = 0;
     
-    [self rightItem];
+    
     
     [self addFooterView];
     
@@ -164,6 +166,10 @@
         
         self.telNum = _carModel.telephone;
         
+        self.productName = [NSString stringWithFormat:@"%@%@",_carModel.brand,_carModel.model];
+        
+        self.productType = 3;
+        
         YYLog(@"_carModel.carDescription::--------- %@",_carModel.carDescription);
         
         NSString *images = _carModel.images;
@@ -184,9 +190,9 @@
     }
     
     
+    [self rightItem];
+    
     [self creatHeaderView];
-
-
 }
 
 
@@ -212,16 +218,79 @@
 
 - (void)rightItem
 {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"share"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareAction)];
 }
 
 
 
 - (void)shareAction
 {
+    [self.bottomView removeFromSuperview];
     
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    parameters[@"goodsId"] = self.productId;
+    parameters[@"type"] = @(self.productType);
+    
+    YYLog(@"分享参数：%@",parameters);
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@unlogin/share/goods",URL];
+    
+    [[AFHTTPSessionManager manager] POST:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"分享接口返回：%@",responseObject);
+        
+        NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+        
+        if (resultCode == 1000)
+        {
+            if (responseObject[@"shareUrl"] != nil)
+            {
+                _shareUrl = [NSString stringWithFormat:@"%@",responseObject[@"shareUrl"]];
+                
+                NSString *shareText = [NSString stringWithFormat:@"客户信息表：%@",_shareUrl];
+                
+                [UMSocialData defaultData].extConfig.title = _productName;
+                
+                [UMSocialSnsService presentSnsIconSheetView:self appKey:@"584f99c25312ddbd6a0011b4" shareText:shareText shareImage:[UIImage imageNamed:@"shareIcon"] shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone] delegate:self];
+                
+                [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToQQ,UMShareToQzone,UMShareToSina,UMShareToTencent,UMShareToWechatFavorite,UMShareToWechatSession,UMShareToWechatTimeline] content:shareText image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response) {
+                    
+                    if (response.responseCode == UMSResponseCodeSuccess)   {
+                        
+                        [UMSocialData defaultData].extConfig.qqData.url = _shareUrl;
+                        
+                        YYLog(@"分享出去的链接%@",_shareUrl);
+                    }
+                }];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"分享接口错误：%@",error);
+    }];
 }
 
+// 分享到新浪微博
+- (void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+{
+    if (platformName == UMShareToSina)
+    {
+        socialData.shareText = _shareUrl;
+    }
+}
+// 友盟代理方法
+- (void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType
+{
+    [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
+}
+// 分享完成后回调
+- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    [[UIApplication sharedApplication].keyWindow addSubview:self.bottomView];
+}
 
 
 - (void)viewWillAppear:(BOOL)animated

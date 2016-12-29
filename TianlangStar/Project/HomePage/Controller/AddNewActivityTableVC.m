@@ -45,6 +45,9 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,strong) NewActivityModel *activityModel;
 
+@property (nonatomic,strong) UIDatePicker *activityTimePicker;
+
+@property (nonatomic,copy) NSString *activityTime;
 
 //添加附件
 @property (strong, nonatomic) UIView *bottomView;
@@ -67,6 +70,8 @@ typedef enum : NSUInteger {
     _leftArray = @[@"活动标题",@"时间",@"活动内容"];
     
     [self creatHeaderView];
+    
+    [self addDatePIcker];
     
     [self rightItem];
     
@@ -105,8 +110,6 @@ typedef enum : NSUInteger {
 }
 
 
-
-
 - (void)creatHeaderView
 {
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(20,0, KScreenWidth, 140)];
@@ -141,6 +144,54 @@ typedef enum : NSUInteger {
 }
 
 
+/**
+ *  添加时间选择器
+ */
+- (void)addDatePIcker
+{
+    //日期选择器
+    //iphone6/6s
+    UIDatePicker *startDatePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0,KScreenHeight ,KScreenWidth, 162)];
+    
+    startDatePicker.datePickerMode = UIDatePickerModeDate;
+    startDatePicker.date = [NSDate date];
+    
+    self.activityTimePicker.hidden = NO;
+    self.activityTimePicker = startDatePicker;
+    
+    [self.activityTimePicker addTarget:self action:@selector(selecStartDate) forControlEvents:(UIControlEventValueChanged)];
+}
+
+
+
+/** 时间选择器的点击事件--较强险提醒日期 */
+- (void)selecStartDate
+{
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    
+    switch (self.addNewActivity)
+    {
+        case pubTime:
+        {
+            self.activityTime = [outputFormatter stringFromDate:self.activityTimePicker.date];
+//            self.activityModel.pubTime = [NSString stringWithFormat:@"%ld",(long)[self.activityTimePicker.date timeIntervalSince1970]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    //回到主线程刷新数据
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.tableView reloadData];
+    });
+}
+
+
 
 - (void)finishAction:(UIBarButtonItem *)sender
 {
@@ -153,7 +204,7 @@ typedef enum : NSUInteger {
     
     parmas[@"sessionId"]  = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"title"]  = self.activityModel.title;
-    parmas[@"pubTime"] = [self getCurrentTime];
+    parmas[@"pubTime"] = self.activityTime;
     parmas[@"content"]  = self.activityModel.content;
     
     YYLog(@"添加最新活动参数parmas--%@",parmas);
@@ -202,6 +253,8 @@ typedef enum : NSUInteger {
             [_bottomView removeFromSuperview];
             
             _activityModel = nil;
+            
+            _activityTime = @"";
                         
             [self creatHeaderView];
             
@@ -240,11 +293,6 @@ typedef enum : NSUInteger {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row == 2)
-//    {
-//        return 110;
-//    }
-    
     return 40;
 }
 
@@ -264,6 +312,9 @@ typedef enum : NSUInteger {
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.leftLabel.text = _leftArray[indexPath.row];
+    self.addNewActivity = indexPath.row;
+    cell.rightTF.tag = self.addNewActivity;
+    
     if (indexPath.row == 2)
     {
         cell.rightTF.adjustsFontSizeToFitWidth = YES;
@@ -280,7 +331,12 @@ typedef enum : NSUInteger {
             cell.rightTF.text = self.activityModel.title;
             break;
         case pubTime:
-            cell.rightTF.text = [self getCurrentTime];
+        {
+            if (self.activityTime)
+            {
+                cell.rightTF.text = self.activityTime;
+            }
+        }
             break;
         case content:
             cell.rightTF.text = self.activityModel.content;
@@ -300,13 +356,27 @@ typedef enum : NSUInteger {
     [self.view endEditing:YES];
 }
 
-
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    if (textField.tag == pubTime)
+    {
+        if (![textField.text isEqualToString:@"请选择日期"])
+        {
+            textField.inputView = self.activityTimePicker;
+            self.addNewActivity = textField.tag;
+            textField.text = @"请选择日期";
+        }
+        else
+        {
+            textField.text = self.activityTime;
+        }
+    }
+    else
+    {
+        [self.activityTimePicker removeFromSuperview];
+    }
     return YES;
 }
-
-
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
