@@ -64,13 +64,18 @@
 @property (nonatomic,strong) UIButton *minusButton;
 @property (nonatomic,strong) UIButton *plusButton;
 @property (nonatomic,strong) UILabel *countLabel;
+@property (nonatomic,strong) UILabel *productNameLabel;
 @property (nonatomic,strong) UILabel *priceLabel;
 @property (nonatomic,strong) UILabel *memberDiscountLabel;
 @property (nonatomic,strong) UILabel *discountLabel;
 @property (nonatomic,strong) UILabel *actuallyPaidLabel;
 @property (nonatomic,strong) UILabel *paidLabel;
+@property (nonatomic,strong) UILabel *accountBalanceLabel;
+@property (nonatomic,strong) UILabel *accountBalanceCountLabel;
 
+@property (nonatomic,copy) NSString *productName;
 @property (nonatomic,copy) NSString *price;
+@property (nonatomic,copy) NSString *warranty;
 
 @property (nonatomic,strong) UIButton *okAddCartButton;
 
@@ -201,6 +206,8 @@
                     self.price = self.dataDic[@"price"];
                     
                     self.productId = self.dataDic[@"id"];
+                    
+                    self.warranty = self.dataDic[@"warranty"];
                     
                     NSArray *array = [images componentsSeparatedByString:@","];
                     
@@ -673,168 +680,231 @@
 }
 
 
-//立即购买点击时间
-- (void)addCountAction:(UIButton *)button
+
+- (void)dataDiscountAndAccountBalance
 {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
-    self.countNumber = 1;
+    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     
-    self.appearCount++;
+    NSString *urlString = [NSString stringWithFormat:@"%@find/base/userInfo",URL];
     
-    CGFloat coverViewHeight = KScreenHeight - Klength44;
-    self.coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, coverViewHeight)];
-    self.coverView.backgroundColor = [UIColor colorWithRed:204.0 / 255.0 green:204.0 / 255.0 blue:204.0 / 255.0 alpha:0.8];
-    self.coverView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-    [self.coverView addGestureRecognizer:tap];
-    [self.view addSubview:self.coverView];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.coverView];
+    [[AFHTTPSessionManager manager] POST:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         YYLog(@"折扣信息账户余额返回：%@",responseObject);
+         
+         NSArray *dataArray = responseObject[@"body"];
+         
+         NSString *discount;
+         NSString *accountBalance;
+         
+         for (NSDictionary *dic in dataArray)
+         {
+             discount = [dic objectForKey:@"discount"];
+             accountBalance = [dic objectForKey:@"balance"];
+         }
+         
+         _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"折扣信息账户余额错误：%@",error);
+     }];
     
-    
-    
-    CGFloat countViewheight = 205;
-    CGFloat countViewY = coverViewHeight - countViewheight;
-    self.countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, KScreenWidth, countViewheight)];
-    self.countView.backgroundColor = [UIColor whiteColor];
-    self.countView.userInteractionEnabled = YES;
-    [self.coverView addSubview:self.countView];
-    
-    
-    
-    
-    CGFloat coverPicViewX = 16;
-    CGFloat coverPicViewY = coverViewHeight - countViewheight - 57;
-    CGFloat coverPicViewWidth = 0.6 * KScreenWidth;
-    CGFloat coverPicViewHeight = 107 + 12 + 12;
-    self.coverPicView = [[UIView alloc] initWithFrame:CGRectMake(coverPicViewX, coverPicViewY, coverPicViewWidth, coverPicViewHeight)];
-    self.coverPicView.layer.cornerRadius = BtncornerRadius;
-    self.coverPicView.backgroundColor = [UIColor whiteColor];
-    [self.coverView addSubview:self.coverPicView];
-    
-    
-    
-    
-    CGFloat picViewX = 16;
-    CGFloat picViewY = 12;
-    CGFloat picViewWidth = coverPicViewWidth - 2 * picViewX;
-    CGFloat picViewHight = 107;
-    self.picView = [[UIImageView alloc] initWithFrame:CGRectMake(picViewX, picViewY, picViewWidth, picViewHight)];
-    [self.coverPicView addSubview:self.picView];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_imagesArray.firstObject]];
-    [self.picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
-    
-    
-    
-    CGFloat selectCountLabelX = 50;
-    CGFloat selectCountLabelY = countViewheight - 50 - 3 * Klength20;
-    CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
-    self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
-    self.selectCountLabel.text = @"选择数量";
-    [self.countView addSubview:self.selectCountLabel];
-    
-    
-    
-    CGFloat priceLabelX = coverPicViewX + coverPicViewWidth + 20;
-    CGFloat priceLabelY = 30;
-    CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
-    self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@星币",self.price];
-    self.priceLabel.font = Font18;
-    [self.countView addSubview:self.priceLabel];
-    
-    
-    
-    CGFloat minusButtonX = coverPicViewX + coverPicViewWidth;
-    CGFloat minusButtonY = selectCountLabelY;
-    CGFloat minusButtonWidth = Klength30;
-    self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    self.minusButton.frame = CGRectMake(minusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
-    [self.minusButton setImage:[UIImage imageNamed:@"minus"] forState:(UIControlStateNormal)];
-    [self.minusButton addTarget:self action:@selector(minusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.countView addSubview:self.minusButton];
-    
-    
-    
-    CGFloat countLabelX = minusButtonX + minusButtonWidth;
-    CGFloat countLabelWidth = 44;
-    self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake(countLabelX, minusButtonY, countLabelWidth, Klength30)];
-    
-    self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
-    
-    [self addObserver:self forKeyPath:@"countNum" options:(NSKeyValueObservingOptionNew) context:nil];
-    
-    
-    
-    self.countLabel.text = self.countNum;
-    self.countLabel.textAlignment = 1;
-    [self.countView addSubview:self.countLabel];
-    
-    
-    
-    CGFloat plusButtonX = countLabelX + countLabelWidth;
-    self.plusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    self.plusButton.frame = CGRectMake(plusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
-    [self.plusButton setImage:[UIImage imageNamed:@"plus"] forState:(UIControlStateNormal)];
-    [self.plusButton addTarget:self action:@selector(plusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.countView addSubview:self.plusButton];
-    
-    
-    
-    
-    CGFloat memberDiscountLabelY = selectCountLabelY + Klength30;
-    self.memberDiscountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, memberDiscountLabelY, selectCountLabelWidth, Klength30)];
-    self.memberDiscountLabel.text = @"会员折扣";
-    [self.countView addSubview:self.memberDiscountLabel];
-    
-    
-    
-    
-    CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
-    self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
-    self.discountLabel.text = [NSString stringWithFormat:@"%.f折",[UserInfo sharedUserInfo].discount];
-    self.discountLabel.textAlignment = 1;
-    [self.countView addSubview:self.discountLabel];
-    
-    
-    
-    
-    CGFloat actuallyPaidLabelY = memberDiscountLabelY + Klength30;
-    self.actuallyPaidLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, actuallyPaidLabelY, selectCountLabelWidth, Klength30)];
-    self.actuallyPaidLabel.text = @"实付金额";
-    [self.countView addSubview:self.actuallyPaidLabel];
-    
-    
-    
-    self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
-    [self changeModelCount];
-    self.paidLabel.textAlignment = 1;
-    [self.countView addSubview:self.paidLabel];
-    
-    
-    
-    
-    self.okAddCartButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    self.okAddCartButton.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
-    self.okAddCartButton.backgroundColor = [UIColor redColor];
-    
-    
-    if (button.tag == 111)
-    {
-        [self.okAddCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
-        [self.okAddCartButton addTarget:self action:@selector(okAddCartAction) forControlEvents:(UIControlEventTouchUpInside)];
-    }
-    else if (button.tag == 112)
-    {
-        [self.okAddCartButton setTitle:@"结算" forState:(UIControlStateNormal)];
-        [self.okAddCartButton addTarget:self action:@selector(settlementAction) forControlEvents:(UIControlEventTouchUpInside)];
-    }
-    
-    [self.okAddCartButton setTintColor:[UIColor whiteColor]];
-    
-    [[UIApplication sharedApplication].keyWindow addSubview:self.okAddCartButton];
 }
 
+// 加入购物车-立即购买
+- (void)addCountAction:(UIButton *)button
+{
+    if ([UserInfo sharedUserInfo].isLogin)
+    {
+        [self dataDiscountAndAccountBalance];
+        
+        self.countNumber = 1;
+        
+        self.appearCount++;
+        
+        CGFloat coverViewHeight = KScreenHeight - Klength44;
+        self.coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, coverViewHeight)];
+        self.coverView.backgroundColor = [UIColor colorWithRed:204.0 / 255.0 green:204.0 / 255.0 blue:204.0 / 255.0 alpha:0.8];
+        self.coverView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+        [self.coverView addGestureRecognizer:tap];
+        [self.view addSubview:self.coverView];
+        [[UIApplication sharedApplication].keyWindow addSubview:self.coverView];
+        
+        
+        
+        CGFloat countViewheight = 205;
+        CGFloat countViewY = coverViewHeight - countViewheight;
+        self.countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, KScreenWidth, countViewheight)];
+        self.countView.backgroundColor = [UIColor whiteColor];
+        self.countView.userInteractionEnabled = YES;
+        [self.coverView addSubview:self.countView];
+        
+        
+        
+        
+        CGFloat coverPicViewX = 16;
+        CGFloat coverPicViewY = coverViewHeight - countViewheight - 57;
+        CGFloat coverPicViewWidth = 0.6 * KScreenWidth;
+        CGFloat coverPicViewHeight = 107 + 12 + 12;
+        self.coverPicView = [[UIView alloc] initWithFrame:CGRectMake(coverPicViewX, coverPicViewY, coverPicViewWidth, coverPicViewHeight)];
+        self.coverPicView.layer.cornerRadius = BtncornerRadius;
+        self.coverPicView.backgroundColor = [UIColor whiteColor];
+        [self.coverView addSubview:self.coverPicView];
+        
+        
+        
+        
+        CGFloat picViewX = 16;
+        CGFloat picViewY = 12;
+        CGFloat picViewWidth = coverPicViewWidth - 2 * picViewX;
+        CGFloat picViewHight = 107;
+        self.picView = [[UIImageView alloc] initWithFrame:CGRectMake(picViewX, picViewY, picViewWidth, picViewHight)];
+        self.picView.contentMode = UIViewContentModeCenter;
+        self.picView.layer.masksToBounds = YES;
+        [self.coverPicView addSubview:self.picView];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",_imagesArray.firstObject]];
+        [self.picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
+        
+        
+        
+        CGFloat selectCountLabelX = 50;
+        CGFloat selectCountLabelY = countViewheight - 70 - 3 * Klength20;
+        CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
+        self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
+        self.selectCountLabel.text = @"选择数量";
+        [self.countView addSubview:self.selectCountLabel];
+        
+        
+        
+        CGFloat productNameLabelX = coverPicViewX + coverPicViewWidth + 20;
+        CGFloat productNameLabelY = 10;
+        CGFloat productNameLabelWidth = KScreenWidth - productNameLabelX - coverPicViewX;
+        self.productNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(productNameLabelX, productNameLabelY, productNameLabelWidth, Klength30)];
+        self.productNameLabel.text = self.productName;
+        self.productNameLabel.font = Font16;
+        [self.countView addSubview:self.productNameLabel];
+        
+        
+        
+        CGFloat priceLabelY = productNameLabelY + Klength30;
+        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(productNameLabelX, priceLabelY, productNameLabelWidth, Klength30)];
+        self.priceLabel.text = [NSString stringWithFormat:@"%@星币",self.price];
+        self.priceLabel.font = Font18;
+        [self.countView addSubview:self.priceLabel];
+        
+        
+        
+        CGFloat minusButtonX = coverPicViewX + coverPicViewWidth;
+        CGFloat minusButtonY = selectCountLabelY;
+        CGFloat minusButtonWidth = Klength30;
+        self.minusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        self.minusButton.frame = CGRectMake(minusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
+        [self.minusButton setImage:[UIImage imageNamed:@"minus"] forState:(UIControlStateNormal)];
+        [self.minusButton addTarget:self action:@selector(minusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.countView addSubview:self.minusButton];
+        
+        
+        
+        CGFloat countLabelX = minusButtonX + minusButtonWidth;
+        CGFloat countLabelWidth = 44;
+        self.countLabel = [[UILabel alloc] initWithFrame:CGRectMake(countLabelX, minusButtonY, countLabelWidth, Klength30)];
+        
+        self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+        
+        [self addObserver:self forKeyPath:@"countNum" options:(NSKeyValueObservingOptionNew) context:nil];
+        
+        
+        
+        self.countLabel.text = self.countNum;
+        self.countLabel.textAlignment = 1;
+        [self.countView addSubview:self.countLabel];
+        
+        
+        
+        CGFloat plusButtonX = countLabelX + countLabelWidth;
+        self.plusButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        self.plusButton.frame = CGRectMake(plusButtonX, minusButtonY, minusButtonWidth, minusButtonWidth);
+        [self.plusButton setImage:[UIImage imageNamed:@"plus"] forState:(UIControlStateNormal)];
+        [self.plusButton addTarget:self action:@selector(plusCountAction) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.countView addSubview:self.plusButton];
+        
+        
+        
+        
+        CGFloat memberDiscountLabelY = selectCountLabelY + Klength30;
+        self.memberDiscountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, memberDiscountLabelY, selectCountLabelWidth, Klength30)];
+        self.memberDiscountLabel.text = @"会员折扣";
+        [self.countView addSubview:self.memberDiscountLabel];
+        
+        
+        
+        
+        CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
+        self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
+        self.discountLabel.textAlignment = 1;
+        [self.countView addSubview:self.discountLabel];
+        
+        
+        
+        
+        CGFloat actuallyPaidLabelY = memberDiscountLabelY + Klength30;
+        self.actuallyPaidLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, actuallyPaidLabelY, selectCountLabelWidth, Klength30)];
+        self.actuallyPaidLabel.text = @"实付金额";
+        [self.countView addSubview:self.actuallyPaidLabel];
+        
+        
+        
+        self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
+        self.paidLabel.textAlignment = 1;
+        [self.countView addSubview:self.paidLabel];
+        
+        
+        
+        CGFloat accountBalanceLabelY = actuallyPaidLabelY + Klength30;
+        self.accountBalanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, accountBalanceLabelY, selectCountLabelWidth, Klength30)];
+        self.accountBalanceLabel.text = @"账户余额";
+        [self.countView addSubview:self.accountBalanceLabel];
+        
+        
+        
+        self.accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, accountBalanceLabelY, discountLabelWidth, Klength30)];
+        self.accountBalanceCountLabel.textAlignment = 1;
+        [self.countView addSubview:self.accountBalanceCountLabel];
+        
+        
+        
+        self.okAddCartButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        self.okAddCartButton.frame = CGRectMake(0, KScreenHeight - Klength44, KScreenWidth, Klength44);
+        self.okAddCartButton.backgroundColor = [UIColor redColor];
+        
+        
+        if (button.tag == 111)
+        {
+            [self.okAddCartButton setTitle:@"加入购物车" forState:(UIControlStateNormal)];
+            [self.okAddCartButton addTarget:self action:@selector(okAddCartAction) forControlEvents:(UIControlEventTouchUpInside)];
+        }
+        else if (button.tag == 112)
+        {
+            [self.okAddCartButton setTitle:@"结算" forState:(UIControlStateNormal)];
+            [self.okAddCartButton addTarget:self action:@selector(settlementAction) forControlEvents:(UIControlEventTouchUpInside)];
+        }
+        
+        [self.okAddCartButton setTintColor:[UIColor whiteColor]];
+        
+        [[UIApplication sharedApplication].keyWindow addSubview:self.okAddCartButton];
+    }
+    else
+    {
+        // 提示用户先登录
+        [[AlertView sharedAlertView] loginAction];
+    }
+}
 
 
 
@@ -953,13 +1023,48 @@
 
 - (void)plusCountAction
 {
-    self.countNumber++;
+    //    self.countNumber++;
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+    
+    NSInteger realPrice;
+    
+    if (self.countNumber == 1)
+    {
+        //计算count
+        self.productType == 1 ? (self.productModel.count = self.countNumber + 1):(self.serviceModel.count = self.countNumber + 1);
+        self.productModel.productid = self.productModel.ID;
+        self.serviceModel.productid = self.serviceModel.ID;
+        self.serviceModel.buytype = 2;//服务
+        realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
+    }
+    else
+    {
+        //计算count
+        self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
+        self.productModel.productid = self.productModel.ID;
+        self.serviceModel.productid = self.serviceModel.ID;
+        self.serviceModel.buytype = 2;//服务
+        realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
+    }
+    
+    if ([_accountBalanceCountLabel.text integerValue] > realPrice + (realPrice / _countNumber) )
+    {
+        if (_countNumber == 1)
+        {
+            _countNumber = 2;
+            _countLabel.text = @"2";
+        }
+        else
+        {
+            _countNumber++;
+            _countLabel.text = [NSString stringWithFormat:@"%ld",_countNumber];
+        }
+    }
     //计算count
     [self changeModelCount];
 }
 
-  
+
 //计算count
 -(void)changeModelCount
 {
@@ -970,8 +1075,9 @@
     self.serviceModel.buytype = 2;//服务
     NSInteger realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
     self.paidLabel.text = [NSString stringWithFormat:@"%ld星币",(long)realPrice];
-    
 }
+
+
 
 
 
@@ -1066,11 +1172,18 @@
 {
     if ([self.title isEqualToString:@"商品详情"])
     {
-        return 9;
+        return 8;
     }
     else
     {
-        return 6;
+        if ([_serviceModel.warranty isEqualToString:@""])
+        {
+            return 5;
+        }
+        else
+        {
+            return 6;
+        }
     }
 }
 
@@ -1154,16 +1267,16 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"%@星币",self.dataDic[@"price"]];
                 break;
             case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"productmodel"]];
+                cell.textLabel.text = [NSString stringWithFormat:@"库存：%@",self.dataDic[@"inventory"]];
                 break;
             case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"规格：%@",self.dataDic[@"specifications"]];
+                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"productmodel"]];
                 break;
             case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"适用车型：%@",self.dataDic[@"applycar"]];
+                cell.textLabel.text = [NSString stringWithFormat:@"规格：%@",self.dataDic[@"specifications"]];
                 break;
             case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"供应商：%@",self.dataDic[@"vendors"]];
+                cell.textLabel.text = [NSString stringWithFormat:@"适用车型：%@",self.dataDic[@"applycar"]];
                 break;
             case 6:
                 cell.textLabel.text = [NSString stringWithFormat:@"简介：%@",self.dataDic[@"introduction"]];
@@ -1178,27 +1291,50 @@
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
-
-        switch (indexPath.row)
+        if ([_serviceModel.warranty isEqualToString:@""])
         {
-            case 0:
-                cell.textLabel.text = self.dataDic[@"services"];
-                break;
-            case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",self.dataDic[@"price"]];
-                break;
-            case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"servicetype"]];
-                break;
-            case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",self.dataDic[@"content"]];
-                break;
-            case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",self.dataDic[@"warranty"]];
-                break;
-            case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@",self.dataDic[@"manhours"]];
-                break;
+            switch (indexPath.row)
+            {
+                case 0:
+                    cell.textLabel.text = self.dataDic[@"services"];
+                    break;
+                case 1:
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@星币",self.dataDic[@"price"]];
+                    break;
+                case 2:
+                    cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"servicetype"]];
+                    break;
+                case 3:
+                    cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",self.dataDic[@"content"]];
+                    break;
+                case 4:
+                    cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@",self.dataDic[@"manhours"]];
+                    break;
+            }
+        }
+        else
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                    cell.textLabel.text = self.dataDic[@"services"];
+                    break;
+                case 1:
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@星币",self.dataDic[@"price"]];
+                    break;
+                case 2:
+                    cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",self.dataDic[@"servicetype"]];
+                    break;
+                case 3:
+                    cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",self.dataDic[@"content"]];
+                    break;
+                case 4:
+                    cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",self.dataDic[@"warranty"]];
+                    break;
+                case 5:
+                    cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@",self.dataDic[@"manhours"]];
+                    break;
+            }
         }
     }
     

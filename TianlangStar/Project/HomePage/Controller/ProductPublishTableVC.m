@@ -116,9 +116,6 @@ typedef enum : NSUInteger {
     
     _headerImagesArray = [NSMutableArray array];
     
-    
-//    [self rightItem];// 入库按钮
-    
     [self addDatePIcker];
     
     [self creatAddImagesView];// 添加图片的headerView

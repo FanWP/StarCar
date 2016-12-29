@@ -41,6 +41,9 @@
 /** 商品名称 */
 @property (nonatomic,copy) NSString *productname;
 
+/** 库存 */
+@property (nonatomic,copy) NSString *inventory;
+
 /** 用户昵称 */
 @property (nonatomic,copy) NSString *membername;
 

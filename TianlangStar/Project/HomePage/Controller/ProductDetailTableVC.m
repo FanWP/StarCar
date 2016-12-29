@@ -18,6 +18,8 @@
 #import "CollectionModel.h"
 #import "LoginVC.h"
 
+#import "DiscountAndAccountBalanceModel.h"
+
 @interface ProductDetailTableVC ()<SDCycleScrollViewDelegate>
 
 // scrollView
@@ -55,12 +57,16 @@
 @property (nonatomic,strong) UIButton *minusButton;
 @property (nonatomic,strong) UIButton *plusButton;
 @property (nonatomic,strong) UILabel *countLabel;
+@property (nonatomic,strong) UILabel *productNameLabel;
 @property (nonatomic,strong) UILabel *priceLabel;
 @property (nonatomic,strong) UILabel *memberDiscountLabel;
 @property (nonatomic,strong) UILabel *discountLabel;
 @property (nonatomic,strong) UILabel *actuallyPaidLabel;
 @property (nonatomic,strong) UILabel *paidLabel;
+@property (nonatomic,strong) UILabel *accountBalanceLabel;
+@property (nonatomic,strong) UILabel *accountBalanceCountLabel;
 
+@property (nonatomic,copy) NSString *productName;
 @property (nonatomic,copy) NSString *price;
 
 @property (nonatomic,strong) UIButton *okAddCartButton;
@@ -111,7 +117,7 @@
         YYLog(@"_productModel.brand::%@",_productModel.brand);
         
         self.productId = _productModel.ID;
-        
+        self.productName = _productModel.productname;
         self.price = _productModel.price;
         
         self.productType = 1;
@@ -133,7 +139,7 @@
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
         self.productId = _serviceModel.ID;
-        
+        self.productName = _serviceModel.services;
         self.price = _serviceModel.price;
         
         self.productType = 2;
@@ -639,11 +645,51 @@
 }
 
 
+- (void)dataDiscountAndAccountBalance
+{
+//    find/base/userInfo  sessionId   、  username
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@find/base/userInfo",URL];
+    
+    [[AFHTTPSessionManager manager] POST:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        YYLog(@"折扣信息账户余额返回：%@",responseObject);
+        
+        NSArray *dataArray = responseObject[@"body"];
+        
+        NSString *discount;
+        NSString *accountBalance;
+        
+        for (NSDictionary *dic in dataArray)
+        {
+            discount = [dic objectForKey:@"discount"];
+            accountBalance = [dic objectForKey:@"balance"];
+        }
+        
+        
+        _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+        _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        YYLog(@"折扣信息账户余额错误：%@",error);
+    }];
+    
+}
+
 // 加入购物车-立即购买
 - (void)addCountAction:(UIButton *)button
 {
     if ([UserInfo sharedUserInfo].isLogin)
     {
+        [self dataDiscountAndAccountBalance];
+        
         self.countNumber = 1;
         
         self.appearCount++;
@@ -686,15 +732,16 @@
         CGFloat picViewWidth = coverPicViewWidth - 2 * picViewX;
         CGFloat picViewHight = 107;
         self.picView = [[UIImageView alloc] initWithFrame:CGRectMake(picViewX, picViewY, picViewWidth, picViewHight)];
+        self.picView.contentMode = UIViewContentModeCenter;
+        self.picView.layer.masksToBounds = YES;
         [self.coverPicView addSubview:self.picView];
-        
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,_imagesArray.firstObject]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",_imagesArray.firstObject]];
         [self.picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
         
         
         
         CGFloat selectCountLabelX = 50;
-        CGFloat selectCountLabelY = countViewheight - 50 - 3 * Klength20;
+        CGFloat selectCountLabelY = countViewheight - 70 - 3 * Klength20;
         CGFloat selectCountLabelWidth = (coverPicViewWidth + 16) - 100;
         self.selectCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, selectCountLabelY, selectCountLabelWidth, Klength30)];
         self.selectCountLabel.text = @"选择数量";
@@ -702,10 +749,18 @@
         
         
         
-        CGFloat priceLabelX = coverPicViewX + coverPicViewWidth + 20;
-        CGFloat priceLabelY = 30;
-        CGFloat priceLabelWidth = KScreenWidth - priceLabelX - coverPicViewX;
-        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(priceLabelX, priceLabelY, priceLabelWidth, Klength30)];
+        CGFloat productNameLabelX = coverPicViewX + coverPicViewWidth + 20;
+        CGFloat productNameLabelY = 10;
+        CGFloat productNameLabelWidth = KScreenWidth - productNameLabelX - coverPicViewX;
+        self.productNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(productNameLabelX, productNameLabelY, productNameLabelWidth, Klength30)];
+        self.productNameLabel.text = self.productName;
+        self.productNameLabel.font = Font16;
+        [self.countView addSubview:self.productNameLabel];
+        
+        
+        
+        CGFloat priceLabelY = productNameLabelY + Klength30;
+        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(productNameLabelX, priceLabelY, productNameLabelWidth, Klength30)];
         self.priceLabel.text = [NSString stringWithFormat:@"%@星币",self.price];
         self.priceLabel.font = Font18;
         [self.countView addSubview:self.priceLabel];
@@ -759,7 +814,6 @@
         
         CGFloat discountLabelWidth = minusButtonWidth + countLabelWidth + minusButtonWidth;
         self.discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, memberDiscountLabelY, discountLabelWidth, Klength30)];
-        self.discountLabel.text = [NSString stringWithFormat:@"%.f折",[UserInfo sharedUserInfo].discount];
         self.discountLabel.textAlignment = 1;
         [self.countView addSubview:self.discountLabel];
         
@@ -778,6 +832,18 @@
         self.paidLabel.textAlignment = 1;
         [self.countView addSubview:self.paidLabel];
         
+        
+        
+        CGFloat accountBalanceLabelY = actuallyPaidLabelY + Klength30;
+        self.accountBalanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(selectCountLabelX, accountBalanceLabelY, selectCountLabelWidth, Klength30)];
+        self.accountBalanceLabel.text = @"账户余额";
+        [self.countView addSubview:self.accountBalanceLabel];
+        
+        
+        
+        self.accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, accountBalanceLabelY, discountLabelWidth, Klength30)];
+        self.accountBalanceCountLabel.textAlignment = 1;
+        [self.countView addSubview:self.accountBalanceCountLabel];
         
         
         
@@ -923,8 +989,43 @@
 
 - (void)plusCountAction
 {
-    self.countNumber++;
+//    self.countNumber++;
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
+    
+    NSInteger realPrice;
+    
+    if (self.countNumber == 1)
+    {
+        //计算count
+        self.productType == 1 ? (self.productModel.count = self.countNumber + 1):(self.serviceModel.count = self.countNumber + 1);
+        self.productModel.productid = self.productModel.ID;
+        self.serviceModel.productid = self.serviceModel.ID;
+        self.serviceModel.buytype = 2;//服务
+        realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
+    }
+    else
+    {
+        //计算count
+        self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
+        self.productModel.productid = self.productModel.ID;
+        self.serviceModel.productid = self.serviceModel.ID;
+        self.serviceModel.buytype = 2;//服务
+        realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
+    }
+    
+    if ([_accountBalanceCountLabel.text integerValue] > realPrice + (realPrice / _countNumber) )
+    {
+        if (_countNumber == 1)
+        {
+            _countNumber = 2;
+            _countLabel.text = @"2";
+        }
+        else
+        {
+            _countNumber++;
+            _countLabel.text = [NSString stringWithFormat:@"%ld",_countNumber];
+        }
+    }
     //计算count
     [self changeModelCount];
 }
@@ -940,7 +1041,6 @@
     self.serviceModel.buytype = 2;//服务
     NSInteger realPrice = self.productType == 1 ? self.productModel.realPrice : self.serviceModel.realPrice;
     self.paidLabel.text = [NSString stringWithFormat:@"%ld星币",(long)realPrice];
-
 }
 
 
@@ -1036,15 +1136,22 @@
 {
     if ([self.title isEqualToString:@"商品详情"])
     {
-        return 9;
+        return 8;
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
-        return 6;
+        if ([_serviceModel.warranty isEqualToString:@""])
+        {
+            return 5;
+        }
+        else
+        {
+            return 6;
+        }
     }
     else
     {
-        return 10;
+        return 7;
     }
 }
 
@@ -1072,13 +1179,7 @@
     }
     else if ([self.title isEqualToString:@"二手车详情"])
     {
-        if (indexPath.row == 9)
-        {
-            CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
-            
-            return height + 30;
-        }
-        else if (indexPath.row == 10)
+        if (indexPath.row == 6)
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
@@ -1137,15 +1238,7 @@
     }
     else if ([self.title isEqualToString:@"二手车详情"])
     {
-        if (indexPath.row == 9)
-        {
-            CGFloat height = [UITableViewCell heightForString:_carModel.property WithFontSize:14];
-            
-            cell.textLabel.numberOfLines = 0;
-            
-            cell.textLabel.height = height;
-        }
-        else if (indexPath.row == 10)
+        if (indexPath.row == 6)
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
@@ -1166,16 +1259,16 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_productModel.price];
                 break;
             case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_productModel.productmodel];
+                cell.textLabel.text = [NSString stringWithFormat:@"库存:%@",_productModel.inventory];
                 break;
             case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"规格：%@",_productModel.specifications];
+                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_productModel.productmodel];
                 break;
             case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"适用车型：%@",_productModel.applycar];
+                cell.textLabel.text = [NSString stringWithFormat:@"规格：%@",_productModel.specifications];
                 break;
             case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"供应商：%@",_productModel.vendors];
+                cell.textLabel.text = [NSString stringWithFormat:@"适用车型：%@",_productModel.applycar];
                 break;
             case 6:
                 cell.textLabel.text = [NSString stringWithFormat:@"简介：%@",_productModel.introduction];
@@ -1190,26 +1283,50 @@
     }
     else if ([self.title isEqualToString:@"保养维护详情"])
     {
-        switch (indexPath.row)
+        if ([_serviceModel.warranty isEqualToString:@""])
         {
-            case 0:
-                cell.textLabel.text = _serviceModel.services;
-                break;
-            case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
-                break;
-            case 2:
-                cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_serviceModel.servicetype];
-                break;
-            case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",_serviceModel.content];
-                break;
-            case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",_serviceModel.warranty];
-                break;
-            case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@小时",_serviceModel.manhours];
-                break;
+            switch (indexPath.row)
+            {
+                case 0:
+                    cell.textLabel.text = _serviceModel.services;
+                    break;
+                case 1:
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+                    break;
+                case 2:
+                    cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_serviceModel.servicetype];
+                    break;
+                case 3:
+                    cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",_serviceModel.content];
+                    break;
+                case 4:
+                    cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@分钟",_serviceModel.manhours];
+                    break;
+            }
+        }
+        else
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                    cell.textLabel.text = _serviceModel.services;
+                    break;
+                case 1:
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@星币",_serviceModel.price];
+                    break;
+                case 2:
+                    cell.textLabel.text = [NSString stringWithFormat:@"类型：%@",_serviceModel.servicetype];
+                    break;
+                case 3:
+                    cell.textLabel.text = [NSString stringWithFormat:@"服务内容：%@",_serviceModel.content];
+                    break;
+                case 4:
+                    cell.textLabel.text = [NSString stringWithFormat:@"保修期限：%@",_serviceModel.warranty];
+                    break;
+                case 5:
+                    cell.textLabel.text = [NSString stringWithFormat:@"预计耗时：%@分钟",_serviceModel.manhours];
+                    break;
+            }
         }
     }
     else
@@ -1220,30 +1337,21 @@
                 cell.textLabel.text = _carModel.brand;
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
+                cell.textLabel.text = [NSString stringWithFormat:@"参数价：%@",_carModel.price];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"型号：%@",_carModel.model];
                 break;
             case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"行驶里程：%@",_carModel.mileage];
+                cell.textLabel.text = [NSString stringWithFormat:@"车型：%@",_carModel.cartype];
                 break;
             case 4:
-                cell.textLabel.text = [NSString stringWithFormat:@"购买年份：%@",_carModel.buytime];
+                cell.textLabel.text = [NSString stringWithFormat:@"行驶里程：%@",_carModel.mileage];
                 break;
             case 5:
-                cell.textLabel.text = [NSString stringWithFormat:@"原车主：%@",_carModel.person];
+                cell.textLabel.text = [NSString stringWithFormat:@"购买年份：%@",_carModel.buytime];
                 break;
             case 6:
-                cell.textLabel.text = [NSString stringWithFormat:@"车牌号：%@",_carModel.number];
-                break;
-            case 7:
-                cell.textLabel.text = [NSString stringWithFormat:@"车架号：%@",_carModel.frameid];
-                break;
-            case 8:
-                cell.textLabel.text = [NSString stringWithFormat:@"使用性质：%@",_carModel.property];
-                break;
-            case 9:
                 cell.textLabel.text = [NSString stringWithFormat:@"车辆简介：%@",_carModel.carDescription];
                 break;
 

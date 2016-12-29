@@ -28,6 +28,9 @@ UIKIT_EXTERN CGFloat const Klength5;
 /** 长度30 */
 UIKIT_EXTERN CGFloat const Klength30;
 
+/** 长度25 */
+UIKIT_EXTERN CGFloat const Klength25;
+
 /** 长度44 */
 UIKIT_EXTERN CGFloat const Klength44;
 

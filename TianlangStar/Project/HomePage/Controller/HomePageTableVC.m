@@ -110,7 +110,7 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
-//        YYLog(@"首页返回：%@",responseObject);
+        YYLog(@"首页返回：%@",responseObject);
         
         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
         
@@ -477,7 +477,7 @@
 
 
 
-#pragma mark - 返回保养维护的cell
+#pragma mark - 返回保养维护、商品的cell
 - (UITableViewCell *)tableView:(UITableView *)tableView maintenanceCellWithIndexPatch:(NSIndexPath *)indexPatch
 {
     static NSString *identifier2 = @"cell2";
@@ -499,7 +499,7 @@
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
-        cell.titleLabel.text = serviceModel.services;
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@/%@",serviceModel.services,serviceModel.servicetype];
         cell.detailLabel.text = serviceModel.content;
         cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
         cell.priceLabel.font = Font14;
@@ -513,7 +513,7 @@
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
-        cell.titleLabel.text = productModel.productname;
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@/%@",productModel.productname,productModel.productmodel];
         cell.detailLabel.text = productModel.introduction;
         cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.price];
         
@@ -540,7 +540,6 @@
     
     _carModel = _secondCarArray[indexPatch.row];
     
-    
     NSString *pic = _carModel.images;
     
     NSArray *array = [pic componentsSeparatedByString:@","];
@@ -548,7 +547,7 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,array.firstObject]];
     [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
-    cell.carNameLabel.text = _carModel.brand;
+    cell.carNameLabel.text = [NSString stringWithFormat:@"%@/%@",_carModel.brand,_carModel.model];
     cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
     cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];

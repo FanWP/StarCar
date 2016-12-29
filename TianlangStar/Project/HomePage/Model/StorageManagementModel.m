@@ -17,4 +17,16 @@
              };
 }
 
+- (NSString *)shelvestime
+{
+    NSString *shelvestimeString = _shelvestime;
+    NSTimeInterval _interval = [shelvestimeString doubleValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
+    NSDateFormatter *objectDateformat = [[NSDateFormatter alloc] init];
+    [objectDateformat setDateFormat:@"yyyy-MM-dd"];
+    
+    return [objectDateformat stringFromDate:date];
+}
+
+
 @end

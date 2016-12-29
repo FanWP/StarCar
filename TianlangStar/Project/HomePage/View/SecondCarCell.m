@@ -31,36 +31,28 @@
         
         
         CGFloat carNameLabelX = pictureViewX + pictureViewWidth + 12;
-        CGFloat carNameLabelY = 8;
+        CGFloat carNameLabelY = 10;
         CGFloat carNameLabelWidth = KScreenWidth - carNameLabelX - pictureViewX;
-        self.carNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, carNameLabelY, carNameLabelWidth, Klength20)];
+        self.carNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, carNameLabelY, carNameLabelWidth, Klength25)];
         [self.contentView addSubview:self.carNameLabel];
 
         
         
-        CGFloat carTypeLabelY = carNameLabelY + Klength20;
-        self.carTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, carTypeLabelY, carNameLabelWidth, Klength20)];
+        CGFloat carTypeLabelY = carNameLabelY + Klength25;
+        self.carTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, carTypeLabelY, carNameLabelWidth, Klength30)];
         [self.contentView addSubview:self.carTypeLabel];
         
         
         
-        CGFloat mileageLabelY = carTypeLabelY + Klength20;
-        self.mileageLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, mileageLabelY, carNameLabelWidth, Klength20)];
+        CGFloat mileageLabelY = carTypeLabelY + Klength25;
+        self.mileageLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, mileageLabelY, carNameLabelWidth, Klength25)];
         [self.contentView addSubview:self.mileageLabel];
         
         
         
-        CGFloat buytimeLabelY = mileageLabelY + Klength20;
-        self.buytimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, buytimeLabelY, carNameLabelWidth, Klength20)];
+        CGFloat buytimeLabelY = mileageLabelY + Klength25;
+        self.buytimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, buytimeLabelY, carNameLabelWidth, Klength25)];
         [self.contentView addSubview:self.buytimeLabel];
-        
-        
-        
-        
-        CGFloat priceLabelY = buytimeLabelY + Klength20 + 5;
-        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(carNameLabelX, priceLabelY, 0.6 * carNameLabelWidth, Klength20)];
-        [self.contentView addSubview:self.priceLabel];
-
         
         
         CGFloat chatButtonX = (carNameLabelX + 0.6 * carNameLabelWidth);
@@ -78,7 +70,6 @@
         self.carTypeLabel.font = Font12;
         self.mileageLabel.font = Font12;
         self.buytimeLabel.font = Font12;
-        self.priceLabel.font = Font13;
         
     }
     
