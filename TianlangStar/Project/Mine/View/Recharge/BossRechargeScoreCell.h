@@ -8,8 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+
+@class VirtualcenterModel;
 @interface BossRechargeScoreCell : UITableViewCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+
+/** 标记是积分还是星币的充值记录 */
+@property (nonatomic,assign) NSInteger rechargeType;
+
+/** 传入模型数据 */
+@property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
 @end

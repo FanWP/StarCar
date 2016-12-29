@@ -26,7 +26,7 @@
 @property (nonatomic,copy) NSString *ID;
 
 /** 上次充值时间 */
-@property (nonatomic,copy) NSString *lastTime;
+@property (nonatomic,copy) NSString *lasttime;
 
 /** 余额 */
 @property (nonatomic,assign) CGFloat balance;
@@ -39,6 +39,12 @@
 
 /** 充值金额 */
 @property (nonatomic,copy) NSString *price;
+
+
+/** 积分余额 */
+@property (nonatomic,assign) CGFloat score;
+
+
 
 
 

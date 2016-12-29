@@ -309,7 +309,7 @@
              userInfo.username = model.username;
              userInfo.userType = model.type;
              userInfo.membername = model.membername;
-             userInfo.telephone = model.telephone;
+             userInfo.telephone = model.bossTel;
              [userInfo synchronizeToSandBox];
          }else
          {

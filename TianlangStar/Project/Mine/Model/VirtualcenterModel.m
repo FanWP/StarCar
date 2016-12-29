@@ -20,9 +20,9 @@
 
 }
 
--(NSString *)lastTime
+-(NSString *)lasttime
 {
-    NSString * timeStampString = _lastTime;
+    NSString * timeStampString = _lasttime;
     
     if (timeStampString.length == 13)
     {
