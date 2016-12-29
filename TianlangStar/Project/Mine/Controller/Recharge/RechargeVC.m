@@ -103,7 +103,6 @@
 {
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    [self.RecordView removeFromSuperview];
 }
 
 
@@ -425,12 +424,7 @@
     //获取充值数据
     
     [self.view endEditing:YES];
-    
-    if (!self.virtualcenterModel)
-    {
-        [[AlertView sharedAlertView] addAlertMessage:@"请输入手机号！" title:@"提示"];
-        return;
-    }
+
 
     [UIView animateWithDuration:0.25 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState) animations:^{
         self.coverView.hidden = NO;
@@ -538,7 +532,8 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"userid"] = _virtualcenterModel.userid;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-        parmas[@"currentPage"] = @(self.currentPage);
+    parmas[@"currentPage"] = @(self.currentPage);
+    parmas[@"type"] = @(_rechareType);
     YYLog(@"parmas---%@",parmas);
     
     [self.RecordView.mj_footer endRefreshing];
@@ -570,6 +565,7 @@
     parmas[@"userid"] = self.virtualcenterModel.userid;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"currentPage"] = @(self.currentPage);
+    parmas[@"type"] = @(_rechareType);
     YYLog(@"parmas---%@",parmas);
     
     [self.RecordView.mj_header endRefreshing];
@@ -602,6 +598,7 @@
 /**
  *  地址管理：获取用户账户余额
  */
+#pragma mark 获取用户账户余额--积分或者是星币余额
 -(void)getAccountBalance
 {
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
@@ -615,15 +612,16 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"json-获取账户余额%@",json);
-//         self.virtualcenterModel = [VirtualcenterModel mj_objectWithKeyValues:json[@"obj"]];
+         
          NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+         self.virtualcenterModel = nil;
          if (arr && arr.count > 0)
          {
              self.virtualcenterModel = arr[0];
          }
          //         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
          if (self.rechareType == 2) {
-             self.balanceLable.text = [NSString stringWithFormat:@"%.0f积分",self.virtualcenterModel.balance];
+             self.balanceLable.text = [NSString stringWithFormat:@"%.0f积分",self.virtualcenterModel.score];
              self.username.text = self.virtualcenterModel.membername;
          }else{
              self.balanceLable.text = [NSString stringWithFormat:@"%.0f星币",self.virtualcenterModel.balance];
@@ -661,7 +659,7 @@
     
     self.RecordView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreRecord)];
     
-    [[UIApplication sharedApplication].keyWindow addSubview:RecordView];
+    [self.view addSubview:RecordView];
 //    [coverView addSubview:RecordView];
 }
 
@@ -736,6 +734,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RechargeHistoryCell *cell = [RechargeHistoryCell cellWithTableView:tableView];
+    cell.rechareType = self.rechareType;
     VirtualcenterModel *model = self.RecordArr[indexPath.row];
     cell.model = model;
     return cell;

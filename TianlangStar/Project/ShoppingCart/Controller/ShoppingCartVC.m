@@ -46,6 +46,10 @@
 /** flag记录用户是否登录 */
 @property (nonatomic,assign) BOOL flag;
 
+/** 折扣 */
+@property (nonatomic,weak) UILabel *discountLabel;
+/** 余额 */
+@property (nonatomic,weak) UILabel *accountBalanceCountLabel;
 
 
 
@@ -61,7 +65,46 @@
 
     [self setupRefresh];
     
+    [self dataDiscountAndAccountBalance];
+    
     self.automaticallyAdjustsScrollViewInsets = YES;
+    
+}
+
+
+
+- (void)dataDiscountAndAccountBalance
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@find/base/userInfo",URL];
+    
+    [[AFHTTPSessionManager manager] POST:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         YYLog(@"折扣信息账户余额返回：%@",responseObject);
+         
+         NSArray *dataArray = responseObject[@"body"];
+         
+         NSString *discount;
+         NSString *accountBalance;
+         
+         for (NSDictionary *dic in dataArray)
+         {
+             discount = [dic objectForKey:@"discount"];
+             accountBalance = [dic objectForKey:@"balance"];
+         }
+         
+         _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"折扣信息账户余额错误：%@",error);
+     }];
     
 }
 
@@ -113,7 +156,7 @@
         
     }else{
         
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88, KScreenWidth, 44)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88 - 44, KScreenWidth, 88)];
         footerView.backgroundColor = [UIColor whiteColor];
         self.footerView  = footerView;
         [[UIApplication sharedApplication].keyWindow addSubview:footerView];
@@ -133,7 +176,8 @@
         [footerView addSubview:button];
         
         //结算
-        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 80, 0, 80, 44)];
+        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 80, 0, 80, 88
+                                                                        )];
         checkBtn.backgroundColor = [UIColor redColor];
         [checkBtn setTitle:@"结算" forState:UIControlStateNormal];
         checkBtn.titleLabel.font = Font18;

@@ -460,7 +460,7 @@
                  userInfo.viplevel = self.userM.viplevel;
                  userInfo.discount = self.userM.discount;
                  userInfo.isLogin = YES;
-                 userInfo.telephone = self.userM.telephone;
+                 userInfo.telephone = self.userM.bossTel;
                  
                  [userInfo synchronizeToSandBox];
                  if ([self.delegate respondsToSelector:@selector(loginSuccess)])

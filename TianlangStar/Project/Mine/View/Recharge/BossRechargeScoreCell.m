@@ -7,9 +7,13 @@
 //
 
 #import "BossRechargeScoreCell.h"
+#import "VirtualcenterModel.h"
 
 
 @interface BossRechargeScoreCell ()
+
+/** <#Class#> */
+@property (nonatomic,strong) NSMutableArray *rechargeArrLB;
 
 /** 年月日 */
 @property (nonatomic,weak) UILabel *dateLable;
@@ -22,6 +26,9 @@
 
 /** 用户名 */
 @property (nonatomic,weak) UILabel *usernameLable;
+
+/** 用户名 */
+@property (nonatomic,weak) UILabel *payTypeLable;
 
 
 
@@ -46,10 +53,25 @@
     
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
 
-        NSArray *arr = @[@"2018-12-34",@"12:34:20",@"80808908098",@"李四"];
+        NSArray *arr = @[@"2018-12-34",@"12:34:20",@"80808908098",@"李四",@"现金"];
         
-        CGFloat count = 4;
-        CGFloat width = KScreenWidth / 3;
+        self.rechargeArrLB  = [NSMutableArray array];
+        
+        for (NSInteger i = 0; i < 5; i++) {
+            UILabel *lable = [[UILabel alloc] init];
+            lable.textAlignment = NSTextAlignmentCenter;
+            lable.font = Font14;
+            lable.text = arr[i];
+            [self.rechargeArrLB addObject:lable];
+            [self.contentView addSubview:lable];
+        }
+        
+        /*
+        CGFloat count = 5;
+        if (self.rechargeType == 2) {//积分
+            count = 4;
+        }
+        CGFloat width = KScreenWidth / (count - 1);
         for (NSInteger i = 0; i < count; i++) {
             UILabel *label = [[UILabel alloc] init];
             label.x = (i - 1) * width;
@@ -87,6 +109,12 @@
                     
                     break;
                 }
+                case 4:
+                {
+                    self.payTypeLable = label;
+                    
+                    break;
+                }
                     
                     
                 default:
@@ -96,7 +124,7 @@
             
             [self.contentView addSubview:label];
         }
-        
+        */
         
         /*
         @property (nonatomic,weak) UILabel *dateLable;
@@ -104,6 +132,8 @@
         @property (nonatomic,weak) UILabel *scoreLable;
         @property (nonatomic,weak) UILabel *usernameLable;
         */
+        
+        
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
@@ -120,5 +150,78 @@
     return cell;
 }
 
+-(void)setRechargeType:(NSInteger)rechargeType
+{
+    _rechargeType = rechargeType;
+    
+    //判断rechargeType并赋值设置尺寸
+    
+    
+    CGFloat count = 5;
+    CGFloat margin = 10;
+    
+    if (rechargeType == 2) {//积分
+        count = 4;
+        margin = 0;
+    }
+    CGFloat width = (KScreenWidth - margin) / (count - 1);
+    
+    for (NSInteger i = 0; i < self.rechargeArrLB.count; i++) {
+        UILabel *lable = self.rechargeArrLB[i];
+        lable.x = (i - 1) * width + margin;
+        lable.y =  10;
+        lable.width = width;
+        lable.height = 40;
+
+        switch (i) {
+            case 0:
+            {
+                self.dateLable = lable;
+                break;
+            }
+            case 1:
+            {
+                self.dateLable.frame = lable.frame;
+                self.dateLable.y -= 10;
+                self.timeLable = lable;
+                self.timeLable.y += 10;
+                break;
+            }
+            case 2:
+            {
+                self.scoreLable = lable;
+                break;
+            }
+            case 3:
+            {
+                self.usernameLable = lable;
+                break;
+            }
+            case 4:
+            {
+                self.payTypeLable = lable;
+                break;
+            }
+
+            default:
+                break;
+        }
+
+    }
+
+}
+
+
+-(void)setVirtualcenterModel:(VirtualcenterModel *)virtualcenterModel
+{
+    _virtualcenterModel = virtualcenterModel;
+    _dateLable.text = [virtualcenterModel.lasttime substringToIndex:10];
+    _timeLable.text = [virtualcenterModel.lasttime substringFromIndex:10];
+    _scoreLable.text = [NSString stringWithFormat:@"%@星币",virtualcenterModel.price];
+    
+//        _scoreLable.text = @"t9w0eryi";
+    _usernameLable.text = virtualcenterModel.membername;
+
+}
 
 @end

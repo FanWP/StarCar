@@ -29,4 +29,8 @@
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
+
+/** 判断是充值还是积分的记录 */
+@property (nonatomic,assign) NSInteger rechareType;
+
 @end

@@ -22,7 +22,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        YYLog(@"KScreenWidth---:%f",KScreenWidth);
+//        YYLog(@"KScreenWidth---:%f",KScreenWidth);
         
         CGFloat maginX = 16;
         
@@ -50,7 +50,7 @@
         [self.contentView addSubview:lastTime];
         
         //金额
-        UILabel *rechargLB = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 110 - 110 - 15, 5, 110, 30)];
+        UILabel *rechargLB = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 110 - 110 - 5, 5, 110, 30)];
         rechargLB.font = Font12;
         rechargLB.textColor = lableTextcolor;
         //        rechargLB.backgroundColor = [UIColor grayColor];
@@ -65,12 +65,13 @@
 -(void)setModel:(VirtualcenterModel *)model
 {
     _model = model;
-    NSString *str = model.lastTime;
+    NSString *str = model.lasttime;
     NSString *time = [str substringToIndex:10];
     NSString *lasttime = [str substringFromIndex:10];
     
     self.time.text = time;
-    self.rechargLB.text = [NSString stringWithFormat:@"充值%@星币",model.price];
+    NSString *rechargeType = self.rechareType == 1 ? @"星币" : @"积分";
+    self.rechargLB.text = [NSString stringWithFormat:@"充值%@%@",model.price,rechargeType];
     self.lasettime.text = lasttime;
     
 //    YYLog(@"%@",model.lastTime);
@@ -98,9 +99,6 @@
     [super setFrame:frame];
 
 }
-
-
-
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

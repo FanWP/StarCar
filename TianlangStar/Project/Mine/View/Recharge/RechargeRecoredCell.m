@@ -55,7 +55,7 @@
 -(void)setRechargedModel:(VirtualcenterModel *)rechargedModel
 {
     _rechargedModel = rechargedModel;
-    self.leftlable.text = rechargedModel.lastTime;
+    self.leftlable.text = rechargedModel.lasttime;
     self.rightlable.text = [NSString stringWithFormat:@"充值%@星币",rechargedModel.price];
 
 //    self.leftlable.text = @"2016-22-10 12:09:34";

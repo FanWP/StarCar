@@ -23,7 +23,7 @@
 /** 用户地址 */
 @property (nonatomic,copy) NSString *address;
 /** 员工电话 */
-@property (nonatomic,copy) NSString *telephone;
+@property (nonatomic,copy) NSString *bossTel;
 /** 身份证 */
 @property (nonatomic,copy) NSString *identity;
 /** 用户性别 */

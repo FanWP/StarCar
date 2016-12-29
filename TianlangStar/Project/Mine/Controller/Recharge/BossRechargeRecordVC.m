@@ -66,6 +66,18 @@
         lable.width = width;
         lable.textAlignment = NSTextAlignmentCenter;
         
+        switch (i) {
+            case 1:
+                self.totalStarLable = lable;
+                break;
+            case 2:
+                self.totalCountLable = lable;
+                break;
+                
+            default:
+                break;
+        }
+        
         lable.text = titleArr[i];
         
         [footerView addSubview:lable];
@@ -81,32 +93,25 @@
     self.tableView = tableView;
     [self.view addSubview:tableView];
     
+    CGFloat count = 4;
+    if (self.rechareType == 2) {
+        count = 3;
+    }
+    
     //设置header
-    NSArray *titleArr = @[@"时间",@"积分数量",@"用户名"];
-    CGFloat width = KScreenWidth / titleArr.count;
+    NSArray *titleArr = @[@"时间",@"积分数量",@"用户名",@"类型"];
+    CGFloat width = KScreenWidth / count;
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 44)];
     
-    for (NSInteger i = 0; i < titleArr.count; i++) {
+    for (NSInteger i = 0; i < count; i++) {
         UILabel *lable = [[UILabel alloc] init];
         lable.y = 0;
         lable.x = i * width;
         lable.height  = 44;
         lable.width = width;
         lable.textAlignment = NSTextAlignmentCenter;
-        
-        switch (i) {
-            case 1:
-                self.totalStarLable = lable;
-                break;
-            case 2:
-                self.totalCountLable = lable;
-                break;
-                
-            default:
-                break;
-        }
-        
+
         lable.text = titleArr[i];
         
         [headerView addSubview:lable];
@@ -127,32 +132,34 @@
 
 -(void)loadNewRecord
 {
-    /*
-     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-     YYLog(@"parmas---%@",parmas);
-     
-     
-     NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
-     */
-    
     [self.tableView.mj_footer endRefreshing];
     self.currentPage = 1;
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"currentPage"] = @(self.currentPage);
+    parmas[@"type"] = @(self.rechareType);
+
+    NSString *url = [NSString stringWithFormat:@"%@getrechargehistory",URL];
     
-    NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
+    YYLog(@"%@%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         [self.tableView.mj_header endRefreshing];
-        self.recoredArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+        self.recoredArr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"][@"allRecord"]];
+        YYLog(@"%@",json);
         if (self.recoredArr.count > 0)
         {
             self.currentPage++;
+            
+            NSString *scoreStr = [NSString stringWithFormat:@"%@积分",json[@"body"][@"totalPrice"]];
+            NSString *starStr = [NSString stringWithFormat:@"%@星币",json[@"body"][@"totalPrice"]];
+            self.totalStarLable.text = self.rechareType == 1 ? starStr : scoreStr;
+            self.totalCountLable.text = [NSString stringWithFormat:@"%@笔",json[@"body"][@"total"]];
         }
         [self.tableView reloadData];
-        YYLog(@"%@",json);
+        
+        
+        
     } failure:^(NSError *error) {
         [self.tableView.mj_header endRefreshing];
         YYLog(@"%@",error);
@@ -165,10 +172,10 @@
     [self.tableView.mj_header endRefreshing];
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
+    parmas[@"type"] = @(self.rechareType);
     parmas[@"currentPage"] = @(self.currentPage);
     
-    NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
+    NSString *url = [NSString stringWithFormat:@"%@getrechargehistory",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
         [self.tableView.mj_footer endRefreshing];
@@ -203,8 +210,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return self.recoredArr.count;
-    return 20;
+    return self.recoredArr.count;
 }
 
 
@@ -215,9 +221,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    VirtualcenterModel *model = self.recoredArr[indexPath.row];
+    VirtualcenterModel *model = self.recoredArr[indexPath.row];
     BossRechargeScoreCell *cell = [BossRechargeScoreCell cellWithTableView:tableView];
-//    cell.rechargedModel = model;
+    cell.rechargeType = _rechareType;
+    cell.virtualcenterModel = model;
     return cell;
 }
 

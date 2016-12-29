@@ -210,7 +210,7 @@
     }
     
     //服务电话
-    if (![self.userModel.telephone isMobileNumber])
+    if (![self.userModel.bossTel isMobileNumber])
     {
         [[AlertView sharedAlertView] addAlertMessage:@"手机号输入有误，请核对！" title:@"提示"];
         return;
@@ -231,7 +231,7 @@
     parmas[@"username"] = self.userModel.username;
     parmas[@"identity"] = self.userModel.identity;
     parmas[@"address"] = self.userModel.address;
-    parmas[@"telephone"] = _userModel.telephone;
+    parmas[@"telephone"] = _userModel.bossTel;
     
     
     NSString *url = [NSString stringWithFormat:@"%@upload/updateowninfoforheadservlet",URL];
@@ -272,7 +272,7 @@
              userInfo.viplevel = model.viplevel;
              userInfo.username = model.username;
              userInfo.discount = model.discount;
-             userInfo.telephone = model.telephone;
+             userInfo.telephone = model.bossTel;
              [userInfo synchronizeToSandBox];
              
              YYLog(@"%@",model.username);
@@ -420,7 +420,7 @@
                 cell.textField.text = self.userModel.address;
                 break;
             case viplevel://服务电话
-                cell.textField.text = self.userModel.telephone;
+                cell.textField.text = self.userModel.bossTel;
                 break;
                 
             default:
@@ -551,7 +551,7 @@
             self.userModel.address = textField.text;
             break;
         case viplevel:
-            _userModel.telephone = textField.text;
+            _userModel.bossTel = textField.text;
             break;
             
         default:
