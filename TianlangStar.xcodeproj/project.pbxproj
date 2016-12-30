@@ -13,6 +13,20 @@
 		710985281DF2D3B800726AC7 /* UserScoreExchangeListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 710985251DF2D3B800726AC7 /* UserScoreExchangeListTVC.m */; };
 		710985291DF2D3B800726AC7 /* UserStarExchangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 710985271DF2D3B800726AC7 /* UserStarExchangVC.m */; };
 		7109852C1DF2D3E500726AC7 /* TBHeadersSucceedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7109852B1DF2D3E500726AC7 /* TBHeadersSucceedView.m */; };
+		711DFF601E162E53001B5F34 /* jcore-ios-1.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF5D1E162E53001B5F34 /* jcore-ios-1.0.0.a */; };
+		711DFF611E162E53001B5F34 /* jpush-ios-3.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF5E1E162E53001B5F34 /* jpush-ios-3.0.0.a */; };
+		711DFF631E16348B001B5F34 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF621E16348B001B5F34 /* libresolv.tbd */; };
+		711DFF651E1635C6001B5F34 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF641E1635C6001B5F34 /* CFNetwork.framework */; };
+		711DFF671E1635D1001B5F34 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF661E1635D1001B5F34 /* CoreFoundation.framework */; };
+		711DFF691E1635DB001B5F34 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF681E1635DB001B5F34 /* CoreTelephony.framework */; };
+		711DFF6B1E1635E3001B5F34 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF6A1E1635E3001B5F34 /* SystemConfiguration.framework */; };
+		711DFF6D1E1635EE001B5F34 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF6C1E1635EE001B5F34 /* CoreGraphics.framework */; };
+		711DFF6F1E163633001B5F34 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF6E1E163633001B5F34 /* Foundation.framework */; };
+		711DFF711E16363B001B5F34 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF701E16363B001B5F34 /* UIKit.framework */; };
+		711DFF731E163643001B5F34 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF721E163643001B5F34 /* Security.framework */; };
+		711DFF751E163652001B5F34 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF741E163652001B5F34 /* libz.tbd */; };
+		711DFF771E16365C001B5F34 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF761E16365C001B5F34 /* AdSupport.framework */; };
+		711DFF791E16366C001B5F34 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711DFF781E16366C001B5F34 /* UserNotifications.framework */; };
 		711EC3301DE3EA0700C51E40 /* CellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC30F1DE3EA0700C51E40 /* CellModel.m */; };
 		711EC3311DE3EA0700C51E40 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC3111DE3EA0700C51E40 /* Common.m */; };
 		711EC3321DE3EA0700C51E40 /* HouseImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 711EC3131DE3EA0700C51E40 /* HouseImageCell.m */; };
@@ -224,6 +238,21 @@
 		710985271DF2D3B800726AC7 /* UserStarExchangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStarExchangVC.m; sourceTree = "<group>"; };
 		7109852A1DF2D3E500726AC7 /* TBHeadersSucceedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBHeadersSucceedView.h; sourceTree = "<group>"; };
 		7109852B1DF2D3E500726AC7 /* TBHeadersSucceedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBHeadersSucceedView.m; sourceTree = "<group>"; };
+		711DFF5D1E162E53001B5F34 /* jcore-ios-1.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jcore-ios-1.0.0.a"; sourceTree = "<group>"; };
+		711DFF5E1E162E53001B5F34 /* jpush-ios-3.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.0.a"; sourceTree = "<group>"; };
+		711DFF5F1E162E53001B5F34 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		711DFF621E16348B001B5F34 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		711DFF641E1635C6001B5F34 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		711DFF661E1635D1001B5F34 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		711DFF681E1635DB001B5F34 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		711DFF6A1E1635E3001B5F34 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		711DFF6C1E1635EE001B5F34 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		711DFF6E1E163633001B5F34 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		711DFF701E16363B001B5F34 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		711DFF721E163643001B5F34 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		711DFF741E163652001B5F34 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		711DFF761E16365C001B5F34 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		711DFF781E16366C001B5F34 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		711EC30E1DE3EA0700C51E40 /* CellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellModel.h; sourceTree = "<group>"; };
 		711EC30F1DE3EA0700C51E40 /* CellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellModel.m; sourceTree = "<group>"; };
 		711EC3101DE3EA0700C51E40 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
@@ -588,6 +617,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711DFF791E16366C001B5F34 /* UserNotifications.framework in Frameworks */,
+				711DFF771E16365C001B5F34 /* AdSupport.framework in Frameworks */,
+				711DFF751E163652001B5F34 /* libz.tbd in Frameworks */,
+				711DFF731E163643001B5F34 /* Security.framework in Frameworks */,
+				711DFF711E16363B001B5F34 /* UIKit.framework in Frameworks */,
+				711DFF6F1E163633001B5F34 /* Foundation.framework in Frameworks */,
+				711DFF6D1E1635EE001B5F34 /* CoreGraphics.framework in Frameworks */,
+				711DFF6B1E1635E3001B5F34 /* SystemConfiguration.framework in Frameworks */,
+				711DFF691E1635DB001B5F34 /* CoreTelephony.framework in Frameworks */,
+				711DFF671E1635D1001B5F34 /* CoreFoundation.framework in Frameworks */,
+				711DFF651E1635C6001B5F34 /* CFNetwork.framework in Frameworks */,
+				711DFF631E16348B001B5F34 /* libresolv.tbd in Frameworks */,
+				711DFF611E162E53001B5F34 /* jpush-ios-3.0.0.a in Frameworks */,
+				711DFF601E162E53001B5F34 /* jcore-ios-1.0.0.a in Frameworks */,
 				D72AE27E1DFF9089001089CB /* libc++.1.tbd in Frameworks */,
 				D72AE27C1DFF907B001089CB /* libc++.tbd in Frameworks */,
 				D72AE27A1DFF8569001089CB /* libc++abi.tbd in Frameworks */,
@@ -624,12 +667,34 @@
 		5370577114BDF5920017DEE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				711DFF781E16366C001B5F34 /* UserNotifications.framework */,
+				711DFF761E16365C001B5F34 /* AdSupport.framework */,
+				711DFF741E163652001B5F34 /* libz.tbd */,
+				711DFF721E163643001B5F34 /* Security.framework */,
+				711DFF701E16363B001B5F34 /* UIKit.framework */,
+				711DFF6E1E163633001B5F34 /* Foundation.framework */,
+				711DFF6C1E1635EE001B5F34 /* CoreGraphics.framework */,
+				711DFF6A1E1635E3001B5F34 /* SystemConfiguration.framework */,
+				711DFF681E1635DB001B5F34 /* CoreTelephony.framework */,
+				711DFF661E1635D1001B5F34 /* CoreFoundation.framework */,
+				711DFF641E1635C6001B5F34 /* CFNetwork.framework */,
+				711DFF621E16348B001B5F34 /* libresolv.tbd */,
 				D72AE27D1DFF9089001089CB /* libc++.1.tbd */,
 				D72AE27B1DFF907B001089CB /* libc++.tbd */,
 				D72AE2791DFF8569001089CB /* libc++abi.tbd */,
 				2B90E1B38CD70A4ED6F4D1C9 /* libPods-TianlangStar.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		711DFF5C1E162E53001B5F34 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				711DFF5D1E162E53001B5F34 /* jcore-ios-1.0.0.a */,
+				711DFF5E1E162E53001B5F34 /* jpush-ios-3.0.0.a */,
+				711DFF5F1E162E53001B5F34 /* JPUSHService.h */,
+			);
+			path = Lib;
 			sourceTree = "<group>";
 		};
 		711EC30D1DE3EA0700C51E40 /* addImage */ = {
@@ -762,6 +827,7 @@
 			isa = PBXGroup;
 			children = (
 				D735EAFB1DD063E60051D8E7 /* TianlangStar.entitlements */,
+				711DFF5C1E162E53001B5F34 /* Lib */,
 				D705CEDA1DC09C6400F65BE0 /* Project */,
 				D705CEB31DC09BBF00F65BE0 /* Assets.xcassets */,
 				D705CEB51DC09BBF00F65BE0 /* LaunchScreen.storyboard */,
@@ -1502,6 +1568,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					D705CEBC1DC09BBF00F65BE0 = {
@@ -1950,9 +2019,29 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2JS4PPTR7V;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/MJExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/SDCycleScrollView\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengSocial\"",
+					"\"$(SRCROOT)/TianlangStar/Lib\"",
+				);
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TianlangStar/Project/Helper/JPushLib",
+					"$(PROJECT_DIR)/TianlangStar/JPushLib",
+					"$(PROJECT_DIR)/TianlangStar",
+					"$(PROJECT_DIR)/TianlangStar/Lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yysi.TianlangStar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1969,9 +2058,29 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2JS4PPTR7V;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/MJExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/SDCycleScrollView\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengSocial\"",
+					"\"$(SRCROOT)/TianlangStar/Lib\"",
+				);
 				INFOPLIST_FILE = TianlangStar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TianlangStar/Project/Helper/JPushLib",
+					"$(PROJECT_DIR)/TianlangStar/JPushLib",
+					"$(PROJECT_DIR)/TianlangStar",
+					"$(PROJECT_DIR)/TianlangStar/Lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yysi.TianlangStar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

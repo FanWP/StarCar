@@ -46,26 +46,14 @@
         
         
         CGFloat priceLabelY = detailLabelY + detailLabelHeight;
-        CGFloat priceLabelWidth = 0.6 * titleLabelWidth;
-        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, priceLabelY, priceLabelWidth, Klength30)];
+        self.priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, priceLabelY, titleLabelWidth, Klength30)];
+        self.priceLabel.font = Font15;
+        self.priceLabel.textColor = [UIColor redColor];
         [self.contentView addSubview:self.priceLabel];
         
         
-        
-        CGFloat buyButtonX = titleLabelX + priceLabelWidth;
-        CGFloat buyButtonY = detailLabelY + detailLabelHeight + 10;
-        self.buyButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        self.buyButton.frame = CGRectMake(buyButtonX, buyButtonY, 0.4 * titleLabelWidth, Klength30);
-        self.buyButton.backgroundColor = [UIColor blueColor];
-        self.buyButton.layer.cornerRadius = BtncornerRadius;
-        [self.buyButton.titleLabel setFont:Font14];
-        [self.buyButton setTitle:@"立即购买" forState:(UIControlStateNormal)];
-//        [self.contentView addSubview:self.buyButton];
-        
-        
-        
         self.titleLabel.font = [UIFont systemFontOfSize:13];
-        self.detailLabel.font = [UIFont systemFontOfSize:10];
+        self.detailLabel.font = [UIFont systemFontOfSize:12];
         self.detailLabel.textColor = [UIColor colorWithRed:121.0 / 255.0 green:121.0 / 255.0 blue:121.0 / 255.0 alpha:1];
     }
     
