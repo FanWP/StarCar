@@ -873,6 +873,7 @@
         
         self.paidLabel = [[UILabel alloc] initWithFrame:CGRectMake(minusButtonX, actuallyPaidLabelY, discountLabelWidth, Klength30)];
         self.paidLabel.textAlignment = 1;
+        [self changeModelCount];
         [self.countView addSubview:self.paidLabel];
         
         
@@ -1014,7 +1015,13 @@
 
 - (void)minusCountAction
 {
-    if (self.countNumber > 0)
+    
+    
+    if (self.countNumber == 1)
+        return;
+    
+    
+    if (self.countNumber > 1)
     {
         self.countNumber--;
     }

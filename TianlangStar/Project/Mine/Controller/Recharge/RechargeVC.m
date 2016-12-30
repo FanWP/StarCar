@@ -209,6 +209,7 @@
     recordsBtn.layer.cornerRadius = 4;
     recordsBtn.x = KScreenWidth - 16 - recordsBtn.width;
     [recordsBtn setTitle:@"充值记录" forState:UIControlStateNormal];
+    [recordsBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
     self.recordsBtn = recordsBtn;
     recordsBtn.enabled = NO;
     [recordsBtn addTarget:self action:@selector(recordsBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -528,16 +529,20 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          NSNumber *num = json[@"resultCode"];
-         NSNumber *blance = json[@"body"];
+//         NSNumber *blance = json[@"body"];
          
          if ([num integerValue] == 1000) {
              
              [SVProgressHUD showSuccessWithStatus:@"充值成功！"];
              self.moneyTF.text = nil;
              self.addStar.text = nil;
+             self.balanceLable.text = nil;
+             self.username.text = nil;
+             self.recordsBtn.enabled = NO;
+             self.phoneText.text = nil;
              [self.view setNeedsLayout];
              
-             _balanceLable.text = [NSString stringWithFormat:@"%@",blance];;
+//             _balanceLable.text = [NSString stringWithFormat:@"%@",blance];
              
              YYLog(@"json-充值%@",json);
          }else{

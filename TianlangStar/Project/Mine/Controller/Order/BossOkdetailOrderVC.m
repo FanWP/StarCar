@@ -158,6 +158,7 @@
     NSString *url = [NSString stringWithFormat:@"%@cannelorderservlet",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
         [SVProgressHUD showSuccessWithStatus:@"提交成功！"];
         [self.navigationController popViewControllerAnimated:YES];
         YYLog(@"json---%@",json);
@@ -181,7 +182,7 @@
     NSString *url = [NSString stringWithFormat:@"%@confirmorderservlet",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
-        
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
         [SVProgressHUD showSuccessWithStatus:@"提交成功！"];
         self.okBtn.enabled = NO;
         

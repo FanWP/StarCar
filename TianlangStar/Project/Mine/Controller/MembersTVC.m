@@ -83,7 +83,7 @@
 {
     _VIPLevel = VIPLevel;
     //通过模型赋值
-    NSArray *Arr = [NSArray arrayWithObjects:VIPLevel.vip1,VIPLevel.vip2,VIPLevel.vip3,VIPLevel.vip4,VIPLevel.vip5, nil];
+    NSArray *Arr = [NSArray arrayWithObjects:VIPLevel.vip0,VIPLevel.vip1,VIPLevel.vip2,VIPLevel.vip3,VIPLevel.vip4,VIPLevel.vip5, nil];
     
     for (NSInteger i = 0; i < self.discountArr.count; i++) {
         UITextField *textField = self.discountArr[i];
@@ -130,7 +130,6 @@
     }else
     {
         [self.view endEditing:YES];
-        
         [self updataVIPInfo];
     }
 }
@@ -141,11 +140,12 @@
 {
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"discount1"] = self.VIP.vip1;
-    parmas[@"discount2"] = self.VIP.vip2;
-    parmas[@"discount3"] = self.VIP.vip3;
-    parmas[@"discount4"] = self.VIP.vip4;
-    parmas[@"discount5"] = self.VIP.vip5;
+    parmas[@"discount0"] = _VIP.vip0;
+    parmas[@"discount1"] = _VIP.vip1;
+    parmas[@"discount2"] = _VIP.vip2;
+    parmas[@"discount3"] = _VIP.vip3;
+    parmas[@"discount4"] = _VIP.vip4;
+    parmas[@"discount5"] = _VIP.vip5;
     
 
     YYLog(@"parmas---%@",parmas);
@@ -159,12 +159,9 @@
             [SVProgressHUD showSuccessWithStatus:@"更改成功！"];
         }
         
-        
-        
     } failure:^(NSError *error) {
         YYLog(@"更新优惠信息error%@",error);
     }];
-
 }
 
 
@@ -205,7 +202,7 @@
     
     //会员等级列表
     self.rankArr = [NSMutableArray array];
-    NSArray *rankArr =@[@"Lv.1",@"Lv.2",@"Lv.3",@"Lv.4",@"Lv.5"];
+    NSArray *rankArr =@[@"Lv.0",@"Lv.1",@"Lv.2",@"Lv.3",@"Lv.4",@"Lv.5"];
     double rankOY = CGRectGetMaxY(header.frame) + 33;
     
     for (NSInteger i = 0; i < rankArr.count; i++)
@@ -224,17 +221,17 @@
     }
     
     //折扣输入框列表
-    NSArray *discountA = @[@"100",@"100",@"100",@"100",@"100"];
+    NSArray *discountA = @[@"100",@"100",@"100",@"100",@"100",@"100"];
     CGFloat inputW = 45;
     
     self.discountArr = [NSMutableArray array];
-    for (NSInteger i = 1; i <= discountA.count; i++)
+    for (NSInteger i = 0; i < discountA.count; i++)
     {
         UITextField *input = [[UITextField alloc] init];
         input.enabled = self.textEnable;
 //        input.backgroundColor = [UIColor orangeColor];
 //        input.x = inputX;
-        input.y = rankOY  + (i - 1) * 45;
+        input.y = rankOY  +  i * 45;
         input.width = inputW;
         input.height = 35;
         input.x = KScreenWidth - 92 - input.width;
@@ -247,7 +244,7 @@
         input.placeholder = @"请输入信息";
         input.backgroundColor = [UIColor whiteColor];
         YYLog(@"self.discountArr.count-%lu",(unsigned long)self.discountArr.count);
-        input.text = discountA[i-1];
+        input.text = discountA[i];
         [self.view addSubview:input];
         
         //设置右边的百分号
@@ -273,6 +270,9 @@
     
     
     switch (textField.tag) {
+        case 0:
+            self.VIP.vip0 = textField.text;
+            break;
         case 1:
             self.VIP.vip1 = textField.text;
             break;

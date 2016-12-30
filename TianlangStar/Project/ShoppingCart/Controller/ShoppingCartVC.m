@@ -390,10 +390,7 @@
              
          } failure:^(NSError *error) {
              YYLog(@"error删除购物车--%@",error);
-             
          }];
-        
-        
     }];
     
     return @[deleteAction];

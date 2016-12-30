@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface VIPLevelModel : NSObject
-
+/** 一级 */
+@property (nonatomic,copy) NSString *vip0;
 /** 一级 */
 @property (nonatomic,copy) NSString *vip1;
 /** 二级 */
