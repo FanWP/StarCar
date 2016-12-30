@@ -558,17 +558,26 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    UserInfo *userInfo = [UserInfo sharedUserInfo];
+    
     if (textField.tag == sex)
     {
         self.coverView.hidden = NO;
         self.contentView.hidden = NO;
         self.tableView.tableFooterView.hidden = YES;
         return;
+    }else if (textField.tag ==viplevel && USERType == 1)//服务电话  店长不能编辑
+    {
+        textField.enabled = NO;
+        return;
+    }else if (textField.tag ==username && USERType == 1)//服务电话  店长不能编辑
+    {
+        textField.enabled = NO;
+        return;
     }
+    
+    
 }
-
-
-
 
 
 

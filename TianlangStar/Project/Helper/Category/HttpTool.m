@@ -227,13 +227,13 @@
         case 1023:
         {
             [SVProgressHUD showErrorWithStatus:@"用户名不存在"];
-            YYLog(@"reultCode=1022,用户名不存在");
+            YYLog(@"reultCode=1023,用户名不存在");
             break;
         }
         case 1024:
         {
             [SVProgressHUD showErrorWithStatus:@"余额不足"];
-            YYLog(@"reultCode=1022,用户名不存在");
+            YYLog(@"reultCode=1024,用户名不存在");
             break;
         }
         default:

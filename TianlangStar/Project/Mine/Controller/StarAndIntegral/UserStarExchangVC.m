@@ -30,6 +30,9 @@
 /** 查询接收星币的账户的模型 */
 @property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
+/** type */
+@property (nonatomic,copy) NSString *type;
+
 
 @end
 
@@ -41,6 +44,8 @@
     self.title = @"星币";
     
     self.view.backgroundColor = BGcolor;
+    
+    self.type = @"1";
     
     //设置左侧子控件
     [self setupContorls];
@@ -176,11 +181,12 @@
     parmas[@"userid"] = self.virtualcenterModel.userid;
     parmas[@"value"] = self.transferStarTF.text;
     //1---星币  2---积分
-    parmas[@"type"] = @"1";
-    
-    YYLog(@"parmas---%@",parmas);
+    parmas[@"type"] = _type;
     
     NSString *url = [NSString stringWithFormat:@"%@sendinstarcoinandintegral",URL];
+    
+    YYLog(@"parmas---%@url---:%@",parmas,url);
+    
     [HttpTool post:url parmas:parmas success:^(id json) {
         
         NSNumber *num = json[@"resultCode"];
@@ -215,6 +221,7 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"username"] = self.usernameTF.text;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas[@"type"] = _type;
     YYLog(@"parmas---%@",parmas);
     
     //数据清空

@@ -30,6 +30,9 @@
 /** 接收到的积分模型 */
 @property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
+/** type */
+@property (nonatomic,copy) NSString *type;
+
 @end
 
 @implementation UserScoreExchangVC
@@ -38,6 +41,8 @@
 {
     [super viewDidLoad];
     self.title = @"积分";
+    
+    _type = @"2";
     
     self.view.backgroundColor = BGcolor;
     
@@ -105,7 +110,6 @@
                 //设置右侧数据
                 UILabel *right = [[UILabel alloc] initWithFrame:CGRectMake(KScreenWidth - 20 - 120, 0, 120, 44)];
                 right.centerY = label.centerY;
-                self.star = right;
                 right.textAlignment = NSTextAlignmentRight;
                 right.text = @"兑换记录查询>>";
                 right.font = Font14;
@@ -222,14 +226,19 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
-    parmas[@"userid"] = self.virtualcenterModel.userid;
-    parmas[@"value"] = self.transferStarTF.text;
+    parmas[@"userid"] = _virtualcenterModel.userid;
+    parmas[@"value"] = _transferStarTF.text;
     //1---星币  2---积分
-    parmas[@"type"] = @"2";
+    parmas[@"type"] = _type;
     
-    YYLog(@"parmas---%@",parmas);
+    
     
     NSString *url = [NSString stringWithFormat:@"%@sendinstarcoinandintegral",URL];
+    
+    YYLog(@"parmas---%@url---:%@",parmas,url);
+    
+    [SVProgressHUD showWithStatus:@"数据提交中，请稍后！"];
+    
     [HttpTool post:url parmas:parmas success:^(id json) {
         
         NSNumber *num = json[@"resultCode"];
@@ -245,12 +254,15 @@
             self.star.text = [NSString stringWithFormat:@"%@",stra];
             
             [SVProgressHUD showSuccessWithStatus:@"积分兑换成功！"];
+        }else{
+            [SVProgressHUD dismiss];
         }
         
         YYLog(@"json----%@",json);
         
     } failure:^(NSError *error) {
         YYLog(@"error---%@",error);
+        [SVProgressHUD dismiss];
     }];
     
 }
@@ -264,6 +276,7 @@
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"username"] = self.usernameTF.text;
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    parmas [@"type"] = _type;
     YYLog(@"parmas---%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@gtsrcrrncybynmsrvlt",URL];

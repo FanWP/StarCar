@@ -318,36 +318,8 @@
         [self getAccountBalanceScore];
     }
     [self.tableView reloadData];
-    
-
-
 }
 
-
-
--(void)viewDidLayoutSubviews
-{
-    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [self.tableView setSeparatorInset:UIEdgeInsetsMake(0,0,0,0)];
-    }
-    
-    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [self.tableView setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
-    }
-}
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0,0,0,0)];
-    }
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [cell setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
-    }
-}
 
 
 

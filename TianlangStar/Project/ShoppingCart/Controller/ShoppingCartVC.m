@@ -158,7 +158,7 @@
         
     }else{
         
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88 - 44, KScreenWidth, 88)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 88 - 44, KScreenWidth, 80)];
         footerView.backgroundColor = [UIColor whiteColor];
         self.footerView  = footerView;
         [[UIApplication sharedApplication].keyWindow addSubview:footerView];
@@ -178,7 +178,7 @@
         [footerView addSubview:button];
         
         //结算
-        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 100, 0, 100, 88                                                )];
+        UIButton *checkBtn = [[UIButton alloc] initWithFrame:CGRectMake(KScreenWidth - 100, 0, 100, 80                                                )];
         checkBtn.backgroundColor = [UIColor redColor];
         [checkBtn setTitle:@"结算" forState:UIControlStateNormal];
         checkBtn.titleLabel.font = Font18;
@@ -207,7 +207,7 @@
         [footerView addSubview:total];
         
         //折扣
-        UILabel *discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 40, 180, 44)];
+        UILabel *discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 35, 180, 44)];
         discountLabel.font = Font15;
         discountLabel.textAlignment = NSTextAlignmentLeft;
         discountLabel.text = @"折扣：";
@@ -217,7 +217,7 @@
         
         
         //余额
-        UILabel *accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(total.x, 40, 200, 44)];
+        UILabel *accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(total.x, 35, 200, 44)];
         accountBalanceCountLabel.font = Font15;
         accountBalanceCountLabel.textAlignment = NSTextAlignmentLeft;
         accountBalanceCountLabel.text = @"余额：";
@@ -390,10 +390,7 @@
              
          } failure:^(NSError *error) {
              YYLog(@"error删除购物车--%@",error);
-             
          }];
-        
-        
     }];
     
     return @[deleteAction];

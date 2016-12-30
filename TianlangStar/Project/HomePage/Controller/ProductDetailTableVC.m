@@ -297,7 +297,7 @@
 {
     [super viewWillAppear:YES];
     
-    if ([UserInfo sharedUserInfo].userType == 2 || [UserInfo sharedUserInfo].isLogin == NO)
+    if (USERType == 2 || [UserInfo sharedUserInfo].isLogin == NO)
     {
         [self creatFootView];
         

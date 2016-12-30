@@ -170,9 +170,7 @@ typedef enum : NSUInteger
     {
         self.coverView.hidden = NO;
     }
-    
-    
-    //    [self.tableView reloadData];
+
 }
 
 
@@ -255,9 +253,7 @@ typedef enum : NSUInteger
     
     if (button.selected)//点击的是查询.添加搜索框
     {
-        
         [self searchSetupQueryView];
-        
     }else
     {
         [self.queryView removeFromSuperview];
@@ -298,16 +294,13 @@ typedef enum : NSUInteger
     
     [segment addTarget:self action:@selector(segmentClick:) forControlEvents:UIControlEventValueChanged];
     [queryView addSubview:segment];
-    
-    
+
     //添加搜索
     [queryView addSubview:self.timeSearchView];
     //记录
     self.currentsearchView = self.timeSearchView;
-    
-    
+
     //下面的分割线
-    
     CGFloat marginX = 10;
     CGFloat lineW = KScreenWidth -2 * marginX;
     CGFloat lineY = CGRectGetMaxY(segment.frame);
@@ -316,12 +309,8 @@ typedef enum : NSUInteger
     [queryView addSubview:lineView];
     
     self.tableView.y = CGRectGetMaxY(queryView.frame);
-    //    self.tableView.height = KScreenHeight - 64 - 40 - 70 - 44 - 5;
-    
     self.tableView.height = StableViewH;
 }
-
-
 
 #pragma mark===按项目或者按用户查询输入框==================
 /** 按用户查询输入框 */
@@ -353,8 +342,6 @@ typedef enum : NSUInteger
         accountView.backgroundColor = [UIColor whiteColor];
         self.accountView = accountView;
     }
-    
-    
     return _accountView;
 }
 
@@ -366,7 +353,6 @@ typedef enum : NSUInteger
         CGFloat margin = 25;
         
         UIView *productView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, KScreenWidth, 36)];
-        
         CGFloat width = KScreenWidth - 3 * margin - 50;
         UITextField *accountText = [[UITextField alloc] initWithFrame:CGRectMake(margin, 6, width, 24)];
         accountText.layer.cornerRadius = 5;
@@ -401,7 +387,6 @@ typedef enum : NSUInteger
     if (!_timeSearchView)
     {
         CGFloat margin = 25;
-        
         UIView *timeSearchView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, KScreenWidth, 36)];
         
         CGFloat width = (KScreenWidth - 3 * margin - 50) * 0.5 - 30;
@@ -425,8 +410,7 @@ typedef enum : NSUInteger
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(lineViewX, 18, 40, 1)];
         lineView.backgroundColor = [UIColor grayColor];
         [timeSearchView addSubview:lineView];
-        
-        
+
         
         CGFloat endTextX = CGRectGetMaxX(startText.frame) + 50;
         UITextField *endText = [[UITextField alloc] initWithFrame:CGRectMake(endTextX, 6, width, 24)];
@@ -625,12 +609,11 @@ typedef enum : NSUInteger
 
 -(void)setupFooterView
 {
-    
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - 44, KScreenWidth, 44)];
 //    footerView.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:footerView];
     //设置header
-    NSArray *titleArr = @[@"合计",@"1000积分",@"1000笔"];
+    NSArray *titleArr = @[@"合计",@"0积分",@"0笔"];
     CGFloat width = KScreenWidth / titleArr.count;
 
     for (NSInteger i = 0; i < titleArr.count; i++) {
@@ -654,7 +637,6 @@ typedef enum : NSUInteger
         }
         
         lable.text = titleArr[i];
-        
         [footerView addSubview:lable];
     }
 }

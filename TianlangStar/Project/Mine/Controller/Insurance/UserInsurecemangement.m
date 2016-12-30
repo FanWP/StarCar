@@ -322,12 +322,7 @@ typedef enum : NSUInteger {
          
          if (resultCode == 1000)
          {
-             
              [SVProgressHUD showSuccessWithStatus:@"添加成功"];
-             
-             
-             //             [self.navigationController popViewControllerAnimated:YES];
-             
          }
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)

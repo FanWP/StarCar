@@ -10,6 +10,7 @@
 #import "AccountInfoCell.h"
 #import "UserModel.h"
 #import "BossAccountInfoMTVC.h"
+#import "AdminInfoTVC.h"
 
 
 
@@ -386,9 +387,21 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UserModel *model = self.allPeopleArray[indexPath.row];
-    BossAccountInfoMTVC *vc = [[BossAccountInfoMTVC alloc] init];
-    vc.userModel = model;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if (model.type == 0 || model.type == 1) {
+        
+        AdminInfoTVC *adminvc = [[AdminInfoTVC alloc] init];
+        [self.navigationController pushViewController:adminvc animated:YES];
+        
+    }else{
+        
+        BossAccountInfoMTVC *vc = [[BossAccountInfoMTVC alloc] init];
+        vc.userModel = model;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    
+
 }
 
 

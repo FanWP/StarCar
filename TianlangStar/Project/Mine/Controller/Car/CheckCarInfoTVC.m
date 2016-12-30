@@ -557,8 +557,7 @@ typedef enum : NSUInteger {
     
     if (indexPath.section == 2)//保单管理
     {
-        UserInfo *userInfo = [UserInfo sharedUserInfo];
-        if (userInfo.userType == 1 || userInfo.userType == 0)
+        if (USERType == 1 || USERType == 0)
         {
             BossInsuranceManagement *vc = [[BossInsuranceManagement alloc] init];
             vc.carID = self.carModel.cid;
