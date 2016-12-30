@@ -73,7 +73,7 @@
     
     
     ILSettingItem *opinion = nil;
-    if (userInfo.userType == 1 || userInfo.userType == 0)
+    if (USERType == 1 || USERType == 0)
     {
         opinion = [ILSettingArrowItem itemWithIcon:nil title:@"用户意见" destVcClass:[AdminFeedbackTVC class]];
     }else
@@ -88,7 +88,7 @@
 //    group0.header = @"设置";
     group0.footer = @"设置foot";
     
-    if (userInfo.userType == 2) {
+    if (USERType == 2) {
             group0.items = @[version,cache,contact,opinion];
     }else{
     group0.items = @[version,cache,contact];

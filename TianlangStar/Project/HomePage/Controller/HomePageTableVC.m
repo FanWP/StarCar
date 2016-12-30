@@ -693,7 +693,7 @@
 {
     if (indexPath.section == 2)
     {
-        if ([UserInfo sharedUserInfo].isLogin == YES && ([UserInfo sharedUserInfo].userType == 0 || [UserInfo sharedUserInfo].userType == 1))
+        if ([UserInfo sharedUserInfo].isLogin == YES && (USERType == 0 || USERType == 1))
         {
             return YES;
         }

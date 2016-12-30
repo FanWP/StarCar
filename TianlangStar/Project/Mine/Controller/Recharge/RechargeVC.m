@@ -108,36 +108,7 @@
 
 -(void)setupView
 {
-    
-    //设置顶部的滑动充值和积分
-    NSArray *arr = @[@"星币",@"积分"];
-    NeighborhoodCircleHeaderView *header = [[NeighborhoodCircleHeaderView alloc] initWithFrame:CGRectMake(0, 64, KScreenWidth, 44) titles:arr clickBlick:^(NSInteger index) {
-        
-        YYLog(@"%ld",(long)index);
-        switch (index) {
-            case 1://星币
-            {
-                self.rechareType = 1;
-                [self setupStarFooterView];
-            }
-                break;
-            case 2://积分
-            {
-                self.rechareType = 2;
-                [self setupScoreFooterView];
-            }
-                break;
-                
-            default:
-                break;
-        }
 
-    }];
-    
-    header.titleSelectColor = [UIColor blueColor];
-    
-    [self.view insertSubview:header belowSubview:self.coverView];
-    
     //顶部的输入框
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 15 + 44, KScreenWidth, 135)];
     topView.backgroundColor = [UIColor whiteColor];
@@ -259,6 +230,47 @@
     [self.view addSubview:OKBtn];
 
     [self setupStarFooterView];
+    
+    
+    
+    if (USERType == 1) {//判断不出现顶部 以及积分充值
+        topView.y -= 44;
+        [self setupStarFooterView];
+        return;
+        
+    };
+    
+    
+    //设置顶部的滑动充值和积分
+    NSArray *arr = @[@"星币",@"积分"];
+    NeighborhoodCircleHeaderView *header = [[NeighborhoodCircleHeaderView alloc] initWithFrame:CGRectMake(0, 64, KScreenWidth, 44) titles:arr clickBlick:^(NSInteger index) {
+        
+        YYLog(@"%ld",(long)index);
+        switch (index) {
+            case 1://星币
+            {
+                self.rechareType = 1;
+                [self setupStarFooterView];
+            }
+                break;
+            case 2://积分
+            {
+                self.rechareType = 2;
+                [self setupScoreFooterView];
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }];
+    
+    header.titleSelectColor = [UIColor blueColor];
+    
+    
+    [self.view insertSubview:header belowSubview:self.coverView];
+
 
 }
 
@@ -346,6 +358,10 @@
 
     //底部的充值View
     UIView *StarFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,272, KScreenWidth, 83)];
+    
+    if (USERType == 1) {
+        StarFooterView.y -= 44;
+    }
     StarFooterView.backgroundColor = [UIColor whiteColor];
     
     self.StarFooterView = StarFooterView;
@@ -463,7 +479,13 @@
         return;
     }
     
-    NSString *str = [NSString stringWithFormat:@"确认充值%@星币?",self.moneyTF.text];
+    
+    NSString *rechargeStr = @"星币";
+    if (self.rechareType == 2) {//积分
+        rechargeStr = @"积分";
+    }
+    
+    NSString *str = [NSString stringWithFormat:@"确认充值%@%@?",self.moneyTF.text,rechargeStr];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:str preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -506,25 +528,28 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          NSNumber *num = json[@"resultCode"];
+         NSNumber *blance = json[@"body"];
+         
          if ([num integerValue] == 1000) {
              
              [SVProgressHUD showSuccessWithStatus:@"充值成功！"];
              self.moneyTF.text = nil;
              self.addStar.text = nil;
              [self.view setNeedsLayout];
+             
+             _balanceLable.text = [NSString stringWithFormat:@"%@",blance];;
+             
              YYLog(@"json-充值%@",json);
          }else{
              [SVProgressHUD dismiss];
          }
-   
+         
      } failure:^(NSError *error)
      {
          [SVProgressHUD dismiss];
          YYLog(@"json-充值%@",error);
      }];
 }
-
-
 
 -(void)loadNewRecord
 {
@@ -556,7 +581,6 @@
              [self.RecordView.mj_header endRefreshing];
          YYLog(@"json-获取充值记录%@",error);
      }];
-
 }
 
 -(void)loadMoreRecord
@@ -569,12 +593,12 @@
     YYLog(@"parmas---%@",parmas);
     
     [self.RecordView.mj_header endRefreshing];
-    
     NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.RecordView.mj_footer endRefreshing];
          YYLog(@"json-获取充值记录%@",json);
+         
          NSArray *arr = [VirtualcenterModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
          
          if (arr.count > 0)
@@ -589,7 +613,6 @@
          [self.RecordView.mj_footer endRefreshing];
          YYLog(@"json-获取充值记录%@",error);
      }];
-
 }
 
 
@@ -627,7 +650,6 @@
              self.balanceLable.text = [NSString stringWithFormat:@"%.0f星币",self.virtualcenterModel.balance];
              self.username.text = self.virtualcenterModel.membername;
          }
-
      } failure:^(NSError *error)
      {
          YYLog(@"json-获取账户余额%@",error);

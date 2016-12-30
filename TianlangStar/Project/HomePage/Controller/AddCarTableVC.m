@@ -136,7 +136,7 @@ typedef enum : NSUInteger {
     NSString *sessionid = [UserInfo sharedUserInfo].RSAsessionId;
     parameters[@"sessionId"] = sessionid;
     
-    if ([UserInfo sharedUserInfo].userType == 1)
+    if (USERType == 1)
     {
         parameters[@"userid"] = [NSString stringWithFormat:@"%ld",self.userid];
         

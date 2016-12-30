@@ -94,10 +94,19 @@
     _userModel = userModel;
     self.name.text = userModel.username;
     
-    NSString *leval = [NSString VIPis:userModel.viplevel];
-    self.viplevel.text = leval;
+
     self.time.text = [userModel.createtime substringFromIndex:10];
     self.lasttime.text = [userModel.createtime substringToIndex:10];
+    
+    if ( userModel.type == 0) {
+        self.viplevel.text = @"老板";
+    }else if(userModel.type == 1){
+        self.viplevel.text = @"店长";
+    }else{
+        NSString *leval = [NSString VIPis:userModel.viplevel];
+        self.viplevel.text = leval;
+    }
+    
 }
 
 

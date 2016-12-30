@@ -57,6 +57,10 @@ typedef enum : NSUInteger {
 /** 险种的类型  1---较强险  2---商业险*/
 @property (nonatomic,assign) NSInteger insuranceType;
 
+/** 判断是否需要添加较强险 */
+@property (nonatomic,assign) BOOL isAddinsurance;
+
+
 @end
 
 @implementation BossInsuranceManagement
@@ -251,18 +255,21 @@ typedef enum : NSUInteger {
     YYLog(@"parmas-----%@",parmas);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
+           YYLog(@"%@",json);
          self.insuranceArr = [InsuranceModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
-         
-         
+
          if (self.insuranceType == 1)
          {
              
-             if (self.insuranceArr == nil || self.insuranceArr.count == 0) return ;
-             self.insuranceModel = self.insuranceArr[0];
+             if (self.insuranceArr == nil || self.insuranceArr.count == 0){
+                 self.insuranceModel = nil;
+                 _isAddinsurance = YES;
+                 return ;
+             }else{
+                 self.insuranceModel = self.insuranceArr[0];
+                 _isAddinsurance = NO;
+             }
          }
-         
-         YYLog(@"%@",json);
-         YYLog(@"self.insuranceModel.insurancetype---%@",self.insuranceModel.insurancetype);
          
          [self.tableView reloadData];
          
@@ -270,7 +277,6 @@ typedef enum : NSUInteger {
      {
          YYLog(@"%@",error);
      }];
-
 }
 
 //更新数据
@@ -288,8 +294,15 @@ typedef enum : NSUInteger {
     parmas[@"continuetime"] = self.insuranceModel.continuetime;
     parmas[@"expenses"] = self.insuranceModel.expenses;
     
-
     NSString *url = [NSString stringWithFormat:@"%@upload/updateadmininsuranceservlet",URL];
+    
+    //如果是较强险
+    if (_isAddinsurance) {
+        parmas[@"carid"] = self.carID;
+        parmas[@"insurancetype"] = self.insuranceModel.insurancetype;
+        parmas[@"type"] = @"1";
+        url = [NSString stringWithFormat:@"%@upload/addinsuranceservlet",URL];
+    }
     YYLog(@"parmas---更新数据%@url--:%@",parmas,url);
     
     [SVProgressHUD show];
@@ -326,8 +339,10 @@ typedef enum : NSUInteger {
          YYLog(@"添加爱车错误：%@",error);
          [SVProgressHUD dismiss];
      }];
-
 }
+
+
+
 
 
 -(NSArray *)leftArr

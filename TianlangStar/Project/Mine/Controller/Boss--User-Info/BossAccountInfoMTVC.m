@@ -650,11 +650,12 @@
         return;
     }
     
-    if (textField.tag == viplevel)
+    if (textField.tag == viplevel || textField.tag == username)
     {
         if (USERType == 1)//店长
         {
             [SVProgressHUD showErrorWithStatus:@"您没有该权限"];
+            textField.enabled = NO;
             return;
         }
         [self addAlertVip];

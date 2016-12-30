@@ -139,7 +139,7 @@ typedef enum : NSUInteger {
 -(void)addRightBar
 {
     //只有管理员有权限
-    if ([UserInfo sharedUserInfo].userType == 2) return;
+    if (USERType == 2) return;
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 30)];
     [button setTitle:@"编辑" forState:UIControlStateNormal];
     [button setTitle:@"保存" forState:UIControlStateSelected];
