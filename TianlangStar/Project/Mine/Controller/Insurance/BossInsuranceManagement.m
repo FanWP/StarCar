@@ -12,6 +12,7 @@
 #import "UserHeaderImageCell.h"
 #import "CheckInsureceTVC.h"
 #import "PictureCell.h"
+#import "AddInsuranceTVC.h"
 typedef enum : NSUInteger {
     expenses = 0,
     company,
@@ -377,14 +378,14 @@ typedef enum : NSUInteger {
     if (self.insuranceType == 1 && section == 1)
     {
         count = self.leftArr.count;
-    }else if (self.insuranceType == 1 && section == 0)
+        return count;
+    }else if(self.insuranceType ==1 && section == 0)
     {
-        count = 1;
+        return 1;
     }else
     {
-      count =  self.insuranceArr.count;
+        return self.insuranceArr.count + 1;
     }
-    return count;
 }
 
 
@@ -399,15 +400,23 @@ typedef enum : NSUInteger {
     if (self.insuranceType == 2)//较强险
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-        if (self.insuranceArr.count > 0)
+        
+        YYLog(@"self.insuranceArr.count--%lu",(unsigned long)self.insuranceArr.count);
+        YYLog(@"self.insuranceArr.count--%@",self.insuranceArr);
+        
+        if (self.insuranceArr.count == indexPath.row)
+        {
+            cell.textLabel.text = @"添加保险";
+        }else
         {
             InsuranceModel *model = self.insuranceArr[indexPath.row];
             cell.textLabel.text = model.insurancetype;
             cell.detailTextLabel.text = model.expenses;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         return cell;
     }else
     {
@@ -490,15 +499,26 @@ typedef enum : NSUInteger {
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.insuranceType == 2)
+    
+    if (self.insuranceType == 2)//商业险
     {
-#warning todo  pand判断为零
-        InsuranceModel *model = self.insuranceArr[indexPath.row];
-        CheckInsureceTVC *vc = [[CheckInsureceTVC alloc] init];
-        vc.title = model.insurancetype;
-        vc.insuranceModel = model;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (self.insuranceArr.count == indexPath.row )
+        {
+            AddInsuranceTVC *vc = [[AddInsuranceTVC alloc] init];
+            vc.carID = self.carID;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else//显示险种闲情
+        {
+            InsuranceModel *model = self.insuranceArr[indexPath.row];
+            CheckInsureceTVC *vc = [[CheckInsureceTVC alloc] init];
+            vc.title = model.insurancetype;
+            vc.insuranceModel = model;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        
     }
+    
+
     
     if (self.insuranceType == 1 && indexPath.section == 0 && self.inputEnble)
     {
@@ -527,13 +547,13 @@ typedef enum : NSUInteger {
 //添加编辑模式
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        if (self.insuranceType == 2)
-        {
-            return YES;
-        }else
-        {
-            return NO;
-        }
+    if (self.insuranceType == 2 && self.insuranceArr.count != indexPath.row && USERType == 0)
+    {
+        return YES;
+    }else
+    {
+        return NO;
+    }
 }
 
 
@@ -548,6 +568,10 @@ typedef enum : NSUInteger {
 //删除所做的动作
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    
+    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"是否确认删除此会员？" preferredStyle:UIAlertControllerStyleActionSheet];

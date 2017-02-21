@@ -303,11 +303,13 @@
     parmas[@"sessionId"] = userInfo.RSAsessionId;
     
     NSString *url = [NSString stringWithFormat:@"%@getuserinfoserlvet",URL];
-    
+
+    [SVProgressHUD show];
     
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          self.userModel = [UserModel mj_objectWithKeyValues:json[@"body"]];
+         [SVProgressHUD dismiss];
          
          YYLog(@"%@",json);
          
@@ -315,9 +317,9 @@
          
      } failure:^(NSError *error)
      {
+         [SVProgressHUD dismiss];
          YYLog(@"%@",error);
      }];
-    
 }
 
 
@@ -558,8 +560,6 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    UserInfo *userInfo = [UserInfo sharedUserInfo];
-    
     if (textField.tag == sex)
     {
         self.coverView.hidden = NO;
@@ -575,8 +575,6 @@
         textField.enabled = NO;
         return;
     }
-    
-    
 }
 
 

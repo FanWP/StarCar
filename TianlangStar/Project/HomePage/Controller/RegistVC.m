@@ -271,6 +271,8 @@
 // 事件:用户点击事件
 - (void)protocolAction
 {
+    
+    return;
     RegistProtocolVC *registProtocolVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"RegistProVC"];
     [self.navigationController pushViewController:registProtocolVC animated:YES];
 }

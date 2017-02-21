@@ -18,6 +18,9 @@
 /** 底部的footerView */
 @property (nonatomic,strong) UIView *FooterView;
 
+/** 记录余额 */
+@property (nonatomic,assign) NSInteger scoreBlance;
+
 
 @end
 
@@ -29,10 +32,45 @@
     [super viewDidLoad];
     
     [[UIApplication sharedApplication].keyWindow addSubview:self.FooterView];
+    
+    [self dataDiscountAndAccountBalance];
 
     self.title = @"积分兑换详情";
     
     [self addHeader];
+}
+
+
+- (void)dataDiscountAndAccountBalance
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@find/base/userInfo",URL];
+    
+    [[AFHTTPSessionManager manager] POST:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         YYLog(@"折扣信息账户余额返回：%@",responseObject);
+         
+         NSArray *dataArray = responseObject[@"body"];
+         
+         if (dataArray.count > 0) {//有值
+             NSDictionary *dic = dataArray[0];
+             NSNumber *num = dic[@"score"];
+             self.scoreBlance = [num integerValue];
+         }
+         
+         
+         
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"折扣信息账户余额错误：%@",error);
+     }];
+    
 }
 
 
@@ -100,6 +138,13 @@
 -(void)buyNowBtnClick
 {
     YYLog(@"buyNowBtnClick");
+    
+    if (_scoreBlance < [self.model.scoreprice integerValue]) {
+        
+        [SVProgressHUD showErrorWithStatus:@"余额不足"];
+        return;
+    }
+    
     NSString *message = [NSString stringWithFormat:@"支付%@积分？",self.model.scoreprice];
     
     UIAlertController *alert  = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];

@@ -52,7 +52,7 @@
 
 
 
-+(void)get:(NSString *)url parmas:(NSDictionary *)parmas success:(void (^)(id))success failure:(void (^)(NSError *))failure
++(void)get:(NSString *)url parmas:(NSDictionary *)parmas success:(void (^)(id json))success failure:(void (^)(NSError *))failure
 {
     //1，创建请求管理者
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
