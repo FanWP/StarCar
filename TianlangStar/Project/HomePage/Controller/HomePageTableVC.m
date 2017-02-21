@@ -420,7 +420,7 @@
     }
     else
     {
-        return 120;
+        return 0.75 * (0.4 * KScreenWidth) + 20;
     }
 }
 
@@ -499,9 +499,9 @@
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[[UIImage imageNamed:@"touxiang"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)]];
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@/%@",serviceModel.services,serviceModel.servicetype];
-        cell.detailLabel.text = serviceModel.content;
-        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",serviceModel.price];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",serviceModel.services];
+        cell.detailLabel.text = serviceModel.servicetype;
+        cell.priceLabel.text = [NSString stringWithFormat:@"%@星币",serviceModel.price];
         cell.priceLabel.font = Font14;
 
     }
@@ -513,9 +513,9 @@
         NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,array.firstObject];
         NSURL *url = [NSURL URLWithString:pic];
         [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@/%@",productModel.productname,productModel.productmodel];
-        cell.detailLabel.text = productModel.introduction;
-        cell.priceLabel.text = [NSString stringWithFormat:@"星币%@",productModel.price];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",productModel.productname];
+        cell.detailLabel.text = productModel.productmodel;
+        cell.priceLabel.text = [NSString stringWithFormat:@"%@星币",productModel.price];
         
     }
     
@@ -547,34 +547,18 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,array.firstObject]];
     [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
     
-    cell.carNameLabel.text = [NSString stringWithFormat:@"%@/%@",_carModel.brand,_carModel.model];
+    cell.carNameLabel.text = [NSString stringWithFormat:@"%@ %@",_carModel.brand,_carModel.model];
     cell.carTypeLabel.text = [NSString stringWithFormat:@"车型:%@",_carModel.cartype];
     cell.mileageLabel.text = [NSString stringWithFormat:@"行驶里程:%@",_carModel.mileage];
     cell.buytimeLabel.text = [NSString stringWithFormat:@"购买年份:%@",_carModel.buytime];
-    cell.priceLabel.text = [NSString stringWithFormat:@"%@万",_carModel.price];
+    cell.priceLabel.text = [NSString stringWithFormat:@"参考价:%@万",_carModel.price];
     
     self.telNumber = _carModel.number;
     
-    [cell.chatButton addTarget:self action:@selector(chatAction) forControlEvents:(UIControlEventTouchUpInside)];
     
     return cell;
 }
 
-
-
-- (void)chatAction
-{
-    NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.telNumber]];
-    
-    if (!_webView)
-    {
-        
-        self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    }
-    
-    [self.webView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
-
-}
 
 
 

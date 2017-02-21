@@ -16,6 +16,5 @@
 @property (nonatomic,strong) UILabel *mileageLabel;
 @property (nonatomic,strong) UILabel *buytimeLabel;
 @property (nonatomic,strong) UILabel *priceLabel;
-@property (nonatomic,strong) UIButton *chatButton;
 
 @end

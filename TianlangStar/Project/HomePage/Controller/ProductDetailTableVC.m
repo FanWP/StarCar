@@ -1236,13 +1236,13 @@
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 30;
+            return height + 10;
         }
         else if (indexPath.row == 7)
         {
             CGFloat height = [UITableViewCell heightForString:_productModel.introduction WithFontSize:14];
             
-            return height + 30;
+            return height + 10;
         }
         else
         {
@@ -1255,7 +1255,7 @@
         {
             CGFloat height = [UITableViewCell heightForString:_carModel.carDescription WithFontSize:14];
             
-            return height + 30;
+            return height + 10;
         }
         else
         {
@@ -1283,6 +1283,11 @@
         
     }
     
+    if (indexPath.row == 1)
+    {
+        cell.textLabel.textColor = [UIColor redColor];
+    }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.font = Font14;
@@ -1302,10 +1307,6 @@
             cell.textLabel.numberOfLines = 0;
             
             cell.textLabel.height = height;
-        }
-        if (indexPath.row == 1)
-        {
-            cell.textLabel.textColor = [UIColor redColor];
         }
     }
     else if ([self.title isEqualToString:@"二手车详情"])
@@ -1409,7 +1410,7 @@
                 cell.textLabel.text = _carModel.brand;
                 break;
             case 1:
-                cell.textLabel.text = [NSString stringWithFormat:@"参数价：%@",_carModel.price];
+                cell.textLabel.text = [NSString stringWithFormat:@"参考价：%@万",_carModel.price];
                 break;
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"型号：%@",_carModel.model];
