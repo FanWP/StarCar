@@ -8,8 +8,6 @@
 
 #import "TLStarDetailVC.h"
 
-#import "TestInterfaceVC.h"
-
 @interface TLStarDetailVC ()<WKNavigationDelegate>
 
 @end
@@ -19,16 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // 测试接口按钮
-//    UIButton *testButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-//    testButton.frame = CGRectMake(50, 100, 100, 44);
-//    [testButton setTitle:@"测试接口" forState:(UIControlStateNormal)];
-//    [testButton addTarget:self action:@selector(testAction) forControlEvents:(UIControlEventTouchUpInside)];
-//    [self.view addSubview:testButton];
-    
-    
-//    find/company/info
-    
     self.wkWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
     
@@ -36,34 +24,7 @@
     self.wkWebView.navigationDelegate = self;
     [self.view addSubview:self.wkWebView];
     
-    
-//    NSString *uRL = [NSString stringWithFormat:@"%@unlogin/find/company/info",URL];
-//    
-//    [[AFHTTPSessionManager manager] POST:uRL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
-//    {
-//        YYLog(@"==================================%@",responseObject);
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
-//    {
-//        YYLog(@"错误++++ ： %@",error);
-//        
-//    }];
-
-    
 }
-
-
-
-//#pragma mark - 测试接口点击事件
-//- (void)testAction
-//{
-//    TestInterfaceVC *testInterfaceVC = [[TestInterfaceVC alloc] init];
-//    [self.navigationController pushViewController:testInterfaceVC animated:YES];
-//}
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

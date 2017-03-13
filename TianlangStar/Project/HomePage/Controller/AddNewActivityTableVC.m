@@ -265,7 +265,10 @@ typedef enum : NSUInteger {
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"添加失败" title:@"提示"];
         }
-        
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"添加最新活动错误%@",error);

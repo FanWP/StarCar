@@ -206,7 +206,7 @@
 
 - (void)rightItem
 {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"share"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareAction)];
 }
 
 
@@ -396,9 +396,11 @@
                     [self.tableView reloadData];
                     
                 });
-                
             }
-            
+            if (result == 1007)
+            {
+                [HttpTool loginUpdataSession];
+            }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
@@ -453,7 +455,7 @@
         NSNumber *num = responseObject[@"resultCode"];
         NSInteger result = [num integerValue];
         
-        if (result) {
+        if (result == 1000) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -478,7 +480,10 @@
                 [[AlertView sharedAlertView] addAlertMessage:@"收藏失败" title:@"提示"];
             });
         }
-        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -551,7 +556,10 @@
                 [[AlertView sharedAlertView] addAfterAlertMessage:@"取消收藏失败" title:@"提示"];
             });
         }
-        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         YYLog(@"取消收藏请求失败-%@",error);
@@ -637,7 +645,10 @@
                 
             });
         }
-        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         YYLog(@"获取指定用户的全部收藏物请求失败-%@",error);
@@ -668,26 +679,32 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          YYLog(@"折扣信息账户余额返回：%@",responseObject);
-         
-         NSArray *dataArray = responseObject[@"body"];
-         
-         NSNumber *discount;
-         NSNumber *accountBalance;
-         
-         for (NSDictionary *dic in dataArray)
+         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+         if (resultCode == 1000)
          {
-             discount = [dic objectForKey:@"discount"];
-             accountBalance = [dic objectForKey:@"balance"];
-             if (discount != nil)
+             NSArray *dataArray = responseObject[@"body"];
+             
+             NSNumber *discount;
+             NSNumber *accountBalance;
+             
+             for (NSDictionary *dic in dataArray)
              {
-                 [UserInfo sharedUserInfo].discount = [discount floatValue];
-                 [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                 discount = [dic objectForKey:@"discount"];
+                 accountBalance = [dic objectForKey:@"balance"];
+                 if (discount != nil)
+                 {
+                     [UserInfo sharedUserInfo].discount = [discount floatValue];
+                     [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                 }
              }
+             
+             _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+             _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
          }
-         
-         _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
-         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
-         
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"折扣信息账户余额错误：%@",error);

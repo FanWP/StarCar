@@ -21,7 +21,9 @@
 
 @property (nonatomic,strong) UISegmentedControl *segment;
 
-@property (nonatomic,strong) NSMutableArray *collectionArray;// 保存所有收藏物的数组
+@property (nonatomic,strong) NSMutableArray *productCollectionArray;  // 保存商品收藏物的数组
+@property (nonatomic,strong) NSMutableArray *serviceCollectionArray;  // 服务
+@property (nonatomic,strong) NSMutableArray *secondCarCollectionArray;// 二手车
 
 //@property (nonatomic,strong) UIView *bottomView;// 底部view
 //@property (nonatomic,strong) UIButton *addCartButton;// 加入购物车按钮
@@ -37,6 +39,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _productCollectionArray = [NSMutableArray array];
+    _serviceCollectionArray = [NSMutableArray array];
+    _secondCarCollectionArray = [NSMutableArray array];
     
     [self fetchAllCollectionDataWithType:1];
     
@@ -154,15 +160,15 @@
         {
             if ([collectionType isEqualToString:@"1"])
             {
-                self.collectionArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                self.productCollectionArray = [ProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
             }
             if ([collectionType isEqualToString:@"2"])
             {
-                self.collectionArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                self.serviceCollectionArray = [ServiceModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
             }
             if ([collectionType isEqualToString:@"3"])
             {
-                self.collectionArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
+                self.secondCarCollectionArray = [CarModel mj_objectArrayWithKeyValuesArray:responseObject[@"body"]];
             }
         }
         
@@ -382,7 +388,18 @@
 // 行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.collectionArray.count;
+    if (self.segment.selectedSegmentIndex == 0)
+    {
+        return _productCollectionArray.count;
+    }
+    else if (self.segment.selectedSegmentIndex == 1)
+    {
+        return _serviceCollectionArray.count;
+    }
+    else
+    {
+        return _secondCarCollectionArray.count;
+    }
 }
 
 
@@ -403,7 +420,7 @@
     {
         case 0:
         {
-            ProductModel *productModel = _collectionArray[indexPath.row];
+            ProductModel *productModel = _productCollectionArray[indexPath.row];
             
             NSArray *imagesArray = [productModel.images componentsSeparatedByString:@","];
             
@@ -416,7 +433,7 @@
             break;
         case 1:
         {
-            ServiceModel *serviceModel = _collectionArray[indexPath.row];
+            ServiceModel *serviceModel = _serviceCollectionArray[indexPath.row];
             
             NSArray *imagesArray = [serviceModel.images componentsSeparatedByString:@","];
             
@@ -429,7 +446,7 @@
             break;
         case 2:
         {
-            CarModel *carModel = _collectionArray[indexPath.row];
+            CarModel *carModel = _secondCarCollectionArray[indexPath.row];
             
             NSArray *imagesArray;
             imagesArray = [carModel.images componentsSeparatedByString:@","];
@@ -464,19 +481,19 @@
         case 0:
         {
             collectionProductDetailTableVC.title = @"商品详情";
-            collectionProductDetailTableVC.productModel = _collectionArray[indexPath.row];
+            collectionProductDetailTableVC.productModel = _productCollectionArray[indexPath.row];
         }
             break;
         case 1:
         {
             collectionProductDetailTableVC.title = @"保养维护详情";
-            collectionProductDetailTableVC.serviceModel = _collectionArray[indexPath.row];
+            collectionProductDetailTableVC.serviceModel = _serviceCollectionArray[indexPath.row];
         }
             break;
         case 2:
         {
             collectionProductDetailTableVC.title = @"二手车详情";
-            collectionProductDetailTableVC.carModel = _collectionArray[indexPath.row];
+            collectionProductDetailTableVC.carModel = _serviceCollectionArray[indexPath.row];
         }
             break;
             

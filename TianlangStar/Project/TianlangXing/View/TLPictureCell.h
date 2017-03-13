@@ -10,4 +10,6 @@
 
 @interface TLPictureCell : UITableViewCell
 
+@property (nonatomic,strong) UIImageView *pictureView;
+
 @end

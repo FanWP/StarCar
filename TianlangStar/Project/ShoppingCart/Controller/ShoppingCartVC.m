@@ -89,22 +89,30 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          YYLog(@"折扣信息账户余额返回：%@",responseObject);
-         NSArray *dataArray = responseObject[@"body"];
-         NSNumber *discount;
-         NSNumber *accountBalance;
-         
-         for (NSDictionary *dic in dataArray)
+         NSInteger resultCode = [responseObject[@"resultCode"] integerValue];
+         if (resultCode == 1000)
          {
-             discount = [dic objectForKey:@"discount"];
-             accountBalance = [dic objectForKey:@"balance"];
+             NSArray *dataArray = responseObject[@"body"];
+             NSNumber *discount;
+             NSNumber *accountBalance;
+             
+             for (NSDictionary *dic in dataArray)
+             {
+                 discount = [dic objectForKey:@"discount"];
+                 accountBalance = [dic objectForKey:@"balance"];
+             }
+             _blance = [accountBalance integerValue];
+             _discountLabel.text = [NSString stringWithFormat:@"折扣:%@折",discount];
+             _accountBalanceCountLabel.text = [NSString stringWithFormat:@"余额:%@星币",accountBalance];
+             
+             if ([discount integerValue] > 0 ) {//更新本地discount
+                 [UserInfo sharedUserInfo].discount = [discount floatValue];
+                 [[UserInfo sharedUserInfo] synchronizeToSandBox];
+             }
          }
-         _blance = [accountBalance integerValue];
-         _discountLabel.text = [NSString stringWithFormat:@"折扣：%@折",discount];
-         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"余额：%@星币",accountBalance];
-         
-         if ([discount integerValue] > 0 ) {//更新本地discount
-             [UserInfo sharedUserInfo].discount = [discount floatValue];
-             [[UserInfo sharedUserInfo] synchronizeToSandBox];
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
          }
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -122,6 +130,8 @@
     //没有登录
     if (![UserInfo sharedUserInfo].isLogin )
     {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"您还未登录，请先登录" preferredStyle:UIAlertControllerStyleAlert];
         
         [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
@@ -136,10 +146,14 @@
             
         }];
     }
-    
-    [self loadNewOrderInfo];
-    [self addFoorView];
-    [self dataDiscountAndAccountBalance];
+    else
+    {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        
+        [self loadNewOrderInfo];
+        [self addFoorView];
+        [self dataDiscountAndAccountBalance];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -207,20 +221,21 @@
         [footerView addSubview:total];
         
         //折扣
-        UILabel *discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 35, 180, 44)];
+        UILabel *discountLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 35, 80, 44)];
         discountLabel.font = Font15;
         discountLabel.textAlignment = NSTextAlignmentLeft;
-        discountLabel.text = @"折扣：";
+        discountLabel.text = @"折扣:";
 //        discountLabel.textColor = lableTextcolor;
         self.discountLabel = discountLabel;
         [footerView addSubview:discountLabel];
         
         
         //余额
-        UILabel *accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(total.x, 35, 200, 44)];
+        CGFloat accountBalanceCountLabelWidth = KScreenWidth - 16 - checkBtn.width - discountLabel.width;
+        UILabel *accountBalanceCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(discountLabel.x + discountLabel.width, 35, accountBalanceCountLabelWidth, 44)];
         accountBalanceCountLabel.font = Font15;
         accountBalanceCountLabel.textAlignment = NSTextAlignmentLeft;
-        accountBalanceCountLabel.text = @"余额：";
+        accountBalanceCountLabel.text = @"余额:";
 //        accountBalanceCountLabel.textColor = lableTextcolor;
         self.accountBalanceCountLabel = accountBalanceCountLabel;
         [footerView addSubview:accountBalanceCountLabel];
@@ -265,16 +280,24 @@
     YYLog(@"parmas---%@--url:%@",parmas,url);
     [HttpTool post:url parmas:parmas success:^(id json)
      {
-         YYLog(@"json购物车:%@",json);
          [self.tableView.mj_header endRefreshing];
-         self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
-         [self.tableView reloadData];
-         if (self.orderArr.count > 0)
+         YYLog(@"json购物车:%@",json);
+         NSInteger resultCode = [json[@"resultCode"] integerValue];
+         if (resultCode == 1000)
          {
-             self.currentPage++;
+             
+             self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+             [self.tableView reloadData];
+             if (self.orderArr.count > 0)
+             {
+                 self.currentPage++;
+             }
+             YYLog(@"购物车查询返回：json---%@",json);
          }
-         YYLog(@"购物车查询返回：json---%@",json);
-         
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
      } failure:^(NSError *error) {
          [self.tableView.mj_header endRefreshing];
          YYLog(@"error---%@",error);
@@ -296,14 +319,22 @@
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          [self.tableView.mj_footer endRefreshing];
-         NSArray *newArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
-         
-         if (newArr.count > 0) {
-             [self.orderArr addObjectsFromArray:newArr];
-             self.currentPage++;
-             [self.tableView reloadData];
+         NSInteger resultCode = [json[@"resultCode"] integerValue];
+         if (resultCode == 1000)
+         {
+             NSArray *newArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
+             
+             if (newArr.count > 0) {
+                 [self.orderArr addObjectsFromArray:newArr];
+                 self.currentPage++;
+                 [self.tableView reloadData];
+             }
+             YYLog(@"购物车加载更多json---%@",json);
          }
-         YYLog(@"购物车加载更多json---%@",json);
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
      } failure:^(NSError *error) {
          [self.tableView.mj_footer endRefreshing];
          YYLog(@"error---%@",error);
@@ -519,7 +550,10 @@
             vc.model = model;
             [self.navigationController pushViewController:vc                              animated:YES];
         }
-        
+        if ([num integerValue] == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
         [self checkTotalPrice];

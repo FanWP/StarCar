@@ -7,9 +7,11 @@
 //
 
 #import "TLStarTableVC.h"
-#import "PictureCell.h"
+#import "TLPictureCell.h"
 
 #import "TLStarModel.h"
+
+#import "TLStarDetailVC.h"
 
 @interface TLStarTableVC ()
 
@@ -30,6 +32,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.tableView.rowHeight = (KScreenHeight - 64 - 44) / 3;
     
     [self dataTLStar];
 }
@@ -85,14 +89,29 @@
 
     static NSString *identifier = @"cell";
     
-    PictureCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    TLPictureCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell == nil)
     {
-        cell = [[PictureCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
+        cell = [[TLPictureCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
     }
+    
+    _tLStarModel = _tlInfoArray[indexPath.row];
+    
+    NSURL *url = [NSURL URLWithString:_tLStarModel.faceImage];
+    
+    [cell.pictureView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"lunbo1"]];
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _tLStarModel = _tlInfoArray[indexPath.row];
+    
+    TLStarDetailVC *tLStarDetailVC = [[TLStarDetailVC alloc] init];
+    tLStarDetailVC.url = _tLStarModel.detailUrl;
+    [self.navigationController pushViewController:tLStarDetailVC animated:YES];
 }
 
 

@@ -499,7 +499,10 @@
                 }
                 
             }
-            
+            if (result == 1007)
+            {
+                [HttpTool loginUpdataSession];
+            }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
@@ -561,6 +564,10 @@
             });
         }
         
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -613,6 +620,11 @@
                 
                 [[AlertView sharedAlertView] addAfterAlertMessage:@"取消收藏失败" title:@"提示"];
             });
+        }
+        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -696,6 +708,10 @@
                 });
             }
         }
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -730,23 +746,33 @@
     {
         YYLog(@"折扣信息账户余额返回：%@",responseObject);
         
-        NSArray *dataArray = responseObject[@"body"];
+        NSInteger result = [responseObject[@"resultCode"] integerValue];
         
-        NSNumber *discount;
-        NSNumber *accountBalance;
-        
-        for (NSDictionary *dic in dataArray)
+        if (result == 1007)
         {
-            discount = [dic objectForKey:@"discount"];
-            accountBalance = [dic objectForKey:@"balance"];
-            if (discount != nil)
-            {
-                [UserInfo sharedUserInfo].discount = [discount floatValue];
-                [[UserInfo sharedUserInfo] synchronizeToSandBox];
-            }
+            [HttpTool loginUpdataSession];
         }
-        _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
-        _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+        
+        if (result == 1000)
+        {
+            NSArray *dataArray = responseObject[@"body"];
+            
+            NSNumber *discount;
+            NSNumber *accountBalance;
+            
+            for (NSDictionary *dic in dataArray)
+            {
+                discount = [dic objectForKey:@"discount"];
+                accountBalance = [dic objectForKey:@"balance"];
+                if (discount != nil)
+                {
+                    [UserInfo sharedUserInfo].discount = [discount floatValue];
+                    [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                }
+            }
+            _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+            _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
@@ -1022,6 +1048,10 @@
              vc.model = model;
              [self.navigationController pushViewController:vc                              animated:YES];
          }
+         if ([num integerValue] == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
          
      } failure:^(NSError *error) {
          YYLog(@"购买返回错误%@",error);
@@ -1158,11 +1188,14 @@
         if (resultCode == 1000)
         {
             [[AlertView sharedAlertView] addAfterAlertMessage:@"成功加入购物车" title:@"提示"];
+            [self.coverView removeFromSuperview];
+            [self.okAddCartButton removeFromSuperview];
         }
         
-        [self.coverView removeFromSuperview];
-        
-        [self.okAddCartButton removeFromSuperview];
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {

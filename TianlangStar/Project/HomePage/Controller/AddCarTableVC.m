@@ -189,9 +189,11 @@ typedef enum : NSUInteger {
                      [self.delegate addCarInfoSuccess];
                  }
                  [self.navigationController popViewControllerAnimated:YES];
-                 
              }
-             
+             if (resultCode == 1007)
+             {
+                 [HttpTool loginUpdataSession];
+             }
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
              YYLog(@"添加爱车错误：%@",error);

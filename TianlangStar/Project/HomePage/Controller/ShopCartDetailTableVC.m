@@ -267,7 +267,7 @@
 
 - (void)rightItem
 {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"share"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)] style:(UIBarButtonItemStylePlain) target:self action:@selector(shareAction)];
 }
 
 
@@ -471,7 +471,10 @@
                 }
                 
             }
-            
+            if (result == 1007)
+            {
+                [HttpTool loginUpdataSession];
+            }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
@@ -513,7 +516,7 @@
         NSNumber *num = responseObject[@"resultCode"];
         NSInteger result = [num integerValue];
         
-        if (result) {
+        if (result == 1000) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -532,7 +535,10 @@
                 [[AlertView sharedAlertView] addAlertMessage:@"收藏失败" title:@"提示"];
             });
         }
-        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -586,7 +592,10 @@
                 [[AlertView sharedAlertView] addAfterAlertMessage:@"取消收藏失败" title:@"提示"];
             });
         }
-        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         YYLog(@"取消收藏请求失败-%@",error);
@@ -668,7 +677,10 @@
                 });
             }
         }
-        
+        if (result == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         YYLog(@"获取指定用户的全部收藏物请求失败-%@",error);
@@ -701,24 +713,33 @@
      {
          YYLog(@"折扣信息账户余额返回：%@",responseObject);
          
-         NSArray *dataArray = responseObject[@"body"];
+         NSInteger result = [responseObject[@"resultCode"] integerValue];
          
-         NSNumber *discount;
-         NSNumber *accountBalance;
-         
-         for (NSDictionary *dic in dataArray)
+         if (result == 1000)
          {
-             discount = [dic objectForKey:@"discount"];
-             accountBalance = [dic objectForKey:@"balance"];
-             if (discount != nil)
+             NSArray *dataArray = responseObject[@"body"];
+             
+             NSNumber *discount;
+             NSNumber *accountBalance;
+             
+             for (NSDictionary *dic in dataArray)
              {
-                 [UserInfo sharedUserInfo].discount = [discount floatValue];
-                 [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                 discount = [dic objectForKey:@"discount"];
+                 accountBalance = [dic objectForKey:@"balance"];
+                 if (discount != nil)
+                 {
+                     [UserInfo sharedUserInfo].discount = [discount floatValue];
+                     [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                 }
              }
+             
+             _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+             _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
          }
-         
-         _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
-         _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+         if (result == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
@@ -996,6 +1017,10 @@
              vc.model = model;
              [self.navigationController pushViewController:vc                              animated:YES];
          }
+         if ([num integerValue] == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
          
      } failure:^(NSError *error) {
          YYLog(@"购买返回错误%@",error);
@@ -1140,11 +1165,13 @@
          if (resultCode == 1000)
          {
              [[AlertView sharedAlertView] addAfterAlertMessage:@"成功加入购物车" title:@"提示"];
+             [self.coverView removeFromSuperview];
+             [self.okAddCartButton removeFromSuperview];
          }
-         
-         [self.coverView removeFromSuperview];
-         
-         [self.okAddCartButton removeFromSuperview];
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
          
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {

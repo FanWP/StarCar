@@ -43,6 +43,8 @@ singleton_interface(UserInfo);
 // 是否为是退出
 @property (nonatomic,assign) BOOL isQuit;
 
+@property (nonatomic,copy) NSString *registrationID;// 极光注册id
+
 
 /**
  数据保存到沙盒，保存运行内存与沙盒的数据同步

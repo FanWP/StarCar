@@ -41,7 +41,7 @@ typedef enum : NSUInteger {
 /** 车辆的购买日期日期 */
 @property (nonatomic,copy) NSString *buytime;
 /** 较强险的提醒日期 */
-@property (nonatomic,copy) NSString *insuranceid;
+@property (nonatomic,copy) NSString *insurancetime;
 /** 较强险的提醒日期 */
 @property (nonatomic,copy) NSString *commercialtime;
 
@@ -128,7 +128,7 @@ typedef enum : NSUInteger {
         }
         case insurancetime://较强险
         {
-            self.insuranceid=[outputFormatter stringFromDate:self.insuranceidData.date];
+            self.insurancetime=[outputFormatter stringFromDate:self.insuranceidData.date];
             self.carModel.insurancetime = [NSString stringWithFormat:@"%ld", (long)[self.insuranceidData.date timeIntervalSince1970]];
             break;
         }
@@ -240,10 +240,10 @@ typedef enum : NSUInteger {
     params[@"cartype"] = self.carModel.cartype;
     params[@"frameid"] = self.carModel.frameid;
     params[@"engineid"] = self.carModel.engineid;
-    params[@"buytime"] = self.carModel.buytime;
+    params[@"buytime"] = self.buytime;
     params[@"insuranceid"] = self.carModel.insuranceid;
-    params[@"insurancetime"] = self.carModel.insurancetime;
-    params[@"commercialtime"] = self.carModel.commercialtime;
+    params[@"insurancetime"] = self.insurancetime;
+    params[@"commercialtime"] = self.commercialtime;
 
     NSString *url = [NSString stringWithFormat:@"%@upload/carinforegistservlet",URL];
     YYLog(@"我的车辆信息登记params----%@",params);
@@ -272,8 +272,19 @@ typedef enum : NSUInteger {
         {
 //            [[AlertView sharedAlertView] addAfterAlertMessage:@"添加爱车成功" title:@"提示"];
             [SVProgressHUD showSuccessWithStatus:@"添加爱车成功！"];
+            
+            _carModel = nil;
+            _buytime = @"";
+            _insurancetime = @"";
+            _commercialtime = @"";
+            _carImage = nil;
+            
+            [self.tableView reloadData];
         }
-        
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
                 [SVProgressHUD dismissWithDelay:2];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -417,9 +428,9 @@ typedef enum : NSUInteger {
             }
             case insurancetime:
             {
-                if (self.insuranceid)
+                if (self.insurancetime)
                 {
-                    self.cell.rightTF.text = self.insuranceid;
+                    self.cell.rightTF.text = self.insurancetime;
                 }
                 break;
             }
@@ -565,7 +576,7 @@ typedef enum : NSUInteger {
             }
             else if (textField.tag == insurancetime)
             {
-                textField.text = self.insuranceid;
+                textField.text = self.insurancetime;
             }
             else
             {

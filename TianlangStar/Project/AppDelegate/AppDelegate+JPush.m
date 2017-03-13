@@ -9,9 +9,8 @@
 #import "AppDelegate+JPush.h"
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "ParkTool.h"
-#import "DataBase.h"
-#import "Message.h"
+
+#import "UserOrderQueryTVC.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
@@ -37,19 +36,35 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                           channel:@"App Store"
                  apsForProduction:isProduction];
     
-    // 获取registrationID
-    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
-        NSLog(@"resCode : %d,registrationID: %@",resCode,registrationID);
-        //存储registrationID
-        [ParkTool saveJpushRegistationID:registrationID];
-    }];
+    NSString *alias = [UserInfo sharedUserInfo].username;
+    
+    YYLog(@"======= 用户别名 ======：%@",alias);
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [JPUSHService setTags:nil alias:alias callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:nil];
+        [JPUSHService setTags:nil aliasInbackground:alias];
+    });
     
     //注册apns远程推送
     [self registerRemoteNotification];
+}
+-(void)tagsAliasCallback:(int)iResCode
+                    tags:(NSSet*)tags
+                   alias:(NSString*)alias
+{
+    YYLog(@"======== 极光推送回调返回：iResCode:%d - tags:%@ - alias:%@",iResCode,tags,alias);
     
+    if ([alias isEqualToString:@"0"])
+    {
+        YYLog(@"成功");
+    }
 }
 
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+//    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
 
 
 
@@ -106,7 +121,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 
 #pragma mark - 处理
-static long msgID = 0;
 // iOS 10 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
     
@@ -146,21 +160,6 @@ static long msgID = 0;
     
     completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置
     
-    NSNumber *_j_msgid = notification.request.content.userInfo[@"_j_msgid"];
-    if ([_j_msgid longValue] != msgID) {
-        
-        
-        msgID = [_j_msgid longValue];
-        Message *msg = [[Message alloc] init];
-        msg.Msg = content.body;
-        msg.userId = @1;
-        DataBase *dbManager = [DataBase sharedManager];
-        [dbManager insertMsg:msg];
-        
-    }
-    
-    
-    
 }
 
 
@@ -193,50 +192,21 @@ static long msgID = 0;
     completionHandler(UNNotificationPresentationOptionAlert);  // 系统要求执行这个方法
     
     
-//    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
     
-    
-    NSNumber *_j_msgid = userInfo[@"_j_msgid"];
-    
-    if ([_j_msgid longValue] != msgID) {
-        
-        msgID = [_j_msgid longValue];
-        Message *msg = [[Message alloc] init];
-        msg.Msg = content.body;
-        msg.userId = @1;
-        DataBase *dbManager = [DataBase sharedManager];
-        [dbManager insertMsg:msg];
-        
+        UserOrderQueryTVC *userOrderQueryTVC = [[UserOrderQueryTVC alloc] init];
+        UITabBarController *tabBarVC = (UITabBarController *)self.window.rootViewController;
+        tabBarVC.selectedIndex = 3;
+        UINavigationController *navc = (UINavigationController *)tabBarVC.viewControllers[3];
+        [navc pushViewController:userOrderQueryTVC animated:YES];
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     }
-    
-//        Message *msg = [[Message alloc] initWithJsonString:userInfo[@"aps"][@"alert"]];
-    
-//    }
-    
-    
-    
-    //跳转到消息页面
-    MessageViewController *infoVC = [[MessageViewController alloc] init];
-    infoVC.title = @"消息中心";
-    infoVC.hidesBottomBarWhenPushed = YES;
-    if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav= (UINavigationController *)self.window.rootViewController;
-        [nav pushViewController:infoVC animated:YES];
-    }else{
-        
-        MainTabViewController *mainVC = (MainTabViewController *)self.window.rootViewController;
-        UINavigationController *nav= (UINavigationController *)mainVC.selectedViewController;
-        if (![nav.childViewControllers.lastObject isKindOfClass:[MessageViewController class]]) {
-//            [nav popViewControllerAnimated:NO];
-            [nav pushViewController:infoVC animated:YES];
-        }else{
-            [nav popViewControllerAnimated:NO];
-            [nav pushViewController:infoVC animated:NO];
-        }
-        
-    }
-    
-    
+    UserOrderQueryTVC *userOrderQueryTVC = [[UserOrderQueryTVC alloc] init];
+    UITabBarController *tabBarVC = (UITabBarController *)self.window.rootViewController;
+    tabBarVC.selectedIndex = 3;
+    UINavigationController *navc = (UINavigationController *)tabBarVC.viewControllers[3];
+    [navc pushViewController:userOrderQueryTVC animated:YES];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 
@@ -248,7 +218,7 @@ static long msgID = 0;
     application.applicationIconBadgeNumber = 0;
     
     // Required
-    NSDictionary * userInfo = notification.request.content.userInfo;
+    NSDictionary *userInfo = notification.request.content.userInfo;
     
     
     UNNotificationRequest *request1 = notification.request; // 收到推送的请求
@@ -259,9 +229,6 @@ static long msgID = 0;
     UNNotificationSound *sound = content1.sound;  // 推送消息的声音
     NSString *subtitle = content1.subtitle;  // 推送消息的副标题
     NSString *title = content1.title;  // 推送消息的标题
-    
-    
-    
     
     
     JPushNotificationContent *content = [[JPushNotificationContent alloc] init];
@@ -300,8 +267,6 @@ static long msgID = 0;
     NSLog(@"iOS7及以上系统，收到通知:%@", userInfo);
     [JPUSHService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
-//    [self playSoundAndVibration];
-    
     
     //发送本地推送
     UILocalNotification *notification1 = [[UILocalNotification alloc] init];
@@ -310,52 +275,39 @@ static long msgID = 0;
     
     notification1.alertAction = NSLocalizedString(@"open", @"Open");
     notification1.timeZone = [NSTimeZone defaultTimeZone];
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastPlaySoundDate];
-    if (timeInterval < kDefaultPlaySoundInterval) {
-        NSLog(@"skip ringing & vibration %@, %@", [NSDate date], self.lastPlaySoundDate);
-    } else {
-        notification1.soundName = UILocalNotificationDefaultSoundName;
-    }
-    
     
     NSDictionary   *aps = [userInfo valueForKey:@"aps"];
     NSString   *content = [aps valueForKey:@"alert"];//推送显示的内容
     NSLog(@"收到通知:%@", content);
     
-    
-    
-    Message *msg = [[Message alloc] init];
-    msg.Msg = content;
-    msg.userId = @1;
-//    msg.FunctionId = @1;
-    DataBase *dbManager = [DataBase sharedManager];
-    [dbManager insertMsg:msg];
-    
-    
-    
-    //跳转到消息页面
-    MessageViewController *infoVC = [[MessageViewController alloc] init];
-    infoVC.title = @"消息中心";
-    infoVC.hidesBottomBarWhenPushed = YES;
-    if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav= (UINavigationController *)self.window.rootViewController;
-        [nav pushViewController:infoVC animated:YES];
-    }else{
+    if (application.applicationState ==UIApplicationStateActive) {
+        //如果应用在前台，在这里执行
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"有新消息~" message:content preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"查看" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+            
+            UserOrderQueryTVC *userOrderQueryTVC = [[UserOrderQueryTVC alloc] init];
+            UITabBarController *tabBarVC = (UITabBarController *)self.window.rootViewController;
+            tabBarVC.selectedIndex = 3;
+            UINavigationController *navc = (UINavigationController *)tabBarVC.viewControllers[3];
+            [navc pushViewController:userOrderQueryTVC animated:YES];
+            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        }];
         
-        MainTabViewController *mainVC = (MainTabViewController *)self.window.rootViewController;
-        UINavigationController *nav= (UINavigationController *)mainVC.selectedViewController;
-        if (![nav.childViewControllers.lastObject isKindOfClass:[MessageViewController class]]) {
-            //            [nav popViewControllerAnimated:NO];
-            [nav pushViewController:infoVC animated:YES];
-        }else{
-            [nav popViewControllerAnimated:NO];
-            [nav pushViewController:infoVC animated:NO];
-        }
+        [alert addAction:cancleAction];
+        [alert addAction:okAction];
         
+        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
     }
-    
-    
-    
+    else
+    {
+        UserOrderQueryTVC *userOrderQueryTVC = [[UserOrderQueryTVC alloc] init];
+        UITabBarController *tabBarVC = (UITabBarController *)self.window.rootViewController;
+        tabBarVC.selectedIndex = 3;
+        UINavigationController *navc = (UINavigationController *)tabBarVC.viewControllers[3];
+        [navc pushViewController:userOrderQueryTVC animated:YES];
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    }
 }
 
 //iOS 7-
@@ -400,21 +352,7 @@ static long msgID = 0;
     
     NSLog(@"本地推送: %@", notification);
     NSLog(@"消息内容: %@", notification.alertBody);
-    
-    
-//    NSDictionary   *aps = [userInfo valueForKey:@"aps"];
-//    NSString   *content = [aps valueForKey:@"alert"];//推送显示的内容
-//    NSLog(@"收到通知:%@", content);
-    
-    
-    
-    Message *msg = [[Message alloc] init];
-    msg.Msg = notification.alertBody;
-    msg.userId = @1;
-    DataBase *dbManager = [DataBase sharedManager];
-    [dbManager insertMsg:msg];
-    
-    
+
     [JPUSHService showLocalNotificationAtFront:notification identifierKey:nil];
     
 #if !TARGET_IPHONE_SIMULATOR
@@ -446,84 +384,8 @@ static long msgID = 0;
 
 // iOS7
 - (void)showNotificationWithLocalNotification:(UILocalNotification *)notification {
-    
-    
-    
-    
-    
-    
-    
-    
-//    EMPushOptions *options = [[EMClient sharedClient] pushOptions];
-//    options.displayStyle = EMPushDisplayStyleMessageSummary;
-//    
-//    //发送本地推送
-//    UILocalNotification *notification = [[UILocalNotification alloc] init];
-//    notification.fireDate = [NSDate date]; //触发通知的时间
-//    
-//    if (options.displayStyle == EMPushDisplayStyleMessageSummary) {
-//        EMMessageBody *messageBody = message.body;
-//        NSString *messageStr = nil;
-//        switch (messageBody.type) {
-//            case EMMessageBodyTypeText:
-//            {
-//                messageStr = ((EMTextMessageBody *)messageBody).text;
-//            }
-//                break;
-//            case EMMessageBodyTypeImage:
-//            {
-//                messageStr = NSLocalizedString(@"message.image", @"Image");
-//            }
-//                break;
-//            case EMMessageBodyTypeLocation:
-//            {
-//                messageStr = NSLocalizedString(@"message.location", @"Location");
-//            }
-//                break;
-//            case EMMessageBodyTypeVoice:
-//            {
-//                messageStr = NSLocalizedString(@"message.voice", @"Voice");
-//            }
-//                break;
-//            case EMMessageBodyTypeVideo:{
-//                messageStr = NSLocalizedString(@"message.video", @"Video");
-//            }
-//                break;
-//            default:
-//                break;
-//        }
-//        NSData *data = [messageStr dataUsingEncoding:NSUTF8StringEncoding];
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-//        notification.alertBody = [NSString stringWithFormat:@"%@",  dict[@"content"]];
-//    }
-//    else{
-//        notification.alertBody = NSLocalizedString(@"receiveMessage", @"you have a new message");
-//    }
-//    
-//#warning 去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送
-//    //notification.alertBody = [[NSString alloc] initWithFormat:@"[本地]%@", notification.alertBody];
-//    
-//    notification.alertAction = NSLocalizedString(@"open", @"Open");
-//    notification.timeZone = [NSTimeZone defaultTimeZone];
-//    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastPlaySoundDate];
-//    if (timeInterval < kDefaultPlaySoundInterval) {
-//        NSLog(@"skip ringing & vibration %@, %@", [NSDate date], self.lastPlaySoundDate);
-//    } else {
-//        notification.soundName = UILocalNotificationDefaultSoundName;
-//        //        self.lastPlaySoundDate = [NSDate date];
-//    }
-//    
-//    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-//    [userInfo setObject:[NSNumber numberWithInt:message.chatType] forKey:kMessageType];
-//    [userInfo setObject:message.conversationId forKey:kConversationChatter];
-//    notification.userInfo = userInfo;
-//    
     //发送通知
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-    //    UIApplication *application = [UIApplication sharedApplication];
-    //    application.applicationIconBadgeNumber += 1;
-    
-    
     
     NSLog(@"%@", notification);
     
@@ -533,17 +395,6 @@ static long msgID = 0;
 
 
 - (void)playSoundAndVibration{
-    NSTimeInterval timeInterval = [[NSDate date]
-                                   timeIntervalSinceDate:self.lastPlaySoundDate];
-    if (timeInterval < kDefaultPlaySoundInterval) {
-        //如果距离上次响铃和震动时间太短, 则跳过响铃
-        NSLog(@"skip ringing & vibration %@, %@", [NSDate date], self.lastPlaySoundDate);
-        return;
-    }
-    
-    //保存最后一次响铃时间
-    self.lastPlaySoundDate = [NSDate date];
-    
     //收到消息时,播放音频
     [self playNewMessageSound];
     //收到消息时,震动
@@ -554,10 +405,6 @@ static long msgID = 0;
 
 //播放声音
 - (void)playNewMessageSound {
-    
-    // Path for the audio file
-//    NSURL *bundlePath = [[NSBundle mainBundle] URLForResource:@"EaseUIResource" withExtension:@"bundle"];
-//    NSURL *audioPath = [[NSBundle bundleWithURL:bundlePath] URLForResource:@"in" withExtension:@"caf"];
     
     NSURL *audioPath1 = [NSURL URLWithString:@"/System/Library/Audio/UISounds/ReceivedMessage.caf"];
     NSURL *audioPath = [NSURL fileURLWithPath:@"/System/Library/Audio/UISounds/sms-received5.caf"];
