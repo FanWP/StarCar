@@ -10,7 +10,7 @@
 
 #import <WebKit/WebKit.h>
 
-@interface TLStarVC : UIViewController
+@interface TLStarDetailVC : UIViewController
 
 
 @property (nonatomic,strong) WKWebView *wkWebView;

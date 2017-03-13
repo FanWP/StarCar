@@ -6,15 +6,15 @@
 //  Copyright © 2016年 apple. All rights reserved.
 //
 
-#import "TLStarVC.h"
+#import "TLStarDetailVC.h"
 
 #import "TestInterfaceVC.h"
 
-@interface TLStarVC ()<WKNavigationDelegate>
+@interface TLStarDetailVC ()<WKNavigationDelegate>
 
 @end
 
-@implementation TLStarVC
+@implementation TLStarDetailVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
