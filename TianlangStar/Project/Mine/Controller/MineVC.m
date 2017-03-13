@@ -89,7 +89,6 @@
         [self loginSuccess];
         [self.tableView.mj_header endRefreshing];
     }];
-    
 }
 
 
@@ -121,15 +120,11 @@
         {//登录界面还在显示
             [self.loginView  removeFromSuperview];
         }
-
         [self loginSuccess];
-        
     }else//未登录
     {
-          [self getPubicKey];
+        [self getPubicKey];
     }
-    
-
 }
 
 
@@ -224,7 +219,6 @@
      {
          YYLog(@"公钥----%@",responseObject);
          UserInfo *userIn = [UserInfo sharedUserInfo];
-         
          self.publicKey =responseObject[@"pubKey"];
          //若一开始从未从服务器获取到公钥，则从本地获取公钥
          if (_publicKey == nil )
@@ -236,7 +230,6 @@
              userIn.publicKey = self.publicKey;
              [userIn synchronizeToSandBox];
          }
-         
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"公钥获取失败---%@",error);
@@ -252,9 +245,7 @@
     NSString *strHeader = [NSString stringWithFormat:@"%@%@",picURL,userInfo.headerpic];
     
     [self.userCommonView.headerPic sd_setImageWithURL:[NSURL URLWithString:strHeader] placeholderImage:[UIImage imageNamed:@"touxiang"]];
-    
-    
-    
+
     //级别或者是老板  或者是店长
     NSString *username = nil;
     switch (USERType) {
@@ -331,9 +322,8 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"type"] = @"1";
 
-    
     NSString *url = [NSString stringWithFormat:@"%@gtsrcurrncysrvlt",URL];
-        YYLog(@"parmas---%@,url-%@",parmas,url);
+    YYLog(@"parmas---%@,url-%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json)
      {
@@ -344,15 +334,9 @@
          {
              self.virtualcenterModel = arr[0];
          }
-//         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
-         
-         
-         
+         //         YYLog(@"self.virtualcenterModel.balance--%f",self.virtualcenterModel.balance);
          NSString *starStr = [NSString stringWithFormat:@"%.0f",self.virtualcenterModel.balance];
-
          [self.userCommonView.moneyButton setTitle:starStr forState:UIControlStateNormal];
-         
-         
      } failure:^(NSError *error)
      {
          YYLog(@"json-获取账户星币余额%@",error);
@@ -370,20 +354,14 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"type"] = @"2";
     
-    
     NSString *url = [NSString stringWithFormat:@"%@gtsrcurrncysrvlt",URL];
     YYLog(@"parmas---%@,url-%@",parmas,url);
-    
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"json-获取账户积分余额%@",json);
-
          NSNumber *num = json[@"body"];
-
          NSString *starStr = num == nil ? @"0":[NSString stringWithFormat:@"%@",num];
-         
          [self.userCommonView.scoreButton setTitle:starStr forState:UIControlStateNormal];
-
      } failure:^(NSError *error)
      {
          YYLog(@"json-获取账户积分余额%@",error);
