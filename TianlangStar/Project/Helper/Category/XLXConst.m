@@ -50,8 +50,8 @@ CGFloat const BtncornerRadius = 8.f;
 //NSString *const picURL = @"http://192.168.1.17/";
 
 
-NSString *const URL = @"http://117.34.105.4:32106/car_api/";
-NSString *const picURL = @"http://117.34.105.4:32106/";
+NSString *const URL = @"http://mall.youyousiji.com:8080/car_api/";
+NSString *const picURL = @"http://mall.youyousiji.com:8080/";
 
 
 
