@@ -195,7 +195,10 @@
                 [self.tableView reloadData];
             });
         }
-        
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
@@ -296,7 +299,10 @@
                 
                 [self.tableView.mj_footer endRefreshing];
             }
-            
+            if (resultCode == 1007)
+            {
+                [HttpTool loginUpdataSession];
+            }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
         {
             YYLog(@"仓库管理错误%@",error);
@@ -514,7 +520,10 @@
                 [self.tableView reloadData];
             });
         }
-        
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {

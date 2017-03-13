@@ -134,7 +134,7 @@
     contentView.centerX = KScreenWidth * 0.5;
     contentView.centerY = KScreenHeight * 0.45;
     contentView.backgroundColor = [UIColor whiteColor] ;
-    self.contentView = contentView;
+    self.contentView = contentView; 
     contentView.hidden = YES;
     [self.view addSubview:contentView];
     

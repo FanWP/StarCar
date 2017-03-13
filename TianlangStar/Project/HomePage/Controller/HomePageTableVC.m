@@ -130,16 +130,14 @@
                 NSArray *imagesArray = [picture componentsSeparatedByString:@","];
                 
                 [self.ImgList removeAllObjects];
-                for (NSInteger i = 0; i < imagesArray.count; i++)
+                for (NSInteger i = 0; i < imagesArray.count - 1; i++)
                 {
                     NSString *pic = imagesArray[i];
                     
                     NSString *image = [NSString stringWithFormat:@"%@%@",picURL,pic];
-                    
 
                     [self.ImgList addObject:image];
                 }
-                
                 
                 [self.scrollView setImageURLStringsGroup:self.ImgList];
             }            
@@ -176,7 +174,7 @@
     
     YYLog(@"获取所有商品列表参数--%@",parmas);
     
-    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo?",URL];
+    NSString *url = [NSString stringWithFormat:@"%@unlogin/find/saleinfo",URL];
     
     [[AFHTTPSessionManager manager] POST:url parameters:parmas progress:^(NSProgress * _Nonnull uploadProgress) {
         

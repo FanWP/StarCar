@@ -271,9 +271,8 @@
     
     
     [self.view insertSubview:header belowSubview:self.coverView];
-
-
 }
+
 
 -(void)setupScoreFooterView
 {
@@ -659,6 +658,55 @@
      {
          YYLog(@"json-获取账户余额%@",error);
      }];
+}
+- (void)dataDiscountAndAccountBalance
+{
+    //    find/base/userInfo  sessionId   、  username
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    parameters[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@find/base/userInfo",URL];
+    
+    [[AFHTTPSessionManager manager] POST:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         YYLog(@"折扣信息账户余额返回：%@",responseObject);
+         
+         NSInteger result = [responseObject[@"resultCode"] integerValue];
+         
+         if (result == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
+         
+         if (result == 1000)
+         {
+             NSArray *dataArray = responseObject[@"body"];
+             
+             NSNumber *discount;
+             NSNumber *accountBalance;
+             
+             for (NSDictionary *dic in dataArray)
+             {
+                 discount = [dic objectForKey:@"discount"];
+                 accountBalance = [dic objectForKey:@"balance"];
+                 if (discount != nil)
+                 {
+                     [UserInfo sharedUserInfo].discount = [discount floatValue];
+                     [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                 }
+             }
+             _balanceLable.text = [NSString stringWithFormat:@"%@星币",accountBalance];
+         }
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         YYLog(@"折扣信息账户余额错误：%@",error);
+     }];
+    
 }
 
 

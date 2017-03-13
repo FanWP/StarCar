@@ -20,7 +20,4 @@
 @property (nonatomic,strong) OrderModel *orderModel;
 
 
-
-
-
 @end

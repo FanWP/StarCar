@@ -342,7 +342,10 @@ typedef enum : NSUInteger {
          {
              [SVProgressHUD showSuccessWithStatus:@"修改成功！"];
          }
-         
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"添加爱车错误：%@",error);

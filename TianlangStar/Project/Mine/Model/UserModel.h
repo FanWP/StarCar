@@ -71,7 +71,7 @@
 @property (nonatomic,copy) NSString *telephone;
 
 
-
+@property (nonatomic,copy) NSString *registrationID;// 极光注册id
 
 
 /** 登录用户名 */

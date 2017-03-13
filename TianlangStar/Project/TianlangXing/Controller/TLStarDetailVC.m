@@ -1,22 +1,29 @@
 //
-//  HomePageVC.m
+//  TLStarVC.m
 //  TianlangStar
 //
-//  Created by Beibei on 16/11/28.
-//  Copyright © 2016年 yysj. All rights reserved.
+//  Created by Beibei on 16/10/26.
+//  Copyright © 2016年 apple. All rights reserved.
 //
 
-#import "HomePageVC.h"
+#import "TLStarDetailVC.h"
 
-@interface HomePageVC ()
+@interface TLStarDetailVC ()<WKNavigationDelegate>
 
 @end
 
-@implementation HomePageVC
+@implementation TLStarDetailVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    self.wkWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    
+    [self.wkWebView loadRequest:repuest];
+    self.wkWebView.navigationDelegate = self;
+    [self.view addSubview:self.wkWebView];
+    
 }
 
 - (void)didReceiveMemoryWarning {

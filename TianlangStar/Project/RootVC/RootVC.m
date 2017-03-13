@@ -8,7 +8,7 @@
 
 #import "RootVC.h"
 #import "HomePageTableVC.h"
-#import "TLStarVC.h"
+#import "TLStarTableVC.h"
 #import "ShoppingCartVC.h"
 #import "MineVC.h"
 #import "CarsNav.h"
@@ -45,7 +45,7 @@
     
 
     // 天狼星
-    TLStarVC *tlStarVC = [[TLStarVC alloc] init];
+    TLStarTableVC *tlStarVC = [[TLStarTableVC alloc] initWithStyle:(UITableViewStylePlain)];
     CarsNav *tlStarNC = [[CarsNav alloc] initWithRootViewController:tlStarVC];
     [tlStarNC.tabBarItem setImage:[UIImage imageNamed:@"company"]];
     [tlStarNC.tabBarItem setSelectedImage:[UIImage imageNamed:@"company2"]];
@@ -78,7 +78,7 @@
 //    self.tabBar.tintColor = [UIColor colorWithRed:0.993 green:0.673 blue:0.156 alpha:1.000];
     
 //    homeVC.view.backgroundColor = [UIColor orangeColor];
-    tlStarVC.view.backgroundColor = [UIColor orangeColor];
+//    tlStarVC.view.backgroundColor = [UIColor orangeColor];
 //    shoppingCartVC.view.backgroundColor = [UIColor orangeColor];
 //    mineVC.view.backgroundColor = [UIColor orangeColor];
 }

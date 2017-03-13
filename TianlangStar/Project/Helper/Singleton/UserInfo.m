@@ -16,6 +16,7 @@
 #define Viplevel @"Viplevel"
 #define Discount @"discount"
 #define Telephone @"Telephone"
+#define RegistrationID @"RegistrationID"
 
 //#import <MJExtension.h>
 
@@ -39,6 +40,7 @@ singleton_implementation(UserInfo);
     [defaults setInteger:self.viplevel forKey:Viplevel];
     [defaults setDouble:self.discount forKey:Discount];
     [defaults setObject:self.telephone forKey:Telephone];
+    [defaults setObject:_registrationID forKey:RegistrationID];
     [defaults synchronize];
 }
 
@@ -60,6 +62,7 @@ singleton_implementation(UserInfo);
     self.viplevel = [defaults integerForKey:Viplevel];
     self.discount = [defaults doubleForKey:Discount];
     self.telephone = [defaults objectForKey:Telephone];
+    _registrationID = [defaults objectForKey:RegistrationID];
 }
 
 

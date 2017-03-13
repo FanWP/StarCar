@@ -19,6 +19,7 @@
 
     self.wkWebView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     NSString *string = [NSString stringWithFormat:@"%@%@",picURL,self.url];
+    YYLog(@"活动详情链接：%@",string);
     NSURLRequest *repuest = [NSURLRequest requestWithURL:[NSURL URLWithString:string]];
     
     [self.wkWebView loadRequest:repuest];

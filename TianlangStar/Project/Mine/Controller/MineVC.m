@@ -59,8 +59,6 @@
 /** 账户余额 */
 @property (nonatomic,strong) VirtualcenterModel *virtualcenterModel;
 
-
-
 /** 登录的VIew */
 @property (nonatomic,weak) LoginView *loginView;
 

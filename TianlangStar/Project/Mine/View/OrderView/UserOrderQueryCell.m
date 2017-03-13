@@ -20,6 +20,9 @@
 /** 商品名称 */
 @property (nonatomic,weak) UILabel *productname;
 
+/** 订单号 */
+@property (nonatomic,weak) UILabel *orderNumberLabel;
+
 /** 商品价格 */
 @property (nonatomic,weak) UILabel *price;
 
@@ -58,6 +61,21 @@
         self.images = images;
         [self.contentView addSubview:images];
         
+        
+        //订单号
+        UILabel *orderNunLabel = [[UILabel alloc] init];
+        orderNunLabel.height = 10;
+        orderNunLabel.width = KScreenWidth - 2 * margin;
+        orderNunLabel.x = images.x;
+//        orderNunLabel.y = images.y + images.height;
+        orderNunLabel.y = CGRectGetMaxY(images.frame) + 5;
+        orderNunLabel.font = Font12;
+        orderNunLabel.numberOfLines = 0;
+        //        productname.backgroundColor = [UIColor greenColor];
+        self.orderNumberLabel = orderNunLabel;
+        [self.contentView addSubview:orderNunLabel];
+        
+        
         //商品名称
         UILabel *productname = [[UILabel alloc] init];
         productname.height = images.height;
@@ -69,6 +87,7 @@
 //        productname.backgroundColor = [UIColor greenColor];
         self.productname = productname;
         [self.contentView addSubview:productname];
+        
         
         //商品价格
         UILabel *price = [[UILabel alloc] init];
@@ -98,7 +117,7 @@
         
         //设置分割线
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(images.frame) + 10, KScreenWidth - 32, 1)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(16, CGRectGetMaxY(images.frame) + 10 + 10, KScreenWidth - 32, 1)];
         view.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
         [self.contentView addSubview:view];
         
@@ -156,8 +175,9 @@
     
 //    NSString *url = [NSString stringWithFormat:@"%@%@",picURL,orderModel.images];
     
-    self.count.text = [NSString stringWithFormat:@"* %@",orderModel.count];
+    self.count.text = [NSString stringWithFormat:@"x %@",orderModel.count];
     self.date.text = orderModel.lasttime;
+    self.orderNumberLabel.text = [NSString stringWithFormat:@"订单号：%@",orderModel.saleid];
     
     //订单状态
     if (orderModel.confirm == 0)

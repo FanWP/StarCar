@@ -127,7 +127,7 @@
     
     self.price.text = [NSString stringWithFormat:@"%@积分",model.scoreprice];
     self.productname.text = model.productname;
-    self.time.text = [model.lasttime getDetailCurrentTime];
+    self.time.text = model.lasttime;
     NSArray *imagesArray = [model.images componentsSeparatedByString:@","];
     NSString *pic = [NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject];
     NSURL *url = [NSURL URLWithString:pic];

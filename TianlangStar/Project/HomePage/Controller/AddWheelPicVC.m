@@ -156,7 +156,10 @@ NSString *const commImageViewHeaderIdentifier = @"HouseImageViewHeaderIdentifier
             
             [self creatWeelView];
         }
-        
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"上传轮播图错误%@",error);

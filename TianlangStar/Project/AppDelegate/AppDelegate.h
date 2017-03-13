@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 static NSString *appKey = @"f04f9755244ee2793be44c13";
-static NSString *channel = @"Publish channel";
+static NSString *channel = @"App Store";
 static BOOL isProduction = FALSE;
 
 

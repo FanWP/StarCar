@@ -83,7 +83,7 @@
         UILabel *introduction = [[UILabel alloc] init];
         introduction.x = productname.x;
         introduction.height = productImg.height - 80;
-        introduction.width = KScreenWidth * 0.5;
+        introduction.width = KScreenWidth * 0.5 - 20;
 //        introduction.y = CGRectGetMaxY(productname.frame) + 8;
         introduction.centerY = productImg.centerY;
         introduction.numberOfLines = 0;

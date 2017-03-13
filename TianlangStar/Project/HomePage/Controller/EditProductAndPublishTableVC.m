@@ -186,7 +186,10 @@
          {
              [[AlertView sharedAlertView] addAfterAlertMessage:@"修改商品入库成功" title:@"提示"];
          }
-         
+         if (resultCode == 1007)
+         {
+             [HttpTool loginUpdataSession];
+         }
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"修改商品入库错误：%@",error);

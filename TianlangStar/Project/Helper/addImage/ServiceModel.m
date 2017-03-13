@@ -16,16 +16,16 @@
 }
 
 
-- (NSString *)warranty
-{
-    NSString *shelvestimeString = _warranty;
-    NSTimeInterval _interval = [shelvestimeString doubleValue];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
-    NSDateFormatter *objectDateformat = [[NSDateFormatter alloc] init];
-    [objectDateformat setDateFormat:@"yyyy-MM-dd"];
-    
-    return [objectDateformat stringFromDate:date];
-}
+//- (NSString *)warranty
+//{
+//    NSString *shelvestimeString = _warranty;
+//    NSTimeInterval _interval = [shelvestimeString doubleValue];
+//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
+//    NSDateFormatter *objectDateformat = [[NSDateFormatter alloc] init];
+//    [objectDateformat setDateFormat:@"yyyy-MM-dd"];
+//    
+//    return [objectDateformat stringFromDate:date];
+//}
 
 -(void)setCount:(NSInteger)count
 {

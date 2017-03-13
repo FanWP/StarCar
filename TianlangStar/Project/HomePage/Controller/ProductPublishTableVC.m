@@ -306,7 +306,10 @@ typedef enum : NSUInteger {
                  [self.tableView reloadData];
                  
              }
-             
+             if (resultCode == 1007)
+             {
+                 [HttpTool loginUpdataSession];
+             }
              [SVProgressHUD dismiss];
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -397,7 +400,10 @@ typedef enum : NSUInteger {
                  [self.tableView reloadData];
                  
              }
-             
+             if (resultCode == 1007)
+             {
+                 [HttpTool loginUpdataSession];
+             }
              [SVProgressHUD dismiss];
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -492,7 +498,10 @@ typedef enum : NSUInteger {
                  
                  [self.tableView reloadData];
              }
-             
+             if (resultCode == 1007)
+             {
+                 [HttpTool loginUpdataSession];
+             }
              [SVProgressHUD dismiss];
              
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)

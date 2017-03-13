@@ -23,10 +23,10 @@
 }
 
 
--(NSString *)lasttime
-{
-   return [_lasttime getDetailCurrentTime];
-}
+//-(NSString *)lasttime
+//{
+//   return [_lasttime getDetailCurrentTime];
+//}
 
 
 @end

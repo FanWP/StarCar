@@ -74,7 +74,11 @@
             
             [self.tableView reloadData];
         }
-
+        if (resultCode == 1007)
+        {
+            [HttpTool loginUpdataSession];
+        }
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         YYLog(@"获取最新活动错误%@",error);
@@ -137,7 +141,10 @@
                  
                  [self.tableView.mj_footer endRefreshing];
              }
-             
+             if (resultCode == 1007)
+             {
+                 [HttpTool loginUpdataSession];
+             }
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
          {
              YYLog(@"获取最新活动错误%@",error);
@@ -273,7 +280,10 @@
             {
                 [[AlertView sharedAlertView] addAfterAlertMessage:@"删除失败" title:@"提示"];
             }
-            
+            if (resultCode == 1007)
+            {
+                [HttpTool loginUpdataSession];
+            }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
         {
             YYLog(@"删除活动错误：%@",error);
