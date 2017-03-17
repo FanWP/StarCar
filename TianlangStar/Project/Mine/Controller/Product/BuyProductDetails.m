@@ -63,9 +63,6 @@
              self.scoreBlance = [num integerValue];
          }
          
-         
-         
-         
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          YYLog(@"折扣信息账户余额错误：%@",error);
@@ -110,7 +107,6 @@
     [self.FooterView removeFromSuperview];
 
 }
-
 
 //创建底部的三个按钮
 -(UIView *)FooterView

@@ -95,14 +95,18 @@
              NSArray *dataArray = responseObject[@"body"];
              NSNumber *discount;
              NSNumber *accountBalance;
-             
              for (NSDictionary *dic in dataArray)
              {
                  discount = [dic objectForKey:@"discount"];
                  accountBalance = [dic objectForKey:@"balance"];
              }
              _blance = [accountBalance integerValue];
-             _discountLabel.text = [NSString stringWithFormat:@"折扣:%@折",discount];
+             
+             if ([discount integerValue] == 100) {
+                 _discountLabel.hidden = YES;
+             }else{
+                 _discountLabel.text = [NSString stringWithFormat:@"折扣:%@折",discount];
+             }
              _accountBalanceCountLabel.text = [NSString stringWithFormat:@"余额:%@星币",accountBalance];
              
              if ([discount integerValue] > 0 ) {//更新本地discount
@@ -285,7 +289,6 @@
          NSInteger resultCode = [json[@"resultCode"] integerValue];
          if (resultCode == 1000)
          {
-             
              self.orderArr = [ProductModel mj_objectArrayWithKeyValuesArray:json[@"body"]];
              [self.tableView reloadData];
              if (self.orderArr.count > 0)
@@ -340,9 +343,6 @@
          YYLog(@"error---%@",error);
      }];
 }
-
-
-
 
 
 
@@ -401,13 +401,10 @@
         
         ProductModel *model = self.orderArr[indexPath.row];
         [self.orderArr removeObjectAtIndex:indexPath.row];
-        
+
         [self.tableView beginUpdates];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-        [self.tableView endUpdates];
-        
-        
-        
+
         NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
         parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
         parmas[@"favoriteid"] = model.ID;
@@ -467,7 +464,6 @@
         }
     }
     
-    
     NSMutableArray *seletedArr = [NSMutableArray array];
     NSInteger totalStar = 0;
     //当前用户所享受的折扣价格
@@ -521,29 +517,23 @@
     NSArray *arr = [ProductModel mj_keyValuesArrayWithObjectArray:self.selectedOrderArr];
     
     NSError *error;
-    
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:arr options:0 error:&error];
-    
     NSString *dataStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
     NSMutableDictionary *parmas = [NSMutableDictionary dictionary];
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"totalprice"] = self.totalPriceStr;
     parmas[@"productlist"] = dataStr;
     parmas[@"type"] = @"2";
-    
-    
+
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
     YYLog(@"parmas--:%@url---:%@",parmas,url);
     
     [HttpTool post:url parmas:parmas success:^(id json) {
-        
-        
+
         [self checkTotalPrice];
         NSNumber *num = json[@"resultCode"];
         if ([num integerValue] == 1000)//返回成功
         {
-            
             //跳转
             BuyingSuccessListModel *model = [BuyingSuccessListModel mj_objectWithKeyValues:json];
             BuyingSuccessList *vc = [[BuyingSuccessList alloc] initWithStyle:UITableViewStyleGrouped];
@@ -557,7 +547,6 @@
         YYLog(@"%@",json);
     } failure:^(NSError *error) {
         [self checkTotalPrice];
-
         YYLog(@"%@",error);
     }];
 }

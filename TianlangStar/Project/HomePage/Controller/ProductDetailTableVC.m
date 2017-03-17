@@ -768,9 +768,14 @@
                 {
                     [UserInfo sharedUserInfo].discount = [discount floatValue];
                     [[UserInfo sharedUserInfo] synchronizeToSandBox];
+                    if ([discount floatValue] == 100) {
+                        _discountLabel.text = @"不打折";
+                    }else{
+                        _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+                    }
                 }
             }
-            _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+            
             _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
         }
         
@@ -999,9 +1004,7 @@
         //清空购物车
         [self buyProductInShoppingCar];
     }]];
-    
     [self presentViewController:alert animated:YES completion:nil];
-    
 }
 
 
@@ -1027,7 +1030,6 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:productDic options:0 error:&error];
     NSString *dataStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"productlist"] = [NSString stringWithFormat:@"[%@]",dataStr];;
     parmas[@"type"] = @"1";//1是直接购买  2是购物车购买
@@ -1035,7 +1037,6 @@
     YYLog(@"购买parmas--:%@",parmas);
     
     NSString *url = [NSString stringWithFormat:@"%@payment/shopcar/servlet",URL];
-    
     [HttpTool post:url parmas:parmas success:^(id json)
      {
          YYLog(@"购买返回：%@",json);
@@ -1052,7 +1053,6 @@
          {
              [HttpTool loginUpdataSession];
          }
-         
      } failure:^(NSError *error) {
          YYLog(@"购买返回错误%@",error);
      }];
@@ -1063,7 +1063,6 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {    
     NSString *newNum = [change objectForKey:@"new"];
-    
     self.countLabel.text = newNum;
 }
 
@@ -1071,18 +1070,10 @@
 
 - (void)minusCountAction
 {
-    if (self.countNumber > 0)
-    {
-        self.countNumber--;
-    }
-    else
-    {
-        self.countNumber = 0;
-    }
-
+    if (_countNumber  == 1) return;
+    self.countNumber--;
     //计算count
     self.productType == 1 ? (self.productModel.count = self.countNumber):(self.serviceModel.count = self.countNumber);
-    
     
     self.countNum = [NSString stringWithFormat:@"%ld",self.countNumber];
     //计算count
@@ -1133,7 +1124,7 @@
 }
 
 
-    //计算count
+//计算count
 -(void)changeModelCount
 {
     //计算count

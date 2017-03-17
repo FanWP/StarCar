@@ -730,10 +730,14 @@
                  {
                      [UserInfo sharedUserInfo].discount = [discount floatValue];
                      [[UserInfo sharedUserInfo] synchronizeToSandBox];
+
+                     if ([discount floatValue] == 100) {
+                         _discountLabel.text = @"不打折";
+                     }else{
+                         _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
+                     }
                  }
              }
-             
-             _discountLabel.text = [NSString stringWithFormat:@"%@折",discount];
              _accountBalanceCountLabel.text = [NSString stringWithFormat:@"%@星币",accountBalance];
          }
          if (result == 1007)

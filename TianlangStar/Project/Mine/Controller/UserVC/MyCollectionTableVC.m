@@ -427,7 +427,7 @@
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject]];
             [cell.productPic sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
             cell.productNameLabel.text = productModel.productname;
-            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",productModel.scoreprice];
+            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",productModel.price];
 
         }
             break;
@@ -440,7 +440,7 @@
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",picURL,imagesArray.firstObject]];
             [cell.productPic sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"touxiang"]];
             cell.productNameLabel.text = serviceModel.services;
-            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",serviceModel.scoreprice];
+            cell.productPriceLabel.text = [NSString stringWithFormat:@"%@星币",serviceModel.price];
 
         }
             break;

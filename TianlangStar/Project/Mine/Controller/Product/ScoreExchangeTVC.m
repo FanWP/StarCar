@@ -39,15 +39,10 @@
 #pragma mark ====   ======添加上下拉
 -(void)setupRefresh
 {
-    
     self.tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewScrore)];
     [self.tableView.mj_header beginRefreshing];
     [self.tableView.mj_header isAutomaticallyChangeAlpha];
-    
     self.tableView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreScrore)];
-
-
-
 }
 
 -(void)loadNewScrore
@@ -75,7 +70,6 @@
         YYLog(@"%@",error);
         [self.tableView.mj_header endRefreshing];
     }];
-
 }
 
 

@@ -59,6 +59,7 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"currentPage"] = @(self.currentPage);
+    parmas[@"type"] = @"1";
 
     NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     
@@ -85,7 +86,7 @@
     parmas[@"sessionId"] = [UserInfo sharedUserInfo].RSAsessionId;
     parmas[@"userid"] = [UserInfo sharedUserInfo].userID;
     parmas[@"currentPage"] = @(self.currentPage);
-    
+    parmas[@"type"] = @"1";
     NSString *url = [NSString stringWithFormat:@"%@gtsrrchrgrcordsrvlt",URL];
     
     [HttpTool post:url parmas:parmas success:^(id json) {
